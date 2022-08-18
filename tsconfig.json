@@ -1,5 +1,20 @@
 {
   "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@components": [
+        "./src/components"
+      ],
+      "@components/*": [
+        "./src/components/*"
+      ],
+      "@styles": [
+        "./src/styles"
+      ],
+      "@styles/*": [
+        "./src/styles/*"
+      ]
+    },
     "target": "es5",
     "lib": [
       "dom",
@@ -13,6 +28,7 @@
     "noEmit": true,
     "incremental": true,
     "esModuleInterop": true,
+    "moduleResolution": "node",
     "module": "esnext",
     "resolveJsonModule": true,
     "isolatedModules": true,

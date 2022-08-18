@@ -1,5 +1,11 @@
+import GeneralTemplate from '@components/templeates/GeneralTemplate';
+
 function Index() {
-  return <div>Index</div>;
+  return (
+    <GeneralTemplate>
+      <div>Index</div>
+    </GeneralTemplate>
+  );
 }
 
 export default Index;

@@ -13,11 +13,15 @@
     "conventions": "yarn prettier && eslint --fix \"**/*.{js,ts,tsx}\""
   },
   "dependencies": {
+    "@emotion/react": "^11.10.0",
+    "@emotion/styled": "^11.10.0",
+    "cocstorage-ui": "^0.1.14",
     "next": "^12.2.5",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
+    "@babel/core": "^7.18.10",
     "@types/node": "^18.7.3",
     "@types/react": "^18.0.17",
     "@typescript-eslint/eslint-plugin": "^5.33.1",
