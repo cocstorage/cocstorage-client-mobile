@@ -8,6 +8,11 @@ export const StyledHeader = styled.div<Pick<HeaderProps, 'disableFixed'>>`
   align-items: center;
   height: 50px;
   padding: 0 20px;
+  background-color: ${({
+    theme: {
+      palette: { background }
+    }
+  }) => background.bg};
 
   ${({ disableFixed }): CSSObject =>
     !disableFixed

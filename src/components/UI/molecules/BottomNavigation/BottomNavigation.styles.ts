@@ -7,6 +7,11 @@ export const StyledBottomNavigation = styled.nav<Pick<BottomNavigationProps, 'di
   align-items: center;
   justify-content: space-around;
   height: 60px;
+  background-color: ${({
+    theme: {
+      palette: { background }
+    }
+  }) => background.bg};
   border-top: 1px solid
     ${({
       theme: {

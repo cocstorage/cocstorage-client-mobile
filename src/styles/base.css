@@ -37,3 +37,13 @@
 #__next {
     height: 100%;
 }
+
+* ::-webkit-scrollbar {
+    display: none;
+}
+* ::-webkit-scrollbar-track {
+    display: none;
+}
+* ::-webkit-scrollbar-thumb {
+    display: none;
+}
