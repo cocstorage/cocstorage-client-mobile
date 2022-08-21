@@ -22,7 +22,9 @@ export const StyledHeader = styled.div<Pick<HeaderProps, 'disableFixed'>>`
           left: 0,
           width: '100%'
         }
-      : {}}
+      : {}};
+
+  z-index: 1;
 `;
 
 export const Logo = styled.img``;

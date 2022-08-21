@@ -14,9 +14,8 @@ export interface IssueKeywordRankProps {
 function IssueKeywordRank({ disableFillEdgeBlanks = true, customStyle }: IssueKeywordRankProps) {
   const {
     theme: {
-      palette: {
-        text: { light }
-      }
+      type,
+      palette: { text }
     }
   } = useTheme();
 
@@ -41,12 +40,12 @@ function IssueKeywordRank({ disableFillEdgeBlanks = true, customStyle }: IssueKe
               name={toggle ? 'CaretSemiUpOutlined' : 'CaretSemiDownOutlined'}
               width={16}
               height={16}
-              color={light.text1}
+              color={text[type].text1}
             />
           }
           onClick={handleClick}
           customStyle={{
-            color: light.text1
+            color: text[type].text1
           }}
         >
           {toggle ? '접기' : '펼치기'}

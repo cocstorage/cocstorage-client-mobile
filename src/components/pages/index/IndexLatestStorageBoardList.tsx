@@ -1,4 +1,4 @@
-import { Box, Flexbox, Typography } from 'cocstorage-ui';
+import { Box, Typography } from 'cocstorage-ui';
 
 import StorageBoardCard from '@components/UI/molecules/StorageBoardCard';
 
@@ -8,16 +8,13 @@ function IndexLatestStorageBoardList() {
       <Typography variant="h4" fontWeight="bold">
         최신 게시글
       </Typography>
-      <Flexbox direction="vertical" gap={18} customStyle={{ marginTop: 20 }}>
+      <Box customStyle={{ marginTop: 20 }}>
         <StorageBoardCard inStorage={false} />
-        <StorageBoardCard inStorage={false} />
-        <StorageBoardCard inStorage={false} />
-        <StorageBoardCard inStorage={false} />
-        <StorageBoardCard inStorage={false} />
-        <StorageBoardCard inStorage={false} />
-        <StorageBoardCard inStorage={false} />
-        <StorageBoardCard inStorage={false} />
-      </Flexbox>
+        <StorageBoardCard inStorage={false} customStyle={{ marginTop: 18 }} />
+        <StorageBoardCard inStorage={false} customStyle={{ marginTop: 18 }} />
+        <StorageBoardCard inStorage={false} customStyle={{ marginTop: 18 }} />
+        <StorageBoardCard inStorage={false} customStyle={{ marginTop: 18 }} />
+      </Box>
     </Box>
   );
 }

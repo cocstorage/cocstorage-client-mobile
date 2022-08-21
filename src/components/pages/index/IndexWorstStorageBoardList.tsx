@@ -35,7 +35,7 @@ function IndexWorstStorageBoardList() {
             워스트
           </Tag>
           <Typography variant="h4" fontWeight="bold">
-            선 넘네
+            와 선 넘네
           </Typography>
         </Flexbox>
         <IconButton>

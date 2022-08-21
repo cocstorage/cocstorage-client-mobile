@@ -15,6 +15,7 @@ export interface RatioImageProps extends HTMLAttributes<HTMLDivElement> {
   defaultIcon?: 'image' | 'user';
   defaultIconWidth?: number;
   defaultIconHeight?: number;
+  customStyle?: CustomStyle;
 }
 
 function RatioImage({
@@ -28,6 +29,7 @@ function RatioImage({
   defaultIcon = 'image',
   defaultIconWidth = 24,
   defaultIconHeight = 24,
+  customStyle,
   ...props
 }: RatioImageProps) {
   const customStyleRef = useRef<CustomStyle>({
@@ -62,7 +64,7 @@ function RatioImage({
 
   return (
     <Box customStyle={{ width, height }}>
-      <RatioImageWrapper ratio={ratio} round={round} {...props}>
+      <RatioImageWrapper ratio={ratio} round={round} {...props} css={customStyle}>
         <RatioImageInner>
           {!loadFailed && src && (
             <Image

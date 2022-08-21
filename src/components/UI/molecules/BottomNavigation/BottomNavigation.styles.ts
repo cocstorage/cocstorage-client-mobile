@@ -2,7 +2,7 @@ import styled, { CSSObject } from '@emotion/styled';
 
 import { BottomNavigationProps } from '.';
 
-export const StyledBottomNavigation = styled.nav<Pick<BottomNavigationProps, 'disableFixed'>>`
+export const StyledBottomNavigation = styled.ul<Pick<BottomNavigationProps, 'disableFixed'>>`
   display: flex;
   align-items: center;
   justify-content: space-around;
@@ -27,5 +27,16 @@ export const StyledBottomNavigation = styled.nav<Pick<BottomNavigationProps, 'di
           left: 0,
           width: '100%'
         }
-      : {}}
+      : {}};
+
+  z-index: 1;
+`;
+
+export const NavigationItem = styled.li`
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  cursor: pointer;
 `;
