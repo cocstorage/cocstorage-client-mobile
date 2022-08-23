@@ -21,7 +21,6 @@ function StorageBoardsHeader() {
             src="https://static.cocstorage.com/images/xt868xt2w6i50bf4x98xdsbfado3"
             alt="Storage Logo Img"
             round
-            customStyle={{ marginLeft: 10 }}
           />
           <Typography
             variant="h4"
