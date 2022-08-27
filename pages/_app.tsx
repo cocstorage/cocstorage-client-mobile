@@ -1,10 +1,12 @@
 import { AppProps } from 'next/app';
 import Head from 'next/head';
 
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { Hydrate, QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import dayjs from 'dayjs';
 import RelativeTime from 'dayjs/plugin/relativeTime';
+import { RecoilRoot } from 'recoil';
 
 import { ThemeProvider } from 'cocstorage-ui';
 
@@ -34,9 +36,14 @@ function App({ Component, pageProps }: AppProps) {
         <meta httpEquiv="content-language" content="ko" />
       </Head>
       <QueryClientProvider client={queryClient}>
-        <ThemeProvider theme="light">
-          <Component {...pageProps} />
-        </ThemeProvider>
+        <RecoilRoot>
+          <ThemeProvider theme="light">
+            <Hydrate state={pageProps.dehydratedState}>
+              <Component {...pageProps} />
+            </Hydrate>
+          </ThemeProvider>
+        </RecoilRoot>
+        <ReactQueryDevtools initialIsOpen={false} />
       </QueryClientProvider>
     </>
   );

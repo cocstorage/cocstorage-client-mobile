@@ -32,6 +32,12 @@
       "@library/*": [
         "./src/library/*"
       ],
+      "@recoil": [
+        "./src/recoil"
+      ],
+      "@recoil/*": [
+        "./src/recoil/*"
+      ],
       "@styles": [
         "./src/styles"
       ],
