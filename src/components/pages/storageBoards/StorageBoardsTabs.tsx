@@ -1,17 +1,35 @@
+import { useRouter } from 'next/router';
+
+import { useRecoilState } from 'recoil';
+
 import styled from '@emotion/styled';
+
+import { storageBoardsParamsStateFamily } from '@recoil/storageBoards/atoms';
 
 import { Tab, Tabs } from 'cocstorage-ui';
 
 function StorageBoardsTabs() {
-  const handleChange = () => {
-    //
+  const router = useRouter();
+  const { path } = router.query;
+  const [{ params }, setParams] = useRecoilState(storageBoardsParamsStateFamily(String(path)));
+
+  const handleChange = (value: number | string) => {
+    setParams((prevParams) => ({
+      path: prevParams.path,
+      params: {
+        ...prevParams.params,
+        page: 1,
+        orderBy: String(value)
+      }
+    }));
   };
+
   return (
     <StyledStorageBoardsTabs>
-      <Tabs value={1} onChange={handleChange}>
-        <Tab value={1} text="최신" />
-        <Tab value={2} text="베스트" />
-        <Tab value={3} text="워스트" />
+      <Tabs onChange={handleChange} value={params.orderBy || 'latest'}>
+        <Tab text="최신" value="latest" />
+        <Tab text="베스트" value="popular" />
+        <Tab text="워스트" value="worst" />
       </Tabs>
     </StyledStorageBoardsTabs>
   );

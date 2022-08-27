@@ -1,16 +1,14 @@
-import { MouseEvent } from 'react';
-
-import { useRouter } from 'next/router';
+import Link from 'next/link';
 
 import { useQuery } from '@tanstack/react-query';
 
 import { useRecoilValue } from 'recoil';
 
+import { selectedCategoryIdState } from '@recoil/storages/atoms';
+
 import { Box, Grid, Typography } from 'cocstorage-ui';
 
 import StorageCard from '@components/UI/molecules/StorageCard';
-
-import { selectedCategoryIdState } from '@recoil/storages/atoms';
 
 import { fetchStorageCategories } from '@api/v1/storage-categories';
 import { fetchStorages } from '@api/v1/storages';
@@ -18,7 +16,6 @@ import { fetchStorages } from '@api/v1/storages';
 import queryKeys from '@constants/queryKeys';
 
 function StoragesGrid() {
-  const router = useRouter();
   const selectedCategoryId = useRecoilValue<number>(selectedCategoryIdState);
 
   const { data: { categories = [] } = {} } = useQuery(
@@ -40,11 +37,6 @@ function StoragesGrid() {
     }
   });
 
-  const handleClick = (event: MouseEvent<HTMLDivElement>) => {
-    const dataPath = event.currentTarget.getAttribute('data-path');
-    router.push(`/storages/${dataPath}`);
-  };
-
   return (
     <>
       {categories.map(({ id, name }) => {
@@ -62,12 +54,11 @@ function StoragesGrid() {
             <Grid container columnGap={16} rowGap={20} customStyle={{ marginTop: 10 }}>
               {categoryStorages.map(({ id: storageId, path, name: storageName, avatarUrl }) => (
                 <Grid key={`category-${id}-storage-${storageId}`} item xs={2} sm={3}>
-                  <StorageCard
-                    name={storageName}
-                    src={avatarUrl}
-                    data-path={path}
-                    onClick={handleClick}
-                  />
+                  <Link href={`/storages/${path}`}>
+                    <a>
+                      <StorageCard name={storageName} src={avatarUrl} />
+                    </a>
+                  </Link>
                 </Grid>
               ))}
             </Grid>

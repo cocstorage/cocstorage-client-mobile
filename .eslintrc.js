@@ -58,6 +58,11 @@ module.exports = {
             position: 'after'
           },
           {
+            pattern: '@recoil/**',
+            group: 'external',
+            position: 'after'
+          },
+          {
             pattern: 'cocstorage-ui',
             group: 'external',
             position: 'after'

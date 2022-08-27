@@ -6,9 +6,9 @@ import { useRecoilState } from 'recoil';
 
 import styled from '@emotion/styled';
 
-import { Tag } from 'cocstorage-ui';
-
 import { selectedCategoryIdState } from '@recoil/storages/atoms';
+
+import { Tag } from 'cocstorage-ui';
 
 import { fetchStorageCategories } from '@api/v1/storage-categories';
 

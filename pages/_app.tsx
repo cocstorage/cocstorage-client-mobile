@@ -12,6 +12,7 @@ import { ThemeProvider } from 'cocstorage-ui';
 
 import 'dayjs/locale/ko';
 import '@styles/base.css';
+import FeaturePreparationDialog from '@components/UI/organisms/FeaturePreparationDialog';
 
 dayjs.locale('ko');
 dayjs.extend(RelativeTime);
@@ -40,6 +41,7 @@ function App({ Component, pageProps }: AppProps) {
           <ThemeProvider theme="light">
             <Hydrate state={pageProps.dehydratedState}>
               <Component {...pageProps} />
+              <FeaturePreparationDialog />
             </Hydrate>
           </ThemeProvider>
         </RecoilRoot>

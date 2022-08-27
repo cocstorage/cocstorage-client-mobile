@@ -26,6 +26,12 @@
       "@dto/*": [
         "./src/dto/*"
       ],
+      "@hooks": [
+        "./src/hooks"
+      ],
+      "@hooks/*": [
+        "./src/hooks/*"
+      ],
       "@library": [
         "./src/library"
       ],
