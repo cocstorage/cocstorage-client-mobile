@@ -11,7 +11,9 @@ import styled, { CSSObject } from '@emotion/styled';
 import { commonDialogOpenStateFamily } from '@recoil/common/atoms';
 import { openStorageBoardsInfoBottomSheetState } from '@recoil/storageBoards/atoms';
 
-import { Avatar, Box, Flexbox, Icon, IconButton, Typography, useTheme } from 'cocstorage-ui';
+import { Box, Flexbox, Icon, IconButton, Typography, useTheme } from 'cocstorage-ui';
+
+import RatioImage from '@components/UI/atoms/RatioImage';
 
 import useScrollTrigger from '@hooks/useScrollTrigger';
 
@@ -55,12 +57,12 @@ function StorageBoardsHeader() {
           <IconButton onClick={handleClickBack}>
             <Icon name="CaretSemiLeftOutlined" />
           </IconButton>
-          <Avatar
+          <RatioImage
             width={24}
             height={24}
             src={avatarUrl}
             alt="Storage Logo Img"
-            round
+            disableAspectRatio
             customStyle={{ marginLeft: 10 }}
           />
           <Typography

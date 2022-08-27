@@ -1,6 +1,6 @@
 import { atom } from 'recoil';
 
 export const selectedCategoryIdState = atom({
-  key: 'selectedCategoryIdState',
+  key: 'storages/selectedCategoryIdState',
   default: 0
 });

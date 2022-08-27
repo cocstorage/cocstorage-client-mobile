@@ -10,9 +10,10 @@ import { RecoilRoot } from 'recoil';
 
 import { ThemeProvider } from 'cocstorage-ui';
 
+import FeaturePreparationDialog from '@components/UI/organisms/FeaturePreparationDialog';
+
 import 'dayjs/locale/ko';
 import '@styles/base.css';
-import FeaturePreparationDialog from '@components/UI/organisms/FeaturePreparationDialog';
 
 dayjs.locale('ko');
 dayjs.extend(RelativeTime);

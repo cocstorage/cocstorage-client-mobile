@@ -47,7 +47,11 @@ function RatioImage({
 
   if (disableAspectRatio) {
     return (
-      <ImageWrapper round={round} {...props} customStyle={{ width, height }}>
+      <ImageWrapper
+        round={round}
+        {...props}
+        customStyle={{ ...(customStyle as Record<string, string>), width, height }}
+      >
         {!loadFailed && src && (
           <Image width={width} height={height} src={src} alt={alt} onError={handleError} />
         )}
