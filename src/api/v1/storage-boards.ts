@@ -7,7 +7,7 @@ const BASE_PATH = '/storages';
 export async function fetchIndexPopularStorageBoards() {
   const { data } = await Axios.get<FetchStorageBoardsResponse>(`${BASE_PATH}/boards/popular`, {
     params: {
-      per: 3
+      per: 5
     }
   });
 

@@ -43,6 +43,16 @@ module.exports = {
             position: 'after'
           },
           {
+            pattern: '@tanstack/react-query',
+            group: 'external',
+            position: 'before'
+          },
+          {
+            pattern: '@tanstack/react-query/**',
+            group: 'external',
+            position: 'before'
+          },
+          {
             pattern: '@emotion/**',
             group: 'external',
             position: 'after'

@@ -1,8 +1,15 @@
+import { useQuery } from '@tanstack/react-query';
+
 import styled from '@emotion/styled';
 
 import { Box, Flexbox, Icon, IconButton, Tag, Typography, useTheme } from 'cocstorage-ui';
 
 import StorageBoardCard from '@components/UI/molecules/StorageBoardCard';
+import StorageBoardCardSkeleton from '@components/UI/molecules/StorageBoardCard/StorageBoardCardSkeleton';
+
+import { fetchIndexWorstStorageBoards } from '@api/v1/storage-boards';
+
+import queryKeys from '@constants/queryKeys';
 
 function IndexWorstStorageBoardList() {
   const {
@@ -12,6 +19,12 @@ function IndexWorstStorageBoardList() {
       }
     }
   } = useTheme();
+
+  const { data: { boards = [] } = {}, isLoading } = useQuery(
+    queryKeys.storageBoards.indexWorstStorageBoards,
+    fetchIndexWorstStorageBoards
+  );
+
   return (
     <Box component="section" customStyle={{ margin: '30px -20px 0' }}>
       <Flexbox
@@ -44,11 +57,21 @@ function IndexWorstStorageBoardList() {
         </IconButton>
       </Flexbox>
       <List>
-        <StorageBoardCard variant="normal" customStyle={{ maxWidth: 330 }} />
-        <StorageBoardCard variant="normal" customStyle={{ maxWidth: 330 }} />
-        <StorageBoardCard variant="normal" customStyle={{ maxWidth: 330 }} />
-        <StorageBoardCard variant="normal" customStyle={{ maxWidth: 330 }} />
-        <StorageBoardCard variant="normal" customStyle={{ maxWidth: 330 }} />
+        {isLoading &&
+          Array.from({ length: 5 }).map((_, index) => (
+            // eslint-disable-next-line react/no-array-index-key
+            <StorageBoardCardSkeleton key={`index-worst-storage-board-${index}`} variant="normal" />
+          ))}
+        {!isLoading &&
+          boards.map((storageBoard) => (
+            <StorageBoardCard
+              key={`index-worst-storage-board-${storageBoard.id}`}
+              variant="normal"
+              storageBoard={storageBoard}
+              hideSymbolismBadge
+              customStyle={{ maxWidth: 330 }}
+            />
+          ))}
       </List>
     </Box>
   );

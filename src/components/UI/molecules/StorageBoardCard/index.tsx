@@ -1,8 +1,12 @@
 import { HTMLAttributes, memo, useMemo } from 'react';
 
+import dayjs from 'dayjs';
+
 import { Badge, CustomStyle, Flexbox, Icon, Typography, useTheme } from 'cocstorage-ui';
 
 import RatioImage from '@components/UI/atoms/RatioImage';
+
+import { StorageBoard } from '@dto/storage-boards';
 
 import {
   Dot,
@@ -14,18 +18,29 @@ import {
 } from './StorageBoardCard.styles';
 
 export interface StorageBoardCardProps extends HTMLAttributes<HTMLDivElement> {
-  variant?: 'emphasize' | 'normal' | 'compact';
+  variant?: 'normal' | 'compact';
+  storageBoard?: StorageBoard;
   hideSymbolismBadge?: boolean;
   inStorage?: boolean;
   customStyle?: CustomStyle;
 }
 
-const thumbnailUrl = '';
-const isPopular = false;
-const isWorst = false;
-
 function StorageBoardCard({
   variant = 'compact',
+  storageBoard: {
+    user,
+    storage: { name, avatarUrl },
+    nickname,
+    subject,
+    viewCount = 0,
+    commentTotalCount = 0,
+    thumbUp = 0,
+    thumbDown = 0,
+    thumbnailUrl,
+    isPopular,
+    isWorst,
+    createdAt
+  },
   hideSymbolismBadge = false,
   inStorage = true,
   customStyle,
@@ -39,105 +54,12 @@ function StorageBoardCard({
   } = useTheme();
 
   const round = useMemo<number>(() => {
-    if (variant === 'emphasize') {
-      return 12;
-    }
     if (variant === 'normal') {
       return 6;
     }
 
     return 8;
   }, [variant]);
-
-  if (variant === 'emphasize') {
-    return (
-      <StyledStorageBoardCard
-        variant={variant}
-        hasThumbnail={!!thumbnailUrl}
-        {...props}
-        css={customStyle}
-      >
-        <RatioImage
-          ratio="16:9"
-          src={thumbnailUrl || ''}
-          alt="Thumbnail Img"
-          width={183}
-          round={round}
-        />
-        <Flexbox
-          direction="vertical"
-          justifyContent="space-between"
-          customStyle={{ height: '100%' }}
-        >
-          <Flexbox direction="vertical" gap={8}>
-            <Storage>
-              <RatioImage
-                width={14}
-                height={14}
-                src=""
-                alt="Storage Logo Img"
-                round={6}
-                disableAspectRatio
-              />
-              <Typography variant="s2" color={text[type].text1}>
-                테스트
-              </Typography>
-            </Storage>
-            <Typography noWrap lineClamp={2} customStyle={{ flex: 1 }}>
-              <Badge severity="success" customStyle={{ marginRight: 4, verticalAlign: 'bottom' }}>
-                NEW
-              </Badge>
-              {!hideSymbolismBadge && isPopular && (
-                <Badge
-                  severity="info"
-                  startIcon={<Icon name="ThumbsUpFilled" width={12} height={12} />}
-                  iconOnly
-                  customStyle={{
-                    marginRight: 4,
-                    verticalAlign: 'middle'
-                  }}
-                />
-              )}
-              {!hideSymbolismBadge && isWorst && (
-                <Badge
-                  severity="error"
-                  startIcon={<Icon name="ThumbsDownFilled" width={12} height={12} />}
-                  iconOnly
-                  customStyle={{
-                    marginRight: 4,
-                    verticalAlign: 'middle'
-                  }}
-                />
-              )}
-              제목입니다.
-            </Typography>
-          </Flexbox>
-          <Info>
-            <InfoLabel>
-              <Icon name="ViewOutlined" width={18} height={18} />
-              <Typography variant="s2">{'100'.toLocaleString()}</Typography>
-            </InfoLabel>
-            <InfoLabel>
-              <Icon name="CommentOutlined" width={18} height={18} />
-              <Typography variant="s2">{'100'.toLocaleString()}</Typography>
-            </InfoLabel>
-            {isWorst && (
-              <InfoLabel>
-                <Icon name="ThumbsDownOutlined" width={18} height={18} />
-                <Typography variant="s2">{'100'.toLocaleString()}</Typography>
-              </InfoLabel>
-            )}
-            {!isWorst && (
-              <InfoLabel>
-                <Icon name="ThumbsUpOutlined" width={18} height={18} />
-                <Typography variant="s2">{'100'.toLocaleString()}</Typography>
-              </InfoLabel>
-            )}
-          </Info>
-        </Flexbox>
-      </StyledStorageBoardCard>
-    );
-  }
 
   if (variant === 'normal') {
     return (
@@ -161,9 +83,11 @@ function StorageBoardCard({
           customStyle={{ height: '100%' }}
         >
           <Typography noWrap lineClamp={2} customStyle={{ flex: 1 }}>
-            <Badge severity="success" customStyle={{ marginRight: 4, verticalAlign: 'bottom' }}>
-              NEW
-            </Badge>
+            {dayjs().diff(createdAt, 'day') <= 1 && (
+              <Badge severity="success" customStyle={{ marginRight: 4, verticalAlign: 'bottom' }}>
+                NEW
+              </Badge>
+            )}
             {!hideSymbolismBadge && isPopular && (
               <Badge
                 severity="info"
@@ -186,40 +110,42 @@ function StorageBoardCard({
                 }}
               />
             )}
-            제목입니다.
+            {subject}
           </Typography>
           <Info>
             <InfoLabel>
               <Icon name="ViewOutlined" width={16} height={16} />
-              <Typography variant="s2">{'100'.toLocaleString()}</Typography>
+              <Typography variant="s2">{viewCount.toLocaleString()}</Typography>
             </InfoLabel>
             <InfoLabel>
               <Icon name="CommentOutlined" width={16} height={16} />
-              <Typography variant="s2">{'100'.toLocaleString()}</Typography>
+              <Typography variant="s2">{commentTotalCount.toLocaleString()}</Typography>
             </InfoLabel>
             {isWorst && (
               <InfoLabel>
                 <Icon name="ThumbsDownOutlined" width={16} height={16} />
-                <Typography variant="s2">{'100'.toLocaleString()}</Typography>
+                <Typography variant="s2">{thumbDown.toLocaleString()}</Typography>
               </InfoLabel>
             )}
             {!isWorst && (
               <InfoLabel>
                 <Icon name="ThumbsUpOutlined" width={16} height={16} />
-                <Typography variant="s2">{'100'.toLocaleString()}</Typography>
+                <Typography variant="s2">{thumbUp.toLocaleString()}</Typography>
               </InfoLabel>
             )}
             <Storage>
-              <RatioImage
-                width={14}
-                height={14}
-                src=""
-                alt="Storage Logo Img"
-                round={6}
-                disableAspectRatio
-              />
+              {avatarUrl && (
+                <RatioImage
+                  width={14}
+                  height={14}
+                  src={avatarUrl || ''}
+                  alt="Storage Logo Img"
+                  round={6}
+                  disableAspectRatio
+                />
+              )}
               <Typography variant="s2" color={text[type].text1}>
-                테스트
+                {name}
               </Typography>
             </Storage>
           </Info>
@@ -242,7 +168,7 @@ function StorageBoardCard({
         customStyle={{ height: '100%' }}
       >
         <Flexbox gap={4} alignment="center">
-          <Badge severity="success">NEW</Badge>
+          {dayjs().diff(createdAt, 'day') <= 1 && <Badge severity="success">NEW</Badge>}
           {!hideSymbolismBadge && isPopular && (
             <Badge
               severity="info"
@@ -265,63 +191,67 @@ function StorageBoardCard({
               textAlign: 'left'
             }}
           >
-            제목입니다.
+            {subject}
           </Typography>
         </Flexbox>
         <Info>
           <InfoLabel>
             <Icon name="ViewOutlined" width={14} height={14} />
-            <Typography variant="s2">{'100'.toLocaleString()}</Typography>
+            <Typography variant="s2">{viewCount.toLocaleString()}</Typography>
           </InfoLabel>
           <InfoLabel>
             <Icon name="CommentOutlined" width={14} height={14} />
-            <Typography variant="s2">{'100'.toLocaleString()}</Typography>
+            <Typography variant="s2">{commentTotalCount.toLocaleString()}</Typography>
           </InfoLabel>
           {isWorst && (
             <InfoLabel>
               <Icon name="ThumbsDownOutlined" width={14} height={14} />
-              <Typography variant="s2">{'100'.toLocaleString()}</Typography>
+              <Typography variant="s2">{thumbDown.toLocaleString()}</Typography>
             </InfoLabel>
           )}
           {!isWorst && (
             <InfoLabel>
               <Icon name="ThumbsUpOutlined" width={14} height={14} />
-              <Typography variant="s2">{'100'.toLocaleString()}</Typography>
+              <Typography variant="s2">{thumbUp.toLocaleString()}</Typography>
             </InfoLabel>
           )}
           {!inStorage && (
             <Storage>
-              <RatioImage
-                width={14}
-                height={14}
-                src=""
-                alt="Storage Logo Img"
-                round={6}
-                disableAspectRatio
-              />
+              {avatarUrl && (
+                <RatioImage
+                  width={14}
+                  height={14}
+                  src={avatarUrl || ''}
+                  alt="Storage Logo Img"
+                  round={6}
+                  disableAspectRatio
+                />
+              )}
               <Typography variant="s2" color={text[type].text1}>
-                테스트
+                {name}
               </Typography>
             </Storage>
           )}
           {inStorage && (
             <UserInfo>
               <Flexbox gap={4} alignment="center">
-                <RatioImage
-                  src=""
-                  alt="User Avatar Img"
-                  width={14}
-                  height={14}
-                  round="50%"
-                  disableAspectRatio
-                />
+                {user?.avatarUrl && (
+                  <RatioImage
+                    src={user?.avatarUrl || ''}
+                    alt="User Avatar Img"
+                    width={14}
+                    height={14}
+                    round="50%"
+                    disableAspectRatio
+                  />
+                )}
                 <Typography variant="s2" color={text[type].text1}>
-                  닉네임
+                  {user?.nickname || nickname}
                 </Typography>
               </Flexbox>
               <Dot />
               <Typography variant="s2" color={text[type].text1}>
-                1분 전
+                {dayjs(createdAt).fromNow()}
               </Typography>
             </UserInfo>
           )}

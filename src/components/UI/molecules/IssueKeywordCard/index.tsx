@@ -1,12 +1,18 @@
-import { Badge, CustomStyle, Tag, Typography } from 'cocstorage-ui';
+import { Badge, CustomStyle, Icon, Tag, Typography } from 'cocstorage-ui';
+
+import { IssueKeyword } from '@dto/issue-keywords';
 
 import { StyledIssueKeywordCard } from './IssueKeywordCard.styles';
 
 interface IssueKeywordCardProps {
+  issueKeyword: IssueKeyword;
   customStyle?: CustomStyle;
 }
 
-function IssueKeywordCard({ customStyle }: IssueKeywordCardProps) {
+function IssueKeywordCard({
+  issueKeyword: { number, keyword, isUp, isDown, isNew },
+  customStyle
+}: IssueKeywordCardProps) {
   return (
     <StyledIssueKeywordCard css={customStyle}>
       <Tag
@@ -19,21 +25,20 @@ function IssueKeywordCard({ customStyle }: IssueKeywordCardProps) {
           lineHeight: '24px'
         }}
       >
-        1
+        {number}
       </Tag>
-      {/* TODO noWrap 오동작 수정 */}
       <Typography
         fontWeight="bold"
+        noWrap
         customStyle={{
-          flex: 1,
-          overflow: 'hidden',
-          whiteSpace: 'nowrap',
-          textOverflow: 'ellipsis'
+          flex: 1
         }}
       >
-        이슈 키워드 이슈 키워드
+        {keyword}
       </Typography>
-      <Badge severity="warning">NEW</Badge>
+      {isNew && <Badge severity="warning">NEW</Badge>}
+      {isUp && <Badge severity="success" startIcon={<Icon name="ArrowDropUpSpecify_12_12" />} />}
+      {isDown && <Badge severity="error" startIcon={<Icon name="ArrowDropDownSpecify_12_12" />} />}
     </StyledIssueKeywordCard>
   );
 }

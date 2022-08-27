@@ -1,8 +1,15 @@
 import { useState } from 'react';
 
+import { useQuery } from '@tanstack/react-query';
+
 import { Button, CustomStyle, Flexbox, Icon, Typography, useTheme } from 'cocstorage-ui';
 
 import IssueKeywordCard from '@components/UI/molecules/IssueKeywordCard';
+import IssueKeywordCardSkeleton from '@components/UI/molecules/IssueKeywordCard/IssueKeywordCardSkeleton';
+
+import { fetchIssueKeywordRank } from '@api/v1/issue-keywords';
+
+import queryKeys from '@constants/queryKeys';
 
 import { List, StyledIssueKeywordRank } from './IssueKeywordRank.styles';
 
@@ -20,6 +27,11 @@ function IssueKeywordRank({ disableFillEdgeBlanks = true, customStyle }: IssueKe
   } = useTheme();
 
   const [toggle, setToggle] = useState<boolean>(false);
+
+  const { data: { ranks = [] } = {}, isLoading } = useQuery(
+    queryKeys.issueKeywords.issueKeywordRank,
+    fetchIssueKeywordRank
+  );
 
   const handleClick = () => setToggle((prevState) => !prevState);
 
@@ -52,14 +64,18 @@ function IssueKeywordRank({ disableFillEdgeBlanks = true, customStyle }: IssueKe
         </Button>
       </Flexbox>
       <List disableFillEdgeBlanks={disableFillEdgeBlanks} toggle={toggle}>
-        <IssueKeywordCard />
-        <IssueKeywordCard />
-        <IssueKeywordCard />
-        <IssueKeywordCard />
-        <IssueKeywordCard />
-        <IssueKeywordCard />
-        <IssueKeywordCard />
-        <IssueKeywordCard />
+        {isLoading &&
+          Array.from({ length: 10 }).map((_, index) => (
+            // eslint-disable-next-line react/no-array-index-key
+            <IssueKeywordCardSkeleton key={`issue-keyword-skeleton-${index}`} />
+          ))}
+        {!isLoading &&
+          ranks.map((issueKeyword) => (
+            <IssueKeywordCard
+              key={`issue-keyword-${issueKeyword.keywordId}`}
+              issueKeyword={issueKeyword}
+            />
+          ))}
       </List>
     </StyledIssueKeywordRank>
   );

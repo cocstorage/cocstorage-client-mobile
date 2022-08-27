@@ -15,11 +15,6 @@ export const StyledStorageBoardCard = styled.div<
 
   ${({ variant, hasThumbnail }): CSSObject => {
     switch (variant) {
-      case 'emphasize':
-        return {
-          gridTemplateColumns: '183px 1fr',
-          columnGap: 14
-        };
       case 'normal':
         return {
           gridTemplateColumns: '82px 1fr',
