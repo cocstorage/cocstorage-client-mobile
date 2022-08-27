@@ -1,3 +1,7 @@
+import { MouseEvent } from 'react';
+
+import { useRouter } from 'next/router';
+
 import { useQuery } from '@tanstack/react-query';
 
 import styled from '@emotion/styled';
@@ -12,6 +16,7 @@ import { fetchIndexWorstStorageBoards } from '@api/v1/storage-boards';
 import queryKeys from '@constants/queryKeys';
 
 function IndexWorstStorageBoardList() {
+  const router = useRouter();
   const {
     theme: {
       palette: {
@@ -24,6 +29,13 @@ function IndexWorstStorageBoardList() {
     queryKeys.storageBoards.indexWorstStorageBoards,
     fetchIndexWorstStorageBoards
   );
+
+  const handleClick = (event: MouseEvent<HTMLDivElement>) => {
+    const dataPath = event.currentTarget.getAttribute('data-path');
+    const dataId = event.currentTarget.getAttribute('data-id');
+
+    router.push(`/storages/${dataPath}/${dataId}`);
+  };
 
   return (
     <Box component="section" customStyle={{ margin: '30px -20px 0' }}>
@@ -69,6 +81,9 @@ function IndexWorstStorageBoardList() {
               variant="normal"
               storageBoard={storageBoard}
               hideSymbolismBadge
+              data-path={storageBoard.storage.path}
+              data-id={storageBoard.id}
+              onClick={handleClick}
               customStyle={{ maxWidth: 330 }}
             />
           ))}

@@ -1,3 +1,7 @@
+import { MouseEvent } from 'react';
+
+import { useRouter } from 'next/router';
+
 import { useQuery } from '@tanstack/react-query';
 
 import styled from '@emotion/styled';
@@ -12,10 +16,18 @@ import { fetchIndexPopularStorageBoards } from '@api/v1/storage-boards';
 import queryKeys from '@constants/queryKeys';
 
 function IndexBestStorageBoardList() {
+  const router = useRouter();
   const { data: { boards = [] } = {}, isLoading } = useQuery(
     queryKeys.storageBoards.indexPopularStorageBoards,
     fetchIndexPopularStorageBoards
   );
+
+  const handleClick = (event: MouseEvent<HTMLDivElement>) => {
+    const dataPath = event.currentTarget.getAttribute('data-path');
+    const dataId = event.currentTarget.getAttribute('data-id');
+
+    router.push(`/storages/${dataPath}/${dataId}`);
+  };
 
   return (
     <Box component="section" customStyle={{ margin: '30px -20px 0' }}>
@@ -59,6 +71,9 @@ function IndexBestStorageBoardList() {
               variant="normal"
               storageBoard={storageBoard}
               hideSymbolismBadge
+              data-path={storageBoard.storage.path}
+              data-id={storageBoard.id}
+              onClick={handleClick}
               customStyle={{ maxWidth: 330 }}
             />
           ))}

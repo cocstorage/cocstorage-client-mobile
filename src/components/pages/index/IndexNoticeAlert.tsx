@@ -31,6 +31,7 @@ function IndexNoticeAlert() {
     <Link href={`/notices/${notices[0].id}`}>
       <Alert
         severity="info"
+        icon={<Icon name="LoudSpeakerOutlined" />}
         action={<Icon name="CaretSemiRightOutlined" />}
         customStyle={{ marginTop: 14 }}
       >
