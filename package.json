@@ -15,6 +15,7 @@
   "dependencies": {
     "@emotion/react": "^11.10.0",
     "@emotion/styled": "^11.10.0",
+    "axios": "^0.27.2",
     "cocstorage-ui": "^0.1.18",
     "next": "^12.2.5",
     "react": "^18.2.0",

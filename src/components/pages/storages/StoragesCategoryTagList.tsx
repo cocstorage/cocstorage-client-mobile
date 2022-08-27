@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+
 import { Tag } from 'cocstorage-ui';
 
 function StoragesCategoryTagList() {

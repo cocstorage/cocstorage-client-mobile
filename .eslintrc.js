@@ -41,6 +41,36 @@ module.exports = {
             pattern: 'next/**',
             group: 'builtin',
             position: 'after'
+          },
+          {
+            pattern: '@emotion/**',
+            group: 'external',
+            position: 'after'
+          },
+          {
+            pattern: 'cocstorage-ui',
+            group: 'external',
+            position: 'after'
+          },
+          {
+            pattern: 'axios',
+            group: 'external',
+            position: 'after'
+          },
+          {
+            pattern: '@components/**',
+            group: 'internal',
+            position: 'before'
+          },
+          {
+            pattern: '@api/**',
+            group: 'internal',
+            position: 'after'
+          },
+          {
+            pattern: '@constants/**',
+            group: 'internal',
+            position: 'after'
           }
         ],
         alphabetize: {

@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+
 import { Box, Icon, IconButton, Typography } from 'cocstorage-ui';
 
 function NoticeHeader() {

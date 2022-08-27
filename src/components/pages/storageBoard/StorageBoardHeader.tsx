@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+
 import { Avatar, Box, Flexbox, Icon, IconButton, Typography } from 'cocstorage-ui';
 
 function StorageBoardHeader() {

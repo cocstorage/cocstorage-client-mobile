@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+
 import { Tab, Tabs } from 'cocstorage-ui';
 
 function StorageBoardsTabs() {

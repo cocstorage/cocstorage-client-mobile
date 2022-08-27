@@ -1,4 +1,5 @@
 import styled, { CSSObject } from '@emotion/styled';
+
 import { Box, Button, Icon, IconButton, useTheme } from 'cocstorage-ui';
 
 interface StorageBoardFooterProps {

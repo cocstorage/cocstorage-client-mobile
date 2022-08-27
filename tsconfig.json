@@ -2,17 +2,47 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
+      "@api": [
+        "./src/api"
+      ],
+      "@api/*": [
+        "./src/api/*"
+      ],
       "@components": [
         "./src/components"
       ],
       "@components/*": [
         "./src/components/*"
       ],
+      "@constants": [
+        "./src/constants"
+      ],
+      "@constants/*": [
+        "./src/constants/*"
+      ],
+      "@dto": [
+        "./src/dto"
+      ],
+      "@dto/*": [
+        "./src/dto/*"
+      ],
+      "@library": [
+        "./src/library"
+      ],
+      "@library/*": [
+        "./src/library/*"
+      ],
       "@styles": [
         "./src/styles"
       ],
       "@styles/*": [
         "./src/styles/*"
+      ],
+      "@utils": [
+        "./src/utils"
+      ],
+      "@utils/*": [
+        "./src/utils/*"
       ]
     },
     "target": "es5",

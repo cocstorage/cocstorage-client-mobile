@@ -1,4 +1,5 @@
 import styled, { CSSObject } from '@emotion/styled';
+
 import { Box } from 'cocstorage-ui';
 
 import { RatioImageProps } from '.';

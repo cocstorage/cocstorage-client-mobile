@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+
 import { Box, Flexbox, Icon, IconButton, Tag, Typography } from 'cocstorage-ui';
 
 import StorageBoardCard from '@components/UI/molecules/StorageBoardCard';
