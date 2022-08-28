@@ -10,7 +10,7 @@ import { RecoilRoot } from 'recoil';
 
 import { ThemeProvider } from 'cocstorage-ui';
 
-import FeaturePreparationDialog from '@components/UI/organisms/FeaturePreparationDialog';
+import FeedbackDialog from '@components/UI/organisms/FeedbackDialog';
 
 import 'dayjs/locale/ko';
 import '@styles/base.css';
@@ -42,7 +42,7 @@ function App({ Component, pageProps }: AppProps) {
           <ThemeProvider theme="light">
             <Hydrate state={pageProps.dehydratedState}>
               <Component {...pageProps} />
-              <FeaturePreparationDialog />
+              <FeedbackDialog />
             </Hydrate>
           </ThemeProvider>
         </RecoilRoot>

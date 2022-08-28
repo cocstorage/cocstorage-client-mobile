@@ -4,13 +4,15 @@ import { useRouter } from 'next/router';
 
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
+import { useSetRecoilState } from 'recoil';
+
 import styled, { CSSObject } from '@emotion/styled';
+
+import { commonFeedbackDialogState } from '@recoil/common/atoms';
 
 import { Box, Button, Icon, IconButton, useTheme } from 'cocstorage-ui';
 
-import { AxiosError } from 'axios';
-
-import MessageDialog from '@components/UI/organisms/MessageDialog';
+import type { AxiosError } from 'axios';
 
 import useScrollTrigger from '@hooks/useScrollTrigger';
 import getErrorMessageByCode from '@utils/getErrorMessageByCode';
@@ -28,17 +30,9 @@ function StorageBoardFooter({ recommendFeatureRef }: StorageBoardFooterProps) {
   const router = useRouter();
   const { path, id } = router.query;
 
-  const [observerTriggered, setObserverTriggered] = useState<boolean>(false);
-  const [open, setOpen] = useState<boolean>(false);
-  const [errorMessage, setErrorMessage] = useState<{
-    title: string;
-    code: string;
-    message: string;
-  }>({
-    title: '알 수 없는 오류가 발생했어요.',
-    code: '',
-    message: '문제가 지속된다면 관리자에게 문의해 주세요!'
-  });
+  const setCommonFeedbackDialogState = useSetRecoilState(commonFeedbackDialogState);
+
+  const [observerTriggered, setObserverTriggered] = useState(false);
 
   const { triggered } = useScrollTrigger({ ref: recommendFeatureRef });
 
@@ -83,15 +77,11 @@ function StorageBoardFooter({ recommendFeatureRef }: StorageBoardFooterProps) {
         if (error && error.response) {
           const { data: { code = '' } = {} } = error.response as { data: { code: string } };
 
-          setErrorMessage({
+          setCommonFeedbackDialogState({
+            open: true,
             title: getErrorMessageByCode(code),
-            code: '',
             message: '다른 글도 한번 살펴보시는 건 어때요?'
           });
-
-          setOpen(true);
-        } else {
-          setOpen(true);
         }
       }
     }
@@ -100,8 +90,6 @@ function StorageBoardFooter({ recommendFeatureRef }: StorageBoardFooterProps) {
   const handleClick = () => {
     recommendFeatureRef.current.scrollIntoView({ behavior: 'smooth' });
   };
-
-  const handleClose = () => setOpen(false);
 
   const handleClickRecommend = (event: MouseEvent<HTMLButtonElement>) => {
     const dataType = Number(event.currentTarget.getAttribute('data-type') || 0);
@@ -137,48 +125,45 @@ function StorageBoardFooter({ recommendFeatureRef }: StorageBoardFooterProps) {
   }
 
   return (
-    <>
-      <Box component="footer" customStyle={{ height: 44 }}>
-        <StyledStorageBoardFooter>
-          <Button
-            variant="transparent"
-            startIcon={
-              <Icon name="ThumbsUpOutlined" width={18} height={18} color={text[type].text1} />
-            }
-            size="pico"
-            data-type={0}
-            onClick={handleClickRecommend}
-            customStyle={{ color: text[type].text1 }}
-          >
-            {thumbUp.toLocaleString()}
-          </Button>
-          <Button
-            variant="transparent"
-            startIcon={
-              <Icon name="ThumbsDownOutlined" width={18} height={18} color={text[type].text1} />
-            }
-            size="pico"
-            data-type={1}
-            onClick={handleClickRecommend}
-            customStyle={{ color: text[type].text1 }}
-          >
-            {thumbDown.toLocaleString()}
-          </Button>
-          <Button
-            variant="transparent"
-            startIcon={
-              <Icon name="CommentOutlined" width={18} height={18} color={text[type].text1} />
-            }
-            size="pico"
-            onClick={handleClick}
-            customStyle={{ color: text[type].text1 }}
-          >
-            {commentTotalCount.toLocaleString()}
-          </Button>
-        </StyledStorageBoardFooter>
-      </Box>
-      <MessageDialog open={open} onClose={handleClose} {...errorMessage} />
-    </>
+    <Box component="footer" customStyle={{ height: 44 }}>
+      <StyledStorageBoardFooter>
+        <Button
+          variant="transparent"
+          startIcon={
+            <Icon name="ThumbsUpOutlined" width={18} height={18} color={text[type].text1} />
+          }
+          size="pico"
+          data-type={0}
+          onClick={handleClickRecommend}
+          customStyle={{ color: text[type].text1 }}
+        >
+          {thumbUp.toLocaleString()}
+        </Button>
+        <Button
+          variant="transparent"
+          startIcon={
+            <Icon name="ThumbsDownOutlined" width={18} height={18} color={text[type].text1} />
+          }
+          size="pico"
+          data-type={1}
+          onClick={handleClickRecommend}
+          customStyle={{ color: text[type].text1 }}
+        >
+          {thumbDown.toLocaleString()}
+        </Button>
+        <Button
+          variant="transparent"
+          startIcon={
+            <Icon name="CommentOutlined" width={18} height={18} color={text[type].text1} />
+          }
+          size="pico"
+          onClick={handleClick}
+          customStyle={{ color: text[type].text1 }}
+        >
+          {commentTotalCount.toLocaleString()}
+        </Button>
+      </StyledStorageBoardFooter>
+    </Box>
   );
 }
 

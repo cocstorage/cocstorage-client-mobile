@@ -1,15 +1,16 @@
-import { atomFamily } from 'recoil';
+import { atom } from 'recoil';
 
-export const commonDialogOpenStateFamily = atomFamily<
-  {
-    type: 'featurePreparation';
-    open: boolean;
-  },
-  'featurePreparation'
->({
-  key: 'common/dialogOpenStateFamily',
-  default: (type) => ({
-    type,
-    open: false
-  })
+export const commonFeedbackDialogState = atom<{
+  open: boolean;
+  title: string;
+  code?: string;
+  message?: string;
+}>({
+  key: 'common/feedbackDialogState',
+  default: {
+    open: false,
+    title: '',
+    code: '',
+    message: ''
+  }
 });

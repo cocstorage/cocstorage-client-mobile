@@ -1,8 +1,6 @@
 import { useState } from 'react';
 
-import { Flexbox, Typography, useTheme } from 'cocstorage-ui';
-
-import RatioImage from '@components/UI/atoms/RatioImage';
+import { Flexbox, Image, Typography, useTheme } from 'cocstorage-ui';
 
 function Comment() {
   const {
@@ -12,22 +10,24 @@ function Comment() {
     }
   } = useTheme();
 
-  const [open, setOpen] = useState<boolean>(false);
+  const [open, setOpen] = useState(false);
 
   const handleClick = () => setOpen(!open);
 
   return (
     <Flexbox gap={10} customStyle={{ flex: 1 }}>
-      <RatioImage
+      <Image
         width={30}
         height={30}
         src=""
         alt="User Avatar Img"
         round="50%"
         disableAspectRatio
-        defaultIcon="user"
-        defaultIconWidth={15}
-        defaultIconHeight={15}
+        fallback={{
+          iconName: 'UserFilled',
+          width: 15,
+          height: 15
+        }}
       />
       <Flexbox direction="vertical" customStyle={{ flex: 1 }}>
         <Flexbox gap={4} alignment="center">

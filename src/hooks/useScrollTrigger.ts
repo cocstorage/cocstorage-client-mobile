@@ -11,8 +11,8 @@ export default function useScrollTrigger<T extends HTMLElement>({
 }: UseScrollTriggerProps<T>): {
   triggered: boolean;
 } {
-  const [triggered, setTriggered] = useState<boolean>(false);
-  const [fixedTop, setFixedTop] = useState<number>(0);
+  const [triggered, setTriggered] = useState(false);
+  const [fixedTop, setFixedTop] = useState(0);
 
   const handleScroll = useCallback(() => {
     if (!ref || !ref.current) return;

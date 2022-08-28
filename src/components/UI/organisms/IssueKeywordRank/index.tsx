@@ -2,6 +2,10 @@ import { useState } from 'react';
 
 import { useQuery } from '@tanstack/react-query';
 
+import { useSetRecoilState } from 'recoil';
+
+import { commonFeedbackDialogState } from '@recoil/common/atoms';
+
 import { Button, CustomStyle, Flexbox, Icon, Typography, useTheme } from 'cocstorage-ui';
 
 import IssueKeywordCard from '@components/UI/molecules/IssueKeywordCard';
@@ -26,7 +30,9 @@ function IssueKeywordRank({ disableFillEdgeBlanks = true, customStyle }: IssueKe
     }
   } = useTheme();
 
-  const [toggle, setToggle] = useState<boolean>(false);
+  const setCommonFeedbackDialogState = useSetRecoilState(commonFeedbackDialogState);
+
+  const [toggle, setToggle] = useState(false);
 
   const { data: { ranks = [] } = {}, isLoading } = useQuery(
     queryKeys.issueKeywords.issueKeywordRank,
@@ -34,6 +40,13 @@ function IssueKeywordRank({ disableFillEdgeBlanks = true, customStyle }: IssueKe
   );
 
   const handleClick = () => setToggle((prevState) => !prevState);
+
+  const handleClickCard = () =>
+    setCommonFeedbackDialogState({
+      open: true,
+      title: '준비 중인 기능이에요!',
+      message: '조금만 기다려주세요!'
+    });
 
   return (
     <StyledIssueKeywordRank disableFillEdgeBlanks={disableFillEdgeBlanks} css={customStyle}>
@@ -74,6 +87,7 @@ function IssueKeywordRank({ disableFillEdgeBlanks = true, customStyle }: IssueKe
             <IssueKeywordCard
               key={`issue-keyword-${issueKeyword.keywordId}`}
               issueKeyword={issueKeyword}
+              onClick={handleClickCard}
             />
           ))}
       </List>

@@ -8,12 +8,10 @@ import { useRecoilValue, useSetRecoilState } from 'recoil';
 
 import styled, { CSSObject } from '@emotion/styled';
 
-import { commonDialogOpenStateFamily } from '@recoil/common/atoms';
+import { commonFeedbackDialogState } from '@recoil/common/atoms';
 import { hideHeaderSubjectState } from '@recoil/storageBoard/atoms';
 
-import { Box, Flexbox, Icon, IconButton, Typography } from 'cocstorage-ui';
-
-import RatioImage from '@components/UI/atoms/RatioImage';
+import { Box, Flexbox, Icon, IconButton, Image, Typography } from 'cocstorage-ui';
 
 import useScrollTrigger from '@hooks/useScrollTrigger';
 
@@ -26,7 +24,7 @@ function StorageBoardHeader() {
   const router = useRouter();
   const { path, id } = router.query;
 
-  const setOpenDialog = useSetRecoilState(commonDialogOpenStateFamily('featurePreparation'));
+  const setCommonFeedbackDialogState = useSetRecoilState(commonFeedbackDialogState);
   const hideHeaderSubject = useRecoilValue(hideHeaderSubjectState);
 
   const headerRef = useRef<HTMLDivElement>(null);
@@ -44,7 +42,12 @@ function StorageBoardHeader() {
 
   const handleClick = () => router.back();
 
-  const handleClickIcon = () => setOpenDialog(({ type }) => ({ type, open: true }));
+  const handleClickIcon = () =>
+    setCommonFeedbackDialogState({
+      open: true,
+      title: '준비 중인 기능이에요!',
+      message: '조금만 기다려주세요!'
+    });
 
   return (
     <Box ref={headerRef} component="header" customStyle={{ height: 50 }}>
@@ -61,7 +64,7 @@ function StorageBoardHeader() {
           {subject}
         </Typography>
         <Flexbox gap={10} alignment="center">
-          <RatioImage
+          <Image
             width={24}
             height={24}
             src={avatarUrl}

@@ -1,8 +1,6 @@
 import { HTMLAttributes } from 'react';
 
-import { Flexbox, Typography } from 'cocstorage-ui';
-
-import RatioImage from '@components/UI/atoms/RatioImage';
+import { Flexbox, Image, Typography } from 'cocstorage-ui';
 
 interface StorageCardProps extends HTMLAttributes<HTMLDivElement> {
   src: string;
@@ -12,11 +10,7 @@ interface StorageCardProps extends HTMLAttributes<HTMLDivElement> {
 function StorageCard({ src, name, ...props }: StorageCardProps) {
   return (
     <Flexbox direction="vertical" gap={6} {...props} customStyle={{ cursor: 'pointer' }}>
-      <RatioImage
-        src={src}
-        alt="Storage Img"
-        customStyle={{ borderRadius: 6, overflow: 'hidden' }}
-      />
+      <Image width="auto" height="auto" src={src} round={6} alt="Storage Img" />
       <Typography customStyle={{ textAlign: 'center' }}>{name}</Typography>
     </Flexbox>
   );

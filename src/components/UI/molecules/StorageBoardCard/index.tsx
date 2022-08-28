@@ -2,9 +2,7 @@ import { HTMLAttributes, memo, useMemo } from 'react';
 
 import dayjs from 'dayjs';
 
-import { Badge, CustomStyle, Flexbox, Icon, Typography, useTheme } from 'cocstorage-ui';
-
-import RatioImage from '@components/UI/atoms/RatioImage';
+import { Badge, CustomStyle, Flexbox, Icon, Image, Typography, useTheme } from 'cocstorage-ui';
 
 import { StorageBoard } from '@dto/storage-boards';
 
@@ -69,11 +67,12 @@ function StorageBoardCard({
         {...props}
         css={customStyle}
       >
-        <RatioImage
+        <Image
           ratio="4:3"
           src={thumbnailUrl || ''}
           alt="Thumbnail Img"
           width={82}
+          height="auto"
           round={round}
         />
         <Flexbox
@@ -135,7 +134,7 @@ function StorageBoardCard({
             )}
             <Storage>
               {avatarUrl && (
-                <RatioImage
+                <Image
                   width={14}
                   height={14}
                   src={avatarUrl || ''}
@@ -218,7 +217,7 @@ function StorageBoardCard({
           {!inStorage && (
             <Storage>
               {avatarUrl && (
-                <RatioImage
+                <Image
                   width={14}
                   height={14}
                   src={avatarUrl || ''}
@@ -236,7 +235,7 @@ function StorageBoardCard({
             <UserInfo>
               <Flexbox gap={4} alignment="center">
                 {user?.avatarUrl && (
-                  <RatioImage
+                  <Image
                     src={user?.avatarUrl || ''}
                     alt="User Avatar Img"
                     width={14}
@@ -258,11 +257,12 @@ function StorageBoardCard({
         </Info>
       </Flexbox>
       {thumbnailUrl && (
-        <RatioImage
+        <Image
           ratio="16:9"
           src={thumbnailUrl || ''}
           alt="Thumbnail Img"
           width={61}
+          height="auto"
           round={round}
         />
       )}

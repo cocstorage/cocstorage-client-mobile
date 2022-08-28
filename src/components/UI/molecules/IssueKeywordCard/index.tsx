@@ -1,20 +1,23 @@
+import { HTMLAttributes } from 'react';
+
 import { Badge, CustomStyle, Icon, Tag, Typography } from 'cocstorage-ui';
 
 import { IssueKeyword } from '@dto/issue-keywords';
 
 import { StyledIssueKeywordCard } from './IssueKeywordCard.styles';
 
-interface IssueKeywordCardProps {
+interface IssueKeywordCardProps extends HTMLAttributes<HTMLDivElement> {
   issueKeyword: IssueKeyword;
   customStyle?: CustomStyle;
 }
 
 function IssueKeywordCard({
   issueKeyword: { number, keyword, isUp, isDown, isNew },
-  customStyle
+  customStyle,
+  ...props
 }: IssueKeywordCardProps) {
   return (
-    <StyledIssueKeywordCard css={customStyle}>
+    <StyledIssueKeywordCard {...props} css={customStyle}>
       <Tag
         variant="accent"
         customStyle={{

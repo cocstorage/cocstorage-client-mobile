@@ -1,8 +1,6 @@
 import { HTMLAttributes, memo } from 'react';
 
-import { Badge, Flexbox, Icon, Typography, useTheme } from 'cocstorage-ui';
-
-import RatioImage from '@components/UI/atoms/RatioImage';
+import { Badge, Flexbox, Icon, Image, Typography, useTheme } from 'cocstorage-ui';
 
 import { Dot, Info, InfoLabel, StyledNoticeCard, UserInfo } from './NoticeCard.styles';
 
@@ -19,7 +17,14 @@ function NoticeCard({ ...props }: NoticeCardProps) {
   } = useTheme();
   return (
     <StyledNoticeCard {...props}>
-      <RatioImage ratio="4:3" src={thumbnailUrl || ''} alt="Thumbnail Img" width={82} round={6} />
+      <Image
+        ratio="4:3"
+        src={thumbnailUrl || ''}
+        alt="Thumbnail Img"
+        width={82}
+        height="auto"
+        round={6}
+      />
       <Flexbox
         direction="vertical"
         justifyContent="space-between"
@@ -43,7 +48,7 @@ function NoticeCard({ ...props }: NoticeCardProps) {
           </InfoLabel>
           <UserInfo>
             <Flexbox gap={4} alignment="center">
-              <RatioImage
+              <Image
                 width={14}
                 height={14}
                 src=""

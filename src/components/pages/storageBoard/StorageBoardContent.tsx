@@ -1,4 +1,4 @@
-import { MouseEvent, RefObject, useEffect, useRef, useState } from 'react';
+import { MouseEvent, RefObject, useEffect, useRef } from 'react';
 
 import { useRouter } from 'next/router';
 
@@ -9,14 +9,12 @@ import { useSetRecoilState } from 'recoil';
 
 import styled from '@emotion/styled';
 
+import { commonFeedbackDialogState } from '@recoil/common/atoms';
 import { hideHeaderSubjectState } from '@recoil/storageBoard/atoms';
 
-import { Box, Button, Flexbox, Icon, Typography, useTheme } from 'cocstorage-ui';
+import { Box, Button, Flexbox, Icon, Image, Typography, useTheme } from 'cocstorage-ui';
 
 import { AxiosError } from 'axios';
-
-import RatioImage from '@components/UI/atoms/RatioImage';
-import MessageDialog from '@components/UI/organisms/MessageDialog';
 
 import useScrollTrigger from '@hooks/useScrollTrigger';
 import getErrorMessageByCode from '@utils/getErrorMessageByCode';
@@ -44,17 +42,7 @@ function StorageBoardContent({ recommendFeatureRef }: StorageBoardContentProps) 
     }
   } = useTheme();
 
-  const [open, setOpen] = useState<boolean>(false);
-  const [errorMessage, setErrorMessage] = useState<{
-    title: string;
-    code: string;
-    message: string;
-  }>({
-    title: '알 수 없는 오류가 발생했어요.',
-    code: '',
-    message: '문제가 지속된다면 관리자에게 문의해 주세요!'
-  });
-
+  const setCommonFeedbackDialogState = useSetRecoilState(commonFeedbackDialogState);
   const setHideHeaderSubject = useSetRecoilState(hideHeaderSubjectState);
 
   const subjectRef = useRef<HTMLDivElement>(null);
@@ -100,15 +88,11 @@ function StorageBoardContent({ recommendFeatureRef }: StorageBoardContentProps) 
         if (error && error.response) {
           const { data: { code = '' } = {} } = error.response as { data: { code: string } };
 
-          setErrorMessage({
+          setCommonFeedbackDialogState({
+            open: true,
             title: getErrorMessageByCode(code),
-            code: '',
             message: '다른 글도 한번 살펴보시는 건 어때요?'
           });
-
-          setOpen(true);
-        } else {
-          setOpen(true);
         }
       }
     }
@@ -126,8 +110,6 @@ function StorageBoardContent({ recommendFeatureRef }: StorageBoardContentProps) 
     }
   };
 
-  const handleClose = () => setOpen(false);
-
   useEffect(() => {
     setHideHeaderSubject(!triggered);
   }, [setHideHeaderSubject, triggered]);
@@ -144,16 +126,18 @@ function StorageBoardContent({ recommendFeatureRef }: StorageBoardContentProps) 
         </Typography>
         <Info>
           <Flexbox alignment="center">
-            <RatioImage
+            <Image
               width={24}
               height={24}
               src={(user || {}).avatarUrl || ''}
               alt="User Avatar Img"
               round="50%"
               disableAspectRatio
-              defaultIcon="user"
-              defaultIconWidth={12}
-              defaultIconHeight={12}
+              fallback={{
+                iconName: 'UserFilled',
+                width: 12,
+                height: 12
+              }}
             />
             <Typography variant="s1" color={text[themeType].text1} customStyle={{ marginLeft: 4 }}>
               {(user || {}).nickname || nickname}
@@ -216,7 +200,6 @@ function StorageBoardContent({ recommendFeatureRef }: StorageBoardContentProps) 
           </Button>
         </Flexbox>
       </Flexbox>
-      <MessageDialog open={open} onClose={handleClose} {...errorMessage} />
     </>
   );
 }
