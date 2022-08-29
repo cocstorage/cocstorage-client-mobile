@@ -74,6 +74,8 @@ function StorageBoardCard({
           width={82}
           height="auto"
           round={round}
+          // TODO UI 라이브러리 수정
+          customStyle={{ borderRadius: round }}
         />
         <Flexbox
           direction="vertical"
@@ -264,6 +266,7 @@ function StorageBoardCard({
           width={61}
           height="auto"
           round={round}
+          customStyle={{ borderRadius: round }}
         />
       )}
     </StyledStorageBoardCard>

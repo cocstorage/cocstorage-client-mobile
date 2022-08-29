@@ -6,7 +6,7 @@ import { useRecoilState } from 'recoil';
 
 import styled from '@emotion/styled';
 
-import { selectedCategoryIdState } from '@recoil/storages/atoms';
+import { storagesSelectedCategoryIdState } from '@recoil/storages/atoms';
 
 import { Tag } from 'cocstorage-ui';
 
@@ -15,7 +15,9 @@ import { fetchStorageCategories } from '@api/v1/storage-categories';
 import queryKeys from '@constants/queryKeys';
 
 function StoragesCategoryTagList() {
-  const [selectedCategoryId, setSelectedCategoryId] = useRecoilState(selectedCategoryIdState);
+  const [selectedCategoryId, setSelectedCategoryId] = useRecoilState(
+    storagesSelectedCategoryIdState
+  );
 
   const { data: { categories = [] } = {} } = useQuery(
     queryKeys.storageCategories.storageCategories,

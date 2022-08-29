@@ -15,7 +15,7 @@ export const storageBoardsParamsStateFamily = atomFamily<
   { path: string; params: FetchStorageBoardsParams },
   string
 >({
-  key: 'storageBoards/storageBoardsParamsStateFamily',
+  key: 'storageBoards/paramsStateFamily',
   default: (path) => ({
     path,
     params: storageBoardsParamsDefault
