@@ -3,3 +3,4 @@ export { default as BottomNavigation } from './BottomNavigation';
 export { default as StorageBoardCard } from './StorageBoardCard';
 export { default as StorageCard } from './StorageCard';
 export { default as Message } from './Message';
+export { default as Reply } from './Reply';
