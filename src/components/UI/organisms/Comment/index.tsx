@@ -1,6 +1,16 @@
 import { memo, useState } from 'react';
 
+import { useRouter } from 'next/router';
+
+import { useQuery } from '@tanstack/react-query';
+
 import dayjs from 'dayjs';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+
+import {
+  storageBoardCommentDeleteBottomSheetState,
+  storageBoardCommentsParamsState
+} from '@recoil/storageBoard/atoms';
 
 import {
   BottomSheet,
@@ -14,9 +24,15 @@ import {
   useTheme
 } from 'cocstorage-ui';
 
+import Message from '@components/UI/molecules/Message';
 import Reply from '@components/UI/molecules/Reply';
 
 import { StorageBoardComment } from '@dto/storage-board-comments';
+
+import { fetchStorageBoardComments } from '@api/v1/storage-board-comments';
+import { fetchStorageBoard } from '@api/v1/storage-boards';
+
+import queryKeys from '@constants/queryKeys';
 
 import { CommentBar, CommentBarWrapper, CommentTextArea } from './Comment.styles';
 
@@ -25,8 +41,11 @@ interface CommentProps {
 }
 
 function Comment({
-  comment: { user, nickname, content = '', replies, createdAt, createdIp, isMember }
+  comment: { id: commentId, user, nickname, content = '', replies, createdAt, createdIp, isMember }
 }: CommentProps) {
+  const router = useRouter();
+  const { id } = router.query;
+
   const {
     theme: {
       type: themeType,
@@ -34,11 +53,50 @@ function Comment({
     }
   } = useTheme();
 
-  const [openBottomSheet, setOpenBottomSheet] = useState(false);
+  const params = useRecoilValue(storageBoardCommentsParamsState);
+  const setCommentDeleteBottomSheetState = useSetRecoilState(
+    storageBoardCommentDeleteBottomSheetState
+  );
 
-  const handleClick = () => setOpenBottomSheet(true);
+  const { data: { id: storageBoardId, storage: { id: storageId }, commentLatestPage } = {} } =
+    useQuery(queryKeys.storageBoards.storageBoardById(Number(id)), () =>
+      fetchStorageBoard(Number(storageId), Number(id))
+    );
+  const { data: { comments = [] } = {} } = useQuery(
+    queryKeys.storageBoardComments.storageBoardCommentsByIdWithPage(Number(id), params.page),
+    () => fetchStorageBoardComments(storageId, Number(id), params),
+    {
+      enabled: !!params.page,
+      keepPreviousData: true
+    }
+  );
 
-  const handleClose = () => setOpenBottomSheet(false);
+  const [open, setOpen] = useState(false);
+  const [openMenuBottomSheet, setOpenMenuBottomSheet] = useState(false);
+
+  const handleClick = () => setOpen(true);
+
+  const handleClose = () => setOpen(false);
+
+  const handleClickMenuBottomSheet = () => setOpenMenuBottomSheet(true);
+
+  const handleCloseMenuBottomSheet = () => setOpenMenuBottomSheet(false);
+
+  const handleClickDeleteBottomSheet = () => {
+    setOpenMenuBottomSheet(false);
+
+    // TODO 추후 BottomSheet 컴포넌트 동시성 구현
+    setTimeout(() => {
+      setCommentDeleteBottomSheetState({
+        open: true,
+        storageId,
+        id: storageBoardId,
+        commentId,
+        commentsLength: comments.length,
+        commentLatestPage
+      });
+    }, 500);
+  };
 
   return (
     <>
@@ -88,6 +146,7 @@ function Comment({
               </Typography>
               <Typography
                 variant="s1"
+                onClick={handleClick}
                 customStyle={{ cursor: 'pointer', color: text[themeType].text1 }}
               >
                 답글달기
@@ -117,12 +176,13 @@ function Comment({
             variant="transparent"
             size="pico"
             startIcon={<Icon name="MoreMenuOutlined" width={15} height={15} />}
+            onClick={handleClickMenuBottomSheet}
             iconOnly
           />
         )}
       </Flexbox>
       <BottomSheet
-        open={openBottomSheet}
+        open={open}
         onClose={handleClose}
         customStyle={{
           '& > div': {
@@ -190,6 +250,13 @@ function Comment({
           direction="vertical"
           customStyle={{ flex: 1, padding: '20px 0', overflowY: 'auto' }}
         >
+          {replies.length === 0 && (
+            <Message
+              title="아직 답글이 없네요!"
+              message="답글을 남겨보시는 건 어때요?"
+              hideButton
+            />
+          )}
           {replies.map((reply) => (
             <Reply key={`reply-${reply.id}`} reply={reply} />
           ))}
@@ -202,6 +269,16 @@ function Comment({
             </IconButton>
           </CommentBar>
         </CommentBarWrapper>
+      </BottomSheet>
+      <BottomSheet open={openMenuBottomSheet} onClose={handleCloseMenuBottomSheet}>
+        <Box customStyle={{ padding: '10px 20px 30px 20px' }}>
+          <Flexbox gap={8} alignment="center" onClick={handleClickDeleteBottomSheet}>
+            <IconButton>
+              <Icon name="CloseOutlined" />
+            </IconButton>
+            <Typography variant="p1">댓글 삭제</Typography>
+          </Flexbox>
+        </Box>
       </BottomSheet>
     </>
   );

@@ -10,7 +10,7 @@ import {
   StorageBoardHeader
 } from '@components/pages/storageBoard';
 import GeneralTemplate from '@components/templeates/GeneralTemplate';
-import CommentList from '@components/UI/organisms/CommentList';
+import { CommentDeleteBottomSheet, CommentList } from '@components/UI/organisms';
 
 import { fetchStorageBoard } from '@api/v1/storage-boards';
 import { fetchStorage } from '@api/v1/storages';
@@ -27,6 +27,7 @@ function StorageBoard() {
     >
       <StorageBoardContent recommendFeatureRef={recommendFeatureRef} />
       <CommentList customStyle={{ margin: '40px 0 20px' }} />
+      <CommentDeleteBottomSheet />
     </GeneralTemplate>
   );
 }

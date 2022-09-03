@@ -33,6 +33,7 @@ function CommentList({ customStyle }: CommentListProps) {
       palette: { primary }
     }
   } = useTheme();
+
   const [params, setParams] = useRecoilState(storageBoardCommentsParamsState);
   const resetParams = useResetRecoilState(storageBoardCommentsParamsState);
 

@@ -32,12 +32,12 @@ export async function postNonMemberStorageBoardComment(
   return response;
 }
 
-export async function deleteNonMemberStorageBoardComment(
-  storageId: number,
-  id: number,
-  commentId: number,
-  password: string
-) {
+export async function deleteNonMemberStorageBoardComment({
+  storageId,
+  id,
+  commentId,
+  password
+}: DeleteStorageBoardCommentData) {
   const { data: response } = await Axios.delete<StorageBoardComment>(
     `${BASE_PATH}/${storageId}/boards/${id}/comments/non-members/${commentId}`,
     {
@@ -65,4 +65,11 @@ export interface PostStorageBoardCommentData {
   nickname?: string | null;
   password?: string | null;
   content: string | null;
+}
+
+export interface DeleteStorageBoardCommentData {
+  storageId: number;
+  id: number;
+  commentId: number;
+  password: string;
 }

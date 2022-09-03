@@ -1,6 +1,9 @@
 import { atom } from 'recoil';
 
-import { FetchStorageBoardCommentsParams } from '@api/v1/storage-board-comments';
+import {
+  DeleteStorageBoardCommentData,
+  FetchStorageBoardCommentsParams
+} from '@api/v1/storage-board-comments';
 
 export const hideHeaderSubjectState = atom({
   key: 'storageBoards/hideHeaderSubjectState',
@@ -16,4 +19,22 @@ export const storageBoardCommentsParamsDefault: FetchStorageBoardCommentsParams 
 export const storageBoardCommentsParamsState = atom({
   key: 'storageBoard/commentsParamsState',
   default: storageBoardCommentsParamsDefault
+});
+
+export const storageBoardCommentDeleteBottomSheetState = atom<
+  Omit<DeleteStorageBoardCommentData, 'password'> & {
+    open: boolean;
+    commentsLength: number;
+    commentLatestPage: number;
+  }
+>({
+  key: 'storageBoard/commentDeleteBottomSheetState',
+  default: {
+    open: false,
+    storageId: 0,
+    id: 0,
+    commentId: 0,
+    commentsLength: 0,
+    commentLatestPage: 0
+  }
 });

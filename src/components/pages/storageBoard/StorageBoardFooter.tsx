@@ -1,22 +1,29 @@
-import { MouseEvent, RefObject, useEffect, useRef, useState } from 'react';
+import { ChangeEvent, MouseEvent, RefObject, useEffect, useRef, useState } from 'react';
 
 import { useRouter } from 'next/router';
 
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
-import { useSetRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 
 import styled, { CSSObject } from '@emotion/styled';
 
 import { commonFeedbackDialogState } from '@recoil/common/atoms';
+import { storageBoardCommentsParamsState } from '@recoil/storageBoard/atoms';
 
-import { Box, Button, Icon, IconButton, useTheme } from 'cocstorage-ui';
+import { Box, Button, Flexbox, Grid, Icon, IconButton, TextBar, useTheme } from 'cocstorage-ui';
 
 import type { AxiosError } from 'axios';
 
 import useScrollTrigger from '@hooks/useScrollTrigger';
 import getErrorMessageByCode from '@utils/getErrorMessageByCode';
+import validators from '@utils/validators';
 
+import {
+  PostStorageBoardCommentData,
+  fetchStorageBoardComments,
+  postNonMemberStorageBoardComment
+} from '@api/v1/storage-board-comments';
 import { fetchStorageBoard, putNonMemberStorageBoardRecommend } from '@api/v1/storage-boards';
 import { fetchStorage } from '@api/v1/storages';
 
@@ -30,8 +37,13 @@ function StorageBoardFooter({ recommendFeatureRef }: StorageBoardFooterProps) {
   const router = useRouter();
   const { path, id } = router.query;
 
+  const [params, setParams] = useRecoilState(storageBoardCommentsParamsState);
   const setCommonFeedbackDialogState = useSetRecoilState(commonFeedbackDialogState);
 
+  const [rows, setRows] = useState(1);
+  const [nickname, setNickname] = useState('');
+  const [password, setPassword] = useState('');
+  const [content, setContent] = useState('');
   const [observerTriggered, setObserverTriggered] = useState(false);
 
   const { triggered } = useScrollTrigger({ ref: recommendFeatureRef });
@@ -39,7 +51,7 @@ function StorageBoardFooter({ recommendFeatureRef }: StorageBoardFooterProps) {
   const {
     theme: {
       type,
-      palette: { text }
+      palette: { text, box }
     }
   } = useTheme();
 
@@ -59,12 +71,20 @@ function StorageBoardFooter({ recommendFeatureRef }: StorageBoardFooterProps) {
     queryKeys.storages.storageById(String(path)),
     () => fetchStorage(String(path))
   );
-  const { data: { thumbUp, thumbDown, commentTotalCount } = {} } = useQuery(
-    queryKeys.storageBoards.storageBoardById(Number(id)),
-    () => fetchStorageBoard(Number(storageId), Number(id))
+  const { data: { storage, thumbUp, thumbDown, commentTotalCount, commentLatestPage } = {} } =
+    useQuery(queryKeys.storageBoards.storageBoardById(Number(id)), () =>
+      fetchStorageBoard(Number(storageId), Number(id))
+    );
+  const { data: { comments = [], pagination: { perPage = 10 } = {} } = {} } = useQuery(
+    queryKeys.storageBoardComments.storageBoardCommentsByIdWithPage(Number(id), params.page),
+    () => fetchStorageBoardComments(storageId, Number(id), params),
+    {
+      enabled: !!params.page,
+      keepPreviousData: true
+    }
   );
 
-  const { mutate: recommendMutate } = useMutation(
+  const { mutate, isLoading } = useMutation(
     (data: { storageId: number; storageBoardId: number; type: 0 | 1 }) =>
       putNonMemberStorageBoardRecommend(data.storageId, data.storageBoardId, data.type),
     {
@@ -87,20 +107,86 @@ function StorageBoardFooter({ recommendFeatureRef }: StorageBoardFooterProps) {
     }
   );
 
-  const handleClick = () => {
-    recommendFeatureRef.current.scrollIntoView({ behavior: 'smooth' });
+  const { mutate: commentPostMutate, isLoading: isLoadingPostComment } = useMutation(
+    (data: PostStorageBoardCommentData) =>
+      postNonMemberStorageBoardComment(storage.id, Number(id), data),
+    {
+      onSuccess: () => {
+        setContent('');
+
+        if (params.page === commentLatestPage && comments.length + 1 <= perPage) {
+          queryClient
+            .invalidateQueries(
+              queryKeys.storageBoardComments.storageBoardCommentsByIdWithPage(
+                Number(id),
+                params.page
+              )
+            )
+            .then();
+        } else {
+          let newCommentLatestPage =
+            params.page === commentLatestPage && comments.length + 1 > perPage
+              ? commentLatestPage + 1
+              : commentLatestPage;
+
+          if (!params.page && !commentLatestPage) newCommentLatestPage = 1;
+
+          setParams((prevParams) => ({
+            ...prevParams,
+            page: newCommentLatestPage
+          }));
+        }
+      }
+    }
+  );
+
+  const handleChange = (event: ChangeEvent<HTMLTextAreaElement>) =>
+    setContent(event.currentTarget.value);
+
+  const handleChangeTextBar = (event: ChangeEvent<HTMLInputElement>) => {
+    const dataInputType = event.currentTarget.type;
+
+    if (dataInputType === 'password') {
+      setPassword(event.currentTarget.value);
+    } else {
+      setNickname(event.currentTarget.value);
+    }
   };
+
+  const handleClick = () => recommendFeatureRef.current.scrollIntoView({ behavior: 'smooth' });
 
   const handleClickRecommend = (event: MouseEvent<HTMLButtonElement>) => {
     const dataType = Number(event.currentTarget.getAttribute('data-type') || 0);
 
     if (Number(id) && (dataType === 0 || dataType === 1)) {
-      recommendMutate({
+      mutate({
         storageId,
         storageBoardId: Number(id),
         type: dataType
       });
     }
+  };
+
+  const handleClickSend = () => {
+    if (!validators.nickname(nickname)) {
+      setCommonFeedbackDialogState({
+        open: true,
+        title: '닉네임이 올바르지 않아요',
+        message:
+          '한글 또는 영문 대소문자 2자 이상 10자 이하로 입력해 주세요.<br />특수문자는 포함할 수 없어요!'
+      });
+      return;
+    }
+    if (!validators.password(password)) {
+      setCommonFeedbackDialogState({
+        open: true,
+        title: '비밀번호가 올바르지 않아요.',
+        message: '7자 이상으로 입력해 주세요!'
+      });
+      return;
+    }
+
+    commentPostMutate({ nickname, password, content });
   };
 
   useEffect(() => {
@@ -109,16 +195,74 @@ function StorageBoardFooter({ recommendFeatureRef }: StorageBoardFooterProps) {
     return () => observer.disconnect();
   }, [onIntersectRef, recommendFeatureRef]);
 
+  useEffect(() => {
+    if (content.split('\n').length >= 2) {
+      setRows(2);
+    } else {
+      setRows(1);
+    }
+  }, [content]);
+
   if (triggered || observerTriggered) {
     return (
-      <Box component="footer" customStyle={{ height: 60 }}>
-        <StyledStorageBoardFooter css={{ height: 60, justifyContent: 'center' }}>
-          <CommentBar>
-            <CommentTextArea placeholder="내용을 입력해주세요." rows={1} />
-            <IconButton customStyle={{ marginRight: 10 }}>
-              <Icon name="SendOutlined" color={text[type].text3} />
-            </IconButton>
-          </CommentBar>
+      <Box component="footer" customStyle={{ minHeight: 60 }}>
+        <StyledStorageBoardFooter css={{ minHeight: 60, justifyContent: 'center' }}>
+          <Flexbox direction="vertical" gap={10} customStyle={{ width: '100%' }}>
+            {content && (
+              <Grid container columnGap={16}>
+                <Grid item xs={2}>
+                  <TextBar
+                    fullWidth
+                    size="small"
+                    onChange={handleChangeTextBar}
+                    value={nickname}
+                    placeholder="닉네임"
+                    disabled={isLoadingPostComment}
+                    customStyle={{ borderColor: box.stroked.normal }}
+                  />
+                </Grid>
+                <Grid item xs={2}>
+                  <TextBar
+                    fullWidth
+                    type="password"
+                    size="small"
+                    onChange={handleChangeTextBar}
+                    value={password}
+                    placeholder="바밀번호"
+                    disabled={isLoadingPostComment}
+                    customStyle={{ borderColor: box.stroked.normal }}
+                  />
+                </Grid>
+              </Grid>
+            )}
+            <CommentBar>
+              <CommentTextArea
+                placeholder="내용을 입력해주세요."
+                rows={rows}
+                onChange={handleChange}
+                value={content}
+                disabled={isLoadingPostComment}
+              />
+              <IconButton
+                onClick={handleClickSend}
+                disabled={isLoadingPostComment}
+                customStyle={{ marginRight: 10 }}
+              >
+                <Icon
+                  name={
+                    !isLoadingPostComment && nickname && password && content
+                      ? 'SendFilled'
+                      : 'SendOutlined'
+                  }
+                  color={
+                    !isLoadingPostComment && nickname && password && content
+                      ? 'primary'
+                      : text[type].text3
+                  }
+                />
+              </IconButton>
+            </CommentBar>
+          </Flexbox>
         </StyledStorageBoardFooter>
       </Box>
     );
@@ -135,6 +279,7 @@ function StorageBoardFooter({ recommendFeatureRef }: StorageBoardFooterProps) {
           size="pico"
           data-type={0}
           onClick={handleClickRecommend}
+          disabled={isLoading}
           customStyle={{ color: text[type].text1 }}
         >
           {thumbUp.toLocaleString()}
@@ -147,6 +292,7 @@ function StorageBoardFooter({ recommendFeatureRef }: StorageBoardFooterProps) {
           size="pico"
           data-type={1}
           onClick={handleClickRecommend}
+          disabled={isLoading}
           customStyle={{ color: text[type].text1 }}
         >
           {thumbDown.toLocaleString()}
@@ -176,7 +322,7 @@ const StyledStorageBoardFooter = styled.div`
   gap: 10px;
   width: 100%;
   min-height: 44px;
-  padding: 0 20px;
+  padding: 10px 20px;
   border-top: 1px solid
     ${({
       theme: {
