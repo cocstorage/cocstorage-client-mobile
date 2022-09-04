@@ -89,7 +89,12 @@ function Reply({
             </Typography>
           )}
         </Flexbox>
-        <Typography lineHeight="main" noWrap lineClamp={3} customStyle={{ marginTop: 4 }}>
+        <Typography
+          lineHeight="main"
+          noWrap
+          lineClamp={3}
+          customStyle={{ marginTop: 4, wordBreak: 'break-word' }}
+        >
           {content.split('\n').map((splitContent, index) => (
             // eslint-disable-next-line react/no-array-index-key
             <span key={`reply-content-${index}`}>

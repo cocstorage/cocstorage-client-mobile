@@ -99,7 +99,7 @@ function Comment({
             </Typography>
           )}
         </Flexbox>
-        <Typography lineHeight="main" customStyle={{ marginTop: 4 }}>
+        <Typography lineHeight="main" customStyle={{ marginTop: 4, wordBreak: 'break-word' }}>
           {content.split('\n').map((splitContent, index) => (
             // eslint-disable-next-line react/no-array-index-key
             <span key={`comment-content-${index}`}>
