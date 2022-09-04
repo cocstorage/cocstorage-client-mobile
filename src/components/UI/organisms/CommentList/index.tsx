@@ -8,7 +8,7 @@ import { useRecoilState, useResetRecoilState } from 'recoil';
 
 import { storageBoardCommentsParamsState } from '@recoil/storageBoard/atoms';
 
-import { Box, CustomStyle, Flexbox, Icon, Pagination, Typography, useTheme } from 'cocstorage-ui';
+import { CustomStyle, Flexbox, Icon, Pagination, Typography, useTheme } from 'cocstorage-ui';
 
 import Message from '@components/UI/molecules/Message';
 import Comment from '@components/UI/organisms/Comment';
@@ -83,9 +83,12 @@ function CommentList({ customStyle }: CommentListProps) {
 
   if (!isLoading && !comments.length)
     return (
-      <Box component="section" customStyle={{ margin: '30px 0' }}>
-        <Message title="댓글이 없네요!" message="첫 댓글의 주인공이 되어 주실래요?" hideButton />
-      </Box>
+      <Message
+        title="댓글이 없네요!"
+        message="첫 댓글의 주인공이 되어 주실래요?"
+        hideButton
+        customStyle={{ margin: '40px 0 50px' }}
+      />
     );
 
   return (

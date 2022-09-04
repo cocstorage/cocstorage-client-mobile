@@ -1,6 +1,6 @@
 import { HTMLAttributes } from 'react';
 
-import { Button, Flexbox, Icon, Tag, Typography } from 'cocstorage-ui';
+import { Button, CustomStyle, Flexbox, Icon, Tag, Typography } from 'cocstorage-ui';
 
 export interface MessageProps extends HTMLAttributes<HTMLDivElement> {
   code?: string;
@@ -9,6 +9,7 @@ export interface MessageProps extends HTMLAttributes<HTMLDivElement> {
   buttonText?: string;
   hideButton?: boolean;
   onClose?: () => void;
+  customStyle?: CustomStyle;
 }
 
 function Message({
@@ -18,10 +19,11 @@ function Message({
   buttonText = '확인',
   hideButton = false,
   onClose,
+  customStyle,
   ...props
 }: MessageProps) {
   return (
-    <Flexbox direction="vertical" alignment="center" gap={30} {...props}>
+    <Flexbox direction="vertical" alignment="center" gap={30} {...props} customStyle={customStyle}>
       <Flexbox direction="vertical" alignment="center" gap={20}>
         <Icon name="InfoOutlined" width={60} height={60} />
         <Flexbox

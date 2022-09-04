@@ -10,7 +10,14 @@ import {
   StorageBoardHeader
 } from '@components/pages/storageBoard';
 import GeneralTemplate from '@components/templeates/GeneralTemplate';
-import { CommentDeleteBottomSheet, CommentList } from '@components/UI/organisms';
+import {
+  CommentDeleteBottomSheet,
+  CommentList,
+  CommentMenuBottomSheet,
+  ReplyDeleteBottomSheet,
+  ReplyListBottomSheet,
+  ReplyMenuBottomSheet
+} from '@components/UI/organisms';
 
 import { fetchStorageBoard } from '@api/v1/storage-boards';
 import { fetchStorage } from '@api/v1/storages';
@@ -21,14 +28,20 @@ function StorageBoard() {
   const recommendFeatureRef = useRef<HTMLDivElement>();
 
   return (
-    <GeneralTemplate
-      header={<StorageBoardHeader />}
-      footer={<StorageBoardFooter recommendFeatureRef={recommendFeatureRef} />}
-    >
-      <StorageBoardContent recommendFeatureRef={recommendFeatureRef} />
-      <CommentList customStyle={{ margin: '40px 0 20px' }} />
+    <>
+      <GeneralTemplate
+        header={<StorageBoardHeader />}
+        footer={<StorageBoardFooter recommendFeatureRef={recommendFeatureRef} />}
+      >
+        <StorageBoardContent recommendFeatureRef={recommendFeatureRef} />
+        <CommentList customStyle={{ margin: '40px 0 20px' }} />
+      </GeneralTemplate>
+      <CommentMenuBottomSheet />
       <CommentDeleteBottomSheet />
-    </GeneralTemplate>
+      <ReplyListBottomSheet />
+      <ReplyDeleteBottomSheet />
+      <ReplyMenuBottomSheet />
+    </>
   );
 }
 

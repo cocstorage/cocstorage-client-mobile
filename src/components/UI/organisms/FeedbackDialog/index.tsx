@@ -17,7 +17,7 @@ function FeedbackDialog() {
     }));
 
   return (
-    <Dialog open={open} onClose={handleClose}>
+    <Dialog fullWidth open={open} onClose={handleClose} customStyle={{ maxWidth: 320 }}>
       <Box customStyle={{ padding: 16 }}>
         <Message title={title} code={code} message={message} onClose={handleClose} />
       </Box>

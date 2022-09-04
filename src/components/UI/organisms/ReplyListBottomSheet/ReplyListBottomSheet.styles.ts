@@ -3,9 +3,10 @@ import styled, { CSSObject } from '@emotion/styled';
 export const CommentBarWrapper = styled.div`
   display: flex;
   align-items: center;
+  flex-direction: column;
   gap: 10px;
   width: 100%;
-  min-height: 44px;
+  min-height: 65px;
   padding: 10px 20px;
   border-top: 1px solid
     ${({
@@ -16,8 +17,8 @@ export const CommentBarWrapper = styled.div`
 `;
 
 export const CommentBar = styled.div`
-  flex-grow: 1;
   display: flex;
+  width: 100%;
   border: 1px solid ${({ theme: { palette } }) => palette.box.stroked.normal};
   background-color: ${({ theme: { palette } }) => palette.background.bg};
   border-radius: 10px;

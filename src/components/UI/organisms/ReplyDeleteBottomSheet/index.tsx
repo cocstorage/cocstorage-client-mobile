@@ -2,38 +2,38 @@ import { ChangeEvent, useEffect, useState } from 'react';
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import { useRecoilState, useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
+import { useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
 
 import {
-  storageBoardCommentDeleteBottomSheetState,
-  storageBoardCommentMenuBottomSheetState,
-  storageBoardCommentsParamsState
+  storageBoardCommentsParamsState,
+  storageBoardReplyDeleteBottomSheetState,
+  storageBoardReplyListBottomSheetState,
+  storageBoardReplyMenuBottomSheetState
 } from '@recoil/storageBoard/atoms';
 
 import { BottomSheet, Box, Button, TextBar, Typography, useTheme } from 'cocstorage-ui';
 
 import {
-  DeleteStorageBoardCommentData,
-  deleteNonMemberStorageBoardComment
-} from '@api/v1/storage-board-comments';
+  DeleteStorageBoardCommentReplyData,
+  deleteNonMemberStorageBoardCommentReply
+} from '@api/v1/storage-board-comment-replies';
 
 import queryKeys from '@constants/queryKeys';
 
-function CommentDeleteBottomSheet() {
+function ReplyDeleteBottomSheet() {
   const {
     theme: {
       palette: { secondary }
     }
   } = useTheme();
 
-  const { open, storageId, id, commentId, commentsLength, commentLatestPage } = useRecoilValue(
-    storageBoardCommentDeleteBottomSheetState
+  const params = useRecoilValue(storageBoardCommentsParamsState);
+  const { open, storageId, id, commentId, replyId } = useRecoilValue(
+    storageBoardReplyDeleteBottomSheetState
   );
-  const [params, setParams] = useRecoilState(storageBoardCommentsParamsState);
-  const resetCommentDeleteBottomState = useResetRecoilState(
-    storageBoardCommentDeleteBottomSheetState
-  );
-  const setCommentMenuBottomSheetState = useSetRecoilState(storageBoardCommentMenuBottomSheetState);
+  const setReplyMenuBottomSheetState = useSetRecoilState(storageBoardReplyMenuBottomSheetState);
+  const setReplyListBottomSheetState = useSetRecoilState(storageBoardReplyListBottomSheetState);
+  const resetReplyDeleteBottomState = useResetRecoilState(storageBoardReplyDeleteBottomSheetState);
 
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState<{
@@ -47,25 +47,25 @@ function CommentDeleteBottomSheet() {
   const queryClient = useQueryClient();
 
   const { mutate, isLoading } = useMutation(
-    (data: DeleteStorageBoardCommentData) => deleteNonMemberStorageBoardComment(data),
+    (data: DeleteStorageBoardCommentReplyData) => deleteNonMemberStorageBoardCommentReply(data),
     {
       onSuccess: () => {
         const { page } = params;
 
-        if (page > 1 && page === commentLatestPage && commentsLength - 1 <= 0) {
-          setParams((prevParams) => ({
-            ...prevParams,
-            page: commentLatestPage - 1 ? commentLatestPage - 1 : 1
-          }));
-        } else {
-          queryClient
-            .invalidateQueries(
-              queryKeys.storageBoardComments.storageBoardCommentsByIdWithPage(Number(id), page || 1)
-            )
-            .then();
-        }
+        queryClient
+          .invalidateQueries(
+            queryKeys.storageBoardComments.storageBoardCommentsByIdWithPage(Number(id), page || 1)
+          )
+          .then();
         setPassword('');
-        resetCommentDeleteBottomState();
+        resetReplyDeleteBottomState();
+
+        setTimeout(() => {
+          setReplyListBottomSheetState((prevState) => ({
+            ...prevState,
+            open: true
+          }));
+        }, 500);
       },
       onError: () =>
         setErrorMessage({
@@ -86,10 +86,10 @@ function CommentDeleteBottomSheet() {
   };
 
   const handleClose = () => {
-    resetCommentDeleteBottomState();
+    resetReplyDeleteBottomState();
 
     setTimeout(() => {
-      setCommentMenuBottomSheetState((prevState) => ({
+      setReplyMenuBottomSheetState((prevState) => ({
         ...prevState,
         open: true
       }));
@@ -101,6 +101,7 @@ function CommentDeleteBottomSheet() {
       storageId,
       id,
       commentId,
+      replyId,
       password
     });
 
@@ -118,7 +119,7 @@ function CommentDeleteBottomSheet() {
     <BottomSheet open={open} onClose={handleClose}>
       <Box customStyle={{ padding: '30px 20px' }}>
         <Typography variant="h3" fontWeight="bold" customStyle={{ textAlign: 'center' }}>
-          댓글을 삭제하려면
+          답글을 삭제하려면
           <br /> 비밀번호를 입력해주세요.
         </Typography>
         <TextBar
@@ -150,4 +151,4 @@ function CommentDeleteBottomSheet() {
   );
 }
 
-export default CommentDeleteBottomSheet;
+export default ReplyDeleteBottomSheet;

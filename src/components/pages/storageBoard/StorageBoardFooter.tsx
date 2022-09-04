@@ -15,6 +15,7 @@ import { Box, Button, Flexbox, Grid, Icon, IconButton, TextBar, useTheme } from 
 
 import type { AxiosError } from 'axios';
 
+import { StorageBoard } from '@dto/storage-boards';
 import useScrollTrigger from '@hooks/useScrollTrigger';
 import getErrorMessageByCode from '@utils/getErrorMessageByCode';
 import validators from '@utils/validators';
@@ -37,6 +38,13 @@ function StorageBoardFooter({ recommendFeatureRef }: StorageBoardFooterProps) {
   const router = useRouter();
   const { path, id } = router.query;
 
+  const {
+    theme: {
+      type,
+      palette: { text, box }
+    }
+  } = useTheme();
+
   const [params, setParams] = useRecoilState(storageBoardCommentsParamsState);
   const setCommonFeedbackDialogState = useSetRecoilState(commonFeedbackDialogState);
 
@@ -47,13 +55,6 @@ function StorageBoardFooter({ recommendFeatureRef }: StorageBoardFooterProps) {
   const [observerTriggered, setObserverTriggered] = useState(false);
 
   const { triggered } = useScrollTrigger({ ref: recommendFeatureRef });
-
-  const {
-    theme: {
-      type,
-      palette: { text, box }
-    }
-  } = useTheme();
 
   const onIntersectRef = useRef(async ([entry], observer) => {
     if (entry.isIntersecting) {
@@ -114,7 +115,7 @@ function StorageBoardFooter({ recommendFeatureRef }: StorageBoardFooterProps) {
       onSuccess: () => {
         setContent('');
 
-        if (params.page === commentLatestPage && comments.length + 1 <= perPage) {
+        if (params.page === (commentLatestPage || 1) && comments.length + 1 <= perPage) {
           queryClient
             .invalidateQueries(
               queryKeys.storageBoardComments.storageBoardCommentsByIdWithPage(
@@ -131,6 +132,13 @@ function StorageBoardFooter({ recommendFeatureRef }: StorageBoardFooterProps) {
 
           if (!params.page && !commentLatestPage) newCommentLatestPage = 1;
 
+          queryClient.setQueryData(
+            queryKeys.storageBoards.storageBoardById(Number(id)),
+            (prevStorageBoard: StorageBoard) => ({
+              ...prevStorageBoard,
+              commentLatestPage: newCommentLatestPage
+            })
+          );
           setParams((prevParams) => ({
             ...prevParams,
             page: newCommentLatestPage
@@ -205,8 +213,8 @@ function StorageBoardFooter({ recommendFeatureRef }: StorageBoardFooterProps) {
 
   if (triggered || observerTriggered) {
     return (
-      <Box component="footer" customStyle={{ minHeight: 60 }}>
-        <StyledStorageBoardFooter css={{ minHeight: 60, justifyContent: 'center' }}>
+      <Box component="footer" customStyle={{ minHeight: 65 }}>
+        <StyledStorageBoardFooter css={{ minHeight: 65, justifyContent: 'center' }}>
           <Flexbox direction="vertical" gap={10} customStyle={{ width: '100%' }}>
             {content && (
               <Grid container columnGap={16}>
