@@ -10,7 +10,7 @@ import { useSetRecoilState } from 'recoil';
 import styled from '@emotion/styled';
 
 import { commonFeedbackDialogState } from '@recoil/common/atoms';
-import { hideHeaderSubjectState } from '@recoil/storageBoard/atoms';
+import { storageBoardHideHeaderSubjectState } from '@recoil/storageBoard/atoms';
 
 import { Box, Button, Flexbox, Icon, Image, Typography, useTheme } from 'cocstorage-ui';
 
@@ -29,10 +29,10 @@ import { fetchStorage } from '@api/v1/storages';
 import queryKeys from '@constants/queryKeys';
 
 interface StorageBoardContentProps {
-  recommendFeatureRef: RefObject<HTMLDivElement>;
+  footerRef: RefObject<HTMLDivElement>;
 }
 
-function StorageBoardContent({ recommendFeatureRef }: StorageBoardContentProps) {
+function StorageBoardContent({ footerRef }: StorageBoardContentProps) {
   const router = useRouter();
   const { path, id } = router.query;
   const {
@@ -43,7 +43,7 @@ function StorageBoardContent({ recommendFeatureRef }: StorageBoardContentProps) 
   } = useTheme();
 
   const setCommonFeedbackDialogState = useSetRecoilState(commonFeedbackDialogState);
-  const setHideHeaderSubject = useSetRecoilState(hideHeaderSubjectState);
+  const setHideHeaderSubject = useSetRecoilState(storageBoardHideHeaderSubjectState);
 
   const subjectRef = useRef<HTMLDivElement>(null);
 
@@ -159,7 +159,7 @@ function StorageBoardContent({ recommendFeatureRef }: StorageBoardContentProps) 
         lineHeight="main"
         dangerouslySetInnerHTML={{ __html: content }}
       />
-      <Flexbox ref={recommendFeatureRef} component="section" customStyle={{ marginTop: 9 }}>
+      <Flexbox ref={footerRef} component="section" customStyle={{ marginTop: 9 }}>
         <Flexbox>
           <Button
             size="small"

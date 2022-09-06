@@ -70,7 +70,7 @@ function StorageBoardsList() {
             </Link>
           ))}
       </Flexbox>
-      <Flexbox justifyContent="center" customStyle={{ margin: '25px auto' }}>
+      <Flexbox component="section" justifyContent="center" customStyle={{ margin: '25px auto' }}>
         <Pagination
           count={totalPages * perPage}
           page={currentPage}

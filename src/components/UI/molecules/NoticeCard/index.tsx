@@ -1,14 +1,21 @@
 import { HTMLAttributes, memo } from 'react';
 
+import dayjs from 'dayjs';
+
 import { Badge, Flexbox, Icon, Image, Typography, useTheme } from 'cocstorage-ui';
+
+import { Notice } from '@dto/notices';
 
 import { Dot, Info, InfoLabel, StyledNoticeCard, UserInfo } from './NoticeCard.styles';
 
-export type NoticeCardProps = HTMLAttributes<HTMLDivElement>;
+export interface NoticeCardProps extends HTMLAttributes<HTMLDivElement> {
+  notice: Notice;
+}
 
-const thumbnailUrl = '';
-
-function NoticeCard({ ...props }: NoticeCardProps) {
+function NoticeCard({
+  notice: { user, subject, viewCount = 0, commentTotalCount = 0, thumbnailUrl, createdAt },
+  ...props
+}: NoticeCardProps) {
   const {
     theme: {
       type,
@@ -19,10 +26,10 @@ function NoticeCard({ ...props }: NoticeCardProps) {
     <StyledNoticeCard {...props}>
       <Image
         ratio="4:3"
-        src={thumbnailUrl || ''}
-        alt="Thumbnail Img"
         width={82}
         height="auto"
+        src={thumbnailUrl || ''}
+        alt="Thumbnail Img"
         round={6}
       />
       <Flexbox
@@ -32,37 +39,41 @@ function NoticeCard({ ...props }: NoticeCardProps) {
         customStyle={{ height: '100%' }}
       >
         <Typography noWrap lineClamp={2} customStyle={{ flex: 1 }}>
-          <Badge severity="success" customStyle={{ marginRight: 4, verticalAlign: 'middle' }}>
-            NEW
-          </Badge>
-          제목입니다.
+          {dayjs().diff(createdAt, 'day') <= 1 && (
+            <Badge severity="success" customStyle={{ marginRight: 4, verticalAlign: 'middle' }}>
+              NEW
+            </Badge>
+          )}
+          {subject}
         </Typography>
         <Info>
           <InfoLabel>
             <Icon name="ViewOutlined" width={16} height={16} />
-            <Typography variant="s2">100</Typography>
+            <Typography variant="s2">{viewCount.toLocaleString()}</Typography>
           </InfoLabel>
           <InfoLabel>
             <Icon name="CommentOutlined" width={16} height={16} />
-            <Typography variant="s2">100</Typography>
+            <Typography variant="s2">{commentTotalCount.toLocaleString()}</Typography>
           </InfoLabel>
           <UserInfo>
             <Flexbox gap={4} alignment="center">
-              <Image
-                width={14}
-                height={14}
-                src=""
-                alt="User Avatar Img"
-                round="50%"
-                disableAspectRatio
-              />
+              {user?.avatarUrl && (
+                <Image
+                  width={14}
+                  height={14}
+                  src={user?.avatarUrl || ''}
+                  alt="User Avatar Img"
+                  round="50%"
+                  disableAspectRatio
+                />
+              )}
               <Typography variant="s2" color={text[type].text1}>
-                Hyeok
+                {user?.nickname}
               </Typography>
             </Flexbox>
             <Dot />
             <Typography variant="s2" color={text[type].text1}>
-              1분 전
+              {dayjs(createdAt).fromNow()}
             </Typography>
           </UserInfo>
         </Info>

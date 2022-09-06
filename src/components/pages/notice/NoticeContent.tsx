@@ -1,19 +1,57 @@
+import { RefObject, useEffect, useRef } from 'react';
+
+import { useRouter } from 'next/router';
+
+import { useQuery } from '@tanstack/react-query';
+
+import dayjs from 'dayjs';
+import { useSetRecoilState } from 'recoil';
+
 import styled from '@emotion/styled';
+
+import { noticeHideHeaderSubjectState } from '@recoil/notice/atoms';
 
 import { Avatar, Box, Button, Flexbox, Icon, Typography, useTheme } from 'cocstorage-ui';
 
-function NoticeContent() {
+import useScrollTrigger from '@hooks/useScrollTrigger';
+
+import { fetchNotice } from '@api/v1/notices';
+
+import queryKeys from '@constants/queryKeys';
+
+interface NoticeContentProps {
+  footerRef: RefObject<HTMLDivElement>;
+}
+
+function NoticeContent({ footerRef }: NoticeContentProps) {
+  const router = useRouter();
+  const { id } = router.query;
+
   const {
     theme: {
       type,
-      palette: { primary, text }
+      palette: { text }
     }
   } = useTheme();
+
+  const setHideHeaderSubject = useSetRecoilState(noticeHideHeaderSubjectState);
+
+  const { data: { subject, user, content, viewCount, commentTotalCount, createdAt } = {} } =
+    useQuery(queryKeys.notices.noticeById(Number(id)), () => fetchNotice(Number(id)));
+
+  const subjectRef = useRef<HTMLDivElement>(null);
+
+  const { triggered } = useScrollTrigger({ ref: subjectRef });
+
+  useEffect(() => {
+    setHideHeaderSubject(!triggered);
+  }, [setHideHeaderSubject, triggered]);
+
   return (
     <>
       <Box component="section" customStyle={{ marginTop: 10 }}>
-        <Typography variant="h3" fontWeight="bold">
-          호나우두 vs 호날두 축구 기량 평가는 이것만 보면 종결 남 ㅋㅋ
+        <Typography ref={subjectRef} variant="h3" fontWeight="bold">
+          {subject}
         </Typography>
         <Info>
           <Flexbox alignment="center">
@@ -24,64 +62,48 @@ function NoticeContent() {
               alt="User Avatar Img"
             />
             <Typography variant="s1" color={text[type].text1} customStyle={{ marginLeft: 4 }}>
-              사용자
+              {user.nickname}
             </Typography>
           </Flexbox>
           <Typography variant="s1" color={text[type].text1}>
-            1분 전
+            {dayjs(createdAt).fromNow()}
           </Typography>
           <Flexbox alignment="center" customStyle={{ marginLeft: 10 }}>
             <Icon width={16} height={16} name="ViewOutlined" color={text[type].text1} />
             <Typography variant="s2" color={text[type].text1} customStyle={{ marginLeft: 2 }}>
-              15
+              {viewCount.toLocaleString()}
             </Typography>
           </Flexbox>
         </Info>
       </Box>
-      <Typography component="article" lineHeight="main" customStyle={{ marginTop: 30 }}>
-        이거 하나만 봐도 눈이 달려있지 않은 넘이 아닌 이상 한 눈에 호나우두가 축구 더 잘하는 선수인
-        걸 알 수 있음 ㅋㅋ
-      </Typography>
-      <Flexbox component="section" customStyle={{ marginTop: 9 }}>
-        <Flexbox>
-          <Button
-            size="small"
-            startIcon={<Icon name="ThumbsUpFilled" width={15} height={15} color="primary" />}
-            customStyle={{
-              borderTopRightRadius: 0,
-              borderBottomRightRadius: 0,
-              fontWeight: 700,
-              color: primary.main
-            }}
-          >
-            100
-          </Button>
-          <Button
-            size="small"
-            startIcon={<Icon name="ThumbsDownOutlined" width={15} height={15} />}
-            customStyle={{
-              borderTopLeftRadius: 0,
-              borderBottomLeftRadius: 0,
-              color: text[type].text1
-            }}
-          >
-            100
-          </Button>
-          <Button
-            size="small"
-            startIcon={<Icon name="CommentOutlined" width={15} height={15} />}
-            customStyle={{
-              marginLeft: 10,
-              color: text[type].text1
-            }}
-          >
-            10
-          </Button>
-        </Flexbox>
+      <Content
+        component="article"
+        lineHeight="main"
+        dangerouslySetInnerHTML={{ __html: content }}
+      />
+      <Flexbox ref={footerRef} component="section" customStyle={{ marginTop: 9 }}>
+        <Button
+          size="small"
+          startIcon={<Icon name="CommentOutlined" width={15} height={15} />}
+          customStyle={{
+            color: text[type].text1
+          }}
+        >
+          {commentTotalCount.toLocaleString()}
+        </Button>
       </Flexbox>
     </>
   );
 }
+
+const Content = styled(Typography)`
+  margin-top: 30px;
+
+  * {
+    max-width: 100%;
+    border-radius: 8px;
+  }
+`;
 
 const Info = styled.div`
   display: flex;

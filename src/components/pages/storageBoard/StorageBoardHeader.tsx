@@ -9,7 +9,7 @@ import { useRecoilValue, useSetRecoilState } from 'recoil';
 import styled, { CSSObject } from '@emotion/styled';
 
 import { commonFeedbackDialogState } from '@recoil/common/atoms';
-import { hideHeaderSubjectState } from '@recoil/storageBoard/atoms';
+import { storageBoardHideHeaderSubjectState } from '@recoil/storageBoard/atoms';
 
 import { Box, Flexbox, Icon, IconButton, Image, Typography } from 'cocstorage-ui';
 
@@ -25,7 +25,7 @@ function StorageBoardHeader() {
   const { path, id } = router.query;
 
   const setCommonFeedbackDialogState = useSetRecoilState(commonFeedbackDialogState);
-  const hideHeaderSubject = useRecoilValue(hideHeaderSubjectState);
+  const hideHeaderSubject = useRecoilValue(storageBoardHideHeaderSubjectState);
 
   const headerRef = useRef<HTMLDivElement>(null);
 
@@ -42,7 +42,7 @@ function StorageBoardHeader() {
 
   const handleClick = () => router.back();
 
-  const handleClickIcon = () =>
+  const handleClickMenu = () =>
     setCommonFeedbackDialogState({
       open: true,
       title: '준비 중인 기능이에요!',
@@ -72,7 +72,7 @@ function StorageBoardHeader() {
             disableAspectRatio
             customStyle={{ marginLeft: 10 }}
           />
-          <IconButton onClick={handleClickIcon}>
+          <IconButton onClick={handleClickMenu}>
             <Icon name="MoreMenuOutlined" />
           </IconButton>
         </Flexbox>

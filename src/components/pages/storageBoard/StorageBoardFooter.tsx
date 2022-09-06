@@ -31,10 +31,10 @@ import { fetchStorage } from '@api/v1/storages';
 import queryKeys from '@constants/queryKeys';
 
 interface StorageBoardFooterProps {
-  recommendFeatureRef: RefObject<HTMLDivElement>;
+  footerRef: RefObject<HTMLDivElement>;
 }
 
-function StorageBoardFooter({ recommendFeatureRef }: StorageBoardFooterProps) {
+function StorageBoardFooter({ footerRef }: StorageBoardFooterProps) {
   const router = useRouter();
   const { path, id } = router.query;
 
@@ -54,7 +54,7 @@ function StorageBoardFooter({ recommendFeatureRef }: StorageBoardFooterProps) {
   const [content, setContent] = useState('');
   const [observerTriggered, setObserverTriggered] = useState(false);
 
-  const { triggered } = useScrollTrigger({ ref: recommendFeatureRef });
+  const { triggered } = useScrollTrigger({ ref: footerRef });
 
   const onIntersectRef = useRef(async ([entry], observer) => {
     if (entry.isIntersecting) {
@@ -161,7 +161,7 @@ function StorageBoardFooter({ recommendFeatureRef }: StorageBoardFooterProps) {
     }
   };
 
-  const handleClick = () => recommendFeatureRef.current.scrollIntoView({ behavior: 'smooth' });
+  const handleClick = () => footerRef.current.scrollIntoView({ behavior: 'smooth' });
 
   const handleClickRecommend = (event: MouseEvent<HTMLButtonElement>) => {
     const dataType = Number(event.currentTarget.getAttribute('data-type') || 0);
@@ -199,9 +199,9 @@ function StorageBoardFooter({ recommendFeatureRef }: StorageBoardFooterProps) {
 
   useEffect(() => {
     const observer = new IntersectionObserver(onIntersectRef, { threshold: 0.5 });
-    observer.observe(recommendFeatureRef.current);
+    observer.observe(footerRef.current);
     return () => observer.disconnect();
-  }, [onIntersectRef, recommendFeatureRef]);
+  }, [onIntersectRef, footerRef]);
 
   useEffect(() => {
     if (content.split('\n').length >= 2) {

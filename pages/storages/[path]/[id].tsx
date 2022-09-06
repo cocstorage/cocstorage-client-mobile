@@ -25,15 +25,15 @@ import { fetchStorage } from '@api/v1/storages';
 import queryKeys from '@constants/queryKeys';
 
 function StorageBoard() {
-  const recommendFeatureRef = useRef<HTMLDivElement>();
+  const footerRef = useRef<HTMLDivElement>(null);
 
   return (
     <>
       <GeneralTemplate
         header={<StorageBoardHeader />}
-        footer={<StorageBoardFooter recommendFeatureRef={recommendFeatureRef} />}
+        footer={<StorageBoardFooter footerRef={footerRef} />}
       >
-        <StorageBoardContent recommendFeatureRef={recommendFeatureRef} />
+        <StorageBoardContent footerRef={footerRef} />
         <CommentList customStyle={{ margin: '40px 0 20px' }} />
       </GeneralTemplate>
       <CommentMenuBottomSheet />

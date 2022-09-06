@@ -6,8 +6,8 @@ import {
   FetchStorageBoardCommentsParams
 } from '@api/v1/storage-board-comments';
 
-export const hideHeaderSubjectState = atom({
-  key: 'storageBoards/hideHeaderSubjectState',
+export const storageBoardHideHeaderSubjectState = atom({
+  key: 'storageBoard/hideHeaderSubjectState',
   default: true
 });
 

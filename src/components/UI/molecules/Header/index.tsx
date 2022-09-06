@@ -1,3 +1,11 @@
+import { MouseEvent } from 'react';
+
+import { useRouter } from 'next/router';
+
+import { useSetRecoilState } from 'recoil';
+
+import { commonFeedbackDialogState } from '@recoil/common/atoms';
+
 import { Box, Flexbox, Icon, IconButton, Typography } from 'cocstorage-ui';
 
 import { Logo, StyledHeader } from './Header.styles';
@@ -7,6 +15,24 @@ export interface HeaderProps {
 }
 
 function Header({ disableFixed }: HeaderProps) {
+  const router = useRouter();
+
+  const setCommonFeedbackDialogState = useSetRecoilState(commonFeedbackDialogState);
+
+  const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
+    const dataPathName = event.currentTarget.getAttribute('data-pathname');
+
+    if (!dataPathName) {
+      setCommonFeedbackDialogState({
+        open: true,
+        title: '준비 중인 기능이에요!',
+        message: '조금만 기다려주세요!'
+      });
+    } else {
+      router.push(dataPathName);
+    }
+  };
+
   return (
     <Box component="header" customStyle={{ minHeight: 50 }}>
       <StyledHeader disableFixed={disableFixed}>
@@ -25,13 +51,13 @@ function Header({ disableFixed }: HeaderProps) {
           </Flexbox>
         </Flexbox>
         <Flexbox gap={10}>
-          <IconButton>
+          <IconButton onClick={handleClick}>
             <Icon name="WriteOutlined" />
           </IconButton>
-          <IconButton>
+          <IconButton data-pathname="/notices" onClick={handleClick}>
             <Icon name="LoudSpeakerOutlined" />
           </IconButton>
-          <IconButton>
+          <IconButton onClick={handleClick}>
             <Icon name="SearchOutlined" />
           </IconButton>
         </Flexbox>
