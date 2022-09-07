@@ -34,7 +34,7 @@ function NoticesList() {
     <>
       <Flexbox component="section" gap={18} direction="vertical" customStyle={{ marginTop: 20 }}>
         {notices.map((notice) => (
-          <Link href={`/notices/${notice.id}`}>
+          <Link key={`notice-${notice.id}`} href={`/notices/${notice.id}`}>
             <a>
               <NoticeCard notice={notice} />
             </a>

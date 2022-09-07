@@ -15,6 +15,7 @@ import {
 
 import { Box, Button, Flexbox, Icon, Image, Typography, useTheme } from 'cocstorage-ui';
 
+import { NoticeComment } from '@dto/notice-comments';
 import { StorageBoardComment } from '@dto/storage-board-comments';
 
 import { fetchStorageBoardComments } from '@api/v1/storage-board-comments';
@@ -23,10 +24,12 @@ import { fetchStorageBoard } from '@api/v1/storage-boards';
 import queryKeys from '@constants/queryKeys';
 
 interface CommentProps {
-  comment: StorageBoardComment;
+  type?: 'storageBoard' | 'notice';
+  comment: StorageBoardComment | NoticeComment;
 }
 
 function Comment({
+  type = 'storageBoard',
   comment: { id: commentId, user, nickname, content = '', replies, createdAt, createdIp, isMember }
 }: CommentProps) {
   const router = useRouter();
@@ -43,15 +46,20 @@ function Comment({
   const setReplyListBottomSheetState = useSetRecoilState(storageBoardReplyListBottomSheetState);
   const setCommentMenuBottomSheetState = useSetRecoilState(storageBoardCommentMenuBottomSheetState);
 
-  const { data: { id: storageBoardId, storage: { id: storageId }, commentLatestPage } = {} } =
-    useQuery(queryKeys.storageBoards.storageBoardById(Number(id)), () =>
-      fetchStorageBoard(Number(storageId), Number(id))
-    );
+  const {
+    data: { id: storageBoardId, storage: { id: storageId = 0 } = {}, commentLatestPage } = {}
+  } = useQuery(
+    queryKeys.storageBoards.storageBoardById(Number(id)),
+    () => fetchStorageBoard(Number(storageId), Number(id)),
+    {
+      enabled: type === 'storageBoard'
+    }
+  );
   const { data: { comments = [] } = {} } = useQuery(
     queryKeys.storageBoardComments.storageBoardCommentsByIdWithPage(Number(id), params.page),
     () => fetchStorageBoardComments(storageId, Number(id), params),
     {
-      enabled: !!params.page,
+      enabled: type === 'storageBoard' && !!params.page,
       keepPreviousData: true
     }
   );

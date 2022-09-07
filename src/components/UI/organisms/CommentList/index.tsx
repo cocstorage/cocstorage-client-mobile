@@ -6,6 +6,7 @@ import { useQuery } from '@tanstack/react-query';
 
 import { useRecoilState, useResetRecoilState } from 'recoil';
 
+import { noticeCommentsParamsState } from '@recoil/notice/atoms';
 import { storageBoardCommentsParamsState } from '@recoil/storageBoard/atoms';
 
 import { CustomStyle, Flexbox, Icon, Pagination, Typography, useTheme } from 'cocstorage-ui';
@@ -14,6 +15,8 @@ import Message from '@components/UI/molecules/Message';
 import Comment from '@components/UI/organisms/Comment';
 import CommentSkeleton from '@components/UI/organisms/Comment/CommentSkeleton';
 
+import { fetchNoticeComments } from '@api/v1/notice-comments';
+import { fetchNotice } from '@api/v1/notices';
 import { fetchStorageBoardComments } from '@api/v1/storage-board-comments';
 import { fetchStorageBoard } from '@api/v1/storage-boards';
 import { fetchStorage } from '@api/v1/storages';
@@ -21,10 +24,11 @@ import { fetchStorage } from '@api/v1/storages';
 import queryKeys from '@constants/queryKeys';
 
 interface CommentListProps {
+  type?: 'storageBoard' | 'notice';
   customStyle?: CustomStyle;
 }
 
-function CommentList({ customStyle }: CommentListProps) {
+function CommentList({ type = 'storageBoard', customStyle }: CommentListProps) {
   const router = useRouter();
   const { path, id } = router.query;
 
@@ -37,14 +41,23 @@ function CommentList({ customStyle }: CommentListProps) {
   const [params, setParams] = useRecoilState(storageBoardCommentsParamsState);
   const resetParams = useResetRecoilState(storageBoardCommentsParamsState);
 
-  const { data: { id: storageId } = {} } = useQuery(
+  const [noticeCommentsParams, setNoticeCommentsParams] = useRecoilState(noticeCommentsParamsState);
+  const resetNoticeCommentsParams = useResetRecoilState(noticeCommentsParamsState);
+
+  const { data: { id: storageId = 0 } = {} } = useQuery(
     queryKeys.storages.storageById(String(path)),
-    () => fetchStorage(String(path))
+    () => fetchStorage(String(path)),
+    {
+      enabled: type === 'storageBoard'
+    }
   );
 
   const { data: { commentTotalCount = 0, commentLatestPage = 0 } = {} } = useQuery(
     queryKeys.storageBoards.storageBoardById(Number(id)),
-    () => fetchStorageBoard(Number(storageId), Number(id))
+    () => fetchStorageBoard(Number(storageId), Number(id)),
+    {
+      enabled: type === 'storageBoard'
+    }
   );
 
   const {
@@ -57,23 +70,70 @@ function CommentList({ customStyle }: CommentListProps) {
     queryKeys.storageBoardComments.storageBoardCommentsByIdWithPage(Number(id), params.page),
     () => fetchStorageBoardComments(storageId, Number(id), params),
     {
-      enabled: !!params.page,
+      enabled: type === 'storageBoard' && !!params.page,
       keepPreviousData: true
     }
   );
 
-  const handleChange = (value: number) =>
-    setParams((prevParams) => ({
-      ...prevParams,
-      page: value
-    }));
+  const {
+    data: {
+      commentTotalCount: noticeCommentTotalCount = 0,
+      commentLatestPage: noticeCommentLatestPage = 0
+    } = {}
+  } = useQuery(queryKeys.notices.noticeById(Number(id)), () => fetchNotice(Number(id)), {
+    enabled: type === 'notice' && !!noticeCommentsParams.page
+  });
+
+  const {
+    data: {
+      comments: noticeComments = [],
+      pagination: {
+        totalPages: noticeCommentsTotalPages = 1,
+        perPage: noticeCommentsPerPage = 10,
+        currentPage: noticeCommentsCurrentPage = 1
+      } = {}
+    } = {},
+    isLoading: isLoadingNoticeComments
+  } = useQuery(
+    queryKeys.noticeComments.noticeCommentsByIdWithPage(Number(id), noticeCommentsParams.page),
+    () => fetchNoticeComments(Number(id), noticeCommentsParams),
+    {
+      enabled: type === 'notice' && !!noticeCommentsParams.page,
+      keepPreviousData: true
+    }
+  );
+
+  const handleChange = (value: number) => {
+    if (type === 'storageBoard') {
+      setParams((prevParams) => ({
+        ...prevParams,
+        page: value
+      }));
+    } else if (type === 'notice') {
+      setNoticeCommentsParams((prevParams) => ({
+        ...prevParams,
+        page: value
+      }));
+    }
+  };
 
   useEffect(() => {
-    setParams((prevState) => ({
-      ...prevState,
-      page: commentLatestPage || 1
-    }));
-  }, [setParams, commentLatestPage]);
+    if (type === 'storageBoard') {
+      setParams((prevState) => ({
+        ...prevState,
+        page: commentLatestPage || 1
+      }));
+    }
+  }, [type, setParams, commentLatestPage]);
+
+  useEffect(() => {
+    if (type === 'notice') {
+      setNoticeCommentsParams((prevParams) => ({
+        ...prevParams,
+        page: noticeCommentLatestPage || 1
+      }));
+    }
+  }, [type, setNoticeCommentsParams, noticeCommentLatestPage]);
 
   useEffect(() => {
     return () => {
@@ -81,7 +141,16 @@ function CommentList({ customStyle }: CommentListProps) {
     };
   }, [resetParams]);
 
-  if (!isLoading && !comments.length)
+  useEffect(() => {
+    return () => {
+      resetNoticeCommentsParams();
+    };
+  }, [resetNoticeCommentsParams]);
+
+  if (
+    (type === 'storageBoard' && !isLoading && !comments.length) ||
+    (type === 'notice' && !isLoadingNoticeComments && !noticeComments.length)
+  )
     return (
       <Message
         title="댓글이 없네요!"
@@ -106,27 +175,54 @@ function CommentList({ customStyle }: CommentListProps) {
               color: primary.main
             }}
           >
-            {commentTotalCount.toLocaleString()}
+            {(commentTotalCount || noticeCommentTotalCount).toLocaleString()}
           </Typography>
         </Flexbox>
       </Flexbox>
       <Flexbox gap={18} direction="vertical">
-        {isLoading &&
+        {type === 'storageBoard' &&
+          isLoading &&
           Array.from({ length: 10 }).map((_, index) => (
             // eslint-disable-next-line react/no-array-index-key
             <CommentSkeleton key={`comment-skeleton-${index}`} />
           ))}
-        {!isLoading &&
+        {type === 'storageBoard' &&
+          !isLoading &&
           comments.map((comment) => <Comment key={`comment-${comment.id}`} comment={comment} />)}
+        {type === 'notice' &&
+          isLoadingNoticeComments &&
+          Array.from({ length: 10 }).map((_, index) => (
+            // eslint-disable-next-line react/no-array-index-key
+            <CommentSkeleton key={`comment-skeleton-${index}`} />
+          ))}
+        {type === 'notice' &&
+          !isLoadingNoticeComments &&
+          noticeComments.map((noticeComment) => (
+            <Comment
+              key={`notice-comment-${noticeComment.id}`}
+              type="notice"
+              comment={noticeComment}
+            />
+          ))}
       </Flexbox>
-      <Pagination
-        count={totalPages * perPage}
-        page={currentPage}
-        rowPerPage={perPage}
-        onChange={handleChange}
-        itemCount={5}
-        customStyle={{ margin: 'auto' }}
-      />
+      {type === 'storageBoard' && (
+        <Pagination
+          count={totalPages * perPage}
+          page={currentPage}
+          rowPerPage={perPage}
+          onChange={handleChange}
+          customStyle={{ margin: 'auto' }}
+        />
+      )}
+      {type === 'notice' && (
+        <Pagination
+          count={noticeCommentsTotalPages * noticeCommentsPerPage}
+          page={noticeCommentsCurrentPage}
+          rowPerPage={noticeCommentsPerPage}
+          onChange={handleChange}
+          customStyle={{ margin: 'auto' }}
+        />
+      )}
     </Flexbox>
   );
 }

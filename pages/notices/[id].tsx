@@ -18,7 +18,7 @@ function Notice() {
   return (
     <GeneralTemplate header={<NoticeHeader />} footer={<NoticeFooter footerRef={footerRef} />}>
       <NoticeContent footerRef={footerRef} />
-      <CommentList customStyle={{ margin: '40px 0 20px' }} />
+      <CommentList type="notice" customStyle={{ margin: '40px 0 20px' }} />
     </GeneralTemplate>
   );
 }
