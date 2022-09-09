@@ -1,21 +1,18 @@
 import { useRecoilState, useResetRecoilState, useSetRecoilState } from 'recoil';
 
 import {
-  storageBoardCommentDeleteBottomSheetState,
-  storageBoardCommentMenuBottomSheetState
-} from '@recoil/storageBoard/atoms';
+  commonCommentDeleteBottomSheetState,
+  commonCommentMenuBottomSheetState
+} from '@recoil/common/atoms';
 
 import { BottomSheet, Box, Flexbox, Icon, IconButton, Typography } from 'cocstorage-ui';
 
 function CommentMenuBottomSheet() {
-  const [
-    { open, storageId, id, commentId, commentsLength, commentLatestPage },
-    setCommentMenuBottomState
-  ] = useRecoilState(storageBoardCommentMenuBottomSheetState);
-  const resetCommentMenuBottomState = useResetRecoilState(storageBoardCommentMenuBottomSheetState);
-  const setCommentDeleteBottomSheetState = useSetRecoilState(
-    storageBoardCommentDeleteBottomSheetState
+  const [{ open, storageId, id, commentId }, setCommentMenuBottomState] = useRecoilState(
+    commonCommentMenuBottomSheetState
   );
+  const resetCommentMenuBottomState = useResetRecoilState(commonCommentMenuBottomSheetState);
+  const setCommentDeleteBottomSheetState = useSetRecoilState(commonCommentDeleteBottomSheetState);
 
   const handleClose = () => resetCommentMenuBottomState();
 
@@ -30,9 +27,7 @@ function CommentMenuBottomSheet() {
         open: true,
         storageId,
         id,
-        commentId,
-        commentsLength,
-        commentLatestPage
+        commentId
       });
     }, 500);
   };

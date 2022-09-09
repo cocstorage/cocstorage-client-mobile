@@ -1,19 +1,19 @@
 import { useRecoilState, useSetRecoilState } from 'recoil';
 
 import {
-  storageBoardReplyDeleteBottomSheetState,
-  storageBoardReplyListBottomSheetState,
-  storageBoardReplyMenuBottomSheetState
-} from '@recoil/storageBoard/atoms';
+  commonReplyDeleteBottomSheetState,
+  commonReplyListBottomSheetState,
+  commonReplyMenuBottomSheetState
+} from '@recoil/common/atoms';
 
 import { BottomSheet, Box, Flexbox, Icon, IconButton, Typography } from 'cocstorage-ui';
 
 function ReplyMenuBottomSheet() {
   const [{ open, storageId, id, commentId, replyId }, setReplyMenuBottomState] = useRecoilState(
-    storageBoardReplyMenuBottomSheetState
+    commonReplyMenuBottomSheetState
   );
-  const setReplyListBottomState = useSetRecoilState(storageBoardReplyListBottomSheetState);
-  const setReplyDeleteBottomState = useSetRecoilState(storageBoardReplyDeleteBottomSheetState);
+  const setReplyListBottomState = useSetRecoilState(commonReplyListBottomSheetState);
+  const setReplyDeleteBottomState = useSetRecoilState(commonReplyDeleteBottomSheetState);
 
   const handleClose = () => {
     setReplyMenuBottomState((prevState) => ({

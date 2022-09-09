@@ -1,39 +1,49 @@
 import { ChangeEvent, useEffect, useState } from 'react';
 
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import { useRecoilState, useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
 
 import {
-  storageBoardCommentDeleteBottomSheetState,
-  storageBoardCommentMenuBottomSheetState,
-  storageBoardCommentsParamsState
-} from '@recoil/storageBoard/atoms';
+  commonCommentDeleteBottomSheetState,
+  commonCommentMenuBottomSheetState
+} from '@recoil/common/atoms';
+import { noticeCommentsParamsState } from '@recoil/notice/atoms';
+import { storageBoardCommentsParamsState } from '@recoil/storageBoard/atoms';
 
 import { BottomSheet, Box, Button, TextBar, Typography, useTheme } from 'cocstorage-ui';
 
 import {
+  DeleteNoticeCommentData,
+  deleteNonMemberNoticeComment,
+  fetchNoticeComments
+} from '@api/v1/notice-comments';
+import { fetchNotice } from '@api/v1/notices';
+import {
   DeleteStorageBoardCommentData,
-  deleteNonMemberStorageBoardComment
+  deleteNonMemberStorageBoardComment,
+  fetchStorageBoardComments
 } from '@api/v1/storage-board-comments';
+import { fetchStorageBoard } from '@api/v1/storage-boards';
 
 import queryKeys from '@constants/queryKeys';
 
-function CommentDeleteBottomSheet() {
+interface CommentDeleteBottomSheetProps {
+  type?: 'storageBoard' | 'notice';
+}
+
+function CommentDeleteBottomSheet({ type = 'storageBoard' }: CommentDeleteBottomSheetProps) {
   const {
     theme: {
       palette: { secondary }
     }
   } = useTheme();
 
-  const { open, storageId, id, commentId, commentsLength, commentLatestPage } = useRecoilValue(
-    storageBoardCommentDeleteBottomSheetState
-  );
+  const { open, storageId, id, commentId } = useRecoilValue(commonCommentDeleteBottomSheetState);
   const [params, setParams] = useRecoilState(storageBoardCommentsParamsState);
-  const resetCommentDeleteBottomState = useResetRecoilState(
-    storageBoardCommentDeleteBottomSheetState
-  );
-  const setCommentMenuBottomSheetState = useSetRecoilState(storageBoardCommentMenuBottomSheetState);
+  const [noticeCommentsParams, setNoticeCommentParams] = useRecoilState(noticeCommentsParamsState);
+  const resetCommentDeleteBottomState = useResetRecoilState(commonCommentDeleteBottomSheetState);
+  const setCommentMenuBottomSheetState = useSetRecoilState(commonCommentMenuBottomSheetState);
 
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState<{
@@ -46,13 +56,47 @@ function CommentDeleteBottomSheet() {
 
   const queryClient = useQueryClient();
 
+  const { data: { commentLatestPage = 0 } = {} } = useQuery(
+    queryKeys.storageBoards.storageBoardById(id),
+    () => fetchStorageBoard(storageId, id),
+    {
+      enabled: type === 'storageBoard' && !!storageId && !!id
+    }
+  );
+
+  const { data: { comments = [] } = {} } = useQuery(
+    queryKeys.storageBoardComments.storageBoardCommentsByIdWithPage(id, params.page),
+    () => fetchStorageBoardComments(storageId, id, params),
+    {
+      enabled: type === 'storageBoard' && !!storageId && !!id && !!params.page,
+      keepPreviousData: true
+    }
+  );
+
+  const { data: { commentLatestPage: noticeCommentLatestPage } = {} } = useQuery(
+    queryKeys.notices.noticeById(Number(id)),
+    () => fetchNotice(Number(id)),
+    {
+      enabled: type === 'notice' && !!id
+    }
+  );
+
+  const { data: { comments: noticeComments = [] } = {} } = useQuery(
+    queryKeys.noticeComments.noticeCommentsByIdWithPage(Number(id), noticeCommentsParams.page),
+    () => fetchNoticeComments(Number(id), noticeCommentsParams),
+    {
+      enabled: type === 'notice' && !!id && !!noticeCommentsParams.page,
+      keepPreviousData: true
+    }
+  );
+
   const { mutate, isLoading } = useMutation(
     (data: DeleteStorageBoardCommentData) => deleteNonMemberStorageBoardComment(data),
     {
       onSuccess: () => {
         const { page } = params;
 
-        if (page > 1 && page === commentLatestPage && commentsLength - 1 <= 0) {
+        if (page > 1 && page === commentLatestPage && comments.length - 1 <= 0) {
           setParams((prevParams) => ({
             ...prevParams,
             page: commentLatestPage - 1 ? commentLatestPage - 1 : 1
@@ -75,6 +119,33 @@ function CommentDeleteBottomSheet() {
     }
   );
 
+  const { mutate: mutateDeleteNoticeCommentDelete, isLoading: isLoadingMutateDeleteNoticeComment } =
+    useMutation((data: DeleteNoticeCommentData) => deleteNonMemberNoticeComment(data), {
+      onSuccess: () => {
+        const { page } = noticeCommentsParams;
+
+        if (page > 1 && page === noticeCommentLatestPage && noticeComments.length - 1 <= 0) {
+          setNoticeCommentParams((prevParams) => ({
+            ...prevParams,
+            page: noticeCommentLatestPage - 1 ? noticeCommentLatestPage - 1 : 1
+          }));
+        } else {
+          queryClient
+            .invalidateQueries(
+              queryKeys.noticeComments.noticeCommentsByIdWithPage(Number(id), page || 1)
+            )
+            .then();
+        }
+        setPassword('');
+        resetCommentDeleteBottomState();
+      },
+      onError: () =>
+        setErrorMessage({
+          error: true,
+          message: '비밀번호가 일치하지 않아요.'
+        })
+    });
+
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     if (errorMessage.error) {
       setErrorMessage({
@@ -96,13 +167,22 @@ function CommentDeleteBottomSheet() {
     }, 500);
   };
 
-  const handleClick = () =>
-    mutate({
-      storageId,
-      id,
-      commentId,
-      password
-    });
+  const handleClick = () => {
+    if (type === 'storageBoard') {
+      mutate({
+        storageId,
+        id,
+        commentId,
+        password
+      });
+    } else {
+      mutateDeleteNoticeCommentDelete({
+        id,
+        commentId,
+        password
+      });
+    }
+  };
 
   useEffect(() => {
     if (!open) {
@@ -140,7 +220,7 @@ function CommentDeleteBottomSheet() {
           variant="accent"
           fullWidth
           onClick={handleClick}
-          disabled={!password || isLoading}
+          disabled={!password || isLoading || isLoadingMutateDeleteNoticeComment}
           customStyle={{ marginTop: 20, justifyContent: 'center' }}
         >
           확인

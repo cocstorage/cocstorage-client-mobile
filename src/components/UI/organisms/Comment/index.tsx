@@ -5,20 +5,19 @@ import { useRouter } from 'next/router';
 import { useQuery } from '@tanstack/react-query';
 
 import dayjs from 'dayjs';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 
 import {
-  storageBoardCommentMenuBottomSheetState,
-  storageBoardCommentsParamsState,
-  storageBoardReplyListBottomSheetState
-} from '@recoil/storageBoard/atoms';
+  commonCommentMenuBottomSheetState,
+  commonReplyListBottomSheetState
+} from '@recoil/common/atoms';
 
 import { Box, Button, Flexbox, Icon, Image, Typography, useTheme } from 'cocstorage-ui';
 
 import { NoticeComment } from '@dto/notice-comments';
 import { StorageBoardComment } from '@dto/storage-board-comments';
 
-import { fetchStorageBoardComments } from '@api/v1/storage-board-comments';
+import { fetchNotice } from '@api/v1/notices';
 import { fetchStorageBoard } from '@api/v1/storage-boards';
 
 import queryKeys from '@constants/queryKeys';
@@ -42,25 +41,22 @@ function Comment({
     }
   } = useTheme();
 
-  const params = useRecoilValue(storageBoardCommentsParamsState);
-  const setReplyListBottomSheetState = useSetRecoilState(storageBoardReplyListBottomSheetState);
-  const setCommentMenuBottomSheetState = useSetRecoilState(storageBoardCommentMenuBottomSheetState);
+  const setReplyListBottomSheetState = useSetRecoilState(commonReplyListBottomSheetState);
+  const setCommentMenuBottomSheetState = useSetRecoilState(commonCommentMenuBottomSheetState);
 
-  const {
-    data: { id: storageBoardId, storage: { id: storageId = 0 } = {}, commentLatestPage } = {}
-  } = useQuery(
+  const { data: { id: storageBoardId, storage: { id: storageId = 0 } = {} } = {} } = useQuery(
     queryKeys.storageBoards.storageBoardById(Number(id)),
     () => fetchStorageBoard(Number(storageId), Number(id)),
     {
       enabled: type === 'storageBoard'
     }
   );
-  const { data: { comments = [] } = {} } = useQuery(
-    queryKeys.storageBoardComments.storageBoardCommentsByIdWithPage(Number(id), params.page),
-    () => fetchStorageBoardComments(storageId, Number(id), params),
+
+  const { data: { id: noticeId } = {} } = useQuery(
+    queryKeys.notices.noticeById(Number(id)),
+    () => fetchNotice(Number(id)),
     {
-      enabled: type === 'storageBoard' && !!params.page,
-      keepPreviousData: true
+      enabled: type === 'notice'
     }
   );
 
@@ -75,10 +71,8 @@ function Comment({
     setCommentMenuBottomSheetState({
       open: true,
       storageId,
-      id: storageBoardId,
-      commentId,
-      commentsLength: comments.length,
-      commentLatestPage
+      id: type === 'storageBoard' ? storageBoardId : noticeId,
+      commentId
     });
 
   return (

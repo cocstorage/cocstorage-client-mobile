@@ -8,42 +8,56 @@ import dayjs from 'dayjs';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 
 import {
-  storageBoardReplyListBottomSheetState,
-  storageBoardReplyMenuBottomSheetState
-} from '@recoil/storageBoard/atoms';
+  commonReplyListBottomSheetState,
+  commonReplyMenuBottomSheetState
+} from '@recoil/common/atoms';
 
 import { Button, Flexbox, Icon, Image, Typography, useTheme } from 'cocstorage-ui';
 
 import { StorageBoardCommentReply } from '@dto/storage-board-comment-replies';
 
+import { fetchNotice } from '@api/v1/notices';
 import { fetchStorageBoard } from '@api/v1/storage-boards';
 
 import queryKeys from '@constants/queryKeys';
 
 interface ReplyProps {
+  type?: 'storageBoard' | 'notice';
   reply: StorageBoardCommentReply;
 }
 
 function Reply({
+  type = 'storageBoard',
   reply: { id: replyId, user, nickname, content, createdIp, createdAt, isMember }
 }: ReplyProps) {
   const router = useRouter();
   const { id } = router.query;
   const {
     theme: {
-      type,
+      type: themeType,
       palette: { text }
     }
   } = useTheme();
 
   const [{ commentId }, setReplyListBottomSheetState] = useRecoilState(
-    storageBoardReplyListBottomSheetState
+    commonReplyListBottomSheetState
   );
-  const setReplyMenuBottomState = useSetRecoilState(storageBoardReplyMenuBottomSheetState);
+  const setReplyMenuBottomState = useSetRecoilState(commonReplyMenuBottomSheetState);
 
-  const { data: { id: storageBoardId, storage: { id: storageId } } = {} } = useQuery(
+  const { data: { id: storageBoardId, storage: { id: storageId = 0 } = {} } = {} } = useQuery(
     queryKeys.storageBoards.storageBoardById(Number(id)),
-    () => fetchStorageBoard(Number(storageId), Number(id))
+    () => fetchStorageBoard(Number(storageId), Number(id)),
+    {
+      enabled: type === 'storageBoard'
+    }
+  );
+
+  const { data: { id: noticeId } = {} } = useQuery(
+    queryKeys.notices.noticeById(Number(id)),
+    () => fetchNotice(Number(id)),
+    {
+      enabled: type === 'notice'
+    }
   );
 
   const handleClick = () => {
@@ -56,7 +70,7 @@ function Reply({
       setReplyMenuBottomState({
         open: true,
         storageId,
-        id: storageBoardId,
+        id: type === 'storageBoard' ? storageBoardId : noticeId,
         commentId,
         replyId
       });
@@ -84,7 +98,7 @@ function Reply({
             {nickname || (user || {}).nickname}
           </Typography>
           {!user && createdIp && (
-            <Typography variant="s2" color={text[type].text1}>
+            <Typography variant="s2" color={text[themeType].text1}>
               ({createdIp})
             </Typography>
           )}
@@ -108,7 +122,7 @@ function Reply({
             <Typography
               variant="s1"
               customStyle={{
-                color: text[type].text1
+                color: text[themeType].text1
               }}
             >
               {dayjs(createdAt).fromNow()}

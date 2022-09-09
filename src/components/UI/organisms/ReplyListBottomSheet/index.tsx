@@ -7,11 +7,9 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import dayjs from 'dayjs';
 import { useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
 
-import { commonFeedbackDialogState } from '@recoil/common/atoms';
-import {
-  storageBoardCommentsParamsState,
-  storageBoardReplyListBottomSheetState
-} from '@recoil/storageBoard/atoms';
+import { commonFeedbackDialogState, commonReplyListBottomSheetState } from '@recoil/common/atoms';
+import { noticeCommentsParamsState } from '@recoil/notice/atoms';
+import { storageBoardCommentsParamsState } from '@recoil/storageBoard/atoms';
 
 import {
   BottomSheet,
@@ -28,9 +26,15 @@ import {
 import Message from '@components/UI/molecules/Message';
 import Reply from '@components/UI/organisms/Reply';
 
+import { NoticeComment } from '@dto/notice-comments';
 import { StorageBoardComment } from '@dto/storage-board-comments';
 import validators from '@utils/validators';
 
+import {
+  PostNoticeCommentReplyData,
+  postNonMemberNoticeCommentReply
+} from '@api/v1/notice-comment-replies';
+import { fetchNoticeComments } from '@api/v1/notice-comments';
 import {
   PostStorageBoardCommentReplyData,
   postNonMemberStorageBoardCommentReply
@@ -41,28 +45,33 @@ import queryKeys from '@constants/queryKeys';
 
 import { CommentBar, CommentBarWrapper, CommentTextArea } from './ReplyListBottomSheet.styles';
 
-function ReplyListBottomSheet() {
+interface ReplyListBottomSheetProps {
+  type?: 'storageBoard' | 'notice';
+}
+
+function ReplyListBottomSheet({ type = 'storageBoard' }: ReplyListBottomSheetProps) {
   const router = useRouter();
   const { id } = router.query;
 
   const {
     theme: {
-      type,
+      type: themeType,
       palette: { text, box }
     }
   } = useTheme();
 
   const params = useRecoilValue(storageBoardCommentsParamsState);
-  const { open, storageId, commentId } = useRecoilValue(storageBoardReplyListBottomSheetState);
+  const noticeCommentsParams = useRecoilValue(noticeCommentsParamsState);
+  const { open, storageId, commentId } = useRecoilValue(commonReplyListBottomSheetState);
   const setCommonFeedbackDialogState = useSetRecoilState(commonFeedbackDialogState);
-  const restReplyListBottomSheetState = useResetRecoilState(storageBoardReplyListBottomSheetState);
+  const restReplyListBottomSheetState = useResetRecoilState(commonReplyListBottomSheetState);
 
   const [rows, setRows] = useState(1);
   const [replyNickname, setNickname] = useState('');
   const [replyPassword, setPassword] = useState('');
   const [replyContent, setContent] = useState('');
   const [{ user, nickname, content = '', replies = [], createdAt, createdIp }, setComment] =
-    useState<Partial<StorageBoardComment>>({});
+    useState<Partial<StorageBoardComment | NoticeComment>>({});
 
   const queryClient = useQueryClient();
 
@@ -74,7 +83,20 @@ function ReplyListBottomSheet() {
         comments: selectComments.filter(({ id: selectCommentId }) => selectCommentId === commentId),
         pagination
       }),
-      enabled: !!params.page,
+      enabled: type === 'storageBoard' && !!params.page,
+      keepPreviousData: true
+    }
+  );
+
+  const { data: { comments: noticeComments = [] } = {} } = useQuery(
+    queryKeys.noticeComments.noticeCommentsByIdWithPage(Number(id), noticeCommentsParams.page),
+    () => fetchNoticeComments(Number(id), noticeCommentsParams),
+    {
+      select: ({ comments: selectComments = [], pagination }) => ({
+        comments: selectComments.filter(({ id: selectCommentId }) => selectCommentId === commentId),
+        pagination
+      }),
+      enabled: type === 'notice' && !!noticeCommentsParams.page,
       keepPreviousData: true
     }
   );
@@ -90,6 +112,23 @@ function ReplyListBottomSheet() {
           queryKeys.storageBoardComments.storageBoardCommentsByIdWithPage(
             Number(id),
             params.page || 1
+          )
+        );
+      }
+    }
+  );
+
+  const { mutate: mutatePostNoticeReply, isLoading: isLoadingMutatePostNoticeReply } = useMutation(
+    (data: PostNoticeCommentReplyData) =>
+      postNonMemberNoticeCommentReply(Number(id), commentId, data),
+    {
+      onSuccess: () => {
+        setContent('');
+
+        return queryClient.invalidateQueries(
+          queryKeys.noticeComments.noticeCommentsByIdWithPage(
+            Number(id),
+            noticeCommentsParams.page || 1
           )
         );
       }
@@ -115,7 +154,15 @@ function ReplyListBottomSheet() {
       return;
     }
 
-    mutate({ nickname: replyNickname, password: replyPassword, content: replyContent });
+    if (type === 'storageBoard') {
+      mutate({ nickname: replyNickname, password: replyPassword, content: replyContent });
+    } else {
+      mutatePostNoticeReply({
+        nickname: replyNickname,
+        password: replyPassword,
+        content: replyContent
+      });
+    }
   };
 
   const handleChange = (event: ChangeEvent<HTMLTextAreaElement>) =>
@@ -142,10 +189,16 @@ function ReplyListBottomSheet() {
   }, [replyContent]);
 
   useEffect(() => {
-    if (comments[0]) {
+    if (type === 'storageBoard' && comments[0]) {
       setComment(comments[0] || {});
     }
-  }, [comments]);
+  }, [type, comments]);
+
+  useEffect(() => {
+    if (type === 'notice' && noticeComments[0]) {
+      setComment(noticeComments[0] || {});
+    }
+  }, [type, noticeComments]);
 
   return (
     <BottomSheet
@@ -184,7 +237,7 @@ function ReplyListBottomSheet() {
               {nickname || (user || {}).nickname}
             </Typography>
             {!user && createdIp && (
-              <Typography variant="s2" color={text[type].text1}>
+              <Typography variant="s2" color={text[themeType].text1}>
                 ({createdIp})
               </Typography>
             )}
@@ -203,7 +256,7 @@ function ReplyListBottomSheet() {
               <Typography
                 variant="s1"
                 customStyle={{
-                  color: text[type].text1
+                  color: text[themeType].text1
                 }}
               >
                 {dayjs(createdAt).fromNow()}
@@ -226,7 +279,7 @@ function ReplyListBottomSheet() {
           />
         )}
         {replies.map((reply) => (
-          <Reply key={`reply-${reply.id}`} reply={reply} />
+          <Reply key={`reply-${reply.id}`} type={type} reply={reply} />
         ))}
       </Flexbox>
       <CommentBarWrapper>
@@ -239,7 +292,7 @@ function ReplyListBottomSheet() {
                 onChange={handleChangeTextBar}
                 value={replyNickname}
                 placeholder="닉네임"
-                disabled={isLoading}
+                disabled={isLoading || isLoadingMutatePostNoticeReply}
                 customStyle={{ borderColor: box.stroked.normal }}
               />
             </Grid>
@@ -251,7 +304,7 @@ function ReplyListBottomSheet() {
                 onChange={handleChangeTextBar}
                 value={replyPassword}
                 placeholder="바밀번호"
-                disabled={isLoading}
+                disabled={isLoading || isLoadingMutatePostNoticeReply}
                 customStyle={{ borderColor: box.stroked.normal }}
               />
             </Grid>
@@ -268,14 +321,22 @@ function ReplyListBottomSheet() {
           <IconButton onClick={handleClick} customStyle={{ marginRight: 10 }}>
             <Icon
               name={
-                !isLoading && replyNickname && replyPassword && replyContent
+                !isLoading &&
+                !isLoadingMutatePostNoticeReply &&
+                replyNickname &&
+                replyPassword &&
+                replyContent
                   ? 'SendFilled'
                   : 'SendOutlined'
               }
               color={
-                !isLoading && replyNickname && replyPassword && replyContent
+                !isLoading &&
+                !isLoadingMutatePostNoticeReply &&
+                replyNickname &&
+                replyPassword &&
+                replyContent
                   ? 'primary'
-                  : text[type].text3
+                  : text[themeType].text3
               }
             />
           </IconButton>

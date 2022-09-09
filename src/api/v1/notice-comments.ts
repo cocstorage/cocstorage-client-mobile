@@ -21,11 +21,11 @@ export async function postNonMemberNoticeComment(id: number, data: PostNoticeCom
   return response;
 }
 
-export async function deleteNonMemberNoticeComment(
-  id: number,
-  commentId: number,
-  password: string
-) {
+export async function deleteNonMemberNoticeComment({
+  id,
+  commentId,
+  password
+}: DeleteNoticeCommentData) {
   const { data: response } = await Axios.delete<NoticeComment>(
     `${BASE_PATH}/${id}/comments/non-members/${commentId}`,
     {
@@ -53,4 +53,10 @@ export interface PostNoticeCommentData {
   nickname?: string | null;
   password?: string | null;
   content: string | null;
+}
+
+export interface DeleteNoticeCommentData {
+  id: number;
+  commentId: number;
+  password: string;
 }

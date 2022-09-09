@@ -5,14 +5,19 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
 
 import {
-  storageBoardCommentsParamsState,
-  storageBoardReplyDeleteBottomSheetState,
-  storageBoardReplyListBottomSheetState,
-  storageBoardReplyMenuBottomSheetState
-} from '@recoil/storageBoard/atoms';
+  commonReplyDeleteBottomSheetState,
+  commonReplyListBottomSheetState,
+  commonReplyMenuBottomSheetState
+} from '@recoil/common/atoms';
+import { noticeCommentsParamsState } from '@recoil/notice/atoms';
+import { storageBoardCommentsParamsState } from '@recoil/storageBoard/atoms';
 
 import { BottomSheet, Box, Button, TextBar, Typography, useTheme } from 'cocstorage-ui';
 
+import {
+  DeleteNoticeCommentReplyData,
+  deleteNonMemberNoticeCommentReply
+} from '@api/v1/notice-comment-replies';
 import {
   DeleteStorageBoardCommentReplyData,
   deleteNonMemberStorageBoardCommentReply
@@ -20,7 +25,11 @@ import {
 
 import queryKeys from '@constants/queryKeys';
 
-function ReplyDeleteBottomSheet() {
+interface ReplyDeleteBottomSheetProps {
+  type?: 'storageBoard' | 'notice';
+}
+
+function ReplyDeleteBottomSheet({ type = 'storageBoard' }: ReplyDeleteBottomSheetProps) {
   const {
     theme: {
       palette: { secondary }
@@ -28,12 +37,13 @@ function ReplyDeleteBottomSheet() {
   } = useTheme();
 
   const params = useRecoilValue(storageBoardCommentsParamsState);
+  const noticeCommentsParams = useRecoilValue(noticeCommentsParamsState);
   const { open, storageId, id, commentId, replyId } = useRecoilValue(
-    storageBoardReplyDeleteBottomSheetState
+    commonReplyDeleteBottomSheetState
   );
-  const setReplyMenuBottomSheetState = useSetRecoilState(storageBoardReplyMenuBottomSheetState);
-  const setReplyListBottomSheetState = useSetRecoilState(storageBoardReplyListBottomSheetState);
-  const resetReplyDeleteBottomState = useResetRecoilState(storageBoardReplyDeleteBottomSheetState);
+  const setReplyMenuBottomSheetState = useSetRecoilState(commonReplyMenuBottomSheetState);
+  const setReplyListBottomSheetState = useSetRecoilState(commonReplyListBottomSheetState);
+  const resetReplyDeleteBottomState = useResetRecoilState(commonReplyDeleteBottomSheetState);
 
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState<{
@@ -75,6 +85,35 @@ function ReplyDeleteBottomSheet() {
     }
   );
 
+  const { mutate: mutateDeleteReply, isLoading: isLoadingMutateDeleteReply } = useMutation(
+    (data: DeleteNoticeCommentReplyData) => deleteNonMemberNoticeCommentReply(data),
+    {
+      onSuccess: () => {
+        const { page } = noticeCommentsParams;
+
+        queryClient
+          .invalidateQueries(
+            queryKeys.noticeComments.noticeCommentsByIdWithPage(Number(id), page || 1)
+          )
+          .then();
+        setPassword('');
+        resetReplyDeleteBottomState();
+
+        setTimeout(() => {
+          setReplyListBottomSheetState((prevState) => ({
+            ...prevState,
+            open: true
+          }));
+        }, 500);
+      },
+      onError: () =>
+        setErrorMessage({
+          error: true,
+          message: '비밀번호가 일치하지 않아요.'
+        })
+    }
+  );
+
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     if (errorMessage.error) {
       setErrorMessage({
@@ -96,14 +135,24 @@ function ReplyDeleteBottomSheet() {
     }, 500);
   };
 
-  const handleClick = () =>
-    mutate({
-      storageId,
-      id,
-      commentId,
-      replyId,
-      password
-    });
+  const handleClick = () => {
+    if (type === 'storageBoard') {
+      mutate({
+        storageId,
+        id,
+        commentId,
+        replyId,
+        password
+      });
+    } else {
+      mutateDeleteReply({
+        id,
+        commentId,
+        replyId,
+        password
+      });
+    }
+  };
 
   useEffect(() => {
     if (!open) {
@@ -141,7 +190,7 @@ function ReplyDeleteBottomSheet() {
           variant="accent"
           fullWidth
           onClick={handleClick}
-          disabled={!password || isLoading}
+          disabled={!password || isLoading || isLoadingMutateDeleteReply}
           customStyle={{ marginTop: 20, justifyContent: 'center' }}
         >
           확인

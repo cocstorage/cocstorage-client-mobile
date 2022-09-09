@@ -1,21 +1,39 @@
 import { ChangeEvent, RefObject, useEffect, useRef, useState } from 'react';
 
-import { useSetRecoilState } from 'recoil';
+import { useRouter } from 'next/router';
+
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+
+import { useRecoilState, useSetRecoilState } from 'recoil';
 
 import styled, { CSSObject } from '@emotion/styled';
 
 import { commonFeedbackDialogState } from '@recoil/common/atoms';
+import { noticeCommentsParamsState } from '@recoil/notice/atoms';
 
 import { Box, Button, Flexbox, Grid, Icon, IconButton, TextBar, useTheme } from 'cocstorage-ui';
 
+import { Notice } from '@dto/notices';
 import useScrollTrigger from '@hooks/useScrollTrigger';
 import validators from '@utils/validators';
+
+import {
+  PostNoticeCommentData,
+  fetchNoticeComments,
+  postNonMemberNoticeComment
+} from '@api/v1/notice-comments';
+import { fetchNotice } from '@api/v1/notices';
+
+import queryKeys from '@constants/queryKeys';
 
 interface NoticeFooterProps {
   footerRef: RefObject<HTMLDivElement>;
 }
 
 function NoticeFooter({ footerRef }: NoticeFooterProps) {
+  const router = useRouter();
+  const { id } = router.query;
+
   const {
     theme: {
       type,
@@ -23,6 +41,7 @@ function NoticeFooter({ footerRef }: NoticeFooterProps) {
     }
   } = useTheme();
 
+  const [params, setParams] = useRecoilState(noticeCommentsParamsState);
   const setCommonFeedbackDialogState = useSetRecoilState(commonFeedbackDialogState);
 
   const [rows, setRows] = useState(1);
@@ -42,6 +61,58 @@ function NoticeFooter({ footerRef }: NoticeFooterProps) {
       setObserverTriggered(false);
     }
   }).current;
+
+  const queryClient = useQueryClient();
+
+  const { data: { commentLatestPage = 0, commentTotalCount } = {} } = useQuery(
+    queryKeys.notices.noticeById(Number(id)),
+    () => fetchNotice(Number(id))
+  );
+
+  const { data: { comments = [], pagination: { perPage = 10 } = {} } = {} } = useQuery(
+    queryKeys.noticeComments.noticeCommentsByIdWithPage(Number(id), params.page),
+    () => fetchNoticeComments(Number(id), params),
+    {
+      enabled: !!params.page,
+      keepPreviousData: true
+    }
+  );
+
+  const { mutate, isLoading } = useMutation(
+    (data: PostNoticeCommentData) => postNonMemberNoticeComment(Number(id), data),
+    {
+      onSuccess: () => {
+        setContent('');
+
+        if (params.page === (commentLatestPage || 1) && comments.length + 1 <= perPage) {
+          queryClient
+            .invalidateQueries(
+              queryKeys.noticeComments.noticeCommentsByIdWithPage(Number(id), params.page)
+            )
+            .then();
+        } else {
+          let newCommentLatestPage =
+            params.page === commentLatestPage && comments.length + 1 > perPage
+              ? commentLatestPage + 1
+              : commentLatestPage;
+
+          if (!params.page && !commentLatestPage) newCommentLatestPage = 1;
+
+          queryClient.setQueryData(
+            queryKeys.notices.noticeById(Number(id)),
+            (prevNotice: Notice) => ({
+              ...prevNotice,
+              commentLatestPage: newCommentLatestPage
+            })
+          );
+          setParams((prevParams) => ({
+            ...prevParams,
+            page: newCommentLatestPage
+          }));
+        }
+      }
+    }
+  );
 
   const handleChange = (event: ChangeEvent<HTMLTextAreaElement>) =>
     setContent(event.currentTarget.value);
@@ -76,7 +147,7 @@ function NoticeFooter({ footerRef }: NoticeFooterProps) {
       });
     }
 
-    // commentPostMutate({ nickname, password, content });
+    mutate({ nickname, password, content });
   };
 
   useEffect(() => {
@@ -132,8 +203,12 @@ function NoticeFooter({ footerRef }: NoticeFooterProps) {
               />
               <IconButton onClick={handleClickSend} customStyle={{ marginRight: 10 }}>
                 <Icon
-                  name={!nickname && password && content ? 'SendFilled' : 'SendOutlined'}
-                  color={!nickname && password && content ? 'primary' : text[type].text3}
+                  name={
+                    !isLoading && nickname && password && content ? 'SendFilled' : 'SendOutlined'
+                  }
+                  color={
+                    !isLoading && nickname && password && content ? 'primary' : text[type].text3
+                  }
                 />
               </IconButton>
             </CommentBar>
@@ -155,7 +230,7 @@ function NoticeFooter({ footerRef }: NoticeFooterProps) {
           onClick={handleClick}
           customStyle={{ color: text[type].text1 }}
         >
-          {100}
+          {commentTotalCount.toLocaleString()}
         </Button>
       </StyledNoticeFooter>
     </Box>

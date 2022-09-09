@@ -39,8 +39,8 @@ function StorageBoard() {
       <CommentMenuBottomSheet />
       <CommentDeleteBottomSheet />
       <ReplyListBottomSheet />
-      <ReplyDeleteBottomSheet />
       <ReplyMenuBottomSheet />
+      <ReplyDeleteBottomSheet />
     </>
   );
 }

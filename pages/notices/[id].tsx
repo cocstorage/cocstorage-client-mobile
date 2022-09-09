@@ -6,7 +6,14 @@ import { QueryClient, dehydrate } from '@tanstack/react-query';
 
 import { NoticeContent, NoticeFooter, NoticeHeader } from '@components/pages/notice';
 import GeneralTemplate from '@components/templeates/GeneralTemplate';
-import CommentList from '@components/UI/organisms/CommentList';
+import {
+  CommentDeleteBottomSheet,
+  CommentList,
+  CommentMenuBottomSheet,
+  ReplyDeleteBottomSheet,
+  ReplyListBottomSheet,
+  ReplyMenuBottomSheet
+} from '@components/UI/organisms';
 
 import { fetchNotice } from '@api/v1/notices';
 
@@ -16,10 +23,17 @@ function Notice() {
   const footerRef = useRef<HTMLDivElement>(null);
 
   return (
-    <GeneralTemplate header={<NoticeHeader />} footer={<NoticeFooter footerRef={footerRef} />}>
-      <NoticeContent footerRef={footerRef} />
-      <CommentList type="notice" customStyle={{ margin: '40px 0 20px' }} />
-    </GeneralTemplate>
+    <>
+      <GeneralTemplate header={<NoticeHeader />} footer={<NoticeFooter footerRef={footerRef} />}>
+        <NoticeContent footerRef={footerRef} />
+        <CommentList type="notice" customStyle={{ margin: '40px 0 20px' }} />
+      </GeneralTemplate>
+      <CommentMenuBottomSheet />
+      <CommentDeleteBottomSheet type="notice" />
+      <ReplyListBottomSheet type="notice" />
+      <ReplyMenuBottomSheet />
+      <ReplyDeleteBottomSheet type="notice" />
+    </>
   );
 }
 
