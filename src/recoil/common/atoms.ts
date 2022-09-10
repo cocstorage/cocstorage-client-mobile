@@ -1,9 +1,36 @@
+import { ThemeType } from 'cocstorage-ui/dist/types';
 import { atom } from 'recoil';
+
+import LocalStorage from '@library/localStorage';
 
 import { DeleteNoticeCommentReplyData } from '@api/v1/notice-comment-replies';
 import { DeleteNoticeCommentData } from '@api/v1/notice-comments';
 import { DeleteStorageBoardCommentReplyData } from '@api/v1/storage-board-comment-replies';
 import { DeleteStorageBoardCommentData } from '@api/v1/storage-board-comments';
+
+import { localStorageKeys } from '@constants/localStorageKeys';
+
+export const themeDefault: ThemeType | 'system' = 'system';
+
+export const themeState = atom<ThemeType | 'system'>({
+  key: 'common/themeState',
+  default: themeDefault,
+  effects: [
+    ({ onSet, setSelf }) => {
+      const theme = LocalStorage.get<ThemeType | 'system'>(localStorageKeys.theme) || 'system';
+
+      setSelf(theme);
+
+      onSet((newValue, _, isReset) => {
+        if (isReset) {
+          LocalStorage.remove(localStorageKeys.theme);
+        } else {
+          LocalStorage.set(localStorageKeys.theme, newValue);
+        }
+      });
+    }
+  ]
+});
 
 export const commonFeedbackDialogState = atom<{
   open: boolean;

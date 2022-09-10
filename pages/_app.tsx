@@ -8,9 +8,7 @@ import dayjs from 'dayjs';
 import RelativeTime from 'dayjs/plugin/relativeTime';
 import { RecoilRoot } from 'recoil';
 
-import { ThemeProvider } from 'cocstorage-ui';
-
-import { ErrorBoundary, FeedbackDialog, PageProgress } from '@components/UI/organisms';
+import { ErrorBoundary, FeedbackDialog, PageProgress, ThemeRoot } from '@components/UI/organisms';
 
 import 'dayjs/locale/ko';
 import '@styles/base.css';
@@ -41,13 +39,13 @@ function App({ Component, pageProps }: AppProps) {
       <ErrorBoundary>
         <QueryClientProvider client={queryClient}>
           <RecoilRoot>
-            <ThemeProvider theme="light">
+            <ThemeRoot>
               <Hydrate state={pageProps.dehydratedState}>
                 <PageProgress />
                 <Component {...pageProps} />
                 <FeedbackDialog />
               </Hydrate>
-            </ThemeProvider>
+            </ThemeRoot>
           </RecoilRoot>
           <ReactQueryDevtools initialIsOpen={false} />
         </QueryClientProvider>

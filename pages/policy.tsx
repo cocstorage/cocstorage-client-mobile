@@ -2,11 +2,10 @@ import { Flexbox, Typography } from 'cocstorage-ui';
 
 import { PolicyHeader } from '@components/pages/policy';
 import GeneralTemplate from '@components/templeates/GeneralTemplate';
-import BottomNavigation from '@components/UI/molecules/BottomNavigation';
 
 function Policy() {
   return (
-    <GeneralTemplate header={<PolicyHeader />} footer={<BottomNavigation />}>
+    <GeneralTemplate header={<PolicyHeader />}>
       <Flexbox component="section" direction="vertical" gap={20} customStyle={{ margin: '20px 0' }}>
         <Flexbox direction="vertical" gap={8}>
           <Typography variant="h4">제1조 (목적)</Typography>

@@ -2,11 +2,10 @@ import { Flexbox, Typography } from 'cocstorage-ui';
 
 import PrivacyHeader from '@components/pages/privacy/PrivacyHeader';
 import GeneralTemplate from '@components/templeates/GeneralTemplate';
-import BottomNavigation from '@components/UI/molecules/BottomNavigation';
 
 function Privacy() {
   return (
-    <GeneralTemplate header={<PrivacyHeader />} footer={<BottomNavigation />}>
+    <GeneralTemplate header={<PrivacyHeader />}>
       <Flexbox component="section" direction="vertical" gap={20} customStyle={{ margin: '20px 0' }}>
         <Typography>
           {`개념글 저장소는 이용자의 개인 정보보호를 매우 중요시하며 "정보통신망 이용촉진 및 정보보호

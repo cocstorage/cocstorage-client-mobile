@@ -10,3 +10,4 @@ export { default as IssueKeywordRank } from './IssueKeywordRank';
 export { default as FeedbackDialog } from './FeedbackDialog';
 export { default as ErrorBoundary } from './ErrorBoundary';
 export { default as PageProgress } from './PageProgress';
+export { default as ThemeRoot } from './ThemeRoot';
