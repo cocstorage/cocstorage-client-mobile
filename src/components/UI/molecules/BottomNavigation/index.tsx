@@ -30,8 +30,16 @@ function BottomNavigation({ disableFixed }: BottomNavigationProps) {
       <StyledBottomNavigation disableFixed={disableFixed}>
         <NavigationItem data-pathname="/" onClick={handleClick}>
           <Icon
-            name={router.pathname === '/' ? 'HomeFilled' : 'HomeOutlined'}
-            color={router.pathname === '/' ? 'primary' : text[type].text2}
+            name={
+              router.pathname === '/' || router.pathname === '/best' || router.pathname === '/worst'
+                ? 'HomeFilled'
+                : 'HomeOutlined'
+            }
+            color={
+              router.pathname === '/' || router.pathname === '/best' || router.pathname === '/worst'
+                ? 'primary'
+                : text[type].text2
+            }
           />
           <Typography variant="s2" color={router.pathname === '/' ? 'primary' : text[type].text2}>
             홈

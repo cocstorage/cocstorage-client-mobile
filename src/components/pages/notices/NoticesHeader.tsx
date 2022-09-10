@@ -33,6 +33,11 @@ const StyledNoticesHeader = styled.div`
   width: 100%;
   height: 50px;
   padding: 0 20px;
+  background-color: ${({
+    theme: {
+      palette: { background }
+    }
+  }) => background.bg};
   border-bottom: 1px solid
     ${({
       theme: {

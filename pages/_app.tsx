@@ -33,7 +33,10 @@ function App({ Component, pageProps }: AppProps) {
     <>
       <Head>
         <meta charSet="utf-8" />
-        <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width" />
+        <meta
+          name="viewport"
+          content="minimum-scale=1, initial-scale=1, width=device-width, user-scalable=0"
+        />
         <meta httpEquiv="content-language" content="ko" />
       </Head>
       <ErrorBoundary>

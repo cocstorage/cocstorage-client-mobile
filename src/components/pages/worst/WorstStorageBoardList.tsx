@@ -58,6 +58,7 @@ function WorstStorageBoardList() {
           count={totalPages * perPage}
           page={currentPage}
           rowPerPage={perPage}
+          itemCount={5}
           onChange={handleChange}
         />
       </Flexbox>

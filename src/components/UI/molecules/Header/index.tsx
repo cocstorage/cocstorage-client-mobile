@@ -36,7 +36,7 @@ function Header({ disableFixed }: HeaderProps) {
   return (
     <Box component="header" customStyle={{ minHeight: 50 }}>
       <StyledHeader disableFixed={disableFixed}>
-        <Flexbox gap={8}>
+        <Flexbox gap={8} alignment="center">
           <Logo
             width={32}
             height={24}
