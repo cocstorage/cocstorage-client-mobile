@@ -1,12 +1,25 @@
-import styled from '@emotion/styled';
+import { useRef } from 'react';
+
+import { useRouter } from 'next/router';
+
+import styled, { CSSObject } from '@emotion/styled';
 
 import { Box, Icon, IconButton, Typography } from 'cocstorage-ui';
 
+import useScrollTrigger from '@hooks/useScrollTrigger';
+
 function WorstHeader() {
+  const router = useRouter();
+  const headerRef = useRef<HTMLDivElement>(null);
+
+  const { triggered } = useScrollTrigger({ ref: headerRef });
+
+  const handleClick = () => router.back();
+
   return (
-    <Box component="header" customStyle={{ height: 50 }}>
-      <StyledWorstHeader>
-        <IconButton>
+    <Box ref={headerRef} component="header" customStyle={{ height: 50 }}>
+      <StyledWorstHeader triggered={triggered}>
+        <IconButton onClick={handleClick}>
           <Icon name="CaretSemiLeftOutlined" />
         </IconButton>
         <Typography variant="h4" fontWeight="bold">
@@ -17,7 +30,7 @@ function WorstHeader() {
   );
 }
 
-const StyledWorstHeader = styled.div`
+const StyledWorstHeader = styled.div<{ triggered: boolean }>`
   position: fixed;
   top: 0;
   left: 0;
@@ -27,12 +40,25 @@ const StyledWorstHeader = styled.div`
   width: 100%;
   height: 50px;
   padding: 0 20px;
+  border-bottom: 1px solid transparent;
+  z-index: 1;
+
   background-color: ${({
     theme: {
       palette: { background }
     }
   }) => background.bg};
-  z-index: 1;
+  ${({
+    theme: {
+      palette: { box }
+    },
+    triggered
+  }): CSSObject =>
+    triggered
+      ? {
+          borderBottomColor: box.stroked.normal
+        }
+      : {}};
 `;
 
 export default WorstHeader;

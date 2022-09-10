@@ -8,8 +8,9 @@ import { Box, Icon, IconButton, Typography } from 'cocstorage-ui';
 
 import useScrollTrigger from '@hooks/useScrollTrigger';
 
-function BestHeader() {
+function PolicyHeader() {
   const router = useRouter();
+
   const headerRef = useRef<HTMLDivElement>(null);
 
   const { triggered } = useScrollTrigger({ ref: headerRef });
@@ -18,19 +19,19 @@ function BestHeader() {
 
   return (
     <Box ref={headerRef} component="header" customStyle={{ height: 50 }}>
-      <StyledBestHeader triggered={triggered}>
+      <StyledPolicyHeader triggered={triggered}>
         <IconButton onClick={handleClick}>
           <Icon name="CaretSemiLeftOutlined" />
         </IconButton>
         <Typography variant="h4" fontWeight="bold">
-          베스트 게시글
+          이용약관
         </Typography>
-      </StyledBestHeader>
+      </StyledPolicyHeader>
     </Box>
   );
 }
 
-const StyledBestHeader = styled.div<{ triggered: boolean }>`
+const StyledPolicyHeader = styled.div<{ triggered: boolean }>`
   position: fixed;
   top: 0;
   left: 0;
@@ -61,4 +62,4 @@ const StyledBestHeader = styled.div<{ triggered: boolean }>`
       : {}};
 `;
 
-export default BestHeader;
+export default PolicyHeader;
