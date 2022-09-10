@@ -10,7 +10,7 @@ import { RecoilRoot } from 'recoil';
 
 import { ThemeProvider } from 'cocstorage-ui';
 
-import FeedbackDialog from '@components/UI/organisms/FeedbackDialog';
+import { ErrorBoundary, FeedbackDialog } from '@components/UI/organisms';
 
 import 'dayjs/locale/ko';
 import '@styles/base.css';
@@ -38,17 +38,19 @@ function App({ Component, pageProps }: AppProps) {
         <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width" />
         <meta httpEquiv="content-language" content="ko" />
       </Head>
-      <QueryClientProvider client={queryClient}>
-        <RecoilRoot>
-          <ThemeProvider theme="light">
-            <Hydrate state={pageProps.dehydratedState}>
-              <Component {...pageProps} />
-              <FeedbackDialog />
-            </Hydrate>
-          </ThemeProvider>
-        </RecoilRoot>
-        <ReactQueryDevtools initialIsOpen={false} />
-      </QueryClientProvider>
+      <ErrorBoundary>
+        <QueryClientProvider client={queryClient}>
+          <RecoilRoot>
+            <ThemeProvider theme="light">
+              <Hydrate state={pageProps.dehydratedState}>
+                <Component {...pageProps} />
+                <FeedbackDialog />
+              </Hydrate>
+            </ThemeProvider>
+          </RecoilRoot>
+          <ReactQueryDevtools initialIsOpen={false} />
+        </QueryClientProvider>
+      </ErrorBoundary>
     </>
   );
 }

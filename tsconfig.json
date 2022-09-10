@@ -2,6 +2,12 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
+      "@pages": [
+        "./pages"
+      ],
+      "@pages/*": [
+        "./pages/*"
+      ],
       "@api": [
         "./src/api"
       ],

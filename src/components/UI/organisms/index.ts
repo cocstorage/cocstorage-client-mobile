@@ -8,3 +8,4 @@ export { default as ReplyListBottomSheet } from './ReplyListBottomSheet';
 export { default as ReplyDeleteBottomSheet } from './ReplyDeleteBottomSheet';
 export { default as IssueKeywordRank } from './IssueKeywordRank';
 export { default as FeedbackDialog } from './FeedbackDialog';
+export { default as ErrorBoundary } from './ErrorBoundary';
