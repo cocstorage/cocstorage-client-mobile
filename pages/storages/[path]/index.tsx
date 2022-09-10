@@ -7,6 +7,7 @@ import { storageBoardsParamsDefault } from '@recoil/storageBoards/atoms';
 import { Alert, Icon } from 'cocstorage-ui';
 
 import {
+  StorageBoardsHead,
   StorageBoardsHeader,
   StorageBoardsInfoBottomSheet,
   StorageBoardsList,
@@ -23,6 +24,7 @@ import queryKeys from '@constants/queryKeys';
 function StorageBoards() {
   return (
     <>
+      <StorageBoardsHead />
       <GeneralTemplate header={<StorageBoardsHeader />} footer={<BottomNavigation />}>
         <StorageBoardsTabs />
         <Alert icon={<Icon name="PinOutlined" />} customStyle={{ marginTop: 12 }}>

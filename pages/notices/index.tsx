@@ -2,7 +2,7 @@ import { QueryClient, dehydrate } from '@tanstack/react-query';
 
 import { noticesParamsDefault } from '@recoil/notices/atoms';
 
-import { NoticesHeader, NoticesList } from '@components/pages/notices';
+import { NoticeHead, NoticesHeader, NoticesList } from '@components/pages/notices';
 import GeneralTemplate from '@components/templeates/GeneralTemplate';
 import BottomNavigation from '@components/UI/molecules/BottomNavigation';
 
@@ -12,9 +12,12 @@ import queryKeys from '@constants/queryKeys';
 
 function Notices() {
   return (
-    <GeneralTemplate header={<NoticesHeader />} footer={<BottomNavigation />}>
-      <NoticesList />
-    </GeneralTemplate>
+    <>
+      <NoticeHead />
+      <GeneralTemplate header={<NoticesHeader />} footer={<BottomNavigation />}>
+        <NoticesList />
+      </GeneralTemplate>
+    </>
   );
 }
 

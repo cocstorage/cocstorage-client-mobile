@@ -4,7 +4,7 @@ import { worstParamsDefault } from '@recoil/worst/atoms';
 
 import { Alert, Icon } from 'cocstorage-ui';
 
-import { WorstHeader, WorstStorageBoardList } from '@components/pages/worst';
+import { WorstHead, WorstHeader, WorstStorageBoardList } from '@components/pages/worst';
 import GeneralTemplate from '@components/templeates/GeneralTemplate';
 import BottomNavigation from '@components/UI/molecules/BottomNavigation';
 
@@ -14,12 +14,15 @@ import queryKeys from '@constants/queryKeys';
 
 function Worst() {
   return (
-    <GeneralTemplate header={<WorstHeader />} footer={<BottomNavigation />}>
-      <Alert icon={<Icon name="BulbOutlined" />} customStyle={{ marginTop: 20 }}>
-        좀 더 편하게 보실 수 있도록 준비하고 있어요. 불편하시겠지만 조금만 기다려주세요!
-      </Alert>
-      <WorstStorageBoardList />
-    </GeneralTemplate>
+    <>
+      <WorstHead />
+      <GeneralTemplate header={<WorstHeader />} footer={<BottomNavigation />}>
+        <Alert icon={<Icon name="BulbOutlined" />} customStyle={{ marginTop: 20 }}>
+          좀 더 편하게 보실 수 있도록 준비하고 있어요. 불편하시겠지만 조금만 기다려주세요!
+        </Alert>
+        <WorstStorageBoardList />
+      </GeneralTemplate>
+    </>
   );
 }
 

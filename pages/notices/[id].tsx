@@ -4,7 +4,7 @@ import { GetServerSidePropsContext } from 'next';
 
 import { QueryClient, dehydrate } from '@tanstack/react-query';
 
-import { NoticeContent, NoticeFooter, NoticeHeader } from '@components/pages/notice';
+import { NoticeContent, NoticeFooter, NoticeHead, NoticeHeader } from '@components/pages/notice';
 import GeneralTemplate from '@components/templeates/GeneralTemplate';
 import {
   CommentDeleteBottomSheet,
@@ -24,6 +24,7 @@ function Notice() {
 
   return (
     <>
+      <NoticeHead />
       <GeneralTemplate header={<NoticeHeader />} footer={<NoticeFooter footerRef={footerRef} />}>
         <NoticeContent footerRef={footerRef} />
         <CommentList type="notice" customStyle={{ margin: '40px 0 20px' }} />

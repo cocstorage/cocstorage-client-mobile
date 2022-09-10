@@ -1,5 +1,6 @@
 import {
   IndexBestStorageBoardList,
+  IndexHead,
   IndexLatestStorageBoardList,
   IndexNoticeAlert,
   IndexWorstStorageBoardList
@@ -10,13 +11,16 @@ import IssueKeywordRank from '@components/UI/organisms/IssueKeywordRank';
 
 function Index() {
   return (
-    <GeneralTemplate header={<Header />} footer={<BottomNavigation />}>
-      <IndexNoticeAlert />
-      <IssueKeywordRank disableFillEdgeBlanks={false} customStyle={{ marginTop: 32 }} />
-      <IndexBestStorageBoardList />
-      <IndexWorstStorageBoardList />
-      <IndexLatestStorageBoardList />
-    </GeneralTemplate>
+    <>
+      <IndexHead />
+      <GeneralTemplate header={<Header />} footer={<BottomNavigation />}>
+        <IndexNoticeAlert />
+        <IssueKeywordRank disableFillEdgeBlanks={false} customStyle={{ marginTop: 32 }} />
+        <IndexBestStorageBoardList />
+        <IndexWorstStorageBoardList />
+        <IndexLatestStorageBoardList />
+      </GeneralTemplate>
+    </>
   );
 }
 

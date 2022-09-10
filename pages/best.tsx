@@ -4,7 +4,7 @@ import { bestParamsDefault } from '@recoil/best/atoms';
 
 import { Alert, Icon } from 'cocstorage-ui';
 
-import { BestHeader, BestStorageBoardList } from '@components/pages/best';
+import { BestHead, BestHeader, BestStorageBoardList } from '@components/pages/best';
 import GeneralTemplate from '@components/templeates/GeneralTemplate';
 import BottomNavigation from '@components/UI/molecules/BottomNavigation';
 
@@ -14,12 +14,15 @@ import queryKeys from '@constants/queryKeys';
 
 function Best() {
   return (
-    <GeneralTemplate header={<BestHeader />} footer={<BottomNavigation />}>
-      <Alert icon={<Icon name="BulbOutlined" />} customStyle={{ marginTop: 20 }}>
-        좀 더 편하게 보실 수 있도록 준비하고 있어요. 불편하시겠지만 조금만 기다려주세요!
-      </Alert>
-      <BestStorageBoardList />
-    </GeneralTemplate>
+    <>
+      <BestHead />
+      <GeneralTemplate header={<BestHeader />} footer={<BottomNavigation />}>
+        <Alert icon={<Icon name="BulbOutlined" />} customStyle={{ marginTop: 20 }}>
+          좀 더 편하게 보실 수 있도록 준비하고 있어요. 불편하시겠지만 조금만 기다려주세요!
+        </Alert>
+        <BestStorageBoardList />
+      </GeneralTemplate>
+    </>
   );
 }
 

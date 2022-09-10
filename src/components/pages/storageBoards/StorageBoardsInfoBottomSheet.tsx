@@ -91,7 +91,7 @@ function StorageBoardsInfoBottomSheet() {
                 color: text[type].text1
               }}
             >
-              {`https://www.cocstorage.com/storages/${path}`}
+              {`https://m.cocstorage.com/storages/${path}`}
             </Typography>
           </Flexbox>
         </Box>

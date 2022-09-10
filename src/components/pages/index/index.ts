@@ -2,3 +2,4 @@ export { default as IndexBestStorageBoardList } from './IndexBestStorageBoardLis
 export { default as IndexWorstStorageBoardList } from './IndexWorstStorageBoardList';
 export { default as IndexLatestStorageBoardList } from './IndexLatestStorageBoardList';
 export { default as IndexNoticeAlert } from './IndexNoticeAlert';
+export { default as IndexHead } from './IndexHead';

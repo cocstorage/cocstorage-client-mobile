@@ -7,6 +7,7 @@ import { QueryClient, dehydrate } from '@tanstack/react-query';
 import {
   StorageBoardContent,
   StorageBoardFooter,
+  StorageBoardHead,
   StorageBoardHeader
 } from '@components/pages/storageBoard';
 import GeneralTemplate from '@components/templeates/GeneralTemplate';
@@ -29,6 +30,7 @@ function StorageBoard() {
 
   return (
     <>
+      <StorageBoardHead />
       <GeneralTemplate
         header={<StorageBoardHeader />}
         footer={<StorageBoardFooter footerRef={footerRef} />}
