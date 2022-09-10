@@ -11,6 +11,7 @@ import {
   StorageBoardHeader
 } from '@components/pages/storageBoard';
 import GeneralTemplate from '@components/templeates/GeneralTemplate';
+import GoogleAdSense from '@components/UI/molecules/GoogleAdSense';
 import {
   CommentDeleteBottomSheet,
   CommentList,
@@ -36,7 +37,21 @@ function StorageBoard() {
         footer={<StorageBoardFooter footerRef={footerRef} />}
       >
         <StorageBoardContent footerRef={footerRef} />
-        <CommentList customStyle={{ margin: '40px 0 20px' }} />
+        <GoogleAdSense
+          html={
+            '<ins class="adsbygoogle"\n' +
+            '     style="display:block"\n' +
+            '     data-ad-client="ca-pub-5809905264951057"\n' +
+            '     data-ad-slot="8033291397"\n' +
+            '     data-ad-format="auto"\n' +
+            '     data-full-width-responsive="true"></ins>\n' +
+            '<script>\n' +
+            '     (adsbygoogle = window.adsbygoogle || []).push({});\n' +
+            '</script>'
+          }
+          customStyle={{ marginTop: 40 }}
+        />
+        <CommentList customStyle={{ margin: '20px 0 20px' }} />
       </GeneralTemplate>
       <CommentMenuBottomSheet />
       <CommentDeleteBottomSheet />

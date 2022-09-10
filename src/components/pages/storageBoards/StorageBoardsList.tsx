@@ -9,7 +9,7 @@ import { storageBoardsParamsStateFamily } from '@recoil/storageBoards/atoms';
 
 import { Flexbox, Pagination } from 'cocstorage-ui';
 
-import StorageBoardCard from '@components/UI/molecules/StorageBoardCard';
+import { GoogleAdSense, StorageBoardCard } from '@components/UI/molecules';
 import StorageBoardCardSkeleton from '@components/UI/molecules/StorageBoardCard/StorageBoardCardSkeleton';
 
 import { fetchStorageBoards } from '@api/v1/storage-boards';
@@ -59,16 +59,38 @@ function StorageBoardsList() {
             <StorageBoardCardSkeleton key={`storage-board-skeleton-${index}`} />
           ))}
         {!isLoading &&
-          boards.map((storageBoard) => (
-            <Link
-              key={`storage-board-${storageBoard.id}`}
-              href={`/storages/${storageBoard.storage.path}/${storageBoard.id}`}
-            >
-              <a>
-                <StorageBoardCard storageBoard={storageBoard} inStorage />
-              </a>
-            </Link>
-          ))}
+          boards.map((storageBoard, index) => {
+            if (index + 1 === 5) {
+              return (
+                <div key={`storage-board-${storageBoard.id}`}>
+                  <Link href={`/storages/${storageBoard.storage.path}/${storageBoard.id}`}>
+                    <a>
+                      <StorageBoardCard storageBoard={storageBoard} inStorage />
+                    </a>
+                  </Link>
+                  <GoogleAdSense
+                    html={
+                      '<ins class="adsbygoogle"\n' +
+                      '     style="display:inline-block;width:320px;height:100px"\n' +
+                      '     data-ad-client="ca-pub-5809905264951057"\n' +
+                      '     data-ad-slot="2449792225"></ins>\n' +
+                      '<script>\n' +
+                      '     (adsbygoogle = window.adsbygoogle || []).push({});\n' +
+                      '</script>'
+                    }
+                    customStyle={{ marginTop: 20 }}
+                  />
+                </div>
+              );
+            }
+            return (
+              <Link href={`/storages/${storageBoard.storage.path}/${storageBoard.id}`}>
+                <a>
+                  <StorageBoardCard storageBoard={storageBoard} inStorage />
+                </a>
+              </Link>
+            );
+          })}
       </Flexbox>
       <Flexbox component="section" justifyContent="center" customStyle={{ margin: '25px auto' }}>
         <Pagination

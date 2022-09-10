@@ -12,9 +12,11 @@ import styled from '@emotion/styled';
 import { commonFeedbackDialogState } from '@recoil/common/atoms';
 import { storageBoardHideHeaderSubjectState } from '@recoil/storageBoard/atoms';
 
-import { Box, Button, Flexbox, Icon, Image, Typography, useTheme } from 'cocstorage-ui';
+import { Box, Button, Flexbox, Icon, Image, Tag, Typography, useTheme } from 'cocstorage-ui';
 
 import { AxiosError } from 'axios';
+
+import { GoogleAdSense } from '@components/UI/molecules';
 
 import useScrollTrigger from '@hooks/useScrollTrigger';
 import getErrorMessageByCode from '@utils/getErrorMessageByCode';
@@ -61,9 +63,12 @@ function StorageBoardContent({ footerRef }: StorageBoardContentProps) {
       user,
       nickname,
       content,
+      createdIp,
       thumbUp,
       thumbDown,
       viewCount,
+      scrapCode,
+      sourceCode,
       commentTotalCount,
       createdAt
     } = {}
@@ -97,6 +102,12 @@ function StorageBoardContent({ footerRef }: StorageBoardContentProps) {
       }
     }
   );
+
+  const handleClickSource = () =>
+    window.open(
+      `https://gall.dcinside.com/board/view/?id=${sourceCode}&no=${scrapCode}&exception_mode=recommend&page=1`,
+      '_blank'
+    );
 
   const handleClickRecommend = (event: MouseEvent<HTMLButtonElement>) => {
     const dataType = Number(event.currentTarget.getAttribute('data-type') || 0);
@@ -142,6 +153,15 @@ function StorageBoardContent({ footerRef }: StorageBoardContentProps) {
             <Typography variant="s1" color={text[themeType].text1} customStyle={{ marginLeft: 4 }}>
               {(user || {}).nickname || nickname}
             </Typography>
+            {createdIp && (
+              <Typography
+                variant="s1"
+                color={text[themeType].text1}
+                customStyle={{ marginLeft: 4 }}
+              >
+                {`(${createdIp})`}
+              </Typography>
+            )}
           </Flexbox>
           <Typography variant="s1" color={text[themeType].text1}>
             {dayjs(createdAt).fromNow()}
@@ -154,6 +174,32 @@ function StorageBoardContent({ footerRef }: StorageBoardContentProps) {
           </Flexbox>
         </Info>
       </Box>
+      <GoogleAdSense
+        html={
+          '<ins class="adsbygoogle"\n' +
+          '     style="display:block"\n' +
+          '     data-ad-client="ca-pub-5809905264951057"\n' +
+          '     data-ad-slot="3990104603"\n' +
+          '     data-ad-format="auto"\n' +
+          '     data-full-width-responsive="true"></ins>\n' +
+          '<script>\n' +
+          '     (adsbygoogle = window.adsbygoogle || []).push({});\n' +
+          '</script>'
+        }
+        customStyle={{ marginTop: 20 }}
+      />
+      {sourceCode && (
+        <Flexbox gap={8} customStyle={{ marginTop: 20, justifyContent: 'flex-end' }}>
+          <Tag
+            startIcon={<Icon name="LogoutOutlined" />}
+            onClick={handleClickSource}
+            customStyle={{ cursor: 'pointer' }}
+          >
+            출처 바로가기
+          </Tag>
+          <Tag startIcon={<Icon name="EmailOutlined" />}>cocstoragehelps@gmail.com</Tag>
+        </Flexbox>
+      )}
       <Content
         component="article"
         lineHeight="main"

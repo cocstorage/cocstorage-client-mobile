@@ -51,7 +51,7 @@ function BestStorageBoardList() {
         component="section"
         justifyContent="center"
         customStyle={{
-          margin: '50px auto'
+          margin: '25px auto'
         }}
       >
         <Pagination
