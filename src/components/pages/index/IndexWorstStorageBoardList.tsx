@@ -37,6 +37,8 @@ function IndexWorstStorageBoardList() {
     router.push(`/storages/${dataPath}/${dataId}`);
   };
 
+  const handleClickMore = () => router.push('/worst');
+
   return (
     <Box component="section" customStyle={{ margin: '30px -20px 0' }}>
       <Flexbox
@@ -64,7 +66,7 @@ function IndexWorstStorageBoardList() {
             와 선 넘네
           </Typography>
         </Flexbox>
-        <IconButton>
+        <IconButton onClick={handleClickMore}>
           <Icon name="CaretSemiRightOutlined" />
         </IconButton>
       </Flexbox>
