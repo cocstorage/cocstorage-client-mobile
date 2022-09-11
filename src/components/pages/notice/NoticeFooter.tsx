@@ -258,7 +258,7 @@ const StyledNoticeFooter = styled.div`
       palette: { background }
     }
   }) => background.bg};
-  z-index: 1;
+  z-index: 2;
 `;
 
 const CommentBar = styled.div`

@@ -33,7 +33,7 @@ const StyledStoragesHeader = styled.div`
       palette: { background }
     }
   }) => background.bg};
-  z-index: 1;
+  z-index: 2;
 `;
 
 export default StoragesHeader;

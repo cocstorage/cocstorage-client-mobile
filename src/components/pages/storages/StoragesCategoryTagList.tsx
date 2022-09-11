@@ -63,7 +63,7 @@ export const StyledStoragesCategoryTagList = styled.section`
       palette: { background }
     }
   }) => background.bg};
-  z-index: 1;
+  z-index: 2;
 `;
 
 export default StoragesCategoryTagList;

@@ -17,7 +17,7 @@ export async function fetchIndexPopularStorageBoards() {
 export async function fetchIndexWorstStorageBoards() {
   const { data } = await Axios.get<FetchStorageBoardsResponse>(`${BASE_PATH}/boards/worst`, {
     params: {
-      per: 3
+      per: 5
     }
   });
 

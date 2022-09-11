@@ -77,7 +77,7 @@ const StyledNoticeHeader = styled.div<{ triggered: boolean }>`
   height: 50px;
   padding: 0 20px;
   border-bottom: 1px solid transparent;
-  z-index: 1;
+  z-index: 2;
 
   background-color: ${({
     theme: {

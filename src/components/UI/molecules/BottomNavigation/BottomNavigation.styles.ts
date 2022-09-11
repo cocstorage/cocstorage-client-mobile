@@ -29,7 +29,7 @@ export const StyledBottomNavigation = styled.ul<Pick<BottomNavigationProps, 'dis
         }
       : {}};
 
-  z-index: 1;
+  z-index: 2;
 `;
 
 export const NavigationItem = styled.li`

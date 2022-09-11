@@ -4,7 +4,7 @@ import Link from 'next/link';
 
 import dayjs from 'dayjs';
 
-import { Badge, CustomStyle, Flexbox, Icon, Image, Typography, useTheme } from 'cocstorage-ui';
+import { Badge, Box, CustomStyle, Flexbox, Icon, Image, Typography, useTheme } from 'cocstorage-ui';
 
 import { StorageBoard } from '@dto/storage-boards';
 
@@ -69,15 +69,16 @@ function StorageBoardCard({
         <Link href={`/storages/${path}/${id}`}>
           <a>
             <Wrapper variant={variant} hasThumbnail={!!thumbnailUrl} {...props} css={customStyle}>
-              <Image
-                ratio="4:3"
-                src={thumbnailUrl || ''}
-                alt="Thumbnail Img"
-                width={82}
-                height={60}
-                round={round}
-                disableAspectRatio
-              />
+              <Box customStyle={{ borderRadius: round, overflow: 'hidden', zIndex: 1 }}>
+                <Image
+                  ratio="4:3"
+                  src={thumbnailUrl || ''}
+                  alt="Thumbnail Img"
+                  width={82}
+                  height="auto"
+                  round={round}
+                />
+              </Box>
               <Flexbox
                 direction="vertical"
                 justifyContent="space-between"
@@ -265,15 +266,16 @@ function StorageBoardCard({
               </Info>
             </Flexbox>
             {thumbnailUrl && (
-              <Image
-                ratio="16:9"
-                src={thumbnailUrl || ''}
-                alt="Thumbnail Img"
-                width={61}
-                height={31.41}
-                disableAspectRatio
-                round={round}
-              />
+              <Box customStyle={{ borderRadius: round, overflow: 'hidden', zIndex: 1 }}>
+                <Image
+                  ratio="16:9"
+                  src={thumbnailUrl || ''}
+                  alt="Thumbnail Img"
+                  width={61}
+                  height="auto"
+                  round={round}
+                />
+              </Box>
             )}
           </Wrapper>
         </a>

@@ -44,7 +44,7 @@ const StyledNoticesHeader = styled.div`
         palette: { box }
       }
     }) => box.stroked.normal};
-  z-index: 1;
+  z-index: 2;
 `;
 
 export default NoticesHeader;
