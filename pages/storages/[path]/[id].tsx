@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 
 import { GetServerSidePropsContext } from 'next';
 
@@ -28,6 +28,12 @@ import queryKeys from '@constants/queryKeys';
 
 function StorageBoard() {
   const footerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    return () => {
+      document.getElementById('__next').removeAttribute('style');
+    };
+  }, []);
 
   return (
     <>
