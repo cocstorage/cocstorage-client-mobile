@@ -24,6 +24,7 @@ function NoticeCard({
       palette: { text }
     }
   } = useTheme();
+
   return (
     <StyledNoticeCard>
       <Link key={`notice-${id}`} href={`/notices/${id}`}>

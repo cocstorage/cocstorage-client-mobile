@@ -2,7 +2,7 @@ import { RefObject, useEffect, useRef } from 'react';
 
 import { useRouter } from 'next/router';
 
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 
 import dayjs from 'dayjs';
 import { useSetRecoilState } from 'recoil';
@@ -15,7 +15,7 @@ import { Avatar, Box, Button, Flexbox, Icon, Typography, useTheme } from 'cocsto
 
 import useScrollTrigger from '@hooks/useScrollTrigger';
 
-import { fetchNotice } from '@api/v1/notices';
+import { fetchNotice, putNoticeViewCount } from '@api/v1/notices';
 
 import queryKeys from '@constants/queryKeys';
 
@@ -39,9 +39,15 @@ function NoticeContent({ footerRef }: NoticeContentProps) {
   const { data: { subject, user, content, viewCount, commentTotalCount, createdAt } = {} } =
     useQuery(queryKeys.notices.noticeById(Number(id)), () => fetchNotice(Number(id)));
 
+  const { mutate } = useMutation((data: { id: number }) => putNoticeViewCount(data.id));
+
   const subjectRef = useRef<HTMLDivElement>(null);
 
   const { triggered } = useScrollTrigger({ ref: subjectRef });
+
+  useEffect(() => {
+    mutate({ id: Number(id) });
+  }, [mutate, id]);
 
   useEffect(() => {
     setHideHeaderSubject(!triggered);
