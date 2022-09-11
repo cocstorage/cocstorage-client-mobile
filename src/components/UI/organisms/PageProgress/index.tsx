@@ -75,7 +75,7 @@ function PageProgress() {
       pageProgress.style.top = '0';
       pageProgress.style.left = '0';
       pageProgress.style.width = '100%';
-      pageProgress.style.zIndex = '1';
+      pageProgress.style.zIndex = '2';
 
       document.body.appendChild(pageProgress);
     }
@@ -125,6 +125,7 @@ function PageProgress() {
           position: 'fixed',
           top: 0,
           left: 0,
+          height: 2.5,
           opacity,
           transition: 'opacity .1s ease-in'
         }}
