@@ -211,6 +211,7 @@ function CommentList({ type = 'storageBoard', customStyle }: CommentListProps) {
           page={currentPage}
           rowPerPage={perPage}
           onChange={handleChange}
+          itemCount={5}
           customStyle={{ margin: 'auto' }}
         />
       )}
@@ -220,6 +221,7 @@ function CommentList({ type = 'storageBoard', customStyle }: CommentListProps) {
           page={noticeCommentsCurrentPage}
           rowPerPage={noticeCommentsPerPage}
           onChange={handleChange}
+          itemCount={5}
           customStyle={{ margin: 'auto' }}
         />
       )}
