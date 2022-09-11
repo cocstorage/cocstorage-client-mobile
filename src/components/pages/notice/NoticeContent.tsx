@@ -29,7 +29,7 @@ function NoticeContent({ footerRef }: NoticeContentProps) {
 
   const {
     theme: {
-      type,
+      mode,
       palette: { text }
     }
   } = useTheme();
@@ -61,16 +61,16 @@ function NoticeContent({ footerRef }: NoticeContentProps) {
               src="https://static.cocstorage.com/images/xt868xt2w6i50bf4x98xdsbfado3"
               alt="User Avatar Img"
             />
-            <Typography variant="s1" color={text[type].text1} customStyle={{ marginLeft: 4 }}>
+            <Typography variant="s1" color={text[mode].text1} customStyle={{ marginLeft: 4 }}>
               {user.nickname}
             </Typography>
           </Flexbox>
-          <Typography variant="s1" color={text[type].text1}>
+          <Typography variant="s1" color={text[mode].text1}>
             {dayjs(createdAt).fromNow()}
           </Typography>
           <Flexbox alignment="center" customStyle={{ marginLeft: 10 }}>
-            <Icon width={16} height={16} name="ViewOutlined" color={text[type].text1} />
-            <Typography variant="s2" color={text[type].text1} customStyle={{ marginLeft: 2 }}>
+            <Icon width={16} height={16} name="ViewOutlined" color={text[mode].text1} />
+            <Typography variant="s2" color={text[mode].text1} customStyle={{ marginLeft: 2 }}>
               {viewCount.toLocaleString()}
             </Typography>
           </Flexbox>
@@ -86,7 +86,7 @@ function NoticeContent({ footerRef }: NoticeContentProps) {
           size="small"
           startIcon={<Icon name="CommentOutlined" width={15} height={15} />}
           customStyle={{
-            color: text[type].text1
+            color: text[mode].text1
           }}
         >
           {commentTotalCount.toLocaleString()}
@@ -119,10 +119,10 @@ const Info = styled.div`
       border-radius: 50%;
       background-color: ${({
         theme: {
-          type,
+          mode,
           palette: { text }
         }
-      }) => text[type].text1};
+      }) => text[mode].text1};
     }
     &:last-child:after {
       display: none;

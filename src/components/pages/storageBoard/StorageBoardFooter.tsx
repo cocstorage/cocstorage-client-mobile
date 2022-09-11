@@ -40,7 +40,7 @@ function StorageBoardFooter({ footerRef }: StorageBoardFooterProps) {
 
   const {
     theme: {
-      type,
+      mode,
       palette: { text, box }
     }
   } = useTheme();
@@ -265,7 +265,7 @@ function StorageBoardFooter({ footerRef }: StorageBoardFooterProps) {
                   color={
                     !isLoadingPostComment && nickname && password && content
                       ? 'primary'
-                      : text[type].text3
+                      : text[mode].text3
                   }
                 />
               </IconButton>
@@ -282,37 +282,37 @@ function StorageBoardFooter({ footerRef }: StorageBoardFooterProps) {
         <Button
           variant="transparent"
           startIcon={
-            <Icon name="ThumbsUpOutlined" width={18} height={18} color={text[type].text1} />
+            <Icon name="ThumbsUpOutlined" width={18} height={18} color={text[mode].text1} />
           }
           size="pico"
           data-type={0}
           onClick={handleClickRecommend}
           disabled={isLoading}
-          customStyle={{ color: text[type].text1 }}
+          customStyle={{ color: text[mode].text1 }}
         >
           {thumbUp.toLocaleString()}
         </Button>
         <Button
           variant="transparent"
           startIcon={
-            <Icon name="ThumbsDownOutlined" width={18} height={18} color={text[type].text1} />
+            <Icon name="ThumbsDownOutlined" width={18} height={18} color={text[mode].text1} />
           }
           size="pico"
           data-type={1}
           onClick={handleClickRecommend}
           disabled={isLoading}
-          customStyle={{ color: text[type].text1 }}
+          customStyle={{ color: text[mode].text1 }}
         >
           {thumbDown.toLocaleString()}
         </Button>
         <Button
           variant="transparent"
           startIcon={
-            <Icon name="CommentOutlined" width={18} height={18} color={text[type].text1} />
+            <Icon name="CommentOutlined" width={18} height={18} color={text[mode].text1} />
           }
           size="pico"
           onClick={handleClick}
-          customStyle={{ color: text[type].text1 }}
+          customStyle={{ color: text[mode].text1 }}
         >
           {commentTotalCount.toLocaleString()}
         </Button>
@@ -348,8 +348,17 @@ const StyledStorageBoardFooter = styled.div`
 const CommentBar = styled.div`
   flex-grow: 1;
   display: flex;
-  border: 1px solid ${({ theme: { palette } }) => palette.box.stroked.normal};
-  background-color: ${({ theme: { palette } }) => palette.background.bg};
+  border: 1px solid
+    ${({
+      theme: {
+        palette: { box }
+      }
+    }) => box.stroked.normal};
+  background-color: ${({
+    theme: {
+      palette: { background }
+    }
+  }) => background.bg};
   border-radius: 10px;
   overflow: hidden;
 `;
@@ -370,10 +379,20 @@ const CommentTextArea = styled.textarea`
     fontWeight: p2.weight.regular,
     letterSpacing: p2.letterSpacing
   })};
-  color: ${({ theme: { type, palette } }) => palette.text[type].main};
+  color: ${({
+    theme: {
+      mode,
+      palette: { text }
+    }
+  }) => text[mode].main};
 
   &::placeholder {
-    color: ${({ theme: { type, palette } }) => palette.text[type].text1};
+    color: ${({
+      theme: {
+        mode,
+        palette: { text }
+      }
+    }) => text[mode].text1};
   }
 `;
 

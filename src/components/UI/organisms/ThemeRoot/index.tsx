@@ -1,6 +1,6 @@
 import { HTMLAttributes, PropsWithChildren, useCallback, useEffect, useState } from 'react';
 
-import { ThemeType } from 'cocstorage-ui/dist/types';
+import { ThemeMode } from 'cocstorage-ui/dist/types';
 import { useRecoilState } from 'recoil';
 
 import { themeState } from '@recoil/common/atoms';
@@ -11,7 +11,7 @@ type ThemeRootProps = HTMLAttributes<HTMLDivElement>;
 
 function ThemeRoot({ children }: PropsWithChildren<ThemeRootProps>) {
   const [theme, setTheme] = useRecoilState(themeState);
-  const [themeType, setThemeType] = useState<ThemeType>('light');
+  const [themeType, setThemeType] = useState<ThemeMode>('light');
 
   const handleChange = useCallback(
     (event: MediaQueryListEvent) => {

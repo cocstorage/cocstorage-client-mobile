@@ -8,7 +8,7 @@ import GeneralTemplate from '@components/templeates/GeneralTemplate';
 function Setting() {
   const {
     theme: {
-      type,
+      mode,
       palette: { text }
     }
   } = useTheme();
@@ -24,7 +24,7 @@ function Setting() {
                 <Icon name="StarOutlined" />
                 <Flexbox direction="vertical" gap={2}>
                   <Typography fontWeight="bold">테마</Typography>
-                  <Typography color={text[type].text1}>라이트 모드, 다크 모드</Typography>
+                  <Typography color={text[mode].text1}>라이트 모드, 다크 모드</Typography>
                 </Flexbox>
               </Flexbox>
             </a>
@@ -35,7 +35,7 @@ function Setting() {
                 <Icon name="InfoOutlined" />
                 <Flexbox direction="vertical" gap={2}>
                   <Typography fontWeight="bold">정보</Typography>
-                  <Typography color={text[type].text1}>
+                  <Typography color={text[mode].text1}>
                     버전 / 이용약관 및 개인정보처리방침
                   </Typography>
                 </Flexbox>

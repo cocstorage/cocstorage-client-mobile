@@ -55,7 +55,7 @@ function ReplyListBottomSheet({ type = 'storageBoard' }: ReplyListBottomSheetPro
 
   const {
     theme: {
-      type: themeType,
+      mode,
       palette: { text, box }
     }
   } = useTheme();
@@ -237,7 +237,7 @@ function ReplyListBottomSheet({ type = 'storageBoard' }: ReplyListBottomSheetPro
               {nickname || (user || {}).nickname}
             </Typography>
             {!user && createdIp && (
-              <Typography variant="s2" color={text[themeType].text1}>
+              <Typography variant="s2" color={text[mode].text1}>
                 ({createdIp})
               </Typography>
             )}
@@ -256,7 +256,7 @@ function ReplyListBottomSheet({ type = 'storageBoard' }: ReplyListBottomSheetPro
               <Typography
                 variant="s1"
                 customStyle={{
-                  color: text[themeType].text1
+                  color: text[mode].text1
                 }}
               >
                 {dayjs(createdAt).fromNow()}
@@ -336,7 +336,7 @@ function ReplyListBottomSheet({ type = 'storageBoard' }: ReplyListBottomSheetPro
                 replyPassword &&
                 replyContent
                   ? 'primary'
-                  : text[themeType].text3
+                  : text[mode].text3
               }
             />
           </IconButton>

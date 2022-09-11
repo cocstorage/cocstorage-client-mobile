@@ -36,7 +36,7 @@ function NoticeFooter({ footerRef }: NoticeFooterProps) {
 
   const {
     theme: {
-      type,
+      mode,
       palette: { text, box }
     }
   } = useTheme();
@@ -207,7 +207,7 @@ function NoticeFooter({ footerRef }: NoticeFooterProps) {
                     !isLoading && nickname && password && content ? 'SendFilled' : 'SendOutlined'
                   }
                   color={
-                    !isLoading && nickname && password && content ? 'primary' : text[type].text3
+                    !isLoading && nickname && password && content ? 'primary' : text[mode].text3
                   }
                 />
               </IconButton>
@@ -224,11 +224,11 @@ function NoticeFooter({ footerRef }: NoticeFooterProps) {
         <Button
           variant="transparent"
           startIcon={
-            <Icon name="CommentOutlined" width={18} height={18} color={text[type].text1} />
+            <Icon name="CommentOutlined" width={18} height={18} color={text[mode].text1} />
           }
           size="pico"
           onClick={handleClick}
-          customStyle={{ color: text[type].text1 }}
+          customStyle={{ color: text[mode].text1 }}
         >
           {commentTotalCount.toLocaleString()}
         </Button>
@@ -264,8 +264,17 @@ const StyledNoticeFooter = styled.div`
 const CommentBar = styled.div`
   flex-grow: 1;
   display: flex;
-  border: 1px solid ${({ theme: { palette } }) => palette.box.stroked.normal};
-  background-color: ${({ theme: { palette } }) => palette.background.bg};
+  border: 1px solid
+    ${({
+      theme: {
+        palette: { box }
+      }
+    }) => box.stroked.normal};
+  background-color: ${({
+    theme: {
+      palette: { background }
+    }
+  }) => background.bg};
   border-radius: 10px;
   overflow: hidden;
 `;
@@ -286,10 +295,20 @@ const CommentTextArea = styled.textarea`
     fontWeight: p2.weight.regular,
     letterSpacing: p2.letterSpacing
   })};
-  color: ${({ theme: { type, palette } }) => palette.text[type].main};
+  color: ${({
+    theme: {
+      mode,
+      palette: { text }
+    }
+  }) => text[mode].main};
 
   &::placeholder {
-    color: ${({ theme: { type, palette } }) => palette.text[type].text1};
+    color: ${({
+      theme: {
+        mode,
+        palette: { text }
+      }
+    }) => text[mode].text1};
   }
 `;
 

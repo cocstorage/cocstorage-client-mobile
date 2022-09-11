@@ -16,8 +16,6 @@ import { Box, Button, Flexbox, Icon, Image, Tag, Typography, useTheme } from 'co
 
 import { AxiosError } from 'axios';
 
-import { GoogleAdSense } from '@components/UI/molecules';
-
 import useScrollTrigger from '@hooks/useScrollTrigger';
 import getErrorMessageByCode from '@utils/getErrorMessageByCode';
 
@@ -39,7 +37,7 @@ function StorageBoardContent({ footerRef }: StorageBoardContentProps) {
   const { path, id } = router.query;
   const {
     theme: {
-      type: themeType,
+      mode,
       palette: { primary, text }
     }
   } = useTheme();
@@ -150,52 +148,37 @@ function StorageBoardContent({ footerRef }: StorageBoardContentProps) {
                 height: 12
               }}
             />
-            <Typography variant="s1" color={text[themeType].text1} customStyle={{ marginLeft: 4 }}>
+            <Typography variant="s1" color={text[mode].text1} customStyle={{ marginLeft: 4 }}>
               {(user || {}).nickname || nickname}
             </Typography>
             {createdIp && (
-              <Typography
-                variant="s1"
-                color={text[themeType].text1}
-                customStyle={{ marginLeft: 4 }}
-              >
+              <Typography variant="s1" color={text[mode].text1} customStyle={{ marginLeft: 4 }}>
                 {`(${createdIp})`}
               </Typography>
             )}
           </Flexbox>
-          <Typography variant="s1" color={text[themeType].text1}>
+          <Typography variant="s1" color={text[mode].text1}>
             {dayjs(createdAt).fromNow()}
           </Typography>
           <Flexbox alignment="center" customStyle={{ marginLeft: 10 }}>
-            <Icon width={16} height={16} name="ViewOutlined" color={text[themeType].text1} />
-            <Typography variant="s2" color={text[themeType].text1} customStyle={{ marginLeft: 2 }}>
+            <Icon width={16} height={16} name="ViewOutlined" color={text[mode].text1} />
+            <Typography variant="s2" color={text[mode].text1} customStyle={{ marginLeft: 2 }}>
               {viewCount.toLocaleString()}
             </Typography>
           </Flexbox>
         </Info>
       </Box>
-      <GoogleAdSense
-        html={
-          '<ins class="adsbygoogle"\n' +
-          '     style="display:block"\n' +
-          '     data-ad-client="ca-pub-5809905264951057"\n' +
-          '     data-ad-slot="3990104603"\n' +
-          '     data-ad-format="auto"\n' +
-          '     data-full-width-responsive="true"></ins>\n' +
-          '<script>\n' +
-          '     (adsbygoogle = window.adsbygoogle || []).push({});\n' +
-          '</script>'
-        }
-        customStyle={{ marginTop: 20 }}
-      />
       {sourceCode && (
-        <Flexbox gap={8} customStyle={{ marginTop: 20, justifyContent: 'flex-end' }}>
+        <Flexbox
+          gap={8}
+          customStyle={{ marginTop: 20, flexWrap: 'wrap', justifyContent: 'flex-end' }}
+        >
           <Tag
             startIcon={<Icon name="LogoutOutlined" />}
             onClick={handleClickSource}
             customStyle={{ cursor: 'pointer' }}
           >
-            출처 바로가기
+            출처
           </Tag>
           <Tag startIcon={<Icon name="EmailOutlined" />}>cocstoragehelps@gmail.com</Tag>
         </Flexbox>
@@ -229,7 +212,7 @@ function StorageBoardContent({ footerRef }: StorageBoardContentProps) {
             customStyle={{
               borderTopLeftRadius: 0,
               borderBottomLeftRadius: 0,
-              color: text[themeType].text1
+              color: text[mode].text1
             }}
           >
             {thumbDown.toLocaleString()}
@@ -239,7 +222,7 @@ function StorageBoardContent({ footerRef }: StorageBoardContentProps) {
             startIcon={<Icon name="CommentOutlined" width={15} height={15} />}
             customStyle={{
               marginLeft: 10,
-              color: text[themeType].text1
+              color: text[mode].text1
             }}
           >
             {commentTotalCount.toLocaleString()}
@@ -273,10 +256,10 @@ const Info = styled.div`
       border-radius: 50%;
       background-color: ${({
         theme: {
-          type,
+          mode,
           palette: { text }
         }
-      }) => text[type].text1};
+      }) => text[mode].text1};
     }
     &:last-child:after {
       display: none;

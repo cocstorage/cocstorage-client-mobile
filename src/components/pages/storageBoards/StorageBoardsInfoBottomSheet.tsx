@@ -21,7 +21,7 @@ function StorageBoardsInfoBottomSheet() {
 
   const {
     theme: {
-      type,
+      mode,
       palette: { text }
     }
   } = useTheme();
@@ -60,7 +60,7 @@ function StorageBoardsInfoBottomSheet() {
               customStyle={{
                 maxWidth: 'calc(100% - 74px)',
                 marginLeft: 24,
-                color: text[type].text1
+                color: text[mode].text1
               }}
             >
               {nickname}
@@ -74,7 +74,7 @@ function StorageBoardsInfoBottomSheet() {
               customStyle={{
                 maxWidth: 'calc(100% - 74px)',
                 marginLeft: 24,
-                color: text[type].text1
+                color: text[mode].text1
               }}
             >
               {dayjs(createdAt).format('YYYY. MM. DD')}
@@ -88,7 +88,7 @@ function StorageBoardsInfoBottomSheet() {
               customStyle={{
                 maxWidth: 'calc(100% - 74px)',
                 marginLeft: 24,
-                color: text[type].text1
+                color: text[mode].text1
               }}
             >
               {`https://m.cocstorage.com/storages/${path}`}

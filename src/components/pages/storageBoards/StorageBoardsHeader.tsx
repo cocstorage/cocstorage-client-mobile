@@ -32,7 +32,7 @@ function StorageBoardsHeader() {
 
   const {
     theme: {
-      type: themeType,
+      mode,
       palette: { text }
     }
   } = useTheme();
@@ -77,7 +77,7 @@ function StorageBoardsHeader() {
             {name}
           </Typography>
           <IconButton onClick={handleClick} customStyle={{ marginLeft: 4 }}>
-            <Icon name="InfoOutlined" width={16} height={16} color={text[themeType].text1} />
+            <Icon name="InfoOutlined" width={16} height={16} color={text[mode].text1} />
           </IconButton>
         </Flexbox>
         <Flexbox gap={10} alignment="center">

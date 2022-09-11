@@ -2,7 +2,17 @@ import styled, { CSSObject } from '@emotion/styled';
 
 import { StorageBoardCardProps } from './index';
 
-export const StyledStorageBoardCard = styled.div<
+export const StyledStorageBoardCard = styled.div`
+  & a:visited .subject {
+    color: ${({
+      theme: {
+        palette: { primary }
+      }
+    }) => primary.sub1};
+  }
+`;
+
+export const Wrapper = styled.div<
   Pick<StorageBoardCardProps, 'variant'> & {
     hasThumbnail: boolean;
   }
@@ -65,5 +75,10 @@ export const Dot = styled.div`
   height: 2px;
   margin: 0 5px;
   border-radius: 50%;
-  background-color: ${({ theme: { type, palette } }) => palette.text[type].text1};
+  background-color: ${({
+    theme: {
+      mode,
+      palette: { text }
+    }
+  }) => text[mode].text1};
 `;

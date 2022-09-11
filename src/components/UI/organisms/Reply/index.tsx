@@ -34,7 +34,7 @@ function Reply({
   const { id } = router.query;
   const {
     theme: {
-      type: themeType,
+      mode,
       palette: { text }
     }
   } = useTheme();
@@ -98,7 +98,7 @@ function Reply({
             {nickname || (user || {}).nickname}
           </Typography>
           {!user && createdIp && (
-            <Typography variant="s2" color={text[themeType].text1}>
+            <Typography variant="s2" color={text[mode].text1}>
               ({createdIp})
             </Typography>
           )}
@@ -122,7 +122,7 @@ function Reply({
             <Typography
               variant="s1"
               customStyle={{
-                color: text[themeType].text1
+                color: text[mode].text1
               }}
             >
               {dayjs(createdAt).fromNow()}

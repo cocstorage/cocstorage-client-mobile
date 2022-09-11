@@ -8,7 +8,7 @@ import { commonFeedbackDialogState } from '@recoil/common/atoms';
 
 import { Button, CustomStyle, Flexbox, Icon, Typography, useTheme } from 'cocstorage-ui';
 
-import IssueKeywordCard from '@components/UI/molecules/IssueKeywordCard';
+import { IssueKeywordCard, Message } from '@components/UI/molecules';
 import IssueKeywordCardSkeleton from '@components/UI/molecules/IssueKeywordCard/IssueKeywordCardSkeleton';
 
 import { fetchIssueKeywordRank } from '@api/v1/issue-keywords';
@@ -25,7 +25,7 @@ export interface IssueKeywordRankProps {
 function IssueKeywordRank({ disableFillEdgeBlanks = true, customStyle }: IssueKeywordRankProps) {
   const {
     theme: {
-      type,
+      mode,
       palette: { text }
     }
   } = useTheme();
@@ -65,12 +65,13 @@ function IssueKeywordRank({ disableFillEdgeBlanks = true, customStyle }: IssueKe
               name={toggle ? 'CaretSemiUpOutlined' : 'CaretSemiDownOutlined'}
               width={16}
               height={16}
-              color={text[type].text1}
+              color={text[mode].text1}
             />
           }
           onClick={handleClick}
+          disabled={!isLoading && !ranks.length}
           customStyle={{
-            color: text[type].text1
+            color: text[mode].text1
           }}
         >
           {toggle ? '접기' : '펼치기'}
@@ -90,6 +91,9 @@ function IssueKeywordRank({ disableFillEdgeBlanks = true, customStyle }: IssueKe
               onClick={handleClickCard}
             />
           ))}
+        {!isLoading && !ranks.length && (
+          <Message title="이슈 수집 중..." message="잠시만 기다려 주세요!" hideButton />
+        )}
       </List>
     </StyledIssueKeywordRank>
   );

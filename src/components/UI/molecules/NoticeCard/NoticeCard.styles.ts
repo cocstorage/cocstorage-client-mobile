@@ -1,6 +1,16 @@
 import styled from '@emotion/styled';
 
 export const StyledNoticeCard = styled.div`
+  & a:visited .subject {
+    color: ${({
+      theme: {
+        palette: { primary }
+      }
+    }) => primary.sub1};
+  }
+`;
+
+export const Wrapper = styled.div`
   display: grid;
   align-items: center;
   width: 100%;
@@ -33,5 +43,10 @@ export const Dot = styled.div`
   height: 2px;
   margin: 0 5px;
   border-radius: 50%;
-  background-color: ${({ theme: { type, palette } }) => palette.text[type].text1};
+  background-color: ${({
+    theme: {
+      mode,
+      palette: { text }
+    }
+  }) => text[mode].text1};
 `;

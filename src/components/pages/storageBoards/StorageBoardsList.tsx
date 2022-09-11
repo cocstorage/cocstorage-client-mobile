@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import { useRouter } from 'next/router';
 
 import { useQuery } from '@tanstack/react-query';
@@ -63,11 +62,7 @@ function StorageBoardsList() {
             if (index + 1 === 5) {
               return (
                 <div key={`storage-board-${storageBoard.id}`}>
-                  <Link href={`/storages/${storageBoard.storage.path}/${storageBoard.id}`}>
-                    <a>
-                      <StorageBoardCard storageBoard={storageBoard} inStorage />
-                    </a>
-                  </Link>
+                  <StorageBoardCard storageBoard={storageBoard} inStorage />
                   <GoogleAdSense
                     html={
                       '<ins class="adsbygoogle"\n' +
@@ -78,18 +73,12 @@ function StorageBoardsList() {
                       '     (adsbygoogle = window.adsbygoogle || []).push({});\n' +
                       '</script>'
                     }
-                    customStyle={{ marginTop: 20 }}
+                    customStyle={{ margin: '20px -20px 0' }}
                   />
                 </div>
               );
             }
-            return (
-              <Link href={`/storages/${storageBoard.storage.path}/${storageBoard.id}`}>
-                <a>
-                  <StorageBoardCard storageBoard={storageBoard} inStorage />
-                </a>
-              </Link>
-            );
+            return <StorageBoardCard storageBoard={storageBoard} inStorage />;
           })}
       </Flexbox>
       <Flexbox component="section" justifyContent="center" customStyle={{ margin: '25px auto' }}>

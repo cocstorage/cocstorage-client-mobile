@@ -19,8 +19,17 @@ export const CommentBarWrapper = styled.div`
 export const CommentBar = styled.div`
   display: flex;
   width: 100%;
-  border: 1px solid ${({ theme: { palette } }) => palette.box.stroked.normal};
-  background-color: ${({ theme: { palette } }) => palette.background.bg};
+  border: 1px solid
+    ${({
+      theme: {
+        palette: { box }
+      }
+    }) => box.stroked.normal};
+  background-color: ${({
+    theme: {
+      palette: { background }
+    }
+  }) => background.bg};
   border-radius: 10px;
   overflow: hidden;
 `;
@@ -41,9 +50,19 @@ export const CommentTextArea = styled.textarea`
     fontWeight: p2.weight.regular,
     letterSpacing: p2.letterSpacing
   })};
-  color: ${({ theme: { type, palette } }) => palette.text[type].main};
+  color: ${({
+    theme: {
+      mode,
+      palette: { text }
+    }
+  }) => text[mode].main};
 
   &::placeholder {
-    color: ${({ theme: { type, palette } }) => palette.text[type].text1};
+    color: ${({
+      theme: {
+        mode,
+        palette: { text }
+      }
+    }) => text[mode].text1};
   }
 `;

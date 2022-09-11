@@ -1,6 +1,6 @@
 import { ChangeEvent, MouseEvent } from 'react';
 
-import { ThemeType } from 'cocstorage-ui/dist/types';
+import { ThemeMode } from 'cocstorage-ui/dist/types';
 import { useRecoilState } from 'recoil';
 
 import { themeState } from '@recoil/common/atoms';
@@ -14,7 +14,7 @@ function SettingTheme() {
   const [theme, setTheme] = useRecoilState(themeState);
 
   const handleClick = (event: MouseEvent<HTMLDivElement>) => {
-    const dataThemeType = event.currentTarget.getAttribute('data-theme-type') as ThemeType;
+    const dataThemeType = event.currentTarget.getAttribute('data-theme-type') as ThemeMode;
 
     setTheme(dataThemeType);
   };
@@ -22,7 +22,7 @@ function SettingTheme() {
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     event.stopPropagation();
 
-    setTheme(event.currentTarget.value as ThemeType);
+    setTheme(event.currentTarget.value as ThemeMode);
   };
 
   return (

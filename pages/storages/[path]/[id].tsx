@@ -49,7 +49,7 @@ function StorageBoard() {
             '     (adsbygoogle = window.adsbygoogle || []).push({});\n' +
             '</script>'
           }
-          customStyle={{ marginTop: 40 }}
+          customStyle={{ margin: '40px -20px 0' }}
         />
         <CommentList customStyle={{ margin: '20px 0 20px' }} />
       </GeneralTemplate>

@@ -1,6 +1,6 @@
 import { Flexbox, Skeleton } from 'cocstorage-ui';
 
-import { StyledStorageBoardCard } from './StorageBoardCard.styles';
+import { Wrapper } from './StorageBoardCard.styles';
 
 import { StorageBoardCardProps } from '.';
 
@@ -10,7 +10,7 @@ function StorageBoardCardSkeleton({
 }: Pick<StorageBoardCardProps, 'variant' | 'customStyle'>) {
   if (variant === 'normal') {
     return (
-      <StyledStorageBoardCard variant={variant} hasThumbnail css={customStyle}>
+      <Wrapper variant={variant} hasThumbnail css={customStyle}>
         <Skeleton ratio="4:3" maxWidth={82} customStyle={{ borderRadius: 8 }} />
         <Flexbox
           direction="vertical"
@@ -26,12 +26,12 @@ function StorageBoardCardSkeleton({
             <Skeleton width={50} height={16} disableAspectRatio />
           </Flexbox>
         </Flexbox>
-      </StyledStorageBoardCard>
+      </Wrapper>
     );
   }
 
   return (
-    <StyledStorageBoardCard variant={variant} hasThumbnail css={customStyle}>
+    <Wrapper variant={variant} hasThumbnail css={customStyle}>
       <Flexbox direction="vertical" gap={6}>
         <Skeleton width="100%" maxWidth={200} height={17.5} disableAspectRatio />
         <Flexbox gap={12}>
@@ -42,7 +42,7 @@ function StorageBoardCardSkeleton({
         </Flexbox>
       </Flexbox>
       <Skeleton ratio="16:9" customStyle={{ borderRadius: 8 }} />
-    </StyledStorageBoardCard>
+    </Wrapper>
   );
 }
 

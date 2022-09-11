@@ -15,7 +15,7 @@ function BottomNavigation({ disableFixed }: BottomNavigationProps) {
 
   const {
     theme: {
-      type,
+      mode,
       palette: { text }
     }
   } = useTheme();
@@ -38,21 +38,21 @@ function BottomNavigation({ disableFixed }: BottomNavigationProps) {
             color={
               router.pathname === '/' || router.pathname === '/best' || router.pathname === '/worst'
                 ? 'primary'
-                : text[type].text2
+                : text[mode].text2
             }
           />
-          <Typography variant="s2" color={router.pathname === '/' ? 'primary' : text[type].text2}>
+          <Typography variant="s2" color={router.pathname === '/' ? 'primary' : text[mode].text2}>
             홈
           </Typography>
         </NavigationItem>
         <NavigationItem data-pathname="/storages" onClick={handleClick}>
           <Icon
             name={router.pathname.includes('/storages') ? 'CommunityFilled' : 'CommunityOutlined'}
-            color={router.pathname.includes('/storages') ? 'primary' : text[type].text2}
+            color={router.pathname.includes('/storages') ? 'primary' : text[mode].text2}
           />
           <Typography
             variant="s2"
-            color={router.pathname.includes('/storages') ? 'primary' : text[type].text2}
+            color={router.pathname.includes('/storages') ? 'primary' : text[mode].text2}
           >
             게시판
           </Typography>
@@ -60,11 +60,11 @@ function BottomNavigation({ disableFixed }: BottomNavigationProps) {
         <NavigationItem data-pathname="/setting" onClick={handleClick}>
           <Icon
             name="SettingOutlined"
-            color={router.pathname === '/setting' ? 'primary' : text[type].text2}
+            color={router.pathname === '/setting' ? 'primary' : text[mode].text2}
           />
           <Typography
             variant="s2"
-            color={router.pathname === '/setting' ? 'primary' : text[type].text2}
+            color={router.pathname === '/setting' ? 'primary' : text[mode].text2}
           >
             설정
           </Typography>

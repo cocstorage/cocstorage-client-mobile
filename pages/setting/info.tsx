@@ -15,7 +15,7 @@ function SettingInfo() {
 
   const {
     theme: {
-      type,
+      mode,
       palette: { text }
     }
   } = useTheme();
@@ -44,7 +44,7 @@ function SettingInfo() {
           <Typography variant="h3" fontWeight="bold" customStyle={{ marginTop: 8 }}>
             개념글 저장소
           </Typography>
-          <Typography variant="s1" color={text[type].text2} customStyle={{ marginTop: 4 }}>
+          <Typography variant="s1" color={text[mode].text2} customStyle={{ marginTop: 4 }}>
             {packageJson.version}
           </Typography>
           <Button data-pathname="/policy" onClick={handleClick} customStyle={{ marginTop: 30 }}>
