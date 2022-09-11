@@ -1,13 +1,13 @@
 import { GetServerSidePropsContext } from 'next';
 
-import { fetchRSSMobile } from '@api/rss';
+import { fetchRSS } from '@api/rss';
 
 function RSSMobile() {
   return null;
 }
 
 export async function getServerSideProps({ res }: GetServerSidePropsContext) {
-  const xml = await fetchRSSMobile();
+  const xml = await fetchRSS();
 
   res.setHeader('Content-Type', 'text/xml');
   res.write(xml);
