@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useRef, useState } from 'react';
 
 import { useRouter } from 'next/router';
 
@@ -72,6 +72,9 @@ function ReplyListBottomSheet({ type = 'storageBoard' }: ReplyListBottomSheetPro
   const [replyContent, setContent] = useState('');
   const [{ user, nickname, content = '', replies = [], createdAt, createdIp }, setComment] =
     useState<Partial<StorageBoardComment | NoticeComment>>({});
+  const [disableContentSwipeableClose, setDisableContentSwipeableClose] = useState(false);
+
+  const contentRef = useRef<HTMLDivElement>(null);
 
   const queryClient = useQueryClient();
 
@@ -180,6 +183,16 @@ function ReplyListBottomSheet({ type = 'storageBoard' }: ReplyListBottomSheetPro
 
   const handleClose = () => restReplyListBottomSheetState();
 
+  const handleScroll = () => {
+    if (contentRef.current) {
+      if (contentRef.current.scrollTop <= 0) {
+        setDisableContentSwipeableClose(false);
+      } else {
+        setDisableContentSwipeableClose(true);
+      }
+    }
+  };
+
   useEffect(() => {
     if (replyContent.split('\n').length >= 2) {
       setRows(2);
@@ -204,6 +217,7 @@ function ReplyListBottomSheet({ type = 'storageBoard' }: ReplyListBottomSheetPro
     <BottomSheet
       open={open}
       onClose={handleClose}
+      disableContentSwipeableClose={disableContentSwipeableClose}
       customStyle={{
         '& > div': {
           display: 'flex',
@@ -266,8 +280,10 @@ function ReplyListBottomSheet({ type = 'storageBoard' }: ReplyListBottomSheetPro
         </Flexbox>
       </Flexbox>
       <Flexbox
+        ref={contentRef}
         gap={20}
         direction="vertical"
+        onScroll={handleScroll}
         customStyle={{ flex: 1, padding: '20px 0', overflowY: 'auto' }}
       >
         {replies.length === 0 && (

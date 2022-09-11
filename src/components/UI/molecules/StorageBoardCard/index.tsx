@@ -55,7 +55,7 @@ function StorageBoardCard({
     }
   } = useTheme();
 
-  const round = useMemo<number>(() => {
+  const round = useMemo(() => {
     if (variant === 'normal') {
       return 6;
     }
@@ -74,8 +74,9 @@ function StorageBoardCard({
                 src={thumbnailUrl || ''}
                 alt="Thumbnail Img"
                 width={82}
-                height="auto"
+                height={60}
                 round={round}
+                disableAspectRatio
               />
               <Flexbox
                 direction="vertical"
@@ -269,7 +270,8 @@ function StorageBoardCard({
                 src={thumbnailUrl || ''}
                 alt="Thumbnail Img"
                 width={61}
-                height="auto"
+                height={31.41}
+                disableAspectRatio
                 round={round}
               />
             )}

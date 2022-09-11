@@ -857,10 +857,10 @@ chalk@^4.0.0:
     ansi-styles "^4.1.0"
     supports-color "^7.1.0"
 
-cocstorage-ui@^0.1.24:
-  version "0.1.24"
-  resolved "https://registry.yarnpkg.com/cocstorage-ui/-/cocstorage-ui-0.1.24.tgz#3991242b7c1c3bcfde7625c8f2270e89c637a704"
-  integrity sha512-nLJ4Wx0DvRY9jXJzanTV544R1yKzot1gIXC5isuNBAryIc07O+OkkiXgn6gX+XJyBpKB+7U95zrl1lSN/JNlug==
+cocstorage-ui@^0.1.25:
+  version "0.1.25"
+  resolved "https://registry.yarnpkg.com/cocstorage-ui/-/cocstorage-ui-0.1.25.tgz#bddf3701c148d5efbf6ac7a7213589ad22dbc9d4"
+  integrity sha512-ztJKssZ7wDfuXJCjOBebmalOVAcylaz5f/HGRNZxWX6JQkhsTnHhudU7YzbdSuRjuibZ7GbYN/kgsfuW6Iwgww==
 
 color-convert@^1.9.0:
   version "1.9.3"
