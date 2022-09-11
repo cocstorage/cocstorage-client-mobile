@@ -78,7 +78,13 @@ function StorageBoardsList() {
                 </div>
               );
             }
-            return <StorageBoardCard storageBoard={storageBoard} inStorage />;
+            return (
+              <StorageBoardCard
+                key={`storage-board-${storageBoard.id}`}
+                storageBoard={storageBoard}
+                inStorage
+              />
+            );
           })}
       </Flexbox>
       <Flexbox component="section" justifyContent="center" customStyle={{ margin: '25px auto' }}>
