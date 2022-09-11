@@ -5,7 +5,7 @@ import Script from 'next/script';
 
 import Gtag from '@library/gtag';
 
-function GoogleProvider() {
+function GoogleScript() {
   const router = useRouter();
 
   const handleRouteChange = useCallback((url) => Gtag.pageView(url), []);
@@ -53,4 +53,4 @@ function GoogleProvider() {
   );
 }
 
-export default GoogleProvider;
+export default GoogleScript;

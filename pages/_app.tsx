@@ -8,9 +8,8 @@ import dayjs from 'dayjs';
 import RelativeTime from 'dayjs/plugin/relativeTime';
 import { RecoilRoot } from 'recoil';
 
-import { ErrorBoundary, FeedbackDialog, PageProgress, ThemeRoot } from '@components/UI/organisms';
-
-import GoogleProvider from '@provider/GoogleProvider';
+import { FeedbackDialog, PageProgress } from '@components/UI/organisms';
+import { ErrorBoundary, GoogleScript, ThemeRoot } from '@components/utils';
 
 import 'dayjs/locale/ko';
 import '@styles/base.css';
@@ -60,7 +59,7 @@ function App({ Component, pageProps }: AppProps) {
         <meta name="msapplication-TileImage" content="/icons/ms-icon-144x144.png" />
       </Head>
       <ErrorBoundary>
-        <GoogleProvider />
+        <GoogleScript />
         <QueryClientProvider client={queryClient}>
           <RecoilRoot>
             <ThemeRoot>
