@@ -164,7 +164,7 @@ function NoticeFooter({ footerRef }: NoticeFooterProps) {
     }
   }, [content]);
 
-  if (triggered || observerTriggered) {
+  if (observerTriggered || triggered) {
     return (
       <Box component="footer" customStyle={{ minHeight: 65 }}>
         <StyledNoticeFooter css={{ minHeight: 65, justifyContent: 'center' }}>

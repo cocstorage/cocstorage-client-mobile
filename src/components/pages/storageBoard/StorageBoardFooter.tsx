@@ -211,7 +211,7 @@ function StorageBoardFooter({ footerRef }: StorageBoardFooterProps) {
     }
   }, [content]);
 
-  if ((triggered && observerTriggered) || (triggered && !observerTriggered)) {
+  if (observerTriggered || triggered) {
     return (
       <Box component="footer" customStyle={{ minHeight: 65 }}>
         <StyledStorageBoardFooter css={{ minHeight: 65, justifyContent: 'center' }}>
