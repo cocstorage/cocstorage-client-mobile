@@ -19,7 +19,7 @@ function IssueKeywordCard({
   return (
     <StyledIssueKeywordCard {...props} css={customStyle}>
       <Tag
-        variant="accent"
+        variant={number <= 3 ? 'accent' : 'semiAccent'}
         customStyle={{
           display: 'flex',
           justifyContent: 'center',

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 
 import { useQuery } from '@tanstack/react-query';
 
@@ -38,6 +38,18 @@ function IssueKeywordRank({ disableFillEdgeBlanks = true, customStyle }: IssueKe
     queryKeys.issueKeywords.issueKeywordRank,
     fetchIssueKeywordRank
   );
+
+  const newRanks = useMemo(() => {
+    if (toggle) {
+      return ranks
+        .map((rank) => {
+          return [rank, ranks.find(({ number: pairNumber }) => rank.number + 5 === pairNumber)];
+        })
+        .filter((rank) => rank[1])
+        .flat();
+    }
+    return ranks;
+  }, [ranks, toggle]);
 
   const handleClick = () => setToggle((prevState) => !prevState);
 
@@ -84,7 +96,7 @@ function IssueKeywordRank({ disableFillEdgeBlanks = true, customStyle }: IssueKe
             <IssueKeywordCardSkeleton key={`issue-keyword-skeleton-${index}`} />
           ))}
         {!isLoading &&
-          ranks.map((issueKeyword) => (
+          newRanks.map((issueKeyword) => (
             <IssueKeywordCard
               key={`issue-keyword-${issueKeyword.keywordId}`}
               issueKeyword={issueKeyword}
