@@ -13,27 +13,39 @@ import { fetchStorages } from '@api/v1/storages';
 
 import queryKeys from '@constants/queryKeys';
 
+import Message from '../../UI/molecules/Message';
+
 function StoragesGrid() {
   const selectedCategoryId = useRecoilValue(storagesSelectedCategoryIdState);
 
-  const { data: { categories = [] } = {} } = useQuery(
+  const { data: { categories = [] } = {}, isLoading } = useQuery(
     queryKeys.storageCategories.storageCategories,
     fetchStorageCategories
   );
-  const { data: { storages = [] } = {} } = useQuery(queryKeys.storages.storages, fetchStorages, {
-    select: (data) => {
-      if (selectedCategoryId) {
-        return {
-          ...data,
-          storages: data.storages.filter(
-            (storage) => storage.storageCategoryId === selectedCategoryId
-          )
-        };
-      }
+  const { data: { storages = [] } = {}, isLoading: isLoadingStorages } = useQuery(
+    queryKeys.storages.storages,
+    fetchStorages,
+    {
+      select: (data) => {
+        if (selectedCategoryId) {
+          return {
+            ...data,
+            storages: data.storages.filter(
+              (storage) => storage.storageCategoryId === selectedCategoryId
+            )
+          };
+        }
 
-      return data;
+        return data;
+      }
     }
-  });
+  );
+
+  if (!isLoading && !isLoadingStorages && !storages.length) {
+    return (
+      <Message title="아직 생성된 게시판이 없어요!" hideButton customStyle={{ margin: '50px 0' }} />
+    );
+  }
 
   return (
     <>

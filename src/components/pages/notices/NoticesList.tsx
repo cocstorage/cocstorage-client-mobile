@@ -12,11 +12,14 @@ import { fetchNotices } from '@api/v1/notices';
 
 import queryKeys from '@constants/queryKeys';
 
+import Message from '../../UI/molecules/Message';
+
 function NoticesList() {
   const [params, setParams] = useRecoilState(noticesParamsState);
 
   const {
-    data: { notices = [], pagination: { totalPages = 1, perPage = 20, currentPage = 1 } = {} } = {}
+    data: { notices = [], pagination: { totalPages = 1, perPage = 20, currentPage = 1 } = {} } = {},
+    isLoading
   } = useQuery(queryKeys.notices.noticesWithParams(params), () => fetchNotices(params), {
     keepPreviousData: true
   });
@@ -27,6 +30,12 @@ function NoticesList() {
       page: value
     }));
   };
+
+  if (!isLoading && !notices.length) {
+    return (
+      <Message title="새로운 소식을 준비 중이에요!" hideButton customStyle={{ margin: '50px 0' }} />
+    );
+  }
 
   return (
     <>

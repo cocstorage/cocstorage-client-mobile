@@ -9,6 +9,7 @@ import { storageBoardsParamsStateFamily } from '@recoil/storageBoards/atoms';
 import { Flexbox, Pagination } from 'cocstorage-ui';
 
 import { GoogleAdSense, StorageBoardCard } from '@components/UI/molecules';
+import Message from '@components/UI/molecules/Message';
 import StorageBoardCardSkeleton from '@components/UI/molecules/StorageBoardCard/StorageBoardCardSkeleton';
 
 import { fetchStorageBoards } from '@api/v1/storage-boards';
@@ -41,6 +42,10 @@ function StorageBoardsList() {
       }
     }));
   };
+
+  if (!isLoading && !boards.length) {
+    return <Message title="아직 게시글이 없네요!" hideButton customStyle={{ margin: '50px 0' }} />;
+  }
 
   return (
     <>
