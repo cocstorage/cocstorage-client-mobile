@@ -32,20 +32,20 @@ function StorageBoardsHead() {
       <meta property="og:description" content={description} />
       <meta property="og:type" content="website" />
       {avatarUrl && <meta property="og:image" content={avatarUrl} />}
-      <meta property="og:url" content={`https://m.cocstorage.com/storages/${path}`} />
+      <meta property="og:url" content={`https://www.cocstorage.com/storages/${path}`} />
       <meta property="og:site_name" content="개념글 저장소" />
       <meta property="og:locale" content="ko_KR" />
       <meta property="twitter:title" content={`${name} : 개념글 저장소`} />
       <meta property="twitter:description" content={description} />
       <meta property="twitter:creator" content={(user || {}).nickname} />
       {avatarUrl && <meta property="twitter:image" content={avatarUrl} />}
-      <meta property="twitter:url" content={`https://m.cocstorage.com/storages/${path}`} />
+      <meta property="twitter:url" content={`https://www.cocstorage.com/storages/${path}`} />
       <meta property="twitter:card" content="summary" />
       <meta name="apple-mobile-web-app-title" content={`${name} : 개념글 저장소`} />
       <meta name="theme-color" content={background.bg} />
       <meta name="msapplication-TileColor" content={background.bg} />
       <title>{`${name} : 개념글 저장소`}</title>
-      <link rel="canonical" href={`https://m.cocstorage.com/storages/${path}`} />
+      <link rel="canonical" href={`https://www.cocstorage.com/storages/${path}`} />
     </Head>
   );
 }

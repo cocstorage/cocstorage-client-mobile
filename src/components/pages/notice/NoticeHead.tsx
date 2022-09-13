@@ -31,14 +31,14 @@ function NoticeHead() {
       <meta property="og:description" content={description.substring(0, 159)} />
       <meta property="og:type" content="article" />
       {thumbnailUrl && <meta property="og:image" content={thumbnailUrl} />}
-      <meta property="og:url" content={`https://m.cocstorage.com/notices/${id}`} />
+      <meta property="og:url" content={`https://www.cocstorage.com/notices/${id}`} />
       <meta property="og:site_name" content="개념글 저장소" />
       <meta property="og:locale" content="ko_KR" />
       <meta property="twitter:title" content={`${subject} : 새로운 소식 : 개념글 저장소`} />
       <meta property="twitter:description" content={description.substring(0, 159)} />
       <meta property="twitter:creator" content={(user || {}).nickname} />
       {thumbnailUrl && <meta property="twitter:image" content={thumbnailUrl} />}
-      <meta property="twitter:url" content={`https://m.cocstorage.com/notices/${id}`} />
+      <meta property="twitter:url" content={`https://www.cocstorage.com/notices/${id}`} />
       <meta property="twitter:card" content="summary" />
       <meta
         name="apple-mobile-web-app-title"
@@ -47,7 +47,7 @@ function NoticeHead() {
       <meta name="theme-color" content={background.bg} />
       <meta name="msapplication-TileColor" content={background.bg} />
       <title>{`${subject} : 새로운 소식 : 개념글 저장소`}</title>
-      <link rel="canonical" href={`https://m.cocstorage.com/notices/${id}`} />
+      <link rel="canonical" href={`https://www.cocstorage.com/notices/${id}`} />
     </Head>
   );
 }
