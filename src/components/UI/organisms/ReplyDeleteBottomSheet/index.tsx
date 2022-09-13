@@ -164,6 +164,12 @@ function ReplyDeleteBottomSheet({ type = 'storageBoard' }: ReplyDeleteBottomShee
     }
   }, [open]);
 
+  useEffect(() => {
+    return () => {
+      resetReplyDeleteBottomState();
+    };
+  }, [resetReplyDeleteBottomState]);
+
   return (
     <BottomSheet open={open} onClose={handleClose}>
       <Box customStyle={{ padding: '30px 20px' }}>

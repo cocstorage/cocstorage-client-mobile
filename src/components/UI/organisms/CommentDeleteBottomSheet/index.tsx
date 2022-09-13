@@ -194,6 +194,12 @@ function CommentDeleteBottomSheet({ type = 'storageBoard' }: CommentDeleteBottom
     }
   }, [open]);
 
+  useEffect(() => {
+    return () => {
+      resetCommentDeleteBottomState();
+    };
+  }, [resetCommentDeleteBottomState]);
+
   return (
     <BottomSheet open={open} onClose={handleClose}>
       <Box customStyle={{ padding: '30px 20px' }}>

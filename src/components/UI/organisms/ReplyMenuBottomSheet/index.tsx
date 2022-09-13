@@ -1,4 +1,6 @@
-import { useRecoilState, useSetRecoilState } from 'recoil';
+import { useEffect } from 'react';
+
+import { useRecoilState, useResetRecoilState, useSetRecoilState } from 'recoil';
 
 import {
   commonReplyDeleteBottomSheetState,
@@ -12,6 +14,7 @@ function ReplyMenuBottomSheet() {
   const [{ open, storageId, id, commentId, replyId }, setReplyMenuBottomState] = useRecoilState(
     commonReplyMenuBottomSheetState
   );
+  const resetReplyMenuBottomState = useResetRecoilState(commonReplyMenuBottomSheetState);
   const setReplyListBottomState = useSetRecoilState(commonReplyListBottomSheetState);
   const setReplyDeleteBottomState = useSetRecoilState(commonReplyDeleteBottomSheetState);
 
@@ -45,6 +48,12 @@ function ReplyMenuBottomSheet() {
       });
     }, 500);
   };
+
+  useEffect(() => {
+    return () => {
+      resetReplyMenuBottomState();
+    };
+  }, [resetReplyMenuBottomState]);
 
   return (
     <BottomSheet open={open} onClose={handleClose}>

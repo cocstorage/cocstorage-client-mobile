@@ -213,6 +213,12 @@ function ReplyListBottomSheet({ type = 'storageBoard' }: ReplyListBottomSheetPro
     }
   }, [type, noticeComments]);
 
+  useEffect(() => {
+    return () => {
+      restReplyListBottomSheetState();
+    };
+  }, [restReplyListBottomSheetState]);
+
   return (
     <BottomSheet
       open={open}
@@ -246,7 +252,7 @@ function ReplyListBottomSheet({ type = 'storageBoard' }: ReplyListBottomSheetPro
           }}
         />
         <Flexbox direction="vertical" customStyle={{ flex: 1 }}>
-          <Flexbox gap={4} alignment="center">
+          <Flexbox gap={4} alignment="center" customStyle={{ marginBottom: 4 }}>
             <Typography variant="s1" fontWeight="bold">
               {nickname || (user || {}).nickname}
             </Typography>
@@ -256,7 +262,7 @@ function ReplyListBottomSheet({ type = 'storageBoard' }: ReplyListBottomSheetPro
               </Typography>
             )}
           </Flexbox>
-          <Typography lineHeight="main" noWrap lineClamp={3} customStyle={{ marginTop: 4 }}>
+          <Typography lineHeight="main" noWrap lineClamp={3}>
             {content.split('\n').map((splitContent, index) => (
               // eslint-disable-next-line react/no-array-index-key
               <span key={`comment-content-in-bottom-sheet-${index}`}>

@@ -1,3 +1,5 @@
+import { useEffect } from 'react';
+
 import { useRecoilState, useResetRecoilState, useSetRecoilState } from 'recoil';
 
 import {
@@ -31,6 +33,12 @@ function CommentMenuBottomSheet() {
       });
     }, 500);
   };
+
+  useEffect(() => {
+    return () => {
+      resetCommentMenuBottomState();
+    };
+  }, [resetCommentMenuBottomState]);
 
   return (
     <BottomSheet open={open} onClose={handleClose}>
