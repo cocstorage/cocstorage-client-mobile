@@ -4,9 +4,9 @@ export const StyledNoticeCard = styled.div`
   & a:visited .subject {
     color: ${({
       theme: {
-        palette: { primary }
+        palette: { others }
       }
-    }) => primary.sub1};
+    }) => others.visited};
   }
 `;
 
