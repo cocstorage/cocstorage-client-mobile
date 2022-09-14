@@ -56,7 +56,7 @@ function NoticeContent({ footerRef }: NoticeContentProps) {
   return (
     <>
       <Box component="section" customStyle={{ marginTop: 10 }}>
-        <Typography ref={subjectRef} variant="h3" fontWeight="bold">
+        <Typography ref={subjectRef} component="h1" variant="h3" fontWeight="bold">
           {subject}
         </Typography>
         <Info>

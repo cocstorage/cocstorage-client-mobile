@@ -1,5 +1,3 @@
-import { MouseEvent } from 'react';
-
 import { useRouter } from 'next/router';
 
 import { useQuery } from '@tanstack/react-query';
@@ -29,13 +27,6 @@ function IndexWorstStorageBoardList() {
     queryKeys.storageBoards.indexWorstStorageBoards,
     fetchIndexWorstStorageBoards
   );
-
-  const handleClick = (event: MouseEvent<HTMLDivElement>) => {
-    const dataPath = event.currentTarget.getAttribute('data-path');
-    const dataId = event.currentTarget.getAttribute('data-id');
-
-    router.push(`/storages/${dataPath}/${dataId}`);
-  };
 
   const handleClickMore = () => router.push('/worst');
 
@@ -83,9 +74,6 @@ function IndexWorstStorageBoardList() {
               variant="normal"
               storageBoard={storageBoard}
               hideSymbolismBadge
-              data-path={storageBoard.storage.path}
-              data-id={storageBoard.id}
-              onClick={handleClick}
               customStyle={{ maxWidth: 330 }}
             />
           ))}
