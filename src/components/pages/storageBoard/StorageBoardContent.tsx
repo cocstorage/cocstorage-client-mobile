@@ -151,7 +151,7 @@ function StorageBoardContent({ footerRef }: StorageBoardContentProps) {
             <Typography variant="s1" color={text[mode].text1} customStyle={{ marginLeft: 4 }}>
               {(user || {}).nickname || nickname}
             </Typography>
-            {createdIp && (
+            {!user && createdIp && (
               <Typography variant="s1" color={text[mode].text1} customStyle={{ marginLeft: 4 }}>
                 {`(${createdIp})`}
               </Typography>
