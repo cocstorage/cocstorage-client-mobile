@@ -65,9 +65,9 @@ function StorageBoardCard({
 
   if (variant === 'normal') {
     return (
-      <StyledStorageBoardCard>
-        <Link href={`/storages/${path}/${id}`}>
-          <a>
+      <Link href={`/storages/${path}/${id}`}>
+        <a>
+          <StyledStorageBoardCard>
             <Wrapper variant={variant} hasThumbnail={!!thumbnailUrl} {...props} css={customStyle}>
               <Box customStyle={{ borderRadius: round, overflow: 'hidden', zIndex: 1 }}>
                 <Image
@@ -157,16 +157,16 @@ function StorageBoardCard({
                 </Info>
               </Flexbox>
             </Wrapper>
-          </a>
-        </Link>
-      </StyledStorageBoardCard>
+          </StyledStorageBoardCard>
+        </a>
+      </Link>
     );
   }
 
   return (
-    <StyledStorageBoardCard>
-      <Link href={`/storages/${path}/${id}`}>
-        <a>
+    <Link href={`/storages/${path}/${id}`}>
+      <a>
+        <StyledStorageBoardCard>
           <Wrapper variant={variant} hasThumbnail={!!thumbnailUrl} {...props} css={customStyle}>
             <Flexbox
               direction="vertical"
@@ -278,9 +278,9 @@ function StorageBoardCard({
               </Box>
             )}
           </Wrapper>
-        </a>
-      </Link>
-    </StyledStorageBoardCard>
+        </StyledStorageBoardCard>
+      </a>
+    </Link>
   );
 }
 

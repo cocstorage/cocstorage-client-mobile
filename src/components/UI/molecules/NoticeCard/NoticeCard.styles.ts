@@ -1,6 +1,16 @@
 import styled from '@emotion/styled';
 
 export const StyledNoticeCard = styled.div`
+  border-radius: 6px;
+
+  &:active {
+    background-color: ${({
+      theme: {
+        palette: { box }
+      }
+    }) => box.filled.pressed};
+  }
+
   & a:visited .subject {
     color: ${({
       theme: {

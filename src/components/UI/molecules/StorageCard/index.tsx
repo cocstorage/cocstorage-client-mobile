@@ -2,7 +2,9 @@ import { HTMLAttributes } from 'react';
 
 import Link from 'next/link';
 
-import { Flexbox, Image, Typography } from 'cocstorage-ui';
+import { Image, Typography } from 'cocstorage-ui';
+
+import { StyledStorageCard } from './StorageCard.styles';
 
 interface StorageCardProps extends HTMLAttributes<HTMLDivElement> {
   src: string;
@@ -14,10 +16,10 @@ function StorageCard({ src, path, name, ...props }: StorageCardProps) {
   return (
     <Link href={`/storages/${path}`}>
       <a>
-        <Flexbox direction="vertical" gap={6} {...props} customStyle={{ cursor: 'pointer' }}>
+        <StyledStorageCard {...props}>
           <Image width="auto" height="auto" src={src || ''} round={6} alt="Storage Img" />
           <Typography customStyle={{ textAlign: 'center' }}>{name}</Typography>
-        </Flexbox>
+        </StyledStorageCard>
       </a>
     </Link>
   );

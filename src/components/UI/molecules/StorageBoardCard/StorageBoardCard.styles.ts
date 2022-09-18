@@ -3,6 +3,16 @@ import styled, { CSSObject } from '@emotion/styled';
 import { StorageBoardCardProps } from './index';
 
 export const StyledStorageBoardCard = styled.div`
+  border-radius: 6px;
+
+  &:active {
+    background-color: ${({
+      theme: {
+        palette: { box }
+      }
+    }) => box.filled.pressed};
+  }
+
   & a:visited .subject {
     color: ${({
       theme: {

@@ -11,13 +11,13 @@ function GoogleScript() {
   const handleRouteChange = useCallback((url) => Gtag.pageView(url), []);
 
   useEffect(() => {
-    if (process.env.NODE_ENV !== 'production') {
+    if (process.env.NODE_ENV === 'production') {
       router.events.on('routeChangeComplete', handleRouteChange);
       router.events.on('hashChangeComplete', handleRouteChange);
     }
 
     return () => {
-      if (process.env.NODE_ENV !== 'production') {
+      if (process.env.NODE_ENV === 'production') {
         router.events.off('routeChangeComplete', handleRouteChange);
         router.events.off('hashChangeComplete', handleRouteChange);
       }
