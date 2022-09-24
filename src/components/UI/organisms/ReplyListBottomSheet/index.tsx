@@ -234,6 +234,7 @@ function ReplyListBottomSheet({ type = 'storageBoard' }: ReplyListBottomSheetPro
       <Flexbox
         gap={10}
         customStyle={{
+          maxHeight: 300,
           padding: '8px 20px 14px',
           borderBottom: `1px solid ${box.stroked.normal}`
         }}
