@@ -26,9 +26,9 @@ function NoticeCard({
   } = useTheme();
 
   return (
-    <Link key={`notice-${id}`} href={`/notices/${id}`}>
-      <a>
-        <StyledNoticeCard>
+    <StyledNoticeCard>
+      <Link key={`notice-${id}`} href={`/notices/${id}`}>
+        <a>
           <Wrapper {...props}>
             <Image
               ratio="4:3"
@@ -88,9 +88,9 @@ function NoticeCard({
               </Info>
             </Flexbox>
           </Wrapper>
-        </StyledNoticeCard>
-      </a>
-    </Link>
+        </a>
+      </Link>
+    </StyledNoticeCard>
   );
 }
 
