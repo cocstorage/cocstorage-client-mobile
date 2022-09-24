@@ -5,7 +5,8 @@ import { QueryClient, dehydrate } from '@tanstack/react-query';
 import {
   StorageBoardSearchBar,
   StorageBoardSearchList,
-  StorageBoardSearchTabs
+  StorageBoardSearchTabs,
+  StorageBoardsSearchHead
 } from '@components/pages/storageBoardSearch';
 import GeneralTemplate from '@components/templeates/GeneralTemplate';
 
@@ -15,10 +16,13 @@ import queryKeys from '@constants/queryKeys';
 
 function StorageBoardsSearch() {
   return (
-    <GeneralTemplate header={<StorageBoardSearchBar />}>
-      <StorageBoardSearchTabs />
-      <StorageBoardSearchList />
-    </GeneralTemplate>
+    <>
+      <StorageBoardsSearchHead />
+      <GeneralTemplate header={<StorageBoardSearchBar />}>
+        <StorageBoardSearchTabs />
+        <StorageBoardSearchList />
+      </GeneralTemplate>
+    </>
   );
 }
 
