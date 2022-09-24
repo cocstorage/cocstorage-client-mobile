@@ -2,7 +2,7 @@ import Head from 'next/head';
 
 import { useTheme } from 'cocstorage-ui';
 
-function SettingThemeHead() {
+function MyThemeHead() {
   const {
     theme: {
       palette: { background }
@@ -34,4 +34,4 @@ function SettingThemeHead() {
   );
 }
 
-export default SettingThemeHead;
+export default MyThemeHead;

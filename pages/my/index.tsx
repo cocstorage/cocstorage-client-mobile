@@ -2,10 +2,10 @@ import Link from 'next/link';
 
 import { Flexbox, Icon, Typography, useTheme } from 'cocstorage-ui';
 
-import { SettingHead, SettingHeader } from '@components/pages/setting';
+import { MyHead, MyHeader } from '@components/pages/my';
 import GeneralTemplate from '@components/templeates/GeneralTemplate';
 
-function Setting() {
+function My() {
   const {
     theme: {
       mode,
@@ -15,10 +15,10 @@ function Setting() {
 
   return (
     <>
-      <SettingHead />
-      <GeneralTemplate header={<SettingHeader />}>
+      <MyHead />
+      <GeneralTemplate header={<MyHeader />}>
         <Flexbox direction="vertical" gap={20} customStyle={{ padding: '20px 0' }}>
-          <Link href="/setting/theme">
+          <Link href="/my/theme">
             <a>
               <Flexbox gap={12} alignment="center">
                 <Icon name="StarOutlined" />
@@ -29,7 +29,7 @@ function Setting() {
               </Flexbox>
             </a>
           </Link>
-          <Link href="/setting/info">
+          <Link href="/my/info">
             <a>
               <Flexbox gap={12} alignment="center">
                 <Icon name="InfoOutlined" />
@@ -48,4 +48,4 @@ function Setting() {
   );
 }
 
-export default Setting;
+export default My;

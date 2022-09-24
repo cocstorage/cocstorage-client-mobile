@@ -17,7 +17,7 @@ function GeneralTemplate({
   disablePadding
 }: PropsWithChildren<GeneralTemplateProps>) {
   return (
-    <StyledGeneralTemplate>
+    <StyledGeneralTemplate disableFlexible={disableFlexible}>
       {header}
       <Content disableFlexible={disableFlexible} disablePadding={disablePadding}>
         {children}
@@ -27,10 +27,15 @@ function GeneralTemplate({
   );
 }
 
-const StyledGeneralTemplate = styled.div`
+const StyledGeneralTemplate = styled.div<Pick<GeneralTemplateProps, 'disableFlexible'>>`
   display: flex;
   flex-direction: column;
-  height: 100%;
+  ${({ disableFlexible }): CSSObject =>
+    !disableFlexible
+      ? {
+          height: '100%'
+        }
+      : {}};
 `;
 
 const Content = styled.main<Pick<GeneralTemplateProps, 'disableFlexible' | 'disablePadding'>>`

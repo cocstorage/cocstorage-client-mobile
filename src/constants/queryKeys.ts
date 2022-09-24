@@ -27,6 +27,11 @@ const storageBoards = {
     id,
     params
   ],
+  storageBoardsSearchByIdWithParams: (id: number | string, params: FetchStorageBoardsParams) => [
+    'storageBoardsSearch',
+    id,
+    params
+  ],
   storageBoardById: (id: number) => ['storageBoard', id]
 };
 

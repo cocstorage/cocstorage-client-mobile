@@ -23,6 +23,7 @@ export interface StorageBoardCardProps extends HTMLAttributes<HTMLDivElement> {
   storageBoard?: StorageBoard;
   hideSymbolismBadge?: boolean;
   inStorage?: boolean;
+  highLiteSubject?: string;
   customStyle?: CustomStyle;
 }
 
@@ -45,13 +46,14 @@ function StorageBoardCard({
   },
   hideSymbolismBadge = false,
   inStorage = true,
+  highLiteSubject,
   customStyle,
   ...props
 }: StorageBoardCardProps) {
   const {
     theme: {
       mode,
-      palette: { text }
+      palette: { primary, text }
     }
   } = useTheme();
 
@@ -196,11 +198,16 @@ function StorageBoardCard({
                   lineClamp={1}
                   customStyle={{
                     flex: 1,
-                    textAlign: 'left'
+                    textAlign: 'left',
+                    '& > b': {
+                      fontWeight: 700,
+                      color: primary.main
+                    }
                   }}
-                >
-                  {subject}
-                </Typography>
+                  dangerouslySetInnerHTML={{
+                    __html: subject.replace(highLiteSubject, `<b>${highLiteSubject}</b>`)
+                  }}
+                />
               </Flexbox>
               <Info>
                 <InfoLabel>

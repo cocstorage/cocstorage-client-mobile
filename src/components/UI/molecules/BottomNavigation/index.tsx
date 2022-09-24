@@ -57,16 +57,13 @@ function BottomNavigation({ disableFixed }: BottomNavigationProps) {
             게시판
           </Typography>
         </NavigationItem>
-        <NavigationItem data-pathname="/setting" onClick={handleClick}>
+        <NavigationItem data-pathname="/my" onClick={handleClick}>
           <Icon
-            name="SettingOutlined"
-            color={router.pathname === '/setting' ? 'primary' : text[mode].text2}
+            name="UserOutlined"
+            color={router.pathname === '/my' ? 'primary' : text[mode].text2}
           />
-          <Typography
-            variant="s2"
-            color={router.pathname === '/setting' ? 'primary' : text[mode].text2}
-          >
-            설정
+          <Typography variant="s2" color={router.pathname === '/my' ? 'primary' : text[mode].text2}>
+            마이
           </Typography>
         </NavigationItem>
       </StyledBottomNavigation>

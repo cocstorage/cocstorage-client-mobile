@@ -4,26 +4,26 @@ import styled from '@emotion/styled';
 
 import { Box, Icon, IconButton, Typography } from 'cocstorage-ui';
 
-function SettingHeader() {
+function MyThemeHeader() {
   const router = useRouter();
 
   const handleClick = () => router.back();
 
   return (
     <Box component="header" customStyle={{ height: 50 }}>
-      <StyledSettingHeader>
+      <StyledMyThemeHeader>
         <IconButton onClick={handleClick}>
           <Icon name="CaretSemiLeftOutlined" />
         </IconButton>
         <Typography variant="h4" fontWeight="bold">
-          설정
+          테마
         </Typography>
-      </StyledSettingHeader>
+      </StyledMyThemeHeader>
     </Box>
   );
 }
 
-const StyledSettingHeader = styled.div`
+const StyledMyThemeHeader = styled.div`
   position: fixed;
   top: 0;
   left: 0;
@@ -47,4 +47,4 @@ const StyledSettingHeader = styled.div`
   z-index: 2;
 `;
 
-export default SettingHeader;
+export default MyThemeHeader;

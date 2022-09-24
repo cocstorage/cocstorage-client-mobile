@@ -4,12 +4,13 @@ import { useRouter } from 'next/router';
 
 import { useQuery } from '@tanstack/react-query';
 
-import { useSetRecoilState } from 'recoil';
+import { useResetRecoilState, useSetRecoilState } from 'recoil';
 
 import styled, { CSSObject } from '@emotion/styled';
 
 import { commonFeedbackDialogState } from '@recoil/common/atoms';
 import { openStorageBoardsInfoBottomSheetState } from '@recoil/storageBoards/atoms';
+import { storageBoardsSearchParamsState } from '@recoil/storageBoardsSearch/atoms';
 
 import { Box, Flexbox, Icon, IconButton, Image, Typography, useTheme } from 'cocstorage-ui';
 
@@ -23,6 +24,7 @@ function StorageBoardsHeader() {
   const router = useRouter();
   const { path } = router.query;
 
+  const resetParams = useResetRecoilState(storageBoardsSearchParamsState);
   const setOpen = useSetRecoilState(openStorageBoardsInfoBottomSheetState);
   const setCommonFeedbackDialogState = useSetRecoilState(commonFeedbackDialogState);
 
@@ -44,7 +46,12 @@ function StorageBoardsHeader() {
 
   const handleClick = () => setOpen(true);
 
-  const handleClickBack = () => router.back();
+  const handleClickBack = () => router.push('/storages');
+
+  const handleClickSearch = () => {
+    resetParams();
+    router.push(`/storages/${path}/search`);
+  };
 
   const handleClickIcon = () =>
     setCommonFeedbackDialogState({
@@ -81,11 +88,11 @@ function StorageBoardsHeader() {
           </IconButton>
         </Flexbox>
         <Flexbox gap={10} alignment="center">
-          <IconButton onClick={handleClickIcon}>
-            <Icon name="StarOutlined" />
+          <IconButton onClick={handleClickSearch}>
+            <Icon name="SearchOutlined" />
           </IconButton>
           <IconButton onClick={handleClickIcon}>
-            <Icon name="MoreMenuOutlined" />
+            <Icon name="StarOutlined" />
           </IconButton>
         </Flexbox>
       </StyledStorageBoardsHeader>

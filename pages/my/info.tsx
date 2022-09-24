@@ -4,13 +4,13 @@ import { useRouter } from 'next/router';
 
 import { Button, Flexbox, Typography, useTheme } from 'cocstorage-ui';
 
-import { SettingInfoHead, SettingInfoHeader } from '@components/pages/settingInfo';
+import { MyInfoHead, MyInfoHeader } from '@components/pages/myInfo';
 import GeneralTemplate from '@components/templeates/GeneralTemplate';
 import { Logo } from '@components/UI/molecules/Header/Header.styles';
 
 import packageJson from 'package.json';
 
-function SettingInfo() {
+function MyInfo() {
   const router = useRouter();
 
   const {
@@ -28,8 +28,8 @@ function SettingInfo() {
 
   return (
     <>
-      <SettingInfoHead />
-      <GeneralTemplate header={<SettingInfoHeader />} disableFlexible={false}>
+      <MyInfoHead />
+      <GeneralTemplate header={<MyInfoHeader />} disableFlexible={false}>
         <Flexbox
           direction="vertical"
           alignment="center"
@@ -59,4 +59,4 @@ function SettingInfo() {
   );
 }
 
-export default SettingInfo;
+export default MyInfo;

@@ -40,7 +40,9 @@ function StorageBoardHeader() {
     () => fetchStorageBoard(Number(storageId), Number(id))
   );
 
-  const handleClick = () => router.back();
+  const handleClick = () => router.push(`/storages/${path}`);
+
+  const handleClickImage = () => router.push(`/storages/${path}`);
 
   const handleClickMenu = () =>
     setCommonFeedbackDialogState({
@@ -70,6 +72,7 @@ function StorageBoardHeader() {
             src={avatarUrl}
             alt="Storage Logo Img"
             disableAspectRatio
+            onClick={handleClickImage}
             customStyle={{ marginLeft: 10 }}
           />
           <IconButton onClick={handleClickMenu}>

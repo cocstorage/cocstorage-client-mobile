@@ -7,10 +7,10 @@ import { themeState } from '@recoil/common/atoms';
 
 import { Flexbox, Radio, Typography } from 'cocstorage-ui';
 
-import { SettingThemeHead, SettingThemeHeader } from '@components/pages/settingTheme';
+import { MyThemeHead, MyThemeHeader } from '@components/pages/myTheme';
 import GeneralTemplate from '@components/templeates/GeneralTemplate';
 
-function SettingTheme() {
+function MyTheme() {
   const [theme, setTheme] = useRecoilState(themeState);
 
   const handleClick = (event: MouseEvent<HTMLDivElement>) => {
@@ -27,8 +27,8 @@ function SettingTheme() {
 
   return (
     <>
-      <SettingThemeHead />
-      <GeneralTemplate header={<SettingThemeHeader />}>
+      <MyThemeHead />
+      <GeneralTemplate header={<MyThemeHeader />}>
         <Flexbox direction="vertical" gap={20} customStyle={{ padding: '20px 0' }}>
           <Flexbox justifyContent="space-between" data-theme-type="light" onClick={handleClick}>
             <Typography fontWeight="medium">라이트 모드</Typography>
@@ -48,4 +48,4 @@ function SettingTheme() {
   );
 }
 
-export default SettingTheme;
+export default MyTheme;
