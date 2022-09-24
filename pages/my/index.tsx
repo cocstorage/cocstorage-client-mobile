@@ -18,6 +18,17 @@ function My() {
       <MyHead />
       <GeneralTemplate header={<MyHeader />}>
         <Flexbox direction="vertical" gap={20} customStyle={{ padding: '20px 0' }}>
+          <Link href="/notices">
+            <a>
+              <Flexbox gap={12} alignment="center">
+                <Icon name="LoudSpeakerOutlined" />
+                <Flexbox direction="vertical" gap={2}>
+                  <Typography fontWeight="bold">새로운 소식</Typography>
+                  <Typography color={text[mode].text1}>공지사항, 업데이트 내용</Typography>
+                </Flexbox>
+              </Flexbox>
+            </a>
+          </Link>
           <Link href="/my/theme">
             <a>
               <Flexbox gap={12} alignment="center">

@@ -1,15 +1,28 @@
+import { useSetRecoilState } from 'recoil';
+
 import styled from '@emotion/styled';
+
+import { commonFeedbackDialogState } from '@recoil/common/atoms';
 
 import { Box, Icon, IconButton, Typography } from 'cocstorage-ui';
 
 function StoragesHeader() {
+  const setCommonFeedbackDialogState = useSetRecoilState(commonFeedbackDialogState);
+
+  const handleClick = () =>
+    setCommonFeedbackDialogState({
+      open: true,
+      title: '준비 중인 기능이에요!',
+      message: '조금만 기다려주세요!'
+    });
+
   return (
     <Box component="header" customStyle={{ height: 50 }}>
       <StyledStoragesHeader>
         <Typography variant="h3" fontWeight="bold" noWrap customStyle={{ flex: 1 }}>
           게시판
         </Typography>
-        <IconButton>
+        <IconButton onClick={handleClick}>
           <Icon name="SearchOutlined" />
         </IconButton>
       </StyledStoragesHeader>
