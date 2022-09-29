@@ -34,6 +34,10 @@
     src: url('./fonts/SpoqaHanSansNeo-Thin.woff2') format('woff2')
 }
 
+body.disable-flexible {
+    height: auto;
+}
+
 #__next {
     height: 100%;
 }

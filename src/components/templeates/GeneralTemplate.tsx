@@ -1,4 +1,4 @@
-import { PropsWithChildren, ReactElement } from 'react';
+import { PropsWithChildren, ReactElement, useEffect } from 'react';
 
 import styled, { CSSObject } from '@emotion/styled';
 
@@ -16,6 +16,14 @@ function GeneralTemplate({
   disableFlexible = true,
   disablePadding
 }: PropsWithChildren<GeneralTemplateProps>) {
+  useEffect(() => {
+    if (disableFlexible) document.body.className = 'disable-flexible';
+
+    return () => {
+      document.body.removeAttribute('class');
+    };
+  }, [disableFlexible]);
+
   return (
     <StyledGeneralTemplate disableFlexible={disableFlexible}>
       {header}

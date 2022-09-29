@@ -153,8 +153,8 @@ function CommentList({ type = 'storageBoard', customStyle }: CommentListProps) {
   )
     return (
       <Message
-        title="댓글이 없네요!"
-        message="첫 댓글의 주인공이 되어 주실래요?"
+        title="아직 댓글이 없네요."
+        message="첫 댓글을 남겨주세요!"
         hideButton
         customStyle={{ margin: '40px 0 50px' }}
       />

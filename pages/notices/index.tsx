@@ -4,7 +4,6 @@ import { noticesParamsDefault } from '@recoil/notices/atoms';
 
 import { NoticeHead, NoticesHeader, NoticesList } from '@components/pages/notices';
 import GeneralTemplate from '@components/templeates/GeneralTemplate';
-import BottomNavigation from '@components/UI/molecules/BottomNavigation';
 
 import { fetchNotices } from '@api/v1/notices';
 
@@ -14,7 +13,7 @@ function Notices() {
   return (
     <>
       <NoticeHead />
-      <GeneralTemplate header={<NoticesHeader />} footer={<BottomNavigation />}>
+      <GeneralTemplate header={<NoticesHeader />}>
         <NoticesList />
       </GeneralTemplate>
     </>

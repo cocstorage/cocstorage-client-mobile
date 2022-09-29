@@ -1,7 +1,7 @@
 import { AppProps } from 'next/app';
 import Head from 'next/head';
 
-import { Hydrate, QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { DehydratedState, Hydrate, QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import dayjs from 'dayjs';
@@ -29,7 +29,7 @@ const queryClient = new QueryClient({
   }
 });
 
-function App({ Component, pageProps }: AppProps) {
+function App({ Component, pageProps }: AppProps<{ dehydratedState: DehydratedState }>) {
   return (
     <>
       <Head>

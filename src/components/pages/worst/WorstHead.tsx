@@ -17,13 +17,13 @@ function WorstHead() {
       <meta property="og:title" content="워스트 게시글 : 개념글 저장소" />
       <meta property="og:description" content="개념글 저장소의 워스트 게시글을 모아 놨어요!" />
       <meta property="og:type" content="website" />
-      <meta property="og:url" content="https://www.cocstorage.com/worst" />
+      <meta property="og:url" content="https://m.cocstorage.com/worst" />
       <meta property="og:site_name" content="개념글 저장소" />
       <meta property="og:locale" content="ko_KR" />
       <meta property="twitter:title" content="워스트 게시글 : 개념글 저장소" />
       <meta property="twitter:description" content="개념글 저장소의 워스트 게시글을 모아 놨어요!" />
       <meta property="twitter:creator" content="개념글 저장소" />
-      <meta property="twitter:url" content="https://www.cocstorage.com/worst" />
+      <meta property="twitter:url" content="https://m.cocstorage.com/worst" />
       <meta property="twitter:card" content="summary" />
       <meta name="apple-mobile-web-app-title" content="워스트 게시글 : 개념글 저장소" />
       <meta name="theme-color" content={background.bg} />

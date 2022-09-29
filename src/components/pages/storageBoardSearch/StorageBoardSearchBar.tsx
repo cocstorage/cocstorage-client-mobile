@@ -83,6 +83,7 @@ function StorageBoardSearchBar() {
           startIcon={<Icon name="SearchOutlined" width={20} height={20} />}
           onChange={handleChange}
           value={value || ''}
+          autoFocus
           placeholder="검색어를 입력해 주세요."
         />
       </StyledStorageBoardSearchBar>
