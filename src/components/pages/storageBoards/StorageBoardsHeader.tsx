@@ -69,7 +69,16 @@ function StorageBoardsHeader() {
 
   const handleClickSearch = () => {
     resetParams();
-    router.push(`/storages/${path}/search`);
+    router.push(`/storages/${path}/search`).then(() =>
+      setCommonOnBoardingState((prevState) => ({
+        ...prevState,
+        search: {
+          ...commonOnBoardingDefault.search,
+          step: 1,
+          done: commonOnBoardingDefault.search.lastStep === 1
+        }
+      }))
+    );
   };
 
   const handleClickIcon = () =>
@@ -84,11 +93,13 @@ function StorageBoardsHeader() {
       ...prevState,
       search: {
         ...commonOnBoardingDefault.search,
-        step: 1
+        step: 1,
+        done: commonOnBoardingDefault.search.lastStep === 1
       }
     }));
 
   useEffect(() => {
+    // TODO 온보딩 겹치는 경우 Backdrop 컴포넌트 동시성 개선 필요
     if ((!step && !lastStep) || step < lastStep) {
       setOpenOnBoarding(true);
     } else {

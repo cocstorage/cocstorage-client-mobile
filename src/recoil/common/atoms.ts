@@ -1,5 +1,6 @@
-import { ThemeMode } from 'cocstorage-ui/dist/types';
 import { atom } from 'recoil';
+
+import { ThemeMode } from 'cocstorage-ui';
 
 import LocalStorage from '@library/localStorage';
 
@@ -33,13 +34,20 @@ export const commonThemeState = atom<ThemeMode | 'system'>({
 });
 
 export const commonOnBoardingDefault = {
+  theme: {
+    step: 0,
+    lastStep: 1,
+    done: false
+  },
   search: {
     step: 0,
-    lastStep: 1
+    lastStep: 1,
+    done: false
   },
   comment: {
     step: 0,
-    lastStep: 1
+    lastStep: 1,
+    done: false
   }
 };
 

@@ -223,7 +223,8 @@ function StorageBoardFooter({ footerRef }: StorageBoardFooterProps) {
       ...prevState,
       comment: {
         ...commonOnBoardingDefault.comment,
-        step: 1
+        step: 1,
+        done: commonOnBoardingDefault.comment.lastStep === 1
       }
     }));
 
@@ -233,7 +234,8 @@ function StorageBoardFooter({ footerRef }: StorageBoardFooterProps) {
       ...prevState,
       comment: {
         ...commonOnBoardingDefault.comment,
-        step: 1
+        step: 1,
+        done: commonOnBoardingDefault.comment.lastStep === 1
       }
     }));
   };

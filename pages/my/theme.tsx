@@ -1,11 +1,10 @@
 import { ChangeEvent, MouseEvent } from 'react';
 
-import { ThemeMode } from 'cocstorage-ui/dist/types';
 import { useRecoilState } from 'recoil';
 
 import { commonThemeState } from '@recoil/common/atoms';
 
-import { Flexbox, Radio, Typography } from 'cocstorage-ui';
+import { Flexbox, Radio, ThemeMode, Typography } from 'cocstorage-ui';
 
 import { MyThemeHead, MyThemeHeader } from '@components/pages/myTheme';
 import GeneralTemplate from '@components/templeates/GeneralTemplate';
