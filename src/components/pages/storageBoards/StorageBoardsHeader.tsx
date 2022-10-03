@@ -1,18 +1,32 @@
-import { useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { useRouter } from 'next/router';
 
 import { useQuery } from '@tanstack/react-query';
 
-import { useResetRecoilState, useSetRecoilState } from 'recoil';
+import { useRecoilState, useResetRecoilState, useSetRecoilState } from 'recoil';
 
 import styled, { CSSObject } from '@emotion/styled';
 
-import { commonFeedbackDialogState } from '@recoil/common/atoms';
+import {
+  commonFeedbackDialogState,
+  commonOnBoardingDefault,
+  commonOnBoardingState
+} from '@recoil/common/atoms';
 import { openStorageBoardsInfoBottomSheetState } from '@recoil/storageBoards/atoms';
 import { storageBoardsSearchParamsState } from '@recoil/storageBoardsSearch/atoms';
 
-import { Box, Flexbox, Icon, IconButton, Image, Typography, useTheme } from 'cocstorage-ui';
+import {
+  Box,
+  Flexbox,
+  Icon,
+  IconButton,
+  Image,
+  Spotlight,
+  Tooltip,
+  Typography,
+  useTheme
+} from 'cocstorage-ui';
 
 import useScrollTrigger from '@hooks/useScrollTrigger';
 
@@ -24,11 +38,16 @@ function StorageBoardsHeader() {
   const router = useRouter();
   const { path } = router.query;
 
+  const [{ search: { step = 0, lastStep = 0 } = {} }, setCommonOnBoardingState] =
+    useRecoilState(commonOnBoardingState);
   const resetParams = useResetRecoilState(storageBoardsSearchParamsState);
   const setOpen = useSetRecoilState(openStorageBoardsInfoBottomSheetState);
   const setCommonFeedbackDialogState = useSetRecoilState(commonFeedbackDialogState);
 
+  const [openOnBoarding, setOpenOnBoarding] = useState(false);
+
   const headerRef = useRef<HTMLDivElement>(null);
+  const targetRef = useRef<HTMLButtonElement>(null);
 
   const { triggered } = useScrollTrigger({ ref: headerRef });
 
@@ -60,6 +79,23 @@ function StorageBoardsHeader() {
       message: '조금만 기다려주세요!'
     });
 
+  const handleCloseOnBoarding = () =>
+    setCommonOnBoardingState((prevState) => ({
+      ...prevState,
+      search: {
+        ...commonOnBoardingDefault.search,
+        step: 1
+      }
+    }));
+
+  useEffect(() => {
+    if ((!step && !lastStep) || step < lastStep) {
+      setOpenOnBoarding(true);
+    } else {
+      setOpenOnBoarding(false);
+    }
+  }, [step, lastStep]);
+
   return (
     <Box ref={headerRef} component="header" customStyle={{ height: 50 }}>
       <StyledStorageBoardsHeader triggered={triggered}>
@@ -88,9 +124,31 @@ function StorageBoardsHeader() {
           </IconButton>
         </Flexbox>
         <Flexbox gap={10} alignment="center">
-          <IconButton onClick={handleClickSearch}>
+          <IconButton ref={targetRef} onClick={handleClickSearch}>
             <Icon name="SearchOutlined" />
           </IconButton>
+          <Spotlight
+            open={openOnBoarding}
+            onClose={handleCloseOnBoarding}
+            targetRef={targetRef}
+            customStyle={{
+              borderRadius: 8
+            }}
+          >
+            <Tooltip
+              open={openOnBoarding}
+              onClose={handleCloseOnBoarding}
+              left={-82.5}
+              triangleLeft={86}
+              centered={false}
+              content="게시글을 검색할 수 있어요!"
+              disableOnClose
+            >
+              <IconButton onClick={handleClickSearch}>
+                <Icon name="SearchOutlined" />
+              </IconButton>
+            </Tooltip>
+          </Spotlight>
           <IconButton onClick={handleClickIcon}>
             <Icon name="StarOutlined" />
           </IconButton>

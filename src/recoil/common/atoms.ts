@@ -32,27 +32,25 @@ export const commonThemeState = atom<ThemeMode | 'system'>({
   ]
 });
 
+export const commonOnBoardingDefault = {
+  search: {
+    step: 0,
+    lastStep: 1
+  },
+  comment: {
+    step: 0,
+    lastStep: 1
+  }
+};
+
 export const commonOnBoardingState = atom({
   key: 'common/onBoardingState',
-  default: {
-    comment: {
-      step: 0,
-      lastStep: 1
-    }
-  },
+  default: commonOnBoardingDefault,
   effects: [
     ({ onSet, setSelf }) => {
-      const onBoarding = LocalStorage.get<{
-        comment: {
-          step: number;
-          lastStep: number;
-        };
-      }>(localStorageKeys.onBoarding) || {
-        comment: {
-          step: 0,
-          lastStep: 1
-        }
-      };
+      const onBoarding =
+        LocalStorage.get<typeof commonOnBoardingDefault>(localStorageKeys.onBoarding) ||
+        commonOnBoardingDefault;
 
       setSelf(onBoarding);
 

@@ -8,7 +8,11 @@ import { useRecoilState, useSetRecoilState } from 'recoil';
 
 import styled, { CSSObject } from '@emotion/styled';
 
-import { commonFeedbackDialogState, commonOnBoardingState } from '@recoil/common/atoms';
+import {
+  commonFeedbackDialogState,
+  commonOnBoardingDefault,
+  commonOnBoardingState
+} from '@recoil/common/atoms';
 import { storageBoardCommentsParamsState } from '@recoil/storageBoard/atoms';
 
 import {
@@ -57,12 +61,8 @@ function StorageBoardFooter({ footerRef }: StorageBoardFooterProps) {
   } = useTheme();
 
   const [params, setParams] = useRecoilState(storageBoardCommentsParamsState);
-  const [
-    {
-      comment: { step, lastStep }
-    },
-    setCommonOnBoardingState
-  ] = useRecoilState(commonOnBoardingState);
+  const [{ comment: { step = 0, lastStep = 0 } = {} }, setCommonOnBoardingState] =
+    useRecoilState(commonOnBoardingState);
   const setCommonFeedbackDialogState = useSetRecoilState(commonFeedbackDialogState);
 
   const [rows, setRows] = useState(1);
@@ -70,6 +70,7 @@ function StorageBoardFooter({ footerRef }: StorageBoardFooterProps) {
   const [password, setPassword] = useState('');
   const [content, setContent] = useState('');
   const [observerTriggered, setObserverTriggered] = useState(false);
+  const [openOnBoarding, setOpenOnBoarding] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
 
   const { triggered } = useScrollTrigger({ ref: footerRef });
@@ -221,7 +222,7 @@ function StorageBoardFooter({ footerRef }: StorageBoardFooterProps) {
     setCommonOnBoardingState((prevState) => ({
       ...prevState,
       comment: {
-        ...prevState.comment,
+        ...commonOnBoardingDefault.comment,
         step: 1
       }
     }));
@@ -231,7 +232,7 @@ function StorageBoardFooter({ footerRef }: StorageBoardFooterProps) {
     setCommonOnBoardingState((prevState) => ({
       ...prevState,
       comment: {
-        ...prevState.comment,
+        ...commonOnBoardingDefault.comment,
         step: 1
       }
     }));
@@ -260,6 +261,14 @@ function StorageBoardFooter({ footerRef }: StorageBoardFooterProps) {
       }
     };
   }, []);
+
+  useEffect(() => {
+    if ((!step && !lastStep) || step < lastStep) {
+      setOpenOnBoarding(true);
+    } else {
+      setOpenOnBoarding(false);
+    }
+  }, [step, lastStep]);
 
   if (isMounted && (observerTriggered || triggered)) {
     return (
@@ -327,12 +336,13 @@ function StorageBoardFooter({ footerRef }: StorageBoardFooterProps) {
             </Flexbox>
           </StyledStorageBoardFooter>
         </Box>
-        <Spotlight open={step < lastStep} onClose={handleCloseOnBoarding} targetRef={targetRef}>
+        <Spotlight open={openOnBoarding} onClose={handleCloseOnBoarding} targetRef={targetRef}>
           <Tooltip
-            open={step < lastStep}
+            open={openOnBoarding}
             onClose={handleCloseOnBoarding}
             content="로그인하지 않아도 댓글을 남길 수 있어요!"
             placement="top"
+            disableOnClose
           >
             <Box
               onClick={handleCloseOnBoardingWithWrapCommentsArea}
