@@ -34,16 +34,18 @@ function BottomNavigation({ disableFixed }: BottomNavigationProps) {
 
   const handleClick = (event: MouseEvent<HTMLLIElement>) => {
     const dataPathname = event.currentTarget.getAttribute('data-pathname');
-    router.push(dataPathname).then(() =>
-      setCommonOnBoardingState((prevState) => ({
-        ...prevState,
-        theme: {
-          ...commonOnBoardingDefault.theme,
-          step: 1,
-          done: commonOnBoardingDefault.theme.lastStep === 1
-        }
-      }))
-    );
+    router.push(dataPathname).then(() => {
+      if (dataPathname === '/my') {
+        setCommonOnBoardingState((prevState) => ({
+          ...prevState,
+          theme: {
+            ...commonOnBoardingDefault.theme,
+            step: 1,
+            done: commonOnBoardingDefault.theme.lastStep === 1
+          }
+        }));
+      }
+    });
   };
 
   const handleClose = () =>
