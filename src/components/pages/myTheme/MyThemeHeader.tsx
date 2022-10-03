@@ -7,7 +7,7 @@ import { Box, Icon, IconButton, Typography } from 'cocstorage-ui';
 function MyThemeHeader() {
   const router = useRouter();
 
-  const handleClick = () => router.back();
+  const handleClick = () => router.push('/my');
 
   return (
     <Box component="header" customStyle={{ height: 50 }}>
