@@ -72,16 +72,21 @@ function StorageBoardFooter({ footerRef }: StorageBoardFooterProps) {
   const [observerTriggered, setObserverTriggered] = useState(false);
   const [openOnBoarding, setOpenOnBoarding] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
+  const [focused, setFocused] = useState(false);
 
   const { triggered } = useScrollTrigger({ ref: footerRef });
 
   const onIntersectRef = useRef(async ([entry], observer) => {
-    if (entry.isIntersecting) {
-      observer.unobserve(entry.target);
+    try {
+      if (entry.isIntersecting) {
+        observer.unobserve(entry.target);
+        setObserverTriggered(true);
+        observer.observe(entry.target);
+      } else {
+        setObserverTriggered(false);
+      }
+    } catch {
       setObserverTriggered(true);
-      observer.observe(entry.target);
-    } else {
-      setObserverTriggered(false);
     }
   }).current;
   const targetRef = useRef<HTMLDivElement>(null);
@@ -240,10 +245,18 @@ function StorageBoardFooter({ footerRef }: StorageBoardFooterProps) {
     }));
   };
 
+  const handleFocus = () => setFocused(true);
+  const handleBlur = () => setFocused(false);
+
   useEffect(() => {
-    const observer = new IntersectionObserver(onIntersectRef, { threshold: 0 });
-    observer.observe(footerRef.current);
-    return () => observer.disconnect();
+    let observer;
+    try {
+      observer = new IntersectionObserver(onIntersectRef, { threshold: 0.5 });
+      observer.observe(footerRef.current);
+      return () => observer.disconnect();
+    } catch {
+      return null;
+    }
   }, [onIntersectRef, footerRef]);
 
   useEffect(() => {
@@ -272,7 +285,7 @@ function StorageBoardFooter({ footerRef }: StorageBoardFooterProps) {
     }
   }, [step, lastStep]);
 
-  if (isMounted && (observerTriggered || triggered)) {
+  if (isMounted && (observerTriggered || triggered || focused)) {
     return (
       <>
         <Box component="footer" customStyle={{ minHeight: 65 }}>
@@ -313,6 +326,8 @@ function StorageBoardFooter({ footerRef }: StorageBoardFooterProps) {
                   placeholder="내용을 입력해주세요."
                   rows={rows}
                   onChange={handleChange}
+                  onFocus={handleFocus}
+                  onBlur={handleBlur}
                   value={content}
                   disabled={isLoadingPostComment}
                 />
@@ -340,7 +355,7 @@ function StorageBoardFooter({ footerRef }: StorageBoardFooterProps) {
         </Box>
         <Spotlight open={openOnBoarding} onClose={handleCloseOnBoarding} targetRef={targetRef}>
           <Tooltip
-            open={openOnBoarding}
+            open={openOnBoarding && !!targetRef.current}
             onClose={handleCloseOnBoarding}
             content="로그인하지 않아도 댓글을 남길 수 있어요!"
             placement="top"
@@ -350,10 +365,7 @@ function StorageBoardFooter({ footerRef }: StorageBoardFooterProps) {
               onClick={handleCloseOnBoardingWithWrapCommentsArea}
               customStyle={{ width: (targetRef.current || {}).clientWidth, height: 65 }}
             >
-              <StyledStorageBoardFooter
-                ref={targetRef}
-                css={{ minHeight: 65, justifyContent: 'center' }}
-              >
+              <StyledStorageBoardFooter css={{ minHeight: 65, justifyContent: 'center' }}>
                 <Flexbox direction="vertical" gap={10} customStyle={{ width: '100%' }}>
                   {content && (
                     <Grid container columnGap={16}>

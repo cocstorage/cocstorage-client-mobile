@@ -8,10 +8,25 @@ import { useRecoilState, useSetRecoilState } from 'recoil';
 
 import styled, { CSSObject } from '@emotion/styled';
 
-import { commonFeedbackDialogState } from '@recoil/common/atoms';
+import {
+  commonFeedbackDialogState,
+  commonOnBoardingDefault,
+  commonOnBoardingState
+} from '@recoil/common/atoms';
 import { noticeCommentsParamsState } from '@recoil/notice/atoms';
 
-import { Box, Button, Flexbox, Grid, Icon, IconButton, TextBar, useTheme } from 'cocstorage-ui';
+import {
+  Box,
+  Button,
+  Flexbox,
+  Grid,
+  Icon,
+  IconButton,
+  Spotlight,
+  TextBar,
+  Tooltip,
+  useTheme
+} from 'cocstorage-ui';
 
 import { Notice } from '@dto/notices';
 import useScrollTrigger from '@hooks/useScrollTrigger';
@@ -42,6 +57,8 @@ function NoticeFooter({ footerRef }: NoticeFooterProps) {
   } = useTheme();
 
   const [params, setParams] = useRecoilState(noticeCommentsParamsState);
+  const [{ comment: { step = 0, lastStep = 0 } = {} }, setCommonOnBoardingState] =
+    useRecoilState(commonOnBoardingState);
   const setCommonFeedbackDialogState = useSetRecoilState(commonFeedbackDialogState);
 
   const [rows, setRows] = useState(1);
@@ -49,18 +66,27 @@ function NoticeFooter({ footerRef }: NoticeFooterProps) {
   const [password, setPassword] = useState('');
   const [content, setContent] = useState('');
   const [observerTriggered, setObserverTriggered] = useState(false);
+  const [openOnBoarding, setOpenOnBoarding] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
+  const [focused, setFocused] = useState(false);
 
   const { triggered } = useScrollTrigger({ ref: footerRef });
 
   const onIntersectRef = useRef(async ([entry], observer) => {
-    if (entry.isIntersecting) {
-      observer.unobserve(entry.target);
+    try {
+      if (entry.isIntersecting) {
+        observer.unobserve(entry.target);
+        setObserverTriggered(true);
+        observer.observe(entry.target);
+      } else {
+        setObserverTriggered(false);
+      }
+    } catch {
       setObserverTriggered(true);
-      observer.observe(entry.target);
-    } else {
-      setObserverTriggered(false);
     }
   }).current;
+  const targetRef = useRef<HTMLDivElement>(null);
+  const mountedDelayTimerRef = useRef<ReturnType<typeof setTimeout>>();
 
   const queryClient = useQueryClient();
 
@@ -150,10 +176,40 @@ function NoticeFooter({ footerRef }: NoticeFooterProps) {
     mutate({ nickname, password, content });
   };
 
+  const handleCloseOnBoarding = () =>
+    setCommonOnBoardingState((prevState) => ({
+      ...prevState,
+      comment: {
+        ...commonOnBoardingDefault.comment,
+        step: 1,
+        done: commonOnBoardingDefault.comment.lastStep === 1
+      }
+    }));
+
+  const handleCloseOnBoardingWithWrapCommentsArea = () => {
+    footerRef.current.scrollIntoView({ behavior: 'smooth' });
+    setCommonOnBoardingState((prevState) => ({
+      ...prevState,
+      comment: {
+        ...commonOnBoardingDefault.comment,
+        step: 1,
+        done: commonOnBoardingDefault.comment.lastStep === 1
+      }
+    }));
+  };
+
+  const handleFocus = () => setFocused(true);
+  const handleBlur = () => setFocused(false);
+
   useEffect(() => {
-    const observer = new IntersectionObserver(onIntersectRef, { threshold: 0.5 });
-    observer.observe(footerRef.current);
-    return () => observer.disconnect();
+    let observer;
+    try {
+      observer = new IntersectionObserver(onIntersectRef, { threshold: 0.5 });
+      observer.observe(footerRef.current);
+      return () => observer.disconnect();
+    } catch {
+      return null;
+    }
   }, [onIntersectRef, footerRef]);
 
   useEffect(() => {
@@ -164,57 +220,154 @@ function NoticeFooter({ footerRef }: NoticeFooterProps) {
     }
   }, [content]);
 
-  if (observerTriggered || triggered) {
+  useEffect(() => {
+    mountedDelayTimerRef.current = setTimeout(() => setIsMounted(true), 200);
+
+    return () => {
+      if (mountedDelayTimerRef.current) {
+        clearTimeout(mountedDelayTimerRef.current);
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    if ((!step && !lastStep) || step < lastStep) {
+      setOpenOnBoarding(true);
+    } else {
+      setOpenOnBoarding(false);
+    }
+  }, [step, lastStep]);
+
+  if (isMounted && (observerTriggered || triggered || focused)) {
     return (
-      <Box component="footer" customStyle={{ minHeight: 65 }}>
-        <StyledNoticeFooter css={{ minHeight: 65, justifyContent: 'center' }}>
-          <Flexbox direction="vertical" gap={10} customStyle={{ width: '100%' }}>
-            {content && (
-              <Grid container columnGap={16}>
-                <Grid item xs={2}>
-                  <TextBar
-                    fullWidth
-                    size="small"
-                    onChange={handleChangeTextBar}
-                    value={nickname}
-                    placeholder="닉네임"
-                    customStyle={{ borderColor: box.stroked.normal }}
-                  />
+      <>
+        <Box component="footer" customStyle={{ minHeight: 65 }}>
+          <StyledNoticeFooter ref={targetRef} css={{ minHeight: 65, justifyContent: 'center' }}>
+            <Flexbox direction="vertical" ref={targetRef} gap={10} customStyle={{ width: '100%' }}>
+              {content && (
+                <Grid container columnGap={16}>
+                  <Grid item xs={2}>
+                    <TextBar
+                      fullWidth
+                      size="small"
+                      onChange={handleChangeTextBar}
+                      value={nickname}
+                      placeholder="닉네임"
+                      disabled={isLoading}
+                      customStyle={{ borderColor: box.stroked.normal }}
+                    />
+                  </Grid>
+                  <Grid item xs={2}>
+                    <TextBar
+                      fullWidth
+                      type="password"
+                      size="small"
+                      onChange={handleChangeTextBar}
+                      value={password}
+                      placeholder="바밀번호"
+                      disabled={isLoading}
+                      customStyle={{ borderColor: box.stroked.normal }}
+                    />
+                  </Grid>
                 </Grid>
-                <Grid item xs={2}>
-                  <TextBar
-                    fullWidth
-                    type="password"
-                    size="small"
-                    onChange={handleChangeTextBar}
-                    value={password}
-                    placeholder="바밀번호"
-                    customStyle={{ borderColor: box.stroked.normal }}
-                  />
-                </Grid>
-              </Grid>
-            )}
-            <CommentBar>
-              <CommentTextArea
-                placeholder="내용을 입력해주세요."
-                rows={rows}
-                onChange={handleChange}
-                value={content}
-              />
-              <IconButton onClick={handleClickSend} customStyle={{ marginRight: 10 }}>
-                <Icon
-                  name={
-                    !isLoading && nickname && password && content ? 'SendFilled' : 'SendOutlined'
-                  }
-                  color={
-                    !isLoading && nickname && password && content ? 'primary' : text[mode].text3
-                  }
+              )}
+              <CommentBar>
+                <CommentTextArea
+                  placeholder="내용을 입력해주세요."
+                  rows={rows}
+                  onChange={handleChange}
+                  onFocus={handleFocus}
+                  onBlur={handleBlur}
+                  value={content}
+                  disabled={isLoading}
                 />
-              </IconButton>
-            </CommentBar>
-          </Flexbox>
-        </StyledNoticeFooter>
-      </Box>
+                <IconButton onClick={handleClickSend} customStyle={{ marginRight: 10 }}>
+                  <Icon
+                    name={
+                      !isLoading && nickname && password && content ? 'SendFilled' : 'SendOutlined'
+                    }
+                    color={
+                      !isLoading && nickname && password && content ? 'primary' : text[mode].text3
+                    }
+                  />
+                </IconButton>
+              </CommentBar>
+            </Flexbox>
+          </StyledNoticeFooter>
+        </Box>
+        <Spotlight open={openOnBoarding} onClose={handleCloseOnBoarding} targetRef={targetRef}>
+          <Tooltip
+            open={openOnBoarding && !!targetRef.current}
+            onClose={handleCloseOnBoarding}
+            content="로그인하지 않아도 댓글을 남길 수 있어요!"
+            placement="top"
+            disableOnClose
+          >
+            <Box
+              onClick={handleCloseOnBoardingWithWrapCommentsArea}
+              customStyle={{
+                width: (targetRef.current || {}).clientWidth,
+                height: 65
+              }}
+            >
+              <StyledNoticeFooter css={{ minHeight: 65, justifyContent: 'center' }}>
+                <Flexbox direction="vertical" gap={10} customStyle={{ width: '100%' }}>
+                  {content && (
+                    <Grid container columnGap={16}>
+                      <Grid item xs={2}>
+                        <TextBar
+                          fullWidth
+                          size="small"
+                          onChange={handleChangeTextBar}
+                          value={nickname}
+                          placeholder="닉네임"
+                          disabled={isLoading}
+                          customStyle={{ borderColor: box.stroked.normal }}
+                        />
+                      </Grid>
+                      <Grid item xs={2}>
+                        <TextBar
+                          fullWidth
+                          type="password"
+                          size="small"
+                          onChange={handleChangeTextBar}
+                          value={password}
+                          placeholder="바밀번호"
+                          disabled={isLoading}
+                          customStyle={{ borderColor: box.stroked.normal }}
+                        />
+                      </Grid>
+                    </Grid>
+                  )}
+                  <CommentBar>
+                    <CommentTextArea
+                      placeholder="내용을 입력해주세요."
+                      rows={rows}
+                      onChange={handleChange}
+                      value={content}
+                      disabled
+                    />
+                    <IconButton onClick={handleClickSend} customStyle={{ marginRight: 10 }}>
+                      <Icon
+                        name={
+                          !isLoading && nickname && password && content
+                            ? 'SendFilled'
+                            : 'SendOutlined'
+                        }
+                        color={
+                          !isLoading && nickname && password && content
+                            ? 'primary'
+                            : text[mode].text3
+                        }
+                      />
+                    </IconButton>
+                  </CommentBar>
+                </Flexbox>
+              </StyledNoticeFooter>
+            </Box>
+          </Tooltip>
+        </Spotlight>
+      </>
     );
   }
 
