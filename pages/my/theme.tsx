@@ -3,7 +3,7 @@ import { ChangeEvent, MouseEvent } from 'react';
 import { ThemeMode } from 'cocstorage-ui/dist/types';
 import { useRecoilState } from 'recoil';
 
-import { themeState } from '@recoil/common/atoms';
+import { commonThemeState } from '@recoil/common/atoms';
 
 import { Flexbox, Radio, Typography } from 'cocstorage-ui';
 
@@ -11,7 +11,7 @@ import { MyThemeHead, MyThemeHeader } from '@components/pages/myTheme';
 import GeneralTemplate from '@components/templeates/GeneralTemplate';
 
 function MyTheme() {
-  const [theme, setTheme] = useRecoilState(themeState);
+  const [theme, setTheme] = useRecoilState(commonThemeState);
 
   const handleClick = (event: MouseEvent<HTMLDivElement>) => {
     const dataThemeType = event.currentTarget.getAttribute('data-theme-type') as ThemeMode;

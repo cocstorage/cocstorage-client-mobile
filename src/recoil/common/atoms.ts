@@ -10,11 +10,11 @@ import { DeleteStorageBoardCommentData } from '@api/v1/storage-board-comments';
 
 import { localStorageKeys } from '@constants/localStorageKeys';
 
-export const themeDefault: ThemeMode | 'system' = 'system';
+export const commonThemeDefault: ThemeMode | 'system' = 'system';
 
-export const themeState = atom<ThemeMode | 'system'>({
+export const commonThemeState = atom<ThemeMode | 'system'>({
   key: 'common/themeState',
-  default: themeDefault,
+  default: commonThemeDefault,
   effects: [
     ({ onSet, setSelf }) => {
       const theme = LocalStorage.get<ThemeMode | 'system'>(localStorageKeys.theme) || 'system';
@@ -26,6 +26,41 @@ export const themeState = atom<ThemeMode | 'system'>({
           LocalStorage.remove(localStorageKeys.theme);
         } else {
           LocalStorage.set(localStorageKeys.theme, newValue);
+        }
+      });
+    }
+  ]
+});
+
+export const commonOnBoardingState = atom({
+  key: 'common/onBoardingState',
+  default: {
+    comment: {
+      step: 0,
+      lastStep: 1
+    }
+  },
+  effects: [
+    ({ onSet, setSelf }) => {
+      const onBoarding = LocalStorage.get<{
+        comment: {
+          step: number;
+          lastStep: number;
+        };
+      }>(localStorageKeys.onBoarding) || {
+        comment: {
+          step: 0,
+          lastStep: 1
+        }
+      };
+
+      setSelf(onBoarding);
+
+      onSet((newValue, _, isReset) => {
+        if (isReset) {
+          LocalStorage.remove(localStorageKeys.onBoarding);
+        } else {
+          LocalStorage.set(localStorageKeys.onBoarding, newValue);
         }
       });
     }

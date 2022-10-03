@@ -19,7 +19,7 @@
     "@tanstack/react-query": "^4.7.2",
     "@tanstack/react-query-devtools": "^4.7.2",
     "axios": "^0.27.2",
-    "cocstorage-ui": "^0.1.29",
+    "cocstorage-ui": "^0.1.31",
     "dayjs": "^1.11.5",
     "next": "^12.3.1",
     "react": "^18.2.0",

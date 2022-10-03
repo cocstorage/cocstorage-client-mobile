@@ -8,10 +8,21 @@ import { useRecoilState, useSetRecoilState } from 'recoil';
 
 import styled, { CSSObject } from '@emotion/styled';
 
-import { commonFeedbackDialogState } from '@recoil/common/atoms';
+import { commonFeedbackDialogState, commonOnBoardingState } from '@recoil/common/atoms';
 import { storageBoardCommentsParamsState } from '@recoil/storageBoard/atoms';
 
-import { Box, Button, Flexbox, Grid, Icon, IconButton, TextBar, useTheme } from 'cocstorage-ui';
+import {
+  Box,
+  Button,
+  Flexbox,
+  Grid,
+  Icon,
+  IconButton,
+  Spotlight,
+  TextBar,
+  Tooltip,
+  useTheme
+} from 'cocstorage-ui';
 
 import type { AxiosError } from 'axios';
 
@@ -46,6 +57,12 @@ function StorageBoardFooter({ footerRef }: StorageBoardFooterProps) {
   } = useTheme();
 
   const [params, setParams] = useRecoilState(storageBoardCommentsParamsState);
+  const [
+    {
+      comment: { step, lastStep }
+    },
+    setCommonOnBoardingState
+  ] = useRecoilState(commonOnBoardingState);
   const setCommonFeedbackDialogState = useSetRecoilState(commonFeedbackDialogState);
 
   const [rows, setRows] = useState(1);
@@ -53,6 +70,7 @@ function StorageBoardFooter({ footerRef }: StorageBoardFooterProps) {
   const [password, setPassword] = useState('');
   const [content, setContent] = useState('');
   const [observerTriggered, setObserverTriggered] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
 
   const { triggered } = useScrollTrigger({ ref: footerRef });
 
@@ -65,6 +83,8 @@ function StorageBoardFooter({ footerRef }: StorageBoardFooterProps) {
       setObserverTriggered(false);
     }
   }).current;
+  const targetRef = useRef<HTMLDivElement>(null);
+  const mountedDelayTimerRef = useRef<ReturnType<typeof setTimeout>>();
 
   const queryClient = useQueryClient();
 
@@ -197,8 +217,28 @@ function StorageBoardFooter({ footerRef }: StorageBoardFooterProps) {
     commentPostMutate({ nickname, password, content });
   };
 
+  const handleCloseOnBoarding = () =>
+    setCommonOnBoardingState((prevState) => ({
+      ...prevState,
+      comment: {
+        ...prevState.comment,
+        step: 1
+      }
+    }));
+
+  const handleCloseOnBoardingWithWrapCommentsArea = () => {
+    footerRef.current.scrollIntoView({ behavior: 'smooth' });
+    setCommonOnBoardingState((prevState) => ({
+      ...prevState,
+      comment: {
+        ...prevState.comment,
+        step: 1
+      }
+    }));
+  };
+
   useEffect(() => {
-    const observer = new IntersectionObserver(onIntersectRef, { threshold: 0.5 });
+    const observer = new IntersectionObserver(onIntersectRef, { threshold: 0 });
     observer.observe(footerRef.current);
     return () => observer.disconnect();
   }, [onIntersectRef, footerRef]);
@@ -211,74 +251,164 @@ function StorageBoardFooter({ footerRef }: StorageBoardFooterProps) {
     }
   }, [content]);
 
-  if (observerTriggered || triggered) {
+  useEffect(() => {
+    mountedDelayTimerRef.current = setTimeout(() => setIsMounted(true), 200);
+
+    return () => {
+      if (mountedDelayTimerRef.current) {
+        clearTimeout(mountedDelayTimerRef.current);
+      }
+    };
+  }, []);
+
+  if (isMounted && (observerTriggered || triggered)) {
     return (
-      <Box component="footer" customStyle={{ minHeight: 65 }}>
-        <StyledStorageBoardFooter css={{ minHeight: 65, justifyContent: 'center' }}>
-          <Flexbox direction="vertical" gap={10} customStyle={{ width: '100%' }}>
-            {content && (
-              <Grid container columnGap={16}>
-                <Grid item xs={2}>
-                  <TextBar
-                    fullWidth
-                    size="small"
-                    onChange={handleChangeTextBar}
-                    value={nickname}
-                    placeholder="닉네임"
-                    disabled={isLoadingPostComment}
-                    customStyle={{ borderColor: box.stroked.normal }}
-                  />
+      <>
+        <Box component="footer" customStyle={{ minHeight: 65 }}>
+          <StyledStorageBoardFooter
+            ref={targetRef}
+            css={{ minHeight: 65, justifyContent: 'center' }}
+          >
+            <Flexbox direction="vertical" gap={10} customStyle={{ width: '100%' }}>
+              {content && (
+                <Grid container columnGap={16}>
+                  <Grid item xs={2}>
+                    <TextBar
+                      fullWidth
+                      size="small"
+                      onChange={handleChangeTextBar}
+                      value={nickname}
+                      placeholder="닉네임"
+                      disabled={isLoadingPostComment}
+                      customStyle={{ borderColor: box.stroked.normal }}
+                    />
+                  </Grid>
+                  <Grid item xs={2}>
+                    <TextBar
+                      fullWidth
+                      type="password"
+                      size="small"
+                      onChange={handleChangeTextBar}
+                      value={password}
+                      placeholder="바밀번호"
+                      disabled={isLoadingPostComment}
+                      customStyle={{ borderColor: box.stroked.normal }}
+                    />
+                  </Grid>
                 </Grid>
-                <Grid item xs={2}>
-                  <TextBar
-                    fullWidth
-                    type="password"
-                    size="small"
-                    onChange={handleChangeTextBar}
-                    value={password}
-                    placeholder="바밀번호"
-                    disabled={isLoadingPostComment}
-                    customStyle={{ borderColor: box.stroked.normal }}
-                  />
-                </Grid>
-              </Grid>
-            )}
-            <CommentBar>
-              <CommentTextArea
-                placeholder="내용을 입력해주세요."
-                rows={rows}
-                onChange={handleChange}
-                value={content}
-                disabled={isLoadingPostComment}
-              />
-              <IconButton
-                onClick={handleClickSend}
-                disabled={isLoadingPostComment}
-                customStyle={{ marginRight: 10 }}
-              >
-                <Icon
-                  name={
-                    !isLoadingPostComment && nickname && password && content
-                      ? 'SendFilled'
-                      : 'SendOutlined'
-                  }
-                  color={
-                    !isLoadingPostComment && nickname && password && content
-                      ? 'primary'
-                      : text[mode].text3
-                  }
+              )}
+              <CommentBar>
+                <CommentTextArea
+                  placeholder="내용을 입력해주세요."
+                  rows={rows}
+                  onChange={handleChange}
+                  value={content}
+                  disabled={isLoadingPostComment}
                 />
-              </IconButton>
-            </CommentBar>
-          </Flexbox>
-        </StyledStorageBoardFooter>
-      </Box>
+                <IconButton
+                  onClick={handleClickSend}
+                  disabled={isLoadingPostComment}
+                  customStyle={{ marginRight: 10 }}
+                >
+                  <Icon
+                    name={
+                      !isLoadingPostComment && nickname && password && content
+                        ? 'SendFilled'
+                        : 'SendOutlined'
+                    }
+                    color={
+                      !isLoadingPostComment && nickname && password && content
+                        ? 'primary'
+                        : text[mode].text3
+                    }
+                  />
+                </IconButton>
+              </CommentBar>
+            </Flexbox>
+          </StyledStorageBoardFooter>
+        </Box>
+        <Spotlight open={step < lastStep} onClose={handleCloseOnBoarding} targetRef={targetRef}>
+          <Tooltip
+            open={step < lastStep}
+            onClose={handleCloseOnBoarding}
+            content="로그인하지 않아도 댓글을 남길 수 있어요!"
+            placement="top"
+          >
+            <Box
+              onClick={handleCloseOnBoardingWithWrapCommentsArea}
+              customStyle={{ width: (targetRef.current || {}).clientWidth, height: 65 }}
+            >
+              <StyledStorageBoardFooter
+                ref={targetRef}
+                css={{ minHeight: 65, justifyContent: 'center' }}
+              >
+                <Flexbox direction="vertical" gap={10} customStyle={{ width: '100%' }}>
+                  {content && (
+                    <Grid container columnGap={16}>
+                      <Grid item xs={2}>
+                        <TextBar
+                          fullWidth
+                          size="small"
+                          onChange={handleChangeTextBar}
+                          value={nickname}
+                          placeholder="닉네임"
+                          disabled={isLoadingPostComment}
+                          customStyle={{ borderColor: box.stroked.normal }}
+                        />
+                      </Grid>
+                      <Grid item xs={2}>
+                        <TextBar
+                          fullWidth
+                          type="password"
+                          size="small"
+                          onChange={handleChangeTextBar}
+                          value={password}
+                          placeholder="바밀번호"
+                          disabled={isLoadingPostComment}
+                          customStyle={{ borderColor: box.stroked.normal }}
+                        />
+                      </Grid>
+                    </Grid>
+                  )}
+                  <CommentBar>
+                    <CommentTextArea
+                      placeholder="내용을 입력해주세요."
+                      rows={rows}
+                      onChange={handleChange}
+                      value={content}
+                      disabled
+                    />
+                    <IconButton
+                      onClick={handleClickSend}
+                      disabled={isLoadingPostComment}
+                      customStyle={{ marginRight: 10 }}
+                    >
+                      <Icon
+                        name={
+                          !isLoadingPostComment && nickname && password && content
+                            ? 'SendFilled'
+                            : 'SendOutlined'
+                        }
+                        color={
+                          !isLoadingPostComment && nickname && password && content
+                            ? 'primary'
+                            : text[mode].text3
+                        }
+                      />
+                    </IconButton>
+                  </CommentBar>
+                </Flexbox>
+              </StyledStorageBoardFooter>
+            </Box>
+          </Tooltip>
+        </Spotlight>
+      </>
     );
   }
 
   return (
     <Box component="footer" customStyle={{ height: 44 }}>
-      <StyledStorageBoardFooter>
+      <StyledStorageBoardFooter ref={targetRef}>
         <Button
           variant="transparent"
           startIcon={

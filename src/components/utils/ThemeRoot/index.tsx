@@ -3,14 +3,14 @@ import { HTMLAttributes, PropsWithChildren, useCallback, useEffect, useState } f
 import { ThemeMode } from 'cocstorage-ui/dist/types';
 import { useRecoilState } from 'recoil';
 
-import { themeState } from '@recoil/common/atoms';
+import { commonThemeState } from '@recoil/common/atoms';
 
 import { ThemeProvider } from 'cocstorage-ui';
 
 type ThemeRootProps = HTMLAttributes<HTMLDivElement>;
 
 function ThemeRoot({ children }: PropsWithChildren<ThemeRootProps>) {
-  const [theme, setTheme] = useRecoilState(themeState);
+  const [theme, setTheme] = useRecoilState(commonThemeState);
   const [themeMode, setThemeMode] = useState<ThemeMode>('light');
 
   const handleChange = useCallback(
