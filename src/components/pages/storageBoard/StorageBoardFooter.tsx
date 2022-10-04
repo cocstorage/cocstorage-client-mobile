@@ -70,7 +70,7 @@ function StorageBoardFooter({ footerRef }: StorageBoardFooterProps) {
   const [password, setPassword] = useState('');
   const [content, setContent] = useState('');
   const [observerTriggered, setObserverTriggered] = useState(false);
-  const [openOnBoarding, setOpenOnBoarding] = useState(false);
+  const [open, setOpen] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
   const [focused, setFocused] = useState(false);
 
@@ -279,9 +279,9 @@ function StorageBoardFooter({ footerRef }: StorageBoardFooterProps) {
 
   useEffect(() => {
     if ((!step && !lastStep) || step < lastStep) {
-      setOpenOnBoarding(true);
+      setOpen(true);
     } else {
-      setOpenOnBoarding(false);
+      setOpen(false);
     }
   }, [step, lastStep]);
 
@@ -353,9 +353,9 @@ function StorageBoardFooter({ footerRef }: StorageBoardFooterProps) {
             </Flexbox>
           </StyledStorageBoardFooter>
         </Box>
-        <Spotlight open={openOnBoarding} onClose={handleCloseOnBoarding} targetRef={targetRef}>
+        <Spotlight open={open} onClose={handleCloseOnBoarding} targetRef={targetRef}>
           <Tooltip
-            open={openOnBoarding && !!targetRef.current}
+            open={open}
             onClose={handleCloseOnBoarding}
             content="로그인하지 않아도 댓글을 남길 수 있어요!"
             placement="top"
@@ -367,33 +367,6 @@ function StorageBoardFooter({ footerRef }: StorageBoardFooterProps) {
             >
               <StyledStorageBoardFooter css={{ minHeight: 65, justifyContent: 'center' }}>
                 <Flexbox direction="vertical" gap={10} customStyle={{ width: '100%' }}>
-                  {content && (
-                    <Grid container columnGap={16}>
-                      <Grid item xs={2}>
-                        <TextBar
-                          fullWidth
-                          size="small"
-                          onChange={handleChangeTextBar}
-                          value={nickname}
-                          placeholder="닉네임"
-                          disabled={isLoadingPostComment}
-                          customStyle={{ borderColor: box.stroked.normal }}
-                        />
-                      </Grid>
-                      <Grid item xs={2}>
-                        <TextBar
-                          fullWidth
-                          type="password"
-                          size="small"
-                          onChange={handleChangeTextBar}
-                          value={password}
-                          placeholder="바밀번호"
-                          disabled={isLoadingPostComment}
-                          customStyle={{ borderColor: box.stroked.normal }}
-                        />
-                      </Grid>
-                    </Grid>
-                  )}
                   <CommentBar>
                     <CommentTextArea
                       placeholder="내용을 입력해주세요."

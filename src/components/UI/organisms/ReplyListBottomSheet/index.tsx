@@ -263,7 +263,7 @@ function ReplyListBottomSheet({ type = 'storageBoard' }: ReplyListBottomSheetPro
               </Typography>
             )}
           </Flexbox>
-          <Typography lineHeight="main" noWrap lineClamp={3}>
+          <Typography lineHeight="main" noWrap lineClamp={3} customStyle={{ flex: 1 }}>
             {content.split('\n').map((splitContent, index) => (
               // eslint-disable-next-line react/no-array-index-key
               <span key={`comment-content-in-bottom-sheet-${index}`}>

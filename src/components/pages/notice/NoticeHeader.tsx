@@ -34,7 +34,7 @@ function NoticeHeader() {
     fetchNotice(Number(id))
   );
 
-  const handleClick = () => router.push('/notices');
+  const handleClick = () => router.back();
 
   const handleClickMenu = () =>
     setCommonFeedbackDialogState({
