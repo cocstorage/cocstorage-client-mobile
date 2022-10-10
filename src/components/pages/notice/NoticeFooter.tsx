@@ -268,7 +268,7 @@ function NoticeFooter({ footerRef }: NoticeFooterProps) {
   );
 }
 
-const StyledNoticeFooter = styled.div`
+export const StyledNoticeFooter = styled.div`
   position: fixed;
   bottom: 0;
   left: 0;

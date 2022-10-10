@@ -96,7 +96,7 @@ export async function getServerSideProps({ query, req, res }: GetServerSideProps
         dehydratedState: dehydrate(queryClient)
       }
     };
-  } catch (error) {
+  } catch {
     return {
       notFound: true
     };

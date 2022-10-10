@@ -7,6 +7,7 @@ import { noticesParamsState } from '@recoil/notices/atoms';
 import { Flexbox, Pagination } from 'cocstorage-ui';
 
 import NoticeCard from '@components/UI/molecules/NoticeCard';
+import NoticeCardSkeleton from '@components/UI/molecules/NoticeCard/NoticeCardSkeleton';
 
 import { fetchNotices } from '@api/v1/notices';
 
@@ -40,9 +41,13 @@ function NoticesList() {
   return (
     <>
       <Flexbox component="section" gap={18} direction="vertical" customStyle={{ marginTop: 20 }}>
-        {notices.map((notice) => (
-          <NoticeCard key={`notice-${notice.id}`} notice={notice} />
-        ))}
+        {isLoading &&
+          Array.from({ length: 20 }).map((_, index) => (
+            // eslint-disable-next-line react/no-array-index-key
+            <NoticeCardSkeleton key={`notice-skeleton-${index}`} />
+          ))}
+        {!isLoading &&
+          notices.map((notice) => <NoticeCard key={`notice-${notice.id}`} notice={notice} />)}
       </Flexbox>
       <Flexbox component="section" justifyContent="center" customStyle={{ margin: '25px auto' }}>
         <Pagination
