@@ -134,8 +134,8 @@ function BottomNavigation({ disableFixed, disableOnBoarding }: BottomNavigationP
           </Typography>
         </NavigationItem>
         <NavigationItem ref={targetRef} data-pathname="/my" onClick={handleClick}>
-          <Icon name="UserOutlined" color={forwardPath === '/my' ? 'primary' : text[mode].text2} />
-          <Typography variant="s2" color={router.pathname === '/my' ? 'primary' : text[mode].text2}>
+          <Icon name="UserOutlined" color={text[mode].text2} />
+          <Typography variant="s2" color={text[mode].text2}>
             마이
           </Typography>
         </NavigationItem>

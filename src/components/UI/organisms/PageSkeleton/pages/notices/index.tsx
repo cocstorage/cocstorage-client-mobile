@@ -2,7 +2,6 @@ import { Box, Flexbox } from 'cocstorage-ui';
 
 import { NoticesHeader } from '@components/pages/notices';
 import GeneralTemplate from '@components/templeates/GeneralTemplate';
-import BottomNavigation from '@components/UI/molecules/BottomNavigation';
 import NoticeCardSkeleton from '@components/UI/molecules/NoticeCard/NoticeCardSkeleton';
 
 import { SkeletonGroup } from '../..';
@@ -13,11 +12,6 @@ function Notices() {
       header={
         <Box style={{ position: 'relative', zIndex: 10 }}>
           <NoticesHeader />
-        </Box>
-      }
-      footer={
-        <Box style={{ position: 'relative', zIndex: '10' }}>
-          <BottomNavigation disableOnBoarding />
         </Box>
       }
       disableFlexible={false}
