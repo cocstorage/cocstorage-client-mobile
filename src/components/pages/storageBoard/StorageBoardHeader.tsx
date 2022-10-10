@@ -84,7 +84,7 @@ function StorageBoardHeader() {
   );
 }
 
-const StyledStorageBoardHeader = styled.div<{ triggered: boolean }>`
+export const StyledStorageBoardHeader = styled.div<{ triggered: boolean }>`
   position: fixed;
   top: 0;
   left: 0;

@@ -9,3 +9,4 @@ export { default as ReplyDeleteBottomSheet } from './ReplyDeleteBottomSheet';
 export { default as IssueKeywordRank } from './IssueKeywordRank';
 export { default as FeedbackDialog } from './FeedbackDialog';
 export { default as PageProgress } from './PageProgress';
+export { default as PageSkeleton } from './PageSkeleton';

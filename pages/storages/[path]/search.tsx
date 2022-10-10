@@ -26,7 +26,18 @@ function StorageBoardsSearch() {
   );
 }
 
-export async function getServerSideProps({ query }: GetServerSidePropsContext) {
+export async function getServerSideProps({ req, res, query }: GetServerSidePropsContext) {
+  const isReturning = req.cookies.isReturning ? JSON.parse(req.cookies.isReturning) : false;
+  if (isReturning) {
+    res.setHeader('Set-Cookie', 'isReturning=false;path=/');
+
+    return {
+      props: {
+        dehydratedState: null
+      }
+    };
+  }
+
   try {
     const queryClient = new QueryClient();
     const path = String(query.path);

@@ -8,7 +8,7 @@ import dayjs from 'dayjs';
 import RelativeTime from 'dayjs/plugin/relativeTime';
 import { RecoilRoot } from 'recoil';
 
-import { FeedbackDialog, PageProgress } from '@components/UI/organisms';
+import { FeedbackDialog, PageSkeleton } from '@components/UI/organisms';
 import { ErrorBoundary, GoogleScript, ThemeRoot } from '@components/utils';
 
 import 'dayjs/locale/ko';
@@ -64,7 +64,7 @@ function App({ Component, pageProps }: AppProps<{ dehydratedState: DehydratedSta
           <RecoilRoot>
             <ThemeRoot>
               <Hydrate state={pageProps.dehydratedState}>
-                <PageProgress />
+                <PageSkeleton />
                 <Component {...pageProps} />
                 <FeedbackDialog />
               </Hydrate>

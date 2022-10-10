@@ -73,6 +73,22 @@ export const commonOnBoardingState = atom({
   ]
 });
 
+export const commonHistoryState = atom<{
+  index: number;
+  object: string[];
+}>({
+  key: 'common/historyState',
+  default: {
+    index: 0,
+    object: ['/']
+  }
+});
+
+export const commonForwardPathState = atom({
+  key: 'common/forwardPathState',
+  default: '/'
+});
+
 export const commonFeedbackDialogState = atom<{
   open: boolean;
   title: string;

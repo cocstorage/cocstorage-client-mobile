@@ -35,7 +35,7 @@ function StorageBoardsTabs() {
   );
 }
 
-const StyledStorageBoardsTabs = styled.section`
+export const StyledStorageBoardsTabs = styled.section`
   display: flex;
   justify-content: center;
   margin: 0 -20px;

@@ -40,8 +40,8 @@ function StorageBoardsHeader() {
 
   const [{ search: { step = 0, lastStep = 0 } = {} }, setCommonOnBoardingState] =
     useRecoilState(commonOnBoardingState);
-  const resetParams = useResetRecoilState(storageBoardsSearchParamsState);
-  const setOpen = useSetRecoilState(openStorageBoardsInfoBottomSheetState);
+  const resetParamsState = useResetRecoilState(storageBoardsSearchParamsState);
+  const setOpenState = useSetRecoilState(openStorageBoardsInfoBottomSheetState);
   const setCommonFeedbackDialogState = useSetRecoilState(commonFeedbackDialogState);
 
   const [openOnBoarding, setOpenOnBoarding] = useState(false);
@@ -63,12 +63,12 @@ function StorageBoardsHeader() {
     () => fetchStorage(String(path))
   );
 
-  const handleClick = () => setOpen(true);
+  const handleClick = () => setOpenState(true);
 
   const handleClickBack = () => router.push('/storages');
 
   const handleClickSearch = () => {
-    resetParams();
+    resetParamsState();
     router.push(`/storages/${path}/search`).then(() =>
       setCommonOnBoardingState((prevState) => ({
         ...prevState,
@@ -169,7 +169,7 @@ function StorageBoardsHeader() {
   );
 }
 
-const StyledStorageBoardsHeader = styled.div<{ triggered: boolean }>`
+export const StyledStorageBoardsHeader = styled.div<{ triggered: boolean }>`
   position: fixed;
   top: 0;
   left: 0;

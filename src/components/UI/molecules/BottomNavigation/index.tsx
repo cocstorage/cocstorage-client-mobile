@@ -2,9 +2,13 @@ import { MouseEvent, useCallback, useEffect, useRef, useState } from 'react';
 
 import { useRouter } from 'next/router';
 
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 
-import { commonOnBoardingDefault, commonOnBoardingState } from '@recoil/common/atoms';
+import {
+  commonForwardPathState,
+  commonOnBoardingDefault,
+  commonOnBoardingState
+} from '@recoil/common/atoms';
 
 import { Box, Icon, Spotlight, Tooltip, Typography, useTheme } from 'cocstorage-ui';
 
@@ -12,9 +16,10 @@ import { NavigationItem, StyledBottomNavigation } from './BottomNavigation.style
 
 export interface BottomNavigationProps {
   disableFixed?: boolean;
+  disableOnBoarding?: boolean;
 }
 
-function BottomNavigation({ disableFixed }: BottomNavigationProps) {
+function BottomNavigation({ disableFixed, disableOnBoarding }: BottomNavigationProps) {
   const router = useRouter();
   const targetRef = useRef<HTMLLIElement>(null);
 
@@ -27,6 +32,7 @@ function BottomNavigation({ disableFixed }: BottomNavigationProps) {
 
   const [{ theme: { step = 0, lastStep = 0 } = {} }, setCommonOnBoardingState] =
     useRecoilState(commonOnBoardingState);
+  const forwardPath = useRecoilValue(commonForwardPathState);
 
   const [left, setLeft] = useState(0);
   const [bottom, setBottom] = useState(0);
@@ -84,12 +90,16 @@ function BottomNavigation({ disableFixed }: BottomNavigationProps) {
 
   useEffect(() => {
     // TODO 온보딩 겹치는 경우 Backdrop 컴포넌트 동시성 개선 필요
-    if (router.pathname !== '/storages/[path]' && ((!step && !lastStep) || step < lastStep)) {
+    if (
+      !disableOnBoarding &&
+      router.pathname !== '/storages/[path]' &&
+      ((!step && !lastStep) || step < lastStep)
+    ) {
       setOpen(true);
     } else {
       setOpen(false);
     }
-  }, [router.pathname, step, lastStep]);
+  }, [router.pathname, step, lastStep, disableOnBoarding]);
 
   return (
     <Box component="nav" customStyle={{ minHeight: 60 }}>
@@ -97,37 +107,34 @@ function BottomNavigation({ disableFixed }: BottomNavigationProps) {
         <NavigationItem data-pathname="/" onClick={handleClick}>
           <Icon
             name={
-              router.pathname === '/' || router.pathname === '/best' || router.pathname === '/worst'
+              forwardPath === '/' || forwardPath === '/best' || forwardPath === '/worst'
                 ? 'HomeFilled'
                 : 'HomeOutlined'
             }
             color={
-              router.pathname === '/' || router.pathname === '/best' || router.pathname === '/worst'
+              forwardPath === '/' || forwardPath === '/best' || forwardPath === '/worst'
                 ? 'primary'
                 : text[mode].text2
             }
           />
-          <Typography variant="s2" color={router.pathname === '/' ? 'primary' : text[mode].text2}>
+          <Typography variant="s2" color={forwardPath === '/' ? 'primary' : text[mode].text2}>
             홈
           </Typography>
         </NavigationItem>
         <NavigationItem data-pathname="/storages" onClick={handleClick}>
           <Icon
-            name={router.pathname.includes('/storages') ? 'CommunityFilled' : 'CommunityOutlined'}
-            color={router.pathname.includes('/storages') ? 'primary' : text[mode].text2}
+            name={forwardPath.includes('/storages') ? 'CommunityFilled' : 'CommunityOutlined'}
+            color={forwardPath.includes('/storages') ? 'primary' : text[mode].text2}
           />
           <Typography
             variant="s2"
-            color={router.pathname.includes('/storages') ? 'primary' : text[mode].text2}
+            color={forwardPath.includes('/storages') ? 'primary' : text[mode].text2}
           >
             게시판
           </Typography>
         </NavigationItem>
         <NavigationItem ref={targetRef} data-pathname="/my" onClick={handleClick}>
-          <Icon
-            name="UserOutlined"
-            color={router.pathname === '/my' ? 'primary' : text[mode].text2}
-          />
+          <Icon name="UserOutlined" color={forwardPath === '/my' ? 'primary' : text[mode].text2} />
           <Typography variant="s2" color={router.pathname === '/my' ? 'primary' : text[mode].text2}>
             마이
           </Typography>
@@ -156,12 +163,9 @@ function BottomNavigation({ disableFixed }: BottomNavigationProps) {
             <NavigationItem data-pathname="/my" onClick={handleClick} css={{ width: 50 }}>
               <Icon
                 name="UserOutlined"
-                color={router.pathname === '/my' ? 'primary' : text[mode].text2}
+                color={forwardPath === '/my' ? 'primary' : text[mode].text2}
               />
-              <Typography
-                variant="s2"
-                color={router.pathname === '/my' ? 'primary' : text[mode].text2}
-              >
+              <Typography variant="s2" color={forwardPath === '/my' ? 'primary' : text[mode].text2}>
                 마이
               </Typography>
             </NavigationItem>

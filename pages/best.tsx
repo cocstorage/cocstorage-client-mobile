@@ -26,7 +26,18 @@ function Best() {
   );
 }
 
-export async function getServerSideProps() {
+export async function getServerSideProps({ req, res }) {
+  const isReturning = req.cookies.isReturning ? JSON.parse(req.cookies.isReturning) : false;
+  if (isReturning) {
+    res.setHeader('Set-Cookie', 'isReturning=false;path=/');
+
+    return {
+      props: {
+        dehydratedState: null
+      }
+    };
+  }
+
   const queryClient = new QueryClient();
 
   await queryClient.prefetchQuery(

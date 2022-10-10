@@ -233,7 +233,7 @@ function StorageBoardContent({ footerRef }: StorageBoardContentProps) {
   );
 }
 
-const Content = styled(Typography)`
+export const Content = styled(Typography)`
   margin-top: 20px;
 
   * {

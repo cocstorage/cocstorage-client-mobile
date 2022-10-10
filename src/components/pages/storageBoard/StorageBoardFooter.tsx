@@ -448,7 +448,7 @@ function StorageBoardFooter({ footerRef }: StorageBoardFooterProps) {
   );
 }
 
-const StyledStorageBoardFooter = styled.div`
+export const StyledStorageBoardFooter = styled.div`
   position: fixed;
   bottom: 0;
   left: 0;

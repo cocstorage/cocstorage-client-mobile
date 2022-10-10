@@ -1,3 +1,5 @@
+import { GetServerSidePropsContext } from 'next';
+
 import { QueryClient, dehydrate } from '@tanstack/react-query';
 
 import { noticesParamsDefault } from '@recoil/notices/atoms';
@@ -20,7 +22,18 @@ function Notices() {
   );
 }
 
-export async function getServerSideProps() {
+export async function getServerSideProps({ req, res }: GetServerSidePropsContext) {
+  const isReturning = req.cookies.isReturning ? JSON.parse(req.cookies.isReturning) : false;
+  if (isReturning) {
+    res.setHeader('Set-Cookie', 'isReturning=false;path=/');
+
+    return {
+      props: {
+        dehydratedState: null
+      }
+    };
+  }
+
   const queryClient = new QueryClient();
 
   await queryClient.prefetchQuery(queryKeys.notices.noticesWithParams(noticesParamsDefault), () =>

@@ -10,7 +10,7 @@ import {
   StoragesPopularGrid
 } from '@components/pages/storages';
 import GeneralTemplate from '@components/templeates/GeneralTemplate';
-import { BottomNavigation } from '@components/UI/molecules';
+import BottomNavigation from '@components/UI/molecules/BottomNavigation';
 
 import { fetchStorageCategories } from '@api/v1/storage-categories';
 import { fetchStorages } from '@api/v1/storages';
@@ -33,7 +33,18 @@ function Storages() {
   );
 }
 
-export async function getServerSideProps() {
+export async function getServerSideProps({ req, res }) {
+  const isReturning = req.cookies.isReturning ? JSON.parse(req.cookies.isReturning) : false;
+  if (isReturning) {
+    res.setHeader('Set-Cookie', 'isReturning=false;path=/');
+
+    return {
+      props: {
+        dehydratedState: null
+      }
+    };
+  }
+
   const queryClient = new QueryClient();
 
   await queryClient.prefetchQuery(

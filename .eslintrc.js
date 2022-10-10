@@ -12,6 +12,12 @@ module.exports = {
   rules: {
     quotes: ['error', 'single'],
     'no-use-before-define': 'off',
+    'prettier/prettier': [
+      'error',
+      {
+        endOfLine: 'auto'
+      }
+    ],
     'import/extensions': [
       'error',
       'ignorePackages',
