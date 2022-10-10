@@ -20,6 +20,7 @@ function Notices() {
           <BottomNavigation disableOnBoarding />
         </Box>
       }
+      disableFlexible={false}
     >
       <SkeletonGroup>
         <Flexbox component="section" direction="vertical" gap={18} customStyle={{ marginTop: 20 }}>

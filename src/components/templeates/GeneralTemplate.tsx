@@ -20,7 +20,7 @@ function GeneralTemplate({
     if (disableFlexible) document.body.className = 'disable-flexible';
 
     return () => {
-      document.body.removeAttribute('class');
+      if (disableFlexible) document.body.removeAttribute('class');
     };
   }, [disableFlexible]);
 

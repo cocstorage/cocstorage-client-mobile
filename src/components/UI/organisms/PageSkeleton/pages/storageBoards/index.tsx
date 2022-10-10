@@ -21,6 +21,7 @@ function StorageBoard() {
           <BottomNavigation disableOnBoarding />
         </Box>
       }
+      disableFlexible={false}
     >
       <StorageBoardTabs />
       <Alert icon={<Icon name="PinOutlined" />} customStyle={{ marginTop: 12 }}>

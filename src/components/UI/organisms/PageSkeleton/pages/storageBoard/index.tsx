@@ -20,6 +20,7 @@ function StorageBoard() {
           <StorageBoardFooter />
         </Box>
       }
+      disableFlexible={false}
     >
       <StorageBoardContent />
     </GeneralTemplate>

@@ -38,6 +38,7 @@ function Notice() {
           <Skeleton width="100%" height={43} disableAspectRatio />
         </Box>
       }
+      disableFlexible={false}
     >
       <StorageBoardContent />
     </GeneralTemplate>
