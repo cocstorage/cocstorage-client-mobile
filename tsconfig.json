@@ -44,6 +44,12 @@
       "@library/*": [
         "./src/library/*"
       ],
+      "@provider": [
+        "./src/provider"
+      ],
+      "@provider/*": [
+        "./src/provider/*"
+      ],
       "@recoil": [
         "./src/recoil"
       ],

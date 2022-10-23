@@ -40,7 +40,7 @@ function StorageBoardHeader() {
     () => fetchStorageBoard(Number(storageId), Number(id))
   );
 
-  const handleClick = () => router.push(`/storages/${path}`);
+  const handleClick = () => router.back();
 
   const handleClickImage = () => router.push(`/storages/${path}`);
 

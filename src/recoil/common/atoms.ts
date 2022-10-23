@@ -84,6 +84,11 @@ export const commonHistoryState = atom<{
   }
 });
 
+export const commonIsGoBackState = atom({
+  key: 'common/isGoBackState',
+  default: false
+});
+
 export const commonForwardPathState = atom({
   key: 'common/forwardPathState',
   default: '/'

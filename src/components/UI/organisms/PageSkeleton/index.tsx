@@ -1,12 +1,12 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { useRouter } from 'next/router';
 
-import { useRecoilState, useSetRecoilState } from 'recoil';
+import { useRecoilValue } from 'recoil';
 
 import styled from '@emotion/styled';
 
-import { commonForwardPathState, commonHistoryState } from '@recoil/common/atoms';
+import { commonIsGoBackState } from '@recoil/common/atoms';
 
 import getAsPath from '@utils/getAsPath';
 
@@ -27,68 +27,46 @@ function PageSkeleton() {
   const router = useRouter();
   const wrapperRef = useRef<HTMLDivElement>(null);
 
+  const isGoBack = useRecoilValue(commonIsGoBackState);
+
   const [destination, setDestination] = useState('/');
   const [isLoading, setIsLoading] = useState(false);
-  const [isReturning, setIsReturning] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
-
-  const [history, setHistoryState] = useRecoilState(commonHistoryState);
-  const setForwardPathState = useSetRecoilState(commonForwardPathState);
 
   const isLoadingTimerRef = useRef<ReturnType<typeof setTimeout>>();
   const isVisibleTimerRef = useRef<ReturnType<typeof setTimeout>>();
   const scrollTopTimerRef = useRef<ReturnType<typeof setTimeout>>();
 
-  useEffect(() => {
-    setForwardPathState(router.pathname);
-  }, [setForwardPathState, router.pathname]);
-
-  useEffect(() => {
-    const handleRouteChangeStart = (url: string) => {
+  const handleRouteChangeStart = useCallback(
+    (url: string) => {
       setIsVisible(true);
 
       const pathname = getAsPath(url);
 
-      if (isReturning) {
-        setHistoryState({
-          index: history.index - 1,
-          object: history.object.filter((arr, index) => index < history.object.length - 1)
-        });
-      } else {
-        setHistoryState({
-          index: history.index + 1,
-          object: [...history.object, pathname]
-        });
+      setDestination(pathname);
+
+      if (!isGoBack) {
         if (serverSidePages.indexOf(pathname) > -1) {
           isLoadingTimerRef.current = setTimeout(() => setIsLoading(true), 0);
         }
       }
-      setDestination(pathname);
-      setForwardPathState(pathname);
-    };
+    },
+    [isGoBack]
+  );
 
-    const handleRouteChangeComplete = () => {
-      setIsLoading(false);
+  const handleRouteChangeComplete = useCallback(() => {
+    setIsLoading(false);
 
-      if (isReturning) {
-        setIsReturning(false);
-      } else {
-        scrollTopTimerRef.current = setTimeout(() => window.scrollTo({ top: 0 }), 120);
-      }
+    if (!isGoBack) {
+      scrollTopTimerRef.current = setTimeout(() => window.scrollTo({ top: 0 }), 120);
+    }
 
-      isVisibleTimerRef.current = setTimeout(() => {
-        setIsVisible(false);
-      }, 200);
-    };
+    isVisibleTimerRef.current = setTimeout(() => {
+      setIsVisible(false);
+    }, 200);
+  }, [isGoBack]);
 
-    router.beforePopState(() => {
-      setIsReturning(true);
-      if (serverSidePages.indexOf(history.object[history.index - 1]) > -1)
-        document.cookie = 'isReturning=true;path=/';
-
-      return true;
-    });
-
+  useEffect(() => {
     router.events.on('routeChangeStart', handleRouteChangeStart);
     router.events.on('routeChangeComplete', handleRouteChangeComplete);
 
@@ -96,7 +74,7 @@ function PageSkeleton() {
       router.events.off('routeChangeStart', handleRouteChangeStart);
       router.events.off('routeChangeComplete', handleRouteChangeComplete);
     };
-  }, [setForwardPathState, setHistoryState, history, isReturning, router]);
+  }, [router, handleRouteChangeComplete, handleRouteChangeStart]);
 
   useEffect(() => {
     return () => {
@@ -138,8 +116,9 @@ const SkeletonWrapper = styled.div<{
   width: 100%;
   height: 100%;
   transition: opacity 0.2s;
-  pointer-events: ${({ isLoading }) => (isLoading ? '' : 'none')};
-  opacity: ${({ isLoading }) => (isLoading ? '1' : '0')};
+  pointer-events: ${({ isLoading }) => (isLoading ? 'visible' : 'none')};
+  touch-action: ${({ isLoading }) => (isLoading ? 'auto' : 'none')};
+  opacity: ${({ isLoading }) => (isLoading ? 1 : 0)};
   background-color: ${({
     theme: {
       palette: { background }

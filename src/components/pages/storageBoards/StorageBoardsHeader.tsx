@@ -65,7 +65,7 @@ function StorageBoardsHeader() {
 
   const handleClick = () => setOpenState(true);
 
-  const handleClickBack = () => router.push('/storages');
+  const handleClickBack = () => router.back();
 
   const handleClickSearch = () => {
     resetParamsState();

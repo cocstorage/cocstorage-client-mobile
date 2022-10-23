@@ -40,14 +40,12 @@ function StorageBoards() {
 }
 
 export async function getServerSideProps({ query, req, res }: GetServerSidePropsContext) {
-  const isReturning = req.cookies.isReturning ? JSON.parse(req.cookies.isReturning) : false;
-  if (isReturning) {
-    res.setHeader('Set-Cookie', 'isReturning=false;path=/');
+  const isGoBack = req.cookies.isGoBack ? JSON.parse(req.cookies.isGoBack) : false;
+  if (isGoBack) {
+    res.setHeader('Set-Cookie', 'isGoBack=false;path=/');
 
     return {
-      props: {
-        dehydratedState: null
-      }
+      props: {}
     };
   }
 
@@ -55,13 +53,10 @@ export async function getServerSideProps({ query, req, res }: GetServerSideProps
     const queryClient = new QueryClient();
     const path = String(query.path);
 
-    const storage = await fetchStorage(path);
-    const storageBoards = await fetchStorageBoards(path, storageBoardsParamsDefault);
-
-    await queryClient.setQueryData(queryKeys.storages.storageById(path), storage);
-    await queryClient.setQueryData(
+    await queryClient.fetchQuery(queryKeys.storages.storageById(path), () => fetchStorage(path));
+    await queryClient.fetchQuery(
       queryKeys.storageBoards.storageBoardsByIdWithParams(path, storageBoardsParamsDefault),
-      storageBoards
+      () => fetchStorageBoards(path, storageBoardsParamsDefault)
     );
 
     return {

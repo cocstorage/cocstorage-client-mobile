@@ -11,6 +11,8 @@ import { RecoilRoot } from 'recoil';
 import { FeedbackDialog, PageSkeleton } from '@components/UI/organisms';
 import { ErrorBoundary, GoogleScript, ThemeRoot } from '@components/utils';
 
+import HistoryProvider from '@provider/HistoryProvider';
+
 import 'dayjs/locale/ko';
 import '@styles/base.css';
 
@@ -64,9 +66,11 @@ function App({ Component, pageProps }: AppProps<{ dehydratedState: DehydratedSta
           <RecoilRoot>
             <ThemeRoot>
               <Hydrate state={pageProps.dehydratedState}>
-                <PageSkeleton />
-                <Component {...pageProps} />
-                <FeedbackDialog />
+                <HistoryProvider>
+                  <PageSkeleton />
+                  <Component {...pageProps} />
+                  <FeedbackDialog />
+                </HistoryProvider>
               </Hydrate>
             </ThemeRoot>
           </RecoilRoot>
