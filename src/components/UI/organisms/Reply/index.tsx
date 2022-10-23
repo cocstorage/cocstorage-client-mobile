@@ -14,6 +14,7 @@ import {
 
 import { Button, Flexbox, Icon, Image, Typography, useTheme } from 'cocstorage-ui';
 
+import { NoticeCommentReply } from '@dto/notice-comment-replies';
 import { StorageBoardCommentReply } from '@dto/storage-board-comment-replies';
 
 import { fetchNotice } from '@api/v1/notices';
@@ -23,13 +24,23 @@ import queryKeys from '@constants/queryKeys';
 
 interface ReplyProps {
   type?: 'storageBoard' | 'notice';
-  reply: StorageBoardCommentReply;
+  reply: StorageBoardCommentReply & NoticeCommentReply;
   disablePadding?: boolean;
 }
 
 function Reply({
   type = 'storageBoard',
-  reply: { id: replyId, user, nickname, content, createdIp, createdAt, isMember },
+  reply: {
+    id: replyId,
+    storageBoardCommentId,
+    noticeCommentId,
+    user,
+    nickname,
+    content,
+    createdIp,
+    createdAt,
+    isMember
+  },
   disablePadding
 }: ReplyProps) {
   const router = useRouter();
@@ -65,6 +76,7 @@ function Reply({
   const handleClick = () => {
     setReplyListBottomSheetState((prevState) => ({
       ...prevState,
+      commentId: commentId || storageBoardCommentId || noticeCommentId,
       open: false
     }));
 
@@ -73,7 +85,7 @@ function Reply({
         open: true,
         storageId,
         id: type === 'storageBoard' ? storageBoardId : noticeId,
-        commentId,
+        commentId: commentId || storageBoardCommentId || noticeCommentId,
         replyId
       });
     }, 500);

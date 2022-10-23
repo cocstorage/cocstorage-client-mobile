@@ -314,7 +314,7 @@ function StorageBoardFooter({ footerRef }: StorageBoardFooterProps) {
                       size="small"
                       onChange={handleChangeTextBar}
                       value={password}
-                      placeholder="바밀번호"
+                      placeholder="비밀번호"
                       disabled={isLoadingPostComment}
                       customStyle={{ borderColor: box.stroked.normal }}
                     />

@@ -116,8 +116,8 @@ const SkeletonWrapper = styled.div<{
   width: 100%;
   height: 100%;
   transition: opacity 0.2s;
-  pointer-events: ${({ isLoading }) => (isLoading ? 'visible' : 'none')};
-  touch-action: ${({ isLoading }) => (isLoading ? 'auto' : 'none')};
+  pointer-events: ${({ isLoading }) => (isLoading ? 'none' : 'visible')};
+  touch-action: ${({ isLoading }) => (isLoading ? 'none' : 'auto')};
   opacity: ${({ isLoading }) => (isLoading ? 1 : 0)};
   background-color: ${({
     theme: {
@@ -146,7 +146,7 @@ export const SkeletonGroup = styled.div`
     height: 100%;
     z-index: 6;
 
-    opacity: ${({ theme: { mode } }) => (mode === 'dark' ? '0.6' : '0.45')};
+    opacity: ${({ theme: { mode } }) => (mode === 'dark' ? 0.6 : 0.45)};
   }
 `;
 

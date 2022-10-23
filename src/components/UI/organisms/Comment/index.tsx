@@ -127,7 +127,7 @@ function Comment({
               onClick={handleClick}
               customStyle={{ cursor: 'pointer', color: text[mode].text1 }}
             >
-              답글달기
+              {replies.length > 0 ? `답글 ${replies.length.toLocaleString()}개` : '답글달기'}
             </Typography>
           </Flexbox>
           {replies.length > 0 && (
@@ -148,7 +148,7 @@ function Comment({
                 }}
                 onClick={handleClick}
               >
-                {`답글 ${replies.length - 3}개 더보기`}
+                {`답글 ${(replies.length - 3).toLocaleString()}개 더 보기`}
               </Typography>
             </Flexbox>
           )}

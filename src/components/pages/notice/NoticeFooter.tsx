@@ -215,7 +215,7 @@ function NoticeFooter({ footerRef }: NoticeFooterProps) {
                     size="small"
                     onChange={handleChangeTextBar}
                     value={password}
-                    placeholder="바밀번호"
+                    placeholder="비밀번호"
                     disabled={isLoading}
                     customStyle={{ borderColor: box.stroked.normal }}
                   />

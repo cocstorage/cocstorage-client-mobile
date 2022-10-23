@@ -326,7 +326,7 @@ function ReplyListBottomSheet({ type = 'storageBoard' }: ReplyListBottomSheetPro
                 size="small"
                 onChange={handleChangeTextBar}
                 value={replyPassword}
-                placeholder="바밀번호"
+                placeholder="비밀번호"
                 disabled={isLoading || isLoadingMutatePostNoticeReply}
                 customStyle={{ borderColor: box.stroked.normal }}
               />
