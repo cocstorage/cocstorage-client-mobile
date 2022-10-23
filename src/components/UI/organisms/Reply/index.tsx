@@ -24,11 +24,13 @@ import queryKeys from '@constants/queryKeys';
 interface ReplyProps {
   type?: 'storageBoard' | 'notice';
   reply: StorageBoardCommentReply;
+  disablePadding?: boolean;
 }
 
 function Reply({
   type = 'storageBoard',
-  reply: { id: replyId, user, nickname, content, createdIp, createdAt, isMember }
+  reply: { id: replyId, user, nickname, content, createdIp, createdAt, isMember },
+  disablePadding
 }: ReplyProps) {
   const router = useRouter();
   const { id } = router.query;
@@ -78,7 +80,7 @@ function Reply({
   };
 
   return (
-    <Flexbox gap={10} customStyle={{ padding: '0 20px' }}>
+    <Flexbox gap={10} customStyle={{ padding: disablePadding ? undefined : '0 20px' }}>
       <Image
         width={30}
         height={30}

@@ -14,6 +14,8 @@ import {
 
 import { Box, Button, Flexbox, Icon, Image, Typography, useTheme } from 'cocstorage-ui';
 
+import Reply from '@components/UI/organisms/Reply';
+
 import { NoticeComment } from '@dto/notice-comments';
 import { StorageBoardComment } from '@dto/storage-board-comments';
 
@@ -129,6 +131,13 @@ function Comment({
             </Typography>
           </Flexbox>
           {replies.length > 0 && (
+            <Flexbox direction="vertical" gap={18}>
+              {replies.slice(0, 3).map((reply) => (
+                <Reply key={`comment-simple-reply-${reply.id}`} reply={reply} disablePadding />
+              ))}
+            </Flexbox>
+          )}
+          {replies.length > 3 && (
             <Flexbox gap={10} alignment="center">
               <Box customStyle={{ width: 24, height: 1, backgroundColor: text[mode].text3 }} />
               <Typography
@@ -139,7 +148,7 @@ function Comment({
                 }}
                 onClick={handleClick}
               >
-                {`답글 ${replies.length}개`}
+                {`답글 ${replies.length - 3}개 더보기`}
               </Typography>
             </Flexbox>
           )}

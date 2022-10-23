@@ -193,7 +193,7 @@ function CommentList({ type = 'storageBoard', customStyle }: CommentListProps) {
           isLoadingNoticeComments &&
           Array.from({ length: 10 }).map((_, index) => (
             // eslint-disable-next-line react/no-array-index-key
-            <CommentSkeleton key={`comment-skeleton-${index}`} />
+            <CommentSkeleton key={`notice-comment-skeleton-${index}`} />
           ))}
         {type === 'notice' &&
           !isLoadingNoticeComments &&
