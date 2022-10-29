@@ -32,9 +32,7 @@ export async function getServerSideProps({ req, res }) {
     res.setHeader('Set-Cookie', 'isGoBack=false;path=/');
 
     return {
-      props: {
-        dehydratedState: null
-      }
+      props: {}
     };
   }
 

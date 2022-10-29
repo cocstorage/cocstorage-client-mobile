@@ -1,6 +1,6 @@
 /* eslint-disable no-nested-ternary */
 
-export default function getAsPath(url: string) {
+export default function getPathNameByUrl(url: string) {
   const splittedUrl = url.split('/');
 
   // regex

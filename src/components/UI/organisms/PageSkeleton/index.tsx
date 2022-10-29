@@ -8,7 +8,7 @@ import styled from '@emotion/styled';
 
 import { commonIsGoBackState } from '@recoil/common/atoms';
 
-import getAsPath from '@utils/getAsPath';
+import getPathNameByUrl from '@utils/getPathNameByUrl';
 
 import { Best, Home, Notice, Notices, StorageBoard, StorageBoards, Storages, Worst } from './pages';
 
@@ -25,7 +25,6 @@ const serverSidePages = [
 
 function PageSkeleton() {
   const router = useRouter();
-  const wrapperRef = useRef<HTMLDivElement>(null);
 
   const isGoBack = useRecoilValue(commonIsGoBackState);
 
@@ -41,7 +40,7 @@ function PageSkeleton() {
     (url: string) => {
       setIsVisible(true);
 
-      const pathname = getAsPath(url);
+      const pathname = getPathNameByUrl(url);
 
       setDestination(pathname);
 
@@ -93,7 +92,7 @@ function PageSkeleton() {
   if (!isVisible) return null;
 
   return (
-    <SkeletonWrapper ref={wrapperRef} isLoading={isLoading}>
+    <SkeletonWrapper isLoading={isLoading}>
       {destination === '/storages/[path]/[id]' && <StorageBoard />}
       {destination === '/' && <Home />}
       {destination === '/storages' && <Storages />}
