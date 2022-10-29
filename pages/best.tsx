@@ -1,6 +1,6 @@
 import { QueryClient, dehydrate } from '@tanstack/react-query';
 
-import { bestParamsDefault } from '@recoil/best/atoms';
+import { bestParamsDefault } from '@recoil/pages/best/atoms';
 
 import { Alert, Icon } from 'cocstorage-ui';
 

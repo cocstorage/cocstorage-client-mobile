@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 
 import { useRecoilState } from 'recoil';
 
-import { noticesParamsState } from '@recoil/notices/atoms';
+import { noticesParamsState } from '@recoil/pages/notices/atoms';
 
 import { Flexbox, Pagination } from 'cocstorage-ui';
 

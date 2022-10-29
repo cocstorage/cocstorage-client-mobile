@@ -8,8 +8,8 @@ import {
   commonCommentDeleteBottomSheetState,
   commonCommentMenuBottomSheetState
 } from '@recoil/common/atoms';
-import { noticeCommentsParamsState } from '@recoil/notice/atoms';
-import { storageBoardCommentsParamsState } from '@recoil/storageBoard/atoms';
+import { noticeCommentsParamsState } from '@recoil/pages/notice/atoms';
+import { storageBoardCommentsParamsState } from '@recoil/pages/storageBoard/atoms';
 
 import { BottomSheet, Box, Button, TextBar, Typography, useTheme } from 'cocstorage-ui';
 

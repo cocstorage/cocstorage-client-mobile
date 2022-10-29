@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 
 import { useRecoilValue } from 'recoil';
 
-import { storagesSelectedCategoryIdState } from '@recoil/storages/atoms';
+import { storagesSelectedCategoryIdState } from '@recoil/pages/storages/atoms';
 
 import { Box, Grid, Typography } from 'cocstorage-ui';
 

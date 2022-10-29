@@ -8,8 +8,8 @@ import dayjs from 'dayjs';
 import { useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
 
 import { commonFeedbackDialogState, commonReplyListBottomSheetState } from '@recoil/common/atoms';
-import { noticeCommentsParamsState } from '@recoil/notice/atoms';
-import { storageBoardCommentsParamsState } from '@recoil/storageBoard/atoms';
+import { noticeCommentsParamsState } from '@recoil/pages/notice/atoms';
+import { storageBoardCommentsParamsState } from '@recoil/pages/storageBoard/atoms';
 
 import {
   BottomSheet,

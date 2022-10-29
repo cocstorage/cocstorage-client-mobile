@@ -13,8 +13,8 @@ import {
   commonOnBoardingDefault,
   commonOnBoardingState
 } from '@recoil/common/atoms';
-import { openStorageBoardsInfoBottomSheetState } from '@recoil/storageBoards/atoms';
-import { storageBoardsSearchParamsState } from '@recoil/storageBoardsSearch/atoms';
+import { openStorageBoardsInfoBottomSheetState } from '@recoil/pages/storageBoards/atoms';
+import { storageBoardsSearchParamsState } from '@recoil/pages/storageBoardsSearch/atoms';
 
 import {
   Box,

@@ -9,7 +9,7 @@ import { useSetRecoilState } from 'recoil';
 
 import styled from '@emotion/styled';
 
-import { noticeHideHeaderSubjectState } from '@recoil/notice/atoms';
+import { noticeHideHeaderSubjectState } from '@recoil/pages/notice/atoms';
 
 import { Avatar, Box, Button, Flexbox, Icon, Typography, useTheme } from 'cocstorage-ui';
 

@@ -4,7 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 
 import { useRecoilState } from 'recoil';
 
-import { storageBoardsParamsStateFamily } from '@recoil/storageBoards/atoms';
+import { storageBoardsParamsStateFamily } from '@recoil/pages/storageBoards/atoms';
 
 import { Flexbox, Pagination } from 'cocstorage-ui';
 

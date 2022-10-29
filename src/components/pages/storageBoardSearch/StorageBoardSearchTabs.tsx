@@ -9,7 +9,7 @@ import styled from '@emotion/styled';
 import {
   storageBoardsSearchParamsState,
   storageBoardsSearchPendingState
-} from '@recoil/storageBoardsSearch/atoms';
+} from '@recoil/pages/storageBoardsSearch/atoms';
 
 import { Flexbox, Skeleton, Tab, Tabs } from 'cocstorage-ui';
 

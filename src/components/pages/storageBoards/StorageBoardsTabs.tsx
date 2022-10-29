@@ -4,7 +4,7 @@ import { useRecoilState } from 'recoil';
 
 import styled from '@emotion/styled';
 
-import { storageBoardsParamsStateFamily } from '@recoil/storageBoards/atoms';
+import { storageBoardsParamsStateFamily } from '@recoil/pages/storageBoards/atoms';
 
 import { Tab, Tabs } from 'cocstorage-ui';
 

@@ -7,7 +7,7 @@ import { useQuery } from '@tanstack/react-query';
 import dayjs from 'dayjs';
 import { useRecoilState } from 'recoil';
 
-import { openStorageBoardsInfoBottomSheetState } from '@recoil/storageBoards/atoms';
+import { openStorageBoardsInfoBottomSheetState } from '@recoil/pages/storageBoards/atoms';
 
 import { Avatar, BottomSheet, Box, Flexbox, Typography, useTheme } from 'cocstorage-ui';
 

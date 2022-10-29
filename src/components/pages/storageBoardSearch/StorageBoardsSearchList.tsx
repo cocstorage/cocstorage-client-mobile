@@ -7,7 +7,7 @@ import { useRecoilState, useRecoilValue } from 'recoil';
 import {
   storageBoardsSearchParamsState,
   storageBoardsSearchPendingState
-} from '@recoil/storageBoardsSearch/atoms';
+} from '@recoil/pages/storageBoardsSearch/atoms';
 
 import { Box, Flexbox, Icon, Pagination, Typography, useTheme } from 'cocstorage-ui';
 

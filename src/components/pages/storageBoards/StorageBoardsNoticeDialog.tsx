@@ -6,7 +6,7 @@ import { useQuery } from '@tanstack/react-query';
 
 import { useRecoilState } from 'recoil';
 
-import { storageBoardsDialogDisablePathsState } from '@recoil/storageBoards/atoms';
+import { storageBoardsDialogDisablePathsState } from '@recoil/pages/storageBoards/atoms';
 
 import { Box, Button, Dialog, Flexbox, Icon, Tag, Typography } from 'cocstorage-ui';
 

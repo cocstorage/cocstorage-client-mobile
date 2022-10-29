@@ -2,7 +2,7 @@ import { GetServerSidePropsContext } from 'next';
 
 import { QueryClient, dehydrate } from '@tanstack/react-query';
 
-import { storageBoardsParamsDefault } from '@recoil/storageBoards/atoms';
+import { storageBoardsParamsDefault } from '@recoil/pages/storageBoards/atoms';
 
 import { Alert, Icon } from 'cocstorage-ui';
 

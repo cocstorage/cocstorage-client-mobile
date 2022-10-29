@@ -11,7 +11,7 @@ import styled, { CSSObject } from '@emotion/styled';
 import {
   storageBoardsSearchParamsState,
   storageBoardsSearchPendingState
-} from '@recoil/storageBoardsSearch/atoms';
+} from '@recoil/pages/storageBoardsSearch/atoms';
 
 import { Box, Icon, TextBar } from 'cocstorage-ui';
 

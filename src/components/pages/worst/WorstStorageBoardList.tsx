@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 
 import { useRecoilState } from 'recoil';
 
-import { worstParamsState } from '@recoil/worst/atoms';
+import { worstParamsState } from '@recoil/pages/worst/atoms';
 
 import { Flexbox, Pagination } from 'cocstorage-ui';
 

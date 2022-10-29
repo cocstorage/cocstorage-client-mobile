@@ -2,7 +2,7 @@ import { GetServerSidePropsContext } from 'next';
 
 import { QueryClient, dehydrate } from '@tanstack/react-query';
 
-import { noticesParamsDefault } from '@recoil/notices/atoms';
+import { noticesParamsDefault } from '@recoil/pages/notices/atoms';
 
 import { NoticeHead, NoticesHeader, NoticesList } from '@components/pages/notices';
 import GeneralTemplate from '@components/templeates/GeneralTemplate';
