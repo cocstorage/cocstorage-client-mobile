@@ -21,8 +21,6 @@ import {
   StyledIssueKeywordRank
 } from '@components/UI/organisms/IssueKeywordRank/IssueKeywordRank.styles';
 
-import { SkeletonGroup } from '../..';
-
 function Home() {
   return (
     <GeneralTemplate
@@ -38,18 +36,16 @@ function Home() {
       }
       disableFlexible={false}
     >
-      <SkeletonGroup>
-        <Skeleton
-          width="100%"
-          height={56}
-          disableAspectRatio
-          customStyle={{ marginTop: 14, borderRadius: 12 }}
-        />
-        <IssueKeywordRank />
-        <IndexBestStorageBoardList />
-        <IndexWorstStorageBoardList />
-        <IndexLatestStorageBoardList />
-      </SkeletonGroup>
+      <Skeleton
+        width="100%"
+        height={56}
+        disableAspectRatio
+        customStyle={{ marginTop: 14, borderRadius: 12 }}
+      />
+      <IssueKeywordRank />
+      <IndexBestStorageBoardList />
+      <IndexWorstStorageBoardList />
+      <IndexLatestStorageBoardList />
     </GeneralTemplate>
   );
 }

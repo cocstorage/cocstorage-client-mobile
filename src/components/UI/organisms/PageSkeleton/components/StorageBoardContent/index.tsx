@@ -2,11 +2,9 @@ import { Box, Skeleton } from 'cocstorage-ui';
 
 import { Content } from '@components/pages/storageBoard/StorageBoardContent';
 
-import { SkeletonGroup } from '../..';
-
 export default function StorageBoardContent() {
   return (
-    <SkeletonGroup css={{ marginTop: 10 }}>
+    <Box customStyle={{ marginTop: 10 }}>
       <Skeleton width="60%" height={22} round={6} disableAspectRatio />
       <Box customStyle={{ display: 'flex', alignItems: 'center', marginTop: 10 }}>
         <Skeleton width={18} height={18} round="50%" disableAspectRatio />
@@ -48,6 +46,6 @@ export default function StorageBoardContent() {
           disableAspectRatio
         />
       </Content>
-    </SkeletonGroup>
+    </Box>
   );
 }

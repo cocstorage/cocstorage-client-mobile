@@ -4,13 +4,12 @@ import { useRouter } from 'next/router';
 
 import { useRecoilValue } from 'recoil';
 
-import styled from '@emotion/styled';
-
 import { commonIsGoBackState } from '@recoil/common/atoms';
 
 import getPathNameByUrl from '@utils/getPathNameByUrl';
 
 import { Best, Home, Notice, Notices, StorageBoard, StorageBoards, Storages, Worst } from './pages';
+import { StyledPageSkeleton } from './PageSkeleton.styles';
 
 const serverSidePages = [
   '/',
@@ -45,7 +44,7 @@ function PageSkeleton() {
       setDestination(pathname);
 
       if (!isGoBack) {
-        if (serverSidePages.indexOf(pathname) > -1) {
+        if (serverSidePages.includes(pathname)) {
           isLoadingTimerRef.current = setTimeout(() => setIsLoading(true), 0);
         }
       }
@@ -92,7 +91,7 @@ function PageSkeleton() {
   if (!isVisible) return null;
 
   return (
-    <SkeletonWrapper isLoading={isLoading}>
+    <StyledPageSkeleton isLoading={isLoading}>
       {destination === '/storages/[path]/[id]' && <StorageBoard />}
       {destination === '/' && <Home />}
       {destination === '/storages' && <Storages />}
@@ -101,52 +100,8 @@ function PageSkeleton() {
       {destination === '/worst' && <Worst />}
       {destination === '/notices' && <Notices />}
       {destination === '/notices/[id]' && <Notice />}
-    </SkeletonWrapper>
+    </StyledPageSkeleton>
   );
 }
-
-const SkeletonWrapper = styled.div<{
-  isLoading?: boolean;
-}>`
-  position: fixed;
-  overflow-x: hidden;
-  overflow-y: auto;
-  z-index: 5;
-  width: 100%;
-  height: 100%;
-  transition: opacity 0.2s;
-  pointer-events: ${({ isLoading }) => (isLoading ? 'none' : 'visible')};
-  touch-action: ${({ isLoading }) => (isLoading ? 'none' : 'auto')};
-  opacity: ${({ isLoading }) => (isLoading ? 1 : 0)};
-  background-color: ${({
-    theme: {
-      palette: { background }
-    }
-  }) => background.bg};
-
-  &:after {
-    content: '';
-    top: 0;
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    z-index: 7;
-  }
-`;
-
-export const SkeletonGroup = styled.div`
-  position: relative;
-
-  &:after {
-    content: '';
-    top: 0;
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    z-index: 6;
-
-    opacity: ${({ theme: { mode } }) => (mode === 'dark' ? 0.6 : 0.45)};
-  }
-`;
 
 export default PageSkeleton;

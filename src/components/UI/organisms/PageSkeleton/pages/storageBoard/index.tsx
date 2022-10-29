@@ -4,7 +4,6 @@ import { StyledStorageBoardFooter } from '@components/pages/storageBoard/Storage
 import { StyledStorageBoardHeader } from '@components/pages/storageBoard/StorageBoardHeader';
 import GeneralTemplate from '@components/templeates/GeneralTemplate';
 
-import { SkeletonGroup } from '../..';
 import { StorageBoardContent } from '../../components';
 
 function StorageBoard() {
@@ -49,11 +48,11 @@ function StorageBoardFooter() {
   return (
     <Box component="footer" customStyle={{ height: 44 }}>
       <StyledStorageBoardFooter>
-        <SkeletonGroup css={{ display: 'flex', gap: 10 }}>
+        <Flexbox gap={10}>
           <Skeleton width={40} height={22} round={6} disableAspectRatio />
           <Skeleton width={40} height={22} round={6} disableAspectRatio />
           <Skeleton width={40} height={22} round={6} disableAspectRatio />
-        </SkeletonGroup>
+        </Flexbox>
       </StyledStorageBoardFooter>
     </Box>
   );

@@ -5,7 +5,6 @@ import { StyledStorageBoardsTabs } from '@components/pages/storageBoards/Storage
 import GeneralTemplate from '@components/templeates/GeneralTemplate';
 import BottomNavigation from '@components/UI/molecules/BottomNavigation';
 
-import { SkeletonGroup } from '../..';
 import { StorageBoardCards } from '../../components';
 
 function StorageBoard() {
@@ -27,9 +26,7 @@ function StorageBoard() {
       <Alert icon={<Icon name="PinOutlined" />} customStyle={{ marginTop: 12 }}>
         게시글을 작성할 수 있는 기능을 준비하고 있어요! 조금만 기다려주세요.
       </Alert>
-      <SkeletonGroup css={{ marginTop: 10 }}>
-        <StorageBoardCards />
-      </SkeletonGroup>
+      <StorageBoardCards />
     </GeneralTemplate>
   );
 }
@@ -42,7 +39,7 @@ function StorageBoardsHeader() {
           <IconButton>
             <Icon name="CaretSemiLeftOutlined" />
           </IconButton>
-          <SkeletonGroup css={{ flex: 1, display: 'flex', alignItems: 'center', gap: 10 }}>
+          <Flexbox alignment="center" gap={10} customStyle={{ flex: 1 }}>
             <Skeleton
               disableAspectRatio
               width={24}
@@ -51,7 +48,7 @@ function StorageBoardsHeader() {
               customStyle={{ marginLeft: 10 }}
             />
             <Skeleton disableAspectRatio width={60} height={20} round={6} />
-          </SkeletonGroup>
+          </Flexbox>
           <Flexbox gap={10} alignment="center">
             <IconButton>
               <Icon name="SearchOutlined" />

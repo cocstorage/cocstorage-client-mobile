@@ -4,7 +4,6 @@ import { StyledNoticeFooter } from '@components/pages/notice/NoticeFooter';
 import { StyledNoticeHeader } from '@components/pages/notice/NoticeHeader';
 import GeneralTemplate from '@components/templeates/GeneralTemplate';
 
-import { SkeletonGroup } from '../..';
 import { StorageBoardContent } from '../../components';
 
 function Notice() {
@@ -48,11 +47,11 @@ function NoticeFooter() {
   return (
     <Box component="footer" customStyle={{ height: 44 }}>
       <StyledNoticeFooter>
-        <SkeletonGroup css={{ display: 'flex', gap: 10 }}>
+        <Flexbox gap={10}>
           <Skeleton width={40} height={22} round={6} disableAspectRatio />
           <Skeleton width={40} height={22} round={6} disableAspectRatio />
           <Skeleton width={40} height={22} round={6} disableAspectRatio />
-        </SkeletonGroup>
+        </Flexbox>
       </StyledNoticeFooter>
     </Box>
   );
