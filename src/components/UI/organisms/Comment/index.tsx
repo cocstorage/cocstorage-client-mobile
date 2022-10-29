@@ -78,91 +78,95 @@ function Comment({
     });
 
   return (
-    <Flexbox gap={10} customStyle={{ flex: 1 }}>
-      <Image
-        width={30}
-        height={30}
-        src={(user || {}).avatarUrl || ''}
-        alt="User Avatar Img"
-        round="50%"
-        disableAspectRatio
-        fallback={{
-          iconName: 'UserFilled',
-          width: 15,
-          height: 15
-        }}
-      />
-      <Flexbox direction="vertical" customStyle={{ flex: 1 }}>
-        <Flexbox gap={4} alignment="center">
-          <Typography variant="s1" fontWeight="bold">
-            {nickname || (user || {}).nickname}
-          </Typography>
-          {!user && createdIp && (
-            <Typography variant="s2" color={text[mode].text1}>
-              ({createdIp})
+    <Flexbox direction="vertical" customStyle={{ flex: 1 }}>
+      <Flexbox gap={10}>
+        <Image
+          width={30}
+          height={30}
+          src={(user || {}).avatarUrl || ''}
+          alt="User Avatar Img"
+          round="50%"
+          disableAspectRatio
+          fallback={{
+            iconName: 'UserFilled',
+            width: 15,
+            height: 15
+          }}
+        />
+        <Flexbox direction="vertical" customStyle={{ flex: 1 }}>
+          <Flexbox gap={4} alignment="center">
+            <Typography variant="s1" fontWeight="bold">
+              {nickname || (user || {}).nickname}
             </Typography>
-          )}
+            {!user && createdIp && (
+              <Typography variant="s2" color={text[mode].text1}>
+                ({createdIp})
+              </Typography>
+            )}
+          </Flexbox>
+          <Typography lineHeight="main" customStyle={{ marginTop: 4, wordBreak: 'break-word' }}>
+            {content.split('\n').map((splitContent, index) => (
+              // eslint-disable-next-line react/no-array-index-key
+              <span key={`comment-content-${index}`}>
+                {splitContent}
+                <br />
+              </span>
+            ))}
+          </Typography>
         </Flexbox>
-        <Typography lineHeight="main" customStyle={{ marginTop: 4, wordBreak: 'break-word' }}>
-          {content.split('\n').map((splitContent, index) => (
-            // eslint-disable-next-line react/no-array-index-key
-            <span key={`comment-content-${index}`}>
-              {splitContent}
-              <br />
-            </span>
-          ))}
-        </Typography>
-        <Flexbox direction="vertical" gap={15} customStyle={{ marginTop: 8 }}>
-          <Flexbox gap={12} alignment="center">
+        {!isMember && (
+          <Flexbox alignment="flex-start">
+            <Button
+              variant="transparent"
+              size="pico"
+              startIcon={<Icon name="MoreMenuOutlined" width={15} height={15} />}
+              onClick={handleClickMenuBottomSheet}
+              iconOnly
+            />
+          </Flexbox>
+        )}
+      </Flexbox>
+      <Flexbox direction="vertical" gap={15} customStyle={{ margin: '8px 0 0 40px' }}>
+        <Flexbox gap={12} alignment="center">
+          <Typography
+            variant="s1"
+            customStyle={{
+              color: text[mode].text1
+            }}
+          >
+            {dayjs(createdAt).fromNow()}
+          </Typography>
+          <Typography
+            variant="s1"
+            onClick={handleClick}
+            customStyle={{ cursor: 'pointer', color: text[mode].text1 }}
+          >
+            {replies.length > 0 ? `답글 ${replies.length.toLocaleString()}개` : '답글달기'}
+          </Typography>
+        </Flexbox>
+        {replies.length > 0 && (
+          <Flexbox direction="vertical" gap={18}>
+            {replies.slice(0, 3).map((reply) => (
+              <Reply key={`comment-simple-reply-${reply.id}`} reply={reply} disablePadding />
+            ))}
+          </Flexbox>
+        )}
+        {replies.length > 3 && (
+          <Flexbox gap={10} alignment="center">
+            <Box customStyle={{ width: 24, height: 1, backgroundColor: text[mode].text3 }} />
             <Typography
               variant="s1"
               customStyle={{
-                color: text[mode].text1
+                color: text[mode].text1,
+                cursor: 'pointer'
               }}
-            >
-              {dayjs(createdAt).fromNow()}
-            </Typography>
-            <Typography
-              variant="s1"
               onClick={handleClick}
-              customStyle={{ cursor: 'pointer', color: text[mode].text1 }}
             >
-              {replies.length > 0 ? `답글 ${replies.length.toLocaleString()}개` : '답글달기'}
+              {`답글 ${(replies.length - 3).toLocaleString()}개 더 보기`}
             </Typography>
           </Flexbox>
-          {replies.length > 0 && (
-            <Flexbox direction="vertical" gap={18}>
-              {replies.slice(0, 3).map((reply) => (
-                <Reply key={`comment-simple-reply-${reply.id}`} reply={reply} disablePadding />
-              ))}
-            </Flexbox>
-          )}
-          {replies.length > 3 && (
-            <Flexbox gap={10} alignment="center">
-              <Box customStyle={{ width: 24, height: 1, backgroundColor: text[mode].text3 }} />
-              <Typography
-                variant="s1"
-                customStyle={{
-                  color: text[mode].text1,
-                  cursor: 'pointer'
-                }}
-                onClick={handleClick}
-              >
-                {`답글 ${(replies.length - 3).toLocaleString()}개 더 보기`}
-              </Typography>
-            </Flexbox>
-          )}
-        </Flexbox>
+        )}
       </Flexbox>
-      {!isMember && (
-        <Button
-          variant="transparent"
-          size="pico"
-          startIcon={<Icon name="MoreMenuOutlined" width={15} height={15} />}
-          onClick={handleClickMenuBottomSheet}
-          iconOnly
-        />
-      )}
     </Flexbox>
   );
 }

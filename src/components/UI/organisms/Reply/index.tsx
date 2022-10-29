@@ -140,13 +140,15 @@ function Reply({
         </Flexbox>
       </Flexbox>
       {!isMember && (
-        <Button
-          variant="transparent"
-          size="pico"
-          startIcon={<Icon name="MoreMenuOutlined" width={15} height={15} />}
-          onClick={handleClick}
-          iconOnly
-        />
+        <Flexbox alignment="flex-start">
+          <Button
+            variant="transparent"
+            size="pico"
+            startIcon={<Icon name="MoreMenuOutlined" width={15} height={15} />}
+            onClick={handleClick}
+            iconOnly
+          />
+        </Flexbox>
       )}
     </Flexbox>
   );

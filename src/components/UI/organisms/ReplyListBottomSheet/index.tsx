@@ -5,14 +5,18 @@ import { useRouter } from 'next/router';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import dayjs from 'dayjs';
-import { useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
 
 import { commonFeedbackDialogState, commonReplyListBottomSheetState } from '@recoil/common/atoms';
+import { myHasSavedPasswordState, myNicknameState, myPasswordState } from '@recoil/pages/my/atoms';
 import { noticeCommentsParamsState } from '@recoil/pages/notice/atoms';
 import { storageBoardCommentsParamsState } from '@recoil/pages/storageBoard/atoms';
 
 import {
   BottomSheet,
+  Box,
+  Button,
+  Dialog,
   Flexbox,
   Grid,
   Icon,
@@ -60,6 +64,9 @@ function ReplyListBottomSheet({ type = 'storageBoard' }: ReplyListBottomSheetPro
     }
   } = useTheme();
 
+  const [myNickname, setMyNicknameState] = useRecoilState(myNicknameState);
+  const [myPassword, setMyPasswordState] = useRecoilState(myPasswordState);
+  const [myHasSavedPassword, setMyHasSavedPasswordState] = useRecoilState(myHasSavedPasswordState);
   const params = useRecoilValue(storageBoardCommentsParamsState);
   const noticeCommentsParams = useRecoilValue(noticeCommentsParamsState);
   const { open, storageId, commentId } = useRecoilValue(commonReplyListBottomSheetState);
@@ -67,12 +74,13 @@ function ReplyListBottomSheet({ type = 'storageBoard' }: ReplyListBottomSheetPro
   const restReplyListBottomSheetState = useResetRecoilState(commonReplyListBottomSheetState);
 
   const [rows, setRows] = useState(1);
-  const [replyNickname, setNickname] = useState('');
-  const [replyPassword, setPassword] = useState('');
+  const [replyNickname, setNickname] = useState(myNickname);
+  const [replyPassword, setPassword] = useState(myPassword);
   const [replyContent, setContent] = useState('');
   const [{ user, nickname, content = '', replies = [], createdAt, createdIp }, setComment] =
     useState<Partial<StorageBoardComment | NoticeComment>>({});
   const [disableContentSwipeableClose, setDisableContentSwipeableClose] = useState(false);
+  const [openPasswordSaveDialog, setOpenPasswordSaveDialog] = useState(false);
 
   const contentRef = useRef<HTMLDivElement>(null);
 
@@ -108,6 +116,11 @@ function ReplyListBottomSheet({ type = 'storageBoard' }: ReplyListBottomSheetPro
     (data: PostStorageBoardCommentReplyData) =>
       postNonMemberStorageBoardCommentReply(storageId, Number(id), commentId, data),
     {
+      onSettled: () => {
+        if (!myHasSavedPassword && !myPassword) {
+          setOpenPasswordSaveDialog(true);
+        }
+      },
       onSuccess: () => {
         setContent('');
 
@@ -181,6 +194,11 @@ function ReplyListBottomSheet({ type = 'storageBoard' }: ReplyListBottomSheetPro
     }
   };
 
+  const handleBlurNicknameTextBar = () => setMyNicknameState(replyNickname);
+  const handleBlurPasswordTextBar = () => {
+    if (myPassword) setMyPasswordState(replyPassword);
+  };
+
   const handleClose = () => restReplyListBottomSheetState();
 
   const handleScroll = () => {
@@ -191,6 +209,17 @@ function ReplyListBottomSheet({ type = 'storageBoard' }: ReplyListBottomSheetPro
         setDisableContentSwipeableClose(true);
       }
     }
+  };
+
+  const handleClosePasswordSaveDialog = () => {
+    setMyHasSavedPasswordState(true);
+    setOpenPasswordSaveDialog(false);
+  };
+
+  const handleClickPasswordSaveConfirm = () => {
+    setMyHasSavedPasswordState(true);
+    setMyPasswordState(replyPassword);
+    setOpenPasswordSaveDialog(false);
   };
 
   useEffect(() => {
@@ -220,152 +249,189 @@ function ReplyListBottomSheet({ type = 'storageBoard' }: ReplyListBottomSheetPro
   }, [restReplyListBottomSheetState]);
 
   return (
-    <BottomSheet
-      open={open}
-      onClose={handleClose}
-      disableContentSwipeableClose={disableContentSwipeableClose}
-      customStyle={{
-        '& > div': {
-          display: 'flex',
-          flexDirection: 'column'
-        }
-      }}
-    >
-      <Flexbox
-        gap={10}
+    <>
+      <BottomSheet
+        open={open}
+        onClose={handleClose}
+        disableContentSwipeableClose={disableContentSwipeableClose}
         customStyle={{
-          maxHeight: 150,
-          padding: '8px 20px 14px',
-          borderBottom: `1px solid ${box.stroked.normal}`
+          '& > div': {
+            display: 'flex',
+            flexDirection: 'column'
+          }
         }}
       >
-        <Image
-          width={30}
-          height={30}
-          src={(user || {}).avatarUrl || ''}
-          alt="User Avatar Img"
-          round="50%"
-          disableAspectRatio
-          fallback={{
-            iconName: 'UserFilled',
-            width: 15,
-            height: 15
+        <Flexbox
+          gap={10}
+          customStyle={{
+            maxHeight: 150,
+            padding: '8px 20px 14px',
+            borderBottom: `1px solid ${box.stroked.normal}`
           }}
-        />
-        <Flexbox direction="vertical" customStyle={{ flex: 1 }}>
-          <Flexbox gap={4} alignment="center" customStyle={{ marginBottom: 4 }}>
-            <Typography variant="s1" fontWeight="bold">
-              {nickname || (user || {}).nickname}
+        >
+          <Image
+            width={30}
+            height={30}
+            src={(user || {}).avatarUrl || ''}
+            alt="User Avatar Img"
+            round="50%"
+            disableAspectRatio
+            fallback={{
+              iconName: 'UserFilled',
+              width: 15,
+              height: 15
+            }}
+          />
+          <Flexbox direction="vertical" customStyle={{ flex: 1 }}>
+            <Flexbox gap={4} alignment="center" customStyle={{ marginBottom: 4 }}>
+              <Typography variant="s1" fontWeight="bold">
+                {nickname || (user || {}).nickname}
+              </Typography>
+              {!user && createdIp && (
+                <Typography variant="s2" color={text[mode].text1}>
+                  ({createdIp})
+                </Typography>
+              )}
+            </Flexbox>
+            <Typography lineHeight="main" noWrap lineClamp={3} customStyle={{ flex: 1 }}>
+              {content.split('\n').map((splitContent, index) => (
+                // eslint-disable-next-line react/no-array-index-key
+                <span key={`comment-content-in-bottom-sheet-${index}`}>
+                  {splitContent}
+                  <br />
+                </span>
+              ))}
             </Typography>
-            {!user && createdIp && (
-              <Typography variant="s2" color={text[mode].text1}>
-                ({createdIp})
-              </Typography>
-            )}
-          </Flexbox>
-          <Typography lineHeight="main" noWrap lineClamp={3} customStyle={{ flex: 1 }}>
-            {content.split('\n').map((splitContent, index) => (
-              // eslint-disable-next-line react/no-array-index-key
-              <span key={`comment-content-in-bottom-sheet-${index}`}>
-                {splitContent}
-                <br />
-              </span>
-            ))}
-          </Typography>
-          <Flexbox direction="vertical" gap={15} customStyle={{ marginTop: 8 }}>
-            <Flexbox gap={12} alignment="center">
-              <Typography
-                variant="s1"
-                customStyle={{
-                  color: text[mode].text1
-                }}
-              >
-                {dayjs(createdAt).fromNow()}
-              </Typography>
+            <Flexbox direction="vertical" gap={15} customStyle={{ marginTop: 8 }}>
+              <Flexbox gap={12} alignment="center">
+                <Typography
+                  variant="s1"
+                  customStyle={{
+                    color: text[mode].text1
+                  }}
+                >
+                  {dayjs(createdAt).fromNow()}
+                </Typography>
+              </Flexbox>
             </Flexbox>
           </Flexbox>
         </Flexbox>
-      </Flexbox>
-      <Flexbox
-        ref={contentRef}
-        gap={20}
-        direction="vertical"
-        onScroll={handleScroll}
-        customStyle={{ flex: 1, padding: '20px 0', overflowY: 'auto' }}
-      >
-        {replies.length === 0 && (
-          <Message
-            title="아직 답글이 없네요!"
-            message="답글을 남겨보시는 건 어때요?"
-            hideButton
-            customStyle={{ margin: '40px 0 50px' }}
-          />
-        )}
-        {replies.map((reply) => (
-          <Reply key={`reply-${reply.id}`} type={type} reply={reply} />
-        ))}
-      </Flexbox>
-      <CommentBarWrapper>
-        {replyContent && (
-          <Grid container columnGap={16}>
-            <Grid item xs={2}>
-              <TextBar
-                fullWidth
-                size="small"
-                onChange={handleChangeTextBar}
-                value={replyNickname}
-                placeholder="닉네임"
-                disabled={isLoading || isLoadingMutatePostNoticeReply}
-                customStyle={{ borderColor: box.stroked.normal }}
-              />
-            </Grid>
-            <Grid item xs={2}>
-              <TextBar
-                fullWidth
-                type="password"
-                size="small"
-                onChange={handleChangeTextBar}
-                value={replyPassword}
-                placeholder="비밀번호"
-                disabled={isLoading || isLoadingMutatePostNoticeReply}
-                customStyle={{ borderColor: box.stroked.normal }}
-              />
-            </Grid>
-          </Grid>
-        )}
-        <CommentBar>
-          <CommentTextArea
-            placeholder="내용을 입력해주세요."
-            rows={rows}
-            onChange={handleChange}
-            value={replyContent}
-            disabled={isLoading}
-          />
-          <IconButton onClick={handleClick} customStyle={{ marginRight: 10 }}>
-            <Icon
-              name={
-                !isLoading &&
-                !isLoadingMutatePostNoticeReply &&
-                replyNickname &&
-                replyPassword &&
-                replyContent
-                  ? 'SendFilled'
-                  : 'SendOutlined'
-              }
-              color={
-                !isLoading &&
-                !isLoadingMutatePostNoticeReply &&
-                replyNickname &&
-                replyPassword &&
-                replyContent
-                  ? 'primary'
-                  : text[mode].text3
-              }
+        <Flexbox
+          ref={contentRef}
+          gap={20}
+          direction="vertical"
+          onScroll={handleScroll}
+          customStyle={{ flex: 1, padding: '20px 0', overflowY: 'auto' }}
+        >
+          {replies.length === 0 && (
+            <Message
+              title="아직 답글이 없네요!"
+              message="답글을 남겨보시는 건 어때요?"
+              hideButton
+              customStyle={{ margin: '40px 0 50px' }}
             />
-          </IconButton>
-        </CommentBar>
-      </CommentBarWrapper>
-    </BottomSheet>
+          )}
+          {replies.map((reply) => (
+            <Reply key={`reply-${reply.id}`} type={type} reply={reply} />
+          ))}
+        </Flexbox>
+        <CommentBarWrapper>
+          {replyContent && (
+            <Grid container columnGap={16}>
+              <Grid item xs={2}>
+                <TextBar
+                  fullWidth
+                  size="small"
+                  onChange={handleChangeTextBar}
+                  onBlur={handleBlurNicknameTextBar}
+                  value={replyNickname}
+                  placeholder="닉네임"
+                  disabled={isLoading || isLoadingMutatePostNoticeReply}
+                  customStyle={{ borderColor: box.stroked.normal }}
+                />
+              </Grid>
+              <Grid item xs={2}>
+                <TextBar
+                  fullWidth
+                  type="password"
+                  size="small"
+                  onChange={handleChangeTextBar}
+                  onBlur={handleBlurPasswordTextBar}
+                  value={replyPassword}
+                  placeholder="비밀번호"
+                  disabled={isLoading || isLoadingMutatePostNoticeReply}
+                  customStyle={{ borderColor: box.stroked.normal }}
+                />
+              </Grid>
+            </Grid>
+          )}
+          <CommentBar>
+            <CommentTextArea
+              placeholder="내용을 입력해주세요."
+              rows={rows}
+              onChange={handleChange}
+              value={replyContent}
+              disabled={isLoading}
+            />
+            <IconButton onClick={handleClick} customStyle={{ marginRight: 10 }}>
+              <Icon
+                name={
+                  !isLoading &&
+                  !isLoadingMutatePostNoticeReply &&
+                  replyNickname &&
+                  replyPassword &&
+                  replyContent
+                    ? 'SendFilled'
+                    : 'SendOutlined'
+                }
+                color={
+                  !isLoading &&
+                  !isLoadingMutatePostNoticeReply &&
+                  replyNickname &&
+                  replyPassword &&
+                  replyContent
+                    ? 'primary'
+                    : text[mode].text3
+                }
+              />
+            </IconButton>
+          </CommentBar>
+        </CommentBarWrapper>
+      </BottomSheet>
+      <Dialog
+        fullWidth
+        open={openPasswordSaveDialog}
+        onClose={handleClosePasswordSaveDialog}
+        customStyle={{ maxWidth: 475 }}
+      >
+        <Box customStyle={{ padding: 16 }}>
+          <Typography
+            variant="h3"
+            fontWeight="bold"
+            customStyle={{ padding: '30px 0', textAlign: 'center' }}
+          >
+            비밀번호를 저장하시겠어요?
+          </Typography>
+          <Flexbox gap={8} customStyle={{ marginTop: 20 }}>
+            <Button
+              fullWidth
+              onClick={handleClosePasswordSaveDialog}
+              customStyle={{ flex: 1, justifyContent: 'center' }}
+            >
+              안할래요
+            </Button>
+            <Button
+              fullWidth
+              variant="accent"
+              onClick={handleClickPasswordSaveConfirm}
+              customStyle={{ flex: 1, justifyContent: 'center' }}
+            >
+              저장할게요
+            </Button>
+          </Flexbox>
+        </Box>
+      </Dialog>
+    </>
   );
 }
 
