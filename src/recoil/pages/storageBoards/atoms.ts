@@ -4,7 +4,7 @@ import LocalStorage from '@library/localStorage';
 
 import { FetchStorageBoardsParams } from '@api/v1/storage-boards';
 
-import { localStorageKeys } from '@constants/localStorageKeys';
+import localStorageKeys from '@constants/localStorageKeys';
 
 export const storageBoardsParamsDefault: FetchStorageBoardsParams = {
   subject: null,

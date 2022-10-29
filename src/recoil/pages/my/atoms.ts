@@ -4,8 +4,8 @@ import LocalStorage from '@library/localStorage';
 import SessionStorage from '@library/sessionStorage';
 import getRandomNickname from '@utils/getRandomNickname';
 
-import { localStorageKeys } from '@constants/localStorageKeys';
-import { sessionStorageKeys } from '@constants/sessionStorageKeys';
+import localStorageKeys from '@constants/localStorageKeys';
+import sessionStorageKeys from '@constants/sessionStorageKeys';
 
 export const myNicknameState = atom({
   key: 'my/nicknameState',

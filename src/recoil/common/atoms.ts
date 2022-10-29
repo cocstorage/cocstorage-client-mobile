@@ -9,7 +9,7 @@ import { DeleteNoticeCommentData } from '@api/v1/notice-comments';
 import { DeleteStorageBoardCommentReplyData } from '@api/v1/storage-board-comment-replies';
 import { DeleteStorageBoardCommentData } from '@api/v1/storage-board-comments';
 
-import { localStorageKeys } from '@constants/localStorageKeys';
+import localStorageKeys from '@constants/localStorageKeys';
 
 export const commonThemeDefault: ThemeMode | 'system' = 'system';
 

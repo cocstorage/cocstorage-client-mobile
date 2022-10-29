@@ -4,10 +4,12 @@ const storageBoardsDisableDialogPaths = 'storageBoardsDisableDialogPaths' as con
 const nickname = 'nickname' as const;
 const password = 'password' as const;
 
-export const localStorageKeys = {
+const localStorageKeys = {
   theme,
   onBoarding,
   storageBoardsDisableDialogPaths,
   nickname,
   password
 };
+
+export default localStorageKeys;

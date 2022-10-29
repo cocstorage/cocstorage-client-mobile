@@ -1,5 +1,7 @@
 const hasSavedPassword = 'hasSavedPassword' as const;
 
-export const sessionStorageKeys = {
+const sessionStorageKeys = {
   hasSavedPassword
 };
+
+export default sessionStorageKeys;

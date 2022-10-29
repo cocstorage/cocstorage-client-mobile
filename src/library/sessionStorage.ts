@@ -1,4 +1,4 @@
-import { sessionStorageKeys } from '@constants/sessionStorageKeys';
+import sessionStorageKeys from '@constants/sessionStorageKeys';
 
 const SessionStorage = (() => {
   let sessionStorage: Storage | null;

@@ -138,6 +138,11 @@ function ReplyListBottomSheet({ type = 'storageBoard' }: ReplyListBottomSheetPro
     (data: PostNoticeCommentReplyData) =>
       postNonMemberNoticeCommentReply(Number(id), commentId, data),
     {
+      onSettled: () => {
+        if (!myHasSavedPassword && !myPassword) {
+          setOpenPasswordSaveDialog(true);
+        }
+      },
       onSuccess: () => {
         setContent('');
 
