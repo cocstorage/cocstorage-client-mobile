@@ -5,13 +5,13 @@ import { QueryClient, dehydrate } from '@tanstack/react-query';
 import {
   IndexBestStorageBoardList,
   IndexHead,
+  IndexIssueKeywordRank,
   IndexLatestStorageBoardList,
   IndexNoticeAlert,
   IndexWorstStorageBoardList
 } from '@components/pages/index';
 import GeneralTemplate from '@components/templeates/GeneralTemplate';
 import { BottomNavigation, Header } from '@components/UI/molecules';
-import IssueKeywordRank from '@components/UI/organisms/IssueKeywordRank';
 
 import { fetchIndexNotice } from '@api/v1/notices';
 
@@ -23,7 +23,7 @@ function Index() {
       <IndexHead />
       <GeneralTemplate header={<Header />} footer={<BottomNavigation />}>
         <IndexNoticeAlert />
-        <IssueKeywordRank disableFillEdgeBlanks={false} customStyle={{ marginTop: 32 }} />
+        <IndexIssueKeywordRank />
         <IndexBestStorageBoardList />
         <IndexWorstStorageBoardList />
         <IndexLatestStorageBoardList />

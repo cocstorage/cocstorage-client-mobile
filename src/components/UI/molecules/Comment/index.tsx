@@ -1,81 +1,33 @@
 import { memo } from 'react';
 
-import { useRouter } from 'next/router';
-
-import { useQuery } from '@tanstack/react-query';
-
 import dayjs from 'dayjs';
-import { useSetRecoilState } from 'recoil';
-
-import {
-  commonCommentMenuBottomSheetState,
-  commonReplyListBottomSheetState
-} from '@recoil/common/atoms';
 
 import { Box, Button, Flexbox, Icon, Image, Typography, useTheme } from 'cocstorage-ui';
 
-import Reply from '@components/UI/organisms/Reply';
+import Reply from '@components/UI/molecules/Reply';
 
 import { NoticeComment } from '@dto/notice-comments';
 import { StorageBoardComment } from '@dto/storage-board-comments';
 
-import { fetchNotice } from '@api/v1/notices';
-import { fetchStorageBoard } from '@api/v1/storage-boards';
-
-import queryKeys from '@constants/queryKeys';
-
 interface CommentProps {
-  type?: 'storageBoard' | 'notice';
   comment: StorageBoardComment | NoticeComment;
+  onClickReplyListOpen: () => void;
+  onClickMenu: () => void;
+  onClickReplyMenu: (commentId: number, replyId: number) => () => void;
 }
 
 function Comment({
-  type = 'storageBoard',
-  comment: { id: commentId, user, nickname, content = '', replies, createdAt, createdIp, isMember }
+  comment: { id, user, nickname, content = '', replies, createdAt, createdIp, isMember },
+  onClickReplyListOpen,
+  onClickMenu,
+  onClickReplyMenu
 }: CommentProps) {
-  const router = useRouter();
-  const { id } = router.query;
-
   const {
     theme: {
       mode,
       palette: { text }
     }
   } = useTheme();
-
-  const setReplyListBottomSheetState = useSetRecoilState(commonReplyListBottomSheetState);
-  const setCommentMenuBottomSheetState = useSetRecoilState(commonCommentMenuBottomSheetState);
-
-  const { data: { id: storageBoardId, storage: { id: storageId = 0 } = {} } = {} } = useQuery(
-    queryKeys.storageBoards.storageBoardById(Number(id)),
-    () => fetchStorageBoard(Number(storageId), Number(id)),
-    {
-      enabled: type === 'storageBoard'
-    }
-  );
-
-  const { data: { id: noticeId } = {} } = useQuery(
-    queryKeys.notices.noticeById(Number(id)),
-    () => fetchNotice(Number(id)),
-    {
-      enabled: type === 'notice'
-    }
-  );
-
-  const handleClick = () =>
-    setReplyListBottomSheetState({
-      open: true,
-      storageId,
-      commentId
-    });
-
-  const handleClickMenuBottomSheet = () =>
-    setCommentMenuBottomSheetState({
-      open: true,
-      storageId,
-      id: type === 'storageBoard' ? storageBoardId : noticeId,
-      commentId
-    });
 
   return (
     <Flexbox direction="vertical" customStyle={{ flex: 1 }}>
@@ -120,7 +72,7 @@ function Comment({
               variant="transparent"
               size="pico"
               startIcon={<Icon name="MoreMenuOutlined" width={15} height={15} />}
-              onClick={handleClickMenuBottomSheet}
+              onClick={onClickMenu}
               iconOnly
             />
           </Flexbox>
@@ -138,7 +90,7 @@ function Comment({
           </Typography>
           <Typography
             variant="s1"
-            onClick={handleClick}
+            onClick={onClickReplyListOpen}
             customStyle={{ cursor: 'pointer', color: text[mode].text1 }}
           >
             {replies.length > 0 ? `답글 ${replies.length.toLocaleString()}개` : '답글달기'}
@@ -147,7 +99,12 @@ function Comment({
         {replies.length > 0 && (
           <Flexbox direction="vertical" gap={18}>
             {replies.slice(0, 3).map((reply) => (
-              <Reply key={`comment-simple-reply-${reply.id}`} reply={reply} disablePadding />
+              <Reply
+                key={`comment-simple-reply-${reply.id}`}
+                reply={reply}
+                onClickMenu={onClickReplyMenu(id, reply.id)}
+                disablePadding
+              />
             ))}
           </Flexbox>
         )}
@@ -160,7 +117,7 @@ function Comment({
                 color: text[mode].text1,
                 cursor: 'pointer'
               }}
-              onClick={handleClick}
+              onClick={onClickReplyListOpen}
             >
               {`답글 ${(replies.length - 3).toLocaleString()}개 더 보기`}
             </Typography>

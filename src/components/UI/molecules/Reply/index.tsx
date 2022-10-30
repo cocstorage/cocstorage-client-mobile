@@ -1,95 +1,29 @@
 import { memo } from 'react';
 
-import { useRouter } from 'next/router';
-
-import { useQuery } from '@tanstack/react-query';
-
 import dayjs from 'dayjs';
-import { useRecoilState, useSetRecoilState } from 'recoil';
-
-import {
-  commonReplyListBottomSheetState,
-  commonReplyMenuBottomSheetState
-} from '@recoil/common/atoms';
 
 import { Button, Flexbox, Icon, Image, Typography, useTheme } from 'cocstorage-ui';
 
 import { NoticeCommentReply } from '@dto/notice-comment-replies';
 import { StorageBoardCommentReply } from '@dto/storage-board-comment-replies';
 
-import { fetchNotice } from '@api/v1/notices';
-import { fetchStorageBoard } from '@api/v1/storage-boards';
-
-import queryKeys from '@constants/queryKeys';
-
 interface ReplyProps {
-  type?: 'storageBoard' | 'notice';
-  reply: StorageBoardCommentReply & NoticeCommentReply;
+  reply: StorageBoardCommentReply | NoticeCommentReply;
+  onClickMenu: () => void;
   disablePadding?: boolean;
 }
 
 function Reply({
-  type = 'storageBoard',
-  reply: {
-    id: replyId,
-    storageBoardCommentId,
-    noticeCommentId,
-    user,
-    nickname,
-    content,
-    createdIp,
-    createdAt,
-    isMember
-  },
+  reply: { user, nickname, content, createdIp, createdAt, isMember },
+  onClickMenu,
   disablePadding
 }: ReplyProps) {
-  const router = useRouter();
-  const { id } = router.query;
   const {
     theme: {
       mode,
       palette: { text }
     }
   } = useTheme();
-
-  const [{ commentId }, setReplyListBottomSheetState] = useRecoilState(
-    commonReplyListBottomSheetState
-  );
-  const setReplyMenuBottomState = useSetRecoilState(commonReplyMenuBottomSheetState);
-
-  const { data: { id: storageBoardId, storage: { id: storageId = 0 } = {} } = {} } = useQuery(
-    queryKeys.storageBoards.storageBoardById(Number(id)),
-    () => fetchStorageBoard(Number(storageId), Number(id)),
-    {
-      enabled: type === 'storageBoard'
-    }
-  );
-
-  const { data: { id: noticeId } = {} } = useQuery(
-    queryKeys.notices.noticeById(Number(id)),
-    () => fetchNotice(Number(id)),
-    {
-      enabled: type === 'notice'
-    }
-  );
-
-  const handleClick = () => {
-    setReplyListBottomSheetState((prevState) => ({
-      ...prevState,
-      commentId: commentId || storageBoardCommentId || noticeCommentId,
-      open: false
-    }));
-
-    setTimeout(() => {
-      setReplyMenuBottomState({
-        open: true,
-        storageId,
-        id: type === 'storageBoard' ? storageBoardId : noticeId,
-        commentId: commentId || storageBoardCommentId || noticeCommentId,
-        replyId
-      });
-    }, 500);
-  };
 
   return (
     <Flexbox gap={10} customStyle={{ padding: disablePadding ? undefined : '0 20px' }}>
@@ -145,7 +79,7 @@ function Reply({
             variant="transparent"
             size="pico"
             startIcon={<Icon name="MoreMenuOutlined" width={15} height={15} />}
-            onClick={handleClick}
+            onClick={onClickMenu}
             iconOnly
           />
         </Flexbox>

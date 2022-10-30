@@ -1,64 +1,16 @@
-import { useEffect } from 'react';
-
-import { useRecoilState, useResetRecoilState, useSetRecoilState } from 'recoil';
-
-import {
-  commonReplyDeleteBottomSheetState,
-  commonReplyListBottomSheetState,
-  commonReplyMenuBottomSheetState
-} from '@recoil/common/atoms';
-
 import { BottomSheet, Box, Flexbox, Icon, IconButton, Typography } from 'cocstorage-ui';
 
-function ReplyMenuBottomSheet() {
-  const [{ open, storageId, id, commentId, replyId }, setReplyMenuBottomState] = useRecoilState(
-    commonReplyMenuBottomSheetState
-  );
-  const resetReplyMenuBottomState = useResetRecoilState(commonReplyMenuBottomSheetState);
-  const setReplyListBottomState = useSetRecoilState(commonReplyListBottomSheetState);
-  const setReplyDeleteBottomState = useSetRecoilState(commonReplyDeleteBottomSheetState);
+interface ReplyMenuBottomSheetProps {
+  open: boolean;
+  onClose: () => void;
+  onClickDeleteMenu: () => void;
+}
 
-  const handleClose = () => {
-    setReplyMenuBottomState((prevState) => ({
-      ...prevState,
-      open: false
-    }));
-
-    setTimeout(() => {
-      setReplyListBottomState((prevState) => ({
-        ...prevState,
-        open: true
-      }));
-    }, 500);
-  };
-
-  const handleClickReplyDeleteBottomSheet = () => {
-    setReplyMenuBottomState((prevState) => ({
-      ...prevState,
-      open: false
-    }));
-
-    setTimeout(() => {
-      setReplyDeleteBottomState({
-        open: true,
-        storageId,
-        id,
-        commentId,
-        replyId
-      });
-    }, 500);
-  };
-
-  useEffect(() => {
-    return () => {
-      resetReplyMenuBottomState();
-    };
-  }, [resetReplyMenuBottomState]);
-
+function ReplyMenuBottomSheet({ open, onClose, onClickDeleteMenu }: ReplyMenuBottomSheetProps) {
   return (
-    <BottomSheet open={open} onClose={handleClose}>
+    <BottomSheet open={open} onClose={onClose}>
       <Box customStyle={{ padding: '10px 20px 30px 20px' }}>
-        <Flexbox gap={8} alignment="center" onClick={handleClickReplyDeleteBottomSheet}>
+        <Flexbox gap={8} alignment="center" onClick={onClickDeleteMenu}>
           <IconButton>
             <Icon name="CloseOutlined" />
           </IconButton>

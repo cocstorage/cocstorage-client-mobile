@@ -5,3 +5,5 @@ export { default as StorageCard } from './StorageCard';
 export { default as Message } from './Message';
 export { default as GoogleAdSense } from './GoogleAdSense';
 export { default as IssueKeywordCard } from './IssueKeywordCard';
+export { default as Comment } from './Comment';
+export { default as Reply } from './Reply';

@@ -1,28 +1,29 @@
 import { useMemo, useState } from 'react';
 
-import { useQuery } from '@tanstack/react-query';
-
-import { useSetRecoilState } from 'recoil';
-
-import { commonFeedbackDialogState } from '@recoil/common/atoms';
-
 import { Button, CustomStyle, Flexbox, Icon, Typography, useTheme } from 'cocstorage-ui';
 
 import { IssueKeywordCard, Message } from '@components/UI/molecules';
 import IssueKeywordCardSkeleton from '@components/UI/molecules/IssueKeywordCard/IssueKeywordCardSkeleton';
 
-import { fetchIssueKeywordRank } from '@api/v1/issue-keywords';
-
-import queryKeys from '@constants/queryKeys';
+import { IssueKeywordRank as IIssueKeywordRank } from '@dto/issue-keywords';
 
 import { List, StyledIssueKeywordRank } from './IssueKeywordRank.styles';
 
 export interface IssueKeywordRankProps {
+  issueKeywordRank: IIssueKeywordRank;
+  isLoading: boolean;
+  onClickIssueKeyword: () => void;
   disableFillEdgeBlanks?: boolean;
   customStyle?: CustomStyle;
 }
 
-function IssueKeywordRank({ disableFillEdgeBlanks = true, customStyle }: IssueKeywordRankProps) {
+function IssueKeywordRank({
+  issueKeywordRank: { ranks = [] } = { ranks: [], id: 0, date: '' },
+  isLoading,
+  onClickIssueKeyword,
+  disableFillEdgeBlanks = true,
+  customStyle
+}: IssueKeywordRankProps) {
   const {
     theme: {
       mode,
@@ -30,14 +31,7 @@ function IssueKeywordRank({ disableFillEdgeBlanks = true, customStyle }: IssueKe
     }
   } = useTheme();
 
-  const setCommonFeedbackDialogState = useSetRecoilState(commonFeedbackDialogState);
-
   const [toggle, setToggle] = useState(false);
-
-  const { data: { ranks = [] } = {}, isLoading } = useQuery(
-    queryKeys.issueKeywords.issueKeywordRank,
-    fetchIssueKeywordRank
-  );
 
   const newRanks = useMemo(() => {
     if (toggle) {
@@ -52,13 +46,6 @@ function IssueKeywordRank({ disableFillEdgeBlanks = true, customStyle }: IssueKe
   }, [ranks, toggle]);
 
   const handleClick = () => setToggle((prevState) => !prevState);
-
-  const handleClickCard = () =>
-    setCommonFeedbackDialogState({
-      open: true,
-      title: '준비 중인 기능이에요!',
-      message: '조금만 기다려주세요!'
-    });
 
   return (
     <StyledIssueKeywordRank disableFillEdgeBlanks={disableFillEdgeBlanks} css={customStyle}>
@@ -100,7 +87,7 @@ function IssueKeywordRank({ disableFillEdgeBlanks = true, customStyle }: IssueKe
             <IssueKeywordCard
               key={`issue-keyword-${issueKeyword.keywordId}`}
               issueKeyword={issueKeyword}
-              onClick={handleClickCard}
+              onClick={onClickIssueKeyword}
             />
           ))}
         {!isLoading && !ranks.length && (

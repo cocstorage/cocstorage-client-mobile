@@ -4,16 +4,19 @@ import { GetServerSidePropsContext } from 'next';
 
 import { QueryClient, dehydrate } from '@tanstack/react-query';
 
-import { NoticeContent, NoticeFooter, NoticeHead, NoticeHeader } from '@components/pages/notice';
-import GeneralTemplate from '@components/templeates/GeneralTemplate';
 import {
-  CommentDeleteBottomSheet,
-  CommentList,
-  CommentMenuBottomSheet,
-  ReplyDeleteBottomSheet,
-  ReplyListBottomSheet,
-  ReplyMenuBottomSheet
-} from '@components/UI/organisms';
+  NoticeCommentDeleteBottomSheet,
+  NoticeCommentList,
+  NoticeCommentMenuBottomSheet,
+  NoticeContent,
+  NoticeFooter,
+  NoticeHead,
+  NoticeHeader,
+  NoticeReplyDeleteBottomSheet,
+  NoticeReplyListBottomSheet,
+  NoticeReplyMenuBottomSheet
+} from '@components/pages/notice';
+import GeneralTemplate from '@components/templeates/GeneralTemplate';
 
 import { fetchNotice } from '@api/v1/notices';
 
@@ -27,13 +30,13 @@ function Notice() {
       <NoticeHead />
       <GeneralTemplate header={<NoticeHeader />} footer={<NoticeFooter footerRef={footerRef} />}>
         <NoticeContent footerRef={footerRef} />
-        <CommentList type="notice" customStyle={{ margin: '40px 0 20px' }} />
+        <NoticeCommentList />
       </GeneralTemplate>
-      <CommentMenuBottomSheet />
-      <CommentDeleteBottomSheet type="notice" />
-      <ReplyListBottomSheet type="notice" />
-      <ReplyMenuBottomSheet />
-      <ReplyDeleteBottomSheet type="notice" />
+      <NoticeReplyListBottomSheet />
+      <NoticeCommentMenuBottomSheet />
+      <NoticeCommentDeleteBottomSheet />
+      <NoticeReplyMenuBottomSheet />
+      <NoticeReplyDeleteBottomSheet />
     </>
   );
 }

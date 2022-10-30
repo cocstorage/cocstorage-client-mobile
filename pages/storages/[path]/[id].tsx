@@ -5,21 +5,19 @@ import { GetServerSidePropsContext } from 'next';
 import { QueryClient, dehydrate } from '@tanstack/react-query';
 
 import {
+  StorageBoardCommentDeleteBottomSheet,
+  StorageBoardCommentList,
+  StorageBoardCommentMenuBottomSheet,
   StorageBoardContent,
   StorageBoardFooter,
   StorageBoardHead,
-  StorageBoardHeader
+  StorageBoardHeader,
+  StorageBoardReplyDeleteBottomSheet,
+  StorageBoardReplyListBottomSheet,
+  StorageBoardReplyMenuBottomSheet
 } from '@components/pages/storageBoard';
 import GeneralTemplate from '@components/templeates/GeneralTemplate';
 import GoogleAdSense from '@components/UI/molecules/GoogleAdSense';
-import {
-  CommentDeleteBottomSheet,
-  CommentList,
-  CommentMenuBottomSheet,
-  ReplyDeleteBottomSheet,
-  ReplyListBottomSheet,
-  ReplyMenuBottomSheet
-} from '@components/UI/organisms';
 
 import { fetchStorageBoard } from '@api/v1/storage-boards';
 import { fetchStorage } from '@api/v1/storages';
@@ -57,13 +55,13 @@ function StorageBoard() {
           }
           customStyle={{ margin: '40px -20px 0' }}
         />
-        <CommentList customStyle={{ margin: '20px 0 20px' }} />
+        <StorageBoardCommentList />
       </GeneralTemplate>
-      <CommentMenuBottomSheet />
-      <CommentDeleteBottomSheet />
-      <ReplyListBottomSheet />
-      <ReplyMenuBottomSheet />
-      <ReplyDeleteBottomSheet />
+      <StorageBoardReplyListBottomSheet />
+      <StorageBoardCommentMenuBottomSheet />
+      <StorageBoardCommentDeleteBottomSheet />
+      <StorageBoardReplyMenuBottomSheet />
+      <StorageBoardReplyDeleteBottomSheet />
     </>
   );
 }

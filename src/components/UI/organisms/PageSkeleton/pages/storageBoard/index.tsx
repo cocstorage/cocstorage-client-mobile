@@ -46,12 +46,12 @@ function StorageBoardHeader() {
 
 function StorageBoardFooter() {
   return (
-    <Box component="footer" customStyle={{ height: 44 }}>
+    <Box component="footer" customStyle={{ height: 49 }}>
       <StyledStorageBoardFooter>
         <Flexbox gap={10}>
-          <Skeleton width={40} height={22} round={6} disableAspectRatio />
-          <Skeleton width={40} height={22} round={6} disableAspectRatio />
-          <Skeleton width={40} height={22} round={6} disableAspectRatio />
+          <Skeleton width={40.69} height={28} round={6} disableAspectRatio />
+          <Skeleton width={40.69} height={28} round={6} disableAspectRatio />
+          <Skeleton width={40.69} height={28} round={6} disableAspectRatio />
         </Flexbox>
       </StyledStorageBoardFooter>
     </Box>

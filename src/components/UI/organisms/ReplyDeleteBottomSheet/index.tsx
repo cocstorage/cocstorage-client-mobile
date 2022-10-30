@@ -1,177 +1,37 @@
-import { ChangeEvent, useEffect, useState } from 'react';
-
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-
-import { useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
-
-import {
-  commonReplyDeleteBottomSheetState,
-  commonReplyListBottomSheetState,
-  commonReplyMenuBottomSheetState
-} from '@recoil/common/atoms';
-import { noticeCommentsParamsState } from '@recoil/pages/notice/atoms';
-import { storageBoardCommentsParamsState } from '@recoil/pages/storageBoard/atoms';
+import { ChangeEvent } from 'react';
 
 import { BottomSheet, Box, Button, TextBar, Typography, useTheme } from 'cocstorage-ui';
 
-import {
-  DeleteNoticeCommentReplyData,
-  deleteNonMemberNoticeCommentReply
-} from '@api/v1/notice-comment-replies';
-import {
-  DeleteStorageBoardCommentReplyData,
-  deleteNonMemberStorageBoardCommentReply
-} from '@api/v1/storage-board-comment-replies';
-
-import queryKeys from '@constants/queryKeys';
-
 interface ReplyDeleteBottomSheetProps {
-  type?: 'storageBoard' | 'notice';
+  open: boolean;
+  onClose: () => void;
+  password: string;
+  errorMessage: {
+    error: boolean;
+    message: string;
+  };
+  isLoading: boolean;
+  onChange: (event: ChangeEvent<HTMLInputElement>) => void;
+  onClickDelete: () => void;
 }
 
-function ReplyDeleteBottomSheet({ type = 'storageBoard' }: ReplyDeleteBottomSheetProps) {
+function ReplyDeleteBottomSheet({
+  open,
+  onClose,
+  password,
+  errorMessage,
+  isLoading,
+  onChange,
+  onClickDelete
+}: ReplyDeleteBottomSheetProps) {
   const {
     theme: {
       palette: { secondary }
     }
   } = useTheme();
 
-  const params = useRecoilValue(storageBoardCommentsParamsState);
-  const noticeCommentsParams = useRecoilValue(noticeCommentsParamsState);
-  const { open, storageId, id, commentId, replyId } = useRecoilValue(
-    commonReplyDeleteBottomSheetState
-  );
-  const setReplyMenuBottomSheetState = useSetRecoilState(commonReplyMenuBottomSheetState);
-  const setReplyListBottomSheetState = useSetRecoilState(commonReplyListBottomSheetState);
-  const resetReplyDeleteBottomState = useResetRecoilState(commonReplyDeleteBottomSheetState);
-
-  const [password, setPassword] = useState('');
-  const [errorMessage, setErrorMessage] = useState<{
-    error: boolean;
-    message: string;
-  }>({
-    error: false,
-    message: ''
-  });
-
-  const queryClient = useQueryClient();
-
-  const { mutate, isLoading } = useMutation(
-    (data: DeleteStorageBoardCommentReplyData) => deleteNonMemberStorageBoardCommentReply(data),
-    {
-      onSuccess: () => {
-        const { page } = params;
-
-        queryClient
-          .invalidateQueries(
-            queryKeys.storageBoardComments.storageBoardCommentsByIdWithPage(Number(id), page || 1)
-          )
-          .then();
-        setPassword('');
-        resetReplyDeleteBottomState();
-
-        setTimeout(() => {
-          setReplyListBottomSheetState((prevState) => ({
-            ...prevState,
-            open: true
-          }));
-        }, 500);
-      },
-      onError: () =>
-        setErrorMessage({
-          error: true,
-          message: '비밀번호가 일치하지 않아요.'
-        })
-    }
-  );
-
-  const { mutate: mutateDeleteReply, isLoading: isLoadingMutateDeleteReply } = useMutation(
-    (data: DeleteNoticeCommentReplyData) => deleteNonMemberNoticeCommentReply(data),
-    {
-      onSuccess: () => {
-        const { page } = noticeCommentsParams;
-
-        queryClient
-          .invalidateQueries(
-            queryKeys.noticeComments.noticeCommentsByIdWithPage(Number(id), page || 1)
-          )
-          .then();
-        setPassword('');
-        resetReplyDeleteBottomState();
-
-        setTimeout(() => {
-          setReplyListBottomSheetState((prevState) => ({
-            ...prevState,
-            open: true
-          }));
-        }, 500);
-      },
-      onError: () =>
-        setErrorMessage({
-          error: true,
-          message: '비밀번호가 일치하지 않아요.'
-        })
-    }
-  );
-
-  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    if (errorMessage.error) {
-      setErrorMessage({
-        error: false,
-        message: ''
-      });
-    }
-    setPassword(event.currentTarget.value);
-  };
-
-  const handleClose = () => {
-    resetReplyDeleteBottomState();
-
-    setTimeout(() => {
-      setReplyMenuBottomSheetState((prevState) => ({
-        ...prevState,
-        open: true
-      }));
-    }, 500);
-  };
-
-  const handleClick = () => {
-    if (type === 'storageBoard') {
-      mutate({
-        storageId,
-        id,
-        commentId,
-        replyId,
-        password
-      });
-    } else {
-      mutateDeleteReply({
-        id,
-        commentId,
-        replyId,
-        password
-      });
-    }
-  };
-
-  useEffect(() => {
-    if (!open) {
-      setPassword('');
-      setErrorMessage({
-        error: false,
-        message: ''
-      });
-    }
-  }, [open]);
-
-  useEffect(() => {
-    return () => {
-      resetReplyDeleteBottomState();
-    };
-  }, [resetReplyDeleteBottomState]);
-
   return (
-    <BottomSheet open={open} onClose={handleClose}>
+    <BottomSheet open={open} onClose={onClose}>
       <Box customStyle={{ padding: '30px 20px' }}>
         <Typography variant="h3" fontWeight="bold" customStyle={{ textAlign: 'center' }}>
           답글을 삭제하려면
@@ -179,7 +39,7 @@ function ReplyDeleteBottomSheet({ type = 'storageBoard' }: ReplyDeleteBottomShee
         </Typography>
         <TextBar
           type="password"
-          onChange={handleChange}
+          onChange={onChange}
           value={password}
           fullWidth
           size="big"
@@ -195,8 +55,8 @@ function ReplyDeleteBottomSheet({ type = 'storageBoard' }: ReplyDeleteBottomShee
         <Button
           variant="accent"
           fullWidth
-          onClick={handleClick}
-          disabled={!password || isLoading || isLoadingMutateDeleteReply}
+          onClick={onClickDelete}
+          disabled={!password || isLoading}
           customStyle={{ marginTop: 20, justifyContent: 'center' }}
         >
           확인

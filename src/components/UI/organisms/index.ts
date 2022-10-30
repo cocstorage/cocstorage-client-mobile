@@ -1,8 +1,6 @@
-export { default as Comment } from './Comment';
 export { default as CommentList } from './CommentList';
 export { default as CommentMenuBottomSheet } from './CommentMenuBottomSheet';
 export { default as CommentDeleteBottomSheet } from './CommentDeleteBottomSheet';
-export { default as Reply } from './Reply';
 export { default as ReplyMenuBottomSheet } from './ReplyMenuBottomSheet';
 export { default as ReplyListBottomSheet } from './ReplyListBottomSheet';
 export { default as ReplyDeleteBottomSheet } from './ReplyDeleteBottomSheet';
