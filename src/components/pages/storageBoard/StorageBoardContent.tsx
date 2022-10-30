@@ -235,6 +235,7 @@ function StorageBoardContent({ footerRef }: StorageBoardContentProps) {
 
 export const Content = styled(Typography)`
   margin-top: 20px;
+  overflow: hidden;
 
   * {
     max-width: 100%;
