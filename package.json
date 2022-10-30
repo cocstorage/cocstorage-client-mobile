@@ -14,14 +14,14 @@
     "conventions": "yarn prettier && eslint --fix \"**/*.{js,ts,tsx}\""
   },
   "dependencies": {
-    "@emotion/react": "^11.10.0",
-    "@emotion/styled": "^11.10.0",
-    "@tanstack/react-query": "^4.7.2",
-    "@tanstack/react-query-devtools": "^4.7.2",
-    "axios": "^0.27.2",
+    "@emotion/react": "^11.10.5",
+    "@emotion/styled": "^11.10.5",
+    "@tanstack/react-query": "^4.13.4",
+    "@tanstack/react-query-devtools": "^4.13.4",
+    "axios": "^1.1.3",
     "cocstorage-ui": "^0.1.32",
-    "dayjs": "^1.11.5",
-    "next": "^12.3.1",
+    "dayjs": "^1.11.6",
+    "next": "^13.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "recoil": "^0.7.6"
@@ -29,7 +29,7 @@
   "devDependencies": {
     "@babel/core": "^7.18.10",
     "@types/node": "^18.7.3",
-    "@types/react": "^18.0.17",
+    "@types/react": "^18.0.24",
     "@typescript-eslint/eslint-plugin": "^5.33.1",
     "@typescript-eslint/parser": "^5.33.1",
     "eslint": "^8.22.0",
