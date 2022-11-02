@@ -28,10 +28,8 @@ function StorageBoardsInfoBottomSheet() {
 
   const [open, setOpen] = useRecoilState(openStorageBoardsInfoBottomSheetState);
 
-  const { data: { user: { nickname }, name, description, avatarUrl, createdAt } = {} } = useQuery(
-    queryKeys.storages.storageById(String(path)),
-    () => fetchStorage(String(path))
-  );
+  const { data: { user: { nickname } = {}, name, description, avatarUrl, createdAt } = {} } =
+    useQuery(queryKeys.storages.storageById(String(path)), () => fetchStorage(String(path)));
 
   useEffect(() => {
     return () => {

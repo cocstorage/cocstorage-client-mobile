@@ -23,8 +23,8 @@ function StorageBoard() {
       disableFlexible={false}
     >
       <StorageBoardTabs />
-      <Alert icon={<Icon name="PinOutlined" />} customStyle={{ marginTop: 12 }}>
-        게시글을 작성할 수 있는 기능을 준비하고 있어요! 조금만 기다려주세요.
+      <Alert severity="info" icon={<Icon name="PinOutlined" />} customStyle={{ marginTop: 12 }}>
+        개념글 저장소 유사앱 관련 주의 안내
       </Alert>
       <StorageBoardCards />
     </GeneralTemplate>

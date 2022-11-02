@@ -7,7 +7,7 @@ export default function StorageBoardContent() {
     <Box customStyle={{ marginTop: 10 }}>
       <Skeleton width="60%" height={22} round={6} disableAspectRatio />
       <Box customStyle={{ display: 'flex', alignItems: 'center', marginTop: 10 }}>
-        <Skeleton width={18} height={18} round="50%" disableAspectRatio />
+        <Skeleton width={24} height={24} round="50%" disableAspectRatio />
         <Skeleton
           width="30%"
           height={16}

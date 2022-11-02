@@ -11,7 +11,7 @@ import styled from '@emotion/styled';
 
 import { noticeHideHeaderSubjectState } from '@recoil/pages/notice/atoms';
 
-import { Avatar, Box, Button, Flexbox, Icon, Typography, useTheme } from 'cocstorage-ui';
+import { Avatar, Box, Button, Flexbox, Icon, Image, Typography, useTheme } from 'cocstorage-ui';
 
 import useScrollTrigger from '@hooks/useScrollTrigger';
 
@@ -61,11 +61,18 @@ function NoticeContent({ footerRef }: NoticeContentProps) {
         </Typography>
         <Info>
           <Flexbox alignment="center">
-            <Avatar
-              width={18}
-              height={18}
-              src="https://static.cocstorage.com/images/xt868xt2w6i50bf4x98xdsbfado3"
+            <Image
+              width={24}
+              height={24}
+              src={(user || {}).avatarUrl || ''}
               alt="User Avatar Img"
+              round="50%"
+              disableAspectRatio
+              fallback={{
+                iconName: 'UserFilled',
+                width: 12,
+                height: 12
+              }}
             />
             <Typography variant="s1" color={text[mode].text1} customStyle={{ marginLeft: 4 }}>
               {user.nickname}
