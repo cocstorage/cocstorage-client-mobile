@@ -8,28 +8,34 @@ import { useRecoilState } from 'recoil';
 
 import { storageBoardsDialogDisablePathsState } from '@recoil/pages/storageBoards/atoms';
 
-import { Box, Button, Dialog, Flexbox, Icon, Tag, Typography } from 'cocstorage-ui';
+import { Box, Button, Dialog, Flexbox, Icon, Typography } from 'cocstorage-ui';
 
 import { fetchStorage } from '@api/v1/storages';
 
 import queryKeys from '@constants/queryKeys';
 
 function StorageBoardsNoticeDialog() {
-  const {
-    query: { path = '' }
-  } = useRouter();
-  const [open, setOpen] = useState<boolean>(false);
+  const router = useRouter();
+  const { path = '' } = router.query;
+  const [open, setOpen] = useState(false);
 
   const [disableDialogPaths, setStorageBoardsDialogDisablePathsState] = useRecoilState(
     storageBoardsDialogDisablePathsState
   );
 
-  const { data: { storageCategoryId, name } = {} } = useQuery(
+  const { data: { storageCategoryId } = {} } = useQuery(
     queryKeys.storages.storageById(String(path)),
     () => fetchStorage(String(path))
   );
 
-  const handleClose = () => setOpen(false);
+  const handleClose = () => {
+    setOpen(false);
+    router
+      .push('/notices/181')
+      .then(() =>
+        setStorageBoardsDialogDisablePathsState(disableDialogPaths.concat([String(path)]))
+      );
+  };
 
   const handleDisable = () => {
     setStorageBoardsDialogDisablePathsState(disableDialogPaths.concat([String(path)]));
@@ -47,31 +53,17 @@ function StorageBoardsNoticeDialog() {
       <Box customStyle={{ padding: 16 }}>
         <Flexbox
           alignment="center"
+          justifyContent="center"
           gap={6}
           customStyle={{
             textAlign: 'center'
           }}
         >
-          <Icon name="LoudSpeakerOutlined" width={60} height={60} />
-          <Typography variant="h1" fontWeight="bold">
-            안내드려요!
+          <Icon name="EmailOutlined" width={30} height={30} />
+          <Typography variant="h3" fontWeight="bold">
+            여러분들께 드리는 마지막 소식
           </Typography>
         </Flexbox>
-        <Typography
-          lineHeight="main"
-          customStyle={{ marginTop: 16, '& > strong': { fontWeight: 700 } }}
-        >
-          보고 계신 <strong>{name}</strong> 게시판은 특정 인기 커뮤니티의 인기 게시글들이 미러링
-          되고 있는 게시판이에요. 여기에 등록되는 게시글들은 개념글 저장소의 유저가 작성한 게시글이
-          아니에요!
-        </Typography>
-        <Typography lineHeight="main" customStyle={{ marginTop: 16 }}>
-          혹여나 유머러스한 게시글이 아닌 개인정보침해가 우려되는 게시글을 발견하시는 경우, 아래의
-          이메일로 신고해 주시면, 신속하게 도와드릴게요.
-        </Typography>
-        <Box customStyle={{ marginTop: 16, textAlign: 'center' }}>
-          <Tag startIcon={<Icon name="EmailOutlined" />}>cocstoragehelps@gmail.com</Tag>
-        </Box>
         <Flexbox gap={6} customStyle={{ width: '100%', marginTop: 24, textAlign: 'center' }}>
           <Button
             fullWidth
@@ -86,7 +78,7 @@ function StorageBoardsNoticeDialog() {
             onClick={handleDisable}
             customStyle={{ flex: 1, justifyContent: 'center' }}
           >
-            다신 안볼래요
+            안볼래요
           </Button>
         </Flexbox>
       </Box>

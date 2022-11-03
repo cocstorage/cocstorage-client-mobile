@@ -37,15 +37,16 @@ export const storageBoardsDialogDisablePathsState = atom<string[]>({
   effects: [
     ({ onSet, setSelf }) => {
       const disableDialogPaths =
-        LocalStorage.get<string[]>(localStorageKeys.storageBoardsDisableDialogPaths) || [];
+        LocalStorage.get<string[]>(localStorageKeys.storageBoardsLastNoticeDisableDialogPaths) ||
+        [];
 
       setSelf(disableDialogPaths);
 
       onSet((newValue, _, isReset) => {
         if (isReset) {
-          LocalStorage.remove(localStorageKeys.storageBoardsDisableDialogPaths);
+          LocalStorage.remove(localStorageKeys.storageBoardsLastNoticeDisableDialogPaths);
         } else {
-          LocalStorage.set(localStorageKeys.storageBoardsDisableDialogPaths, newValue);
+          LocalStorage.set(localStorageKeys.storageBoardsLastNoticeDisableDialogPaths, newValue);
         }
       });
     }

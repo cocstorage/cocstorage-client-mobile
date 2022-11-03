@@ -30,13 +30,13 @@ function StorageBoards() {
       <StorageBoardsHead />
       <GeneralTemplate header={<StorageBoardsHeader />} footer={<BottomNavigation />}>
         <StorageBoardsTabs />
-        <Link href="/notices/173">
+        <Link href="/notices/181">
           <Alert
             severity="info"
             icon={<Icon name="PinOutlined" />}
             customStyle={{ marginTop: 12, cursor: 'pointer' }}
           >
-            개념글 저장소 유사앱 관련 주의 안내
+            여러분들께 드리는 마지막 소식
           </Alert>
         </Link>
         <StorageBoardsList />

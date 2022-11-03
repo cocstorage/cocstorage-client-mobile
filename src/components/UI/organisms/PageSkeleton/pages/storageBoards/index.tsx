@@ -24,7 +24,7 @@ function StorageBoard() {
     >
       <StorageBoardTabs />
       <Alert severity="info" icon={<Icon name="PinOutlined" />} customStyle={{ marginTop: 12 }}>
-        개념글 저장소 유사앱 관련 주의 안내
+        여러분들께 드리는 마지막 소식
       </Alert>
       <StorageBoardCards />
     </GeneralTemplate>
