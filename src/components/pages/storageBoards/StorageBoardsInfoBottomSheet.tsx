@@ -41,7 +41,7 @@ function StorageBoardsInfoBottomSheet() {
     <BottomSheet open={open} onClose={() => setOpen(false)}>
       <Box customStyle={{ padding: 20 }}>
         <Flexbox alignment="center" customStyle={{ width: '100%' }}>
-          <Avatar width={60} height={60} src={avatarUrl} round alt="Storage Logo Img" />
+          <Avatar width={60} height={60} src={avatarUrl} round={6} alt="Storage Logo Img" />
           <Box customStyle={{ flex: 1, marginLeft: 14 }}>
             <Typography variant="h4" fontWeight="bold">
               {name}
