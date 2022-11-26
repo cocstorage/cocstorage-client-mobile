@@ -15,7 +15,7 @@ function MyHeader() {
         <IconButton onClick={handleClick}>
           <Icon name="CaretSemiLeftOutlined" />
         </IconButton>
-        <Typography variant="h4" fontWeight="bold">
+        <Typography component="h1" variant="h4" fontWeight="bold">
           마이
         </Typography>
       </StyledMyHeader>

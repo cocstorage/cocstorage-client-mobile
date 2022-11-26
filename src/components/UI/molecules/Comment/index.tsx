@@ -2,7 +2,7 @@ import { memo } from 'react';
 
 import dayjs from 'dayjs';
 
-import { Box, Button, Flexbox, Icon, Image, Typography, useTheme } from 'cocstorage-ui';
+import { Avatar, Box, Button, Flexbox, Icon, Typography, useTheme } from 'cocstorage-ui';
 
 import Reply from '@components/UI/molecules/Reply';
 
@@ -32,13 +32,11 @@ function Comment({
   return (
     <Flexbox direction="vertical" customStyle={{ flex: 1 }}>
       <Flexbox gap={10}>
-        <Image
+        <Avatar
           width={30}
           height={30}
           src={(user || {}).avatarUrl || ''}
           alt="User Avatar Img"
-          round="50%"
-          disableAspectRatio
           fallback={{
             iconName: 'UserFilled',
             width: 15,

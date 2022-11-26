@@ -11,7 +11,7 @@ import styled from '@emotion/styled';
 
 import { noticeHideHeaderSubjectState } from '@recoil/pages/notice/atoms';
 
-import { Avatar, Box, Button, Flexbox, Icon, Image, Typography, useTheme } from 'cocstorage-ui';
+import { Avatar, Box, Button, Flexbox, Icon, Typography, useTheme } from 'cocstorage-ui';
 
 import useScrollTrigger from '@hooks/useScrollTrigger';
 
@@ -61,13 +61,11 @@ function NoticeContent({ footerRef }: NoticeContentProps) {
         </Typography>
         <Info>
           <Flexbox alignment="center">
-            <Image
+            <Avatar
               width={24}
               height={24}
               src={(user || {}).avatarUrl || ''}
               alt="User Avatar Img"
-              round="50%"
-              disableAspectRatio
               fallback={{
                 iconName: 'UserFilled',
                 width: 12,

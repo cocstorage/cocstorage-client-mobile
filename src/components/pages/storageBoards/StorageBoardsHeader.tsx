@@ -17,11 +17,11 @@ import { openStorageBoardsInfoBottomSheetState } from '@recoil/pages/storageBoar
 import { storageBoardsSearchParamsState } from '@recoil/pages/storageBoardsSearch/atoms';
 
 import {
+  Avatar,
   Box,
   Flexbox,
   Icon,
   IconButton,
-  Image,
   Spotlight,
   Tooltip,
   Typography,
@@ -114,15 +114,16 @@ function StorageBoardsHeader() {
           <IconButton onClick={handleClickBack}>
             <Icon name="CaretSemiLeftOutlined" />
           </IconButton>
-          <Image
+          <Avatar
             width={24}
             height={24}
             src={avatarUrl}
+            round={6}
             alt="Storage Logo Img"
-            disableAspectRatio
             customStyle={{ marginLeft: 10 }}
           />
           <Typography
+            component="h1"
             variant="h4"
             fontWeight="bold"
             noWrap

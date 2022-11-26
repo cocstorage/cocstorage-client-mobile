@@ -11,7 +11,7 @@ import styled, { CSSObject } from '@emotion/styled';
 import { commonFeedbackDialogState } from '@recoil/common/atoms';
 import { storageBoardHideHeaderSubjectState } from '@recoil/pages/storageBoard/atoms';
 
-import { Box, Flexbox, Icon, IconButton, Image, Typography } from 'cocstorage-ui';
+import { Avatar, Box, Flexbox, Icon, IconButton, Typography } from 'cocstorage-ui';
 
 import useScrollTrigger from '@hooks/useScrollTrigger';
 
@@ -66,14 +66,13 @@ function StorageBoardHeader() {
           {subject}
         </Typography>
         <Flexbox gap={10} alignment="center">
-          <Image
+          <Avatar
             width={24}
             height={24}
             src={avatarUrl}
             alt="Storage Logo Img"
-            disableAspectRatio
+            round={6}
             onClick={handleClickImage}
-            customStyle={{ marginLeft: 10 }}
           />
           <IconButton onClick={handleClickMenu}>
             <Icon name="MoreMenuOutlined" />

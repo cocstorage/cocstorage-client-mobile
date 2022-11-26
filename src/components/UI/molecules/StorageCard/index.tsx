@@ -16,7 +16,7 @@ function StorageCard({ src, path, name, ...props }: StorageCardProps) {
   return (
     <Link href={`/storages/${path}`}>
       <StyledStorageCard {...props}>
-        <Image width="auto" height="auto" src={src || ''} round={6} alt="Storage Img" />
+        <Image src={src || ''} round={6} alt="Storage Img" />
         <Typography customStyle={{ textAlign: 'center' }}>{name}</Typography>
       </StyledStorageCard>
     </Link>

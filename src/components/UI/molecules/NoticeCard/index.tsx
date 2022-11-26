@@ -4,7 +4,7 @@ import Link from 'next/link';
 
 import dayjs from 'dayjs';
 
-import { Badge, Flexbox, Icon, Image, Typography, useTheme } from 'cocstorage-ui';
+import { Avatar, Badge, Flexbox, Icon, Image, Typography, useTheme } from 'cocstorage-ui';
 
 import { Notice } from '@dto/notices';
 
@@ -63,13 +63,11 @@ function NoticeCard({
               <UserInfo>
                 <Flexbox gap={4} alignment="center">
                   {user?.avatarUrl && (
-                    <Image
+                    <Avatar
                       width={14}
                       height={14}
                       src={user?.avatarUrl || ''}
                       alt="User Avatar Img"
-                      round="50%"
-                      disableAspectRatio
                     />
                   )}
                   <Typography variant="s2" color={text[mode].text1}>

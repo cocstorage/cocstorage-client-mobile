@@ -26,5 +26,3 @@ export const StyledHeader = styled.div<Pick<HeaderProps, 'disableFixed'>>`
 
   z-index: 2;
 `;
-
-export const Logo = styled.img``;

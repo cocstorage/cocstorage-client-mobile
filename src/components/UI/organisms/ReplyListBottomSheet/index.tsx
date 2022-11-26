@@ -3,12 +3,12 @@ import { ChangeEvent, useRef, useState } from 'react';
 import dayjs from 'dayjs';
 
 import {
+  Avatar,
   BottomSheet,
   Flexbox,
   Grid,
   Icon,
   IconButton,
-  Image,
   TextBar,
   Typography,
   useTheme
@@ -103,13 +103,11 @@ function ReplyListBottomSheet({
           borderBottom: `1px solid ${box.stroked.normal}`
         }}
       >
-        <Image
+        <Avatar
           width={30}
           height={30}
           src={(user || {}).avatarUrl || ''}
           alt="User Avatar Img"
-          round="50%"
-          disableAspectRatio
           fallback={{
             iconName: 'UserFilled',
             width: 15,

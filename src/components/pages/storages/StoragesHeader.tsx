@@ -19,7 +19,7 @@ function StoragesHeader() {
   return (
     <Box component="header" customStyle={{ height: 50 }}>
       <StyledStoragesHeader>
-        <Typography variant="h3" fontWeight="bold" noWrap customStyle={{ flex: 1 }}>
+        <Typography component="h1" variant="h3" fontWeight="bold" noWrap customStyle={{ flex: 1 }}>
           게시판
         </Typography>
         <IconButton onClick={handleClick}>

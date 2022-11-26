@@ -2,7 +2,7 @@ import { memo } from 'react';
 
 import dayjs from 'dayjs';
 
-import { Button, Flexbox, Icon, Image, Typography, useTheme } from 'cocstorage-ui';
+import { Avatar, Button, Flexbox, Icon, Typography, useTheme } from 'cocstorage-ui';
 
 import { NoticeCommentReply } from '@dto/notice-comment-replies';
 import { StorageBoardCommentReply } from '@dto/storage-board-comment-replies';
@@ -27,13 +27,11 @@ function Reply({
 
   return (
     <Flexbox gap={10} customStyle={{ padding: disablePadding ? undefined : '0 20px' }}>
-      <Image
+      <Avatar
         width={30}
         height={30}
         src={(user || {}).avatarUrl || ''}
         alt="User Avatar Img"
-        round="50%"
-        disableAspectRatio
         fallback={{
           iconName: 'UserFilled',
           width: 15,

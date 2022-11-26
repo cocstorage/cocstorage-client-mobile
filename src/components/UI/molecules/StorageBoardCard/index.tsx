@@ -4,7 +4,17 @@ import Link from 'next/link';
 
 import dayjs from 'dayjs';
 
-import { Badge, Box, CustomStyle, Flexbox, Icon, Image, Typography, useTheme } from 'cocstorage-ui';
+import {
+  Avatar,
+  Badge,
+  Box,
+  CustomStyle,
+  Flexbox,
+  Icon,
+  Image,
+  Typography,
+  useTheme
+} from 'cocstorage-ui';
 
 import { StorageBoard } from '@dto/storage-boards';
 
@@ -142,13 +152,12 @@ function StorageBoardCard({
                 )}
                 <Storage>
                   {avatarUrl && (
-                    <Image
+                    <Avatar
                       width={14}
                       height={14}
                       src={avatarUrl || ''}
                       alt="Storage Logo Img"
                       round={6}
-                      disableAspectRatio
                     />
                   )}
                   <Typography variant="s2" color={text[mode].text1}>
@@ -230,13 +239,12 @@ function StorageBoardCard({
               {!inStorage && (
                 <Storage>
                   {avatarUrl && (
-                    <Image
+                    <Avatar
                       width={14}
                       height={14}
                       src={avatarUrl || ''}
                       alt="Storage Logo Img"
                       round={6}
-                      disableAspectRatio
                     />
                   )}
                   <Typography variant="s2" color={text[mode].text1}>
@@ -248,13 +256,11 @@ function StorageBoardCard({
                 <UserInfo>
                   <Flexbox gap={4} alignment="center">
                     {user?.avatarUrl && (
-                      <Image
+                      <Avatar
                         src={user?.avatarUrl || ''}
                         alt="User Avatar Img"
                         width={14}
                         height={14}
-                        round="50%"
-                        disableAspectRatio
                       />
                     )}
                     <Typography variant="s2" color={text[mode].text1}>

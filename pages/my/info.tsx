@@ -2,11 +2,10 @@ import { MouseEvent } from 'react';
 
 import { useRouter } from 'next/router';
 
-import { Button, Flexbox, Typography, useTheme } from 'cocstorage-ui';
+import { Button, Flexbox, Image, Typography, useTheme } from 'cocstorage-ui';
 
 import { MyInfoHead, MyInfoHeader } from '@components/pages/myInfo';
 import GeneralTemplate from '@components/templeates/GeneralTemplate';
-import { Logo } from '@components/UI/molecules/Header/Header.styles';
 
 import packageJson from 'package.json';
 
@@ -36,10 +35,14 @@ function MyInfo() {
           justifyContent="center"
           customStyle={{ height: '100%' }}
         >
-          <Logo
+          <Image
             width={40}
             src={`https://${process.env.IMAGE_DOMAIN}/assets/logo.png`}
             alt="Logo Img"
+            disableAspectRatio
+            customStyle={{
+              backgroundColor: 'transparent'
+            }}
           />
           <Typography variant="h3" fontWeight="bold" customStyle={{ marginTop: 8 }}>
             개념글 저장소
