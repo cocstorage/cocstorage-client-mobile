@@ -869,10 +869,10 @@ client-only@0.0.1:
   resolved "https://registry.yarnpkg.com/client-only/-/client-only-0.0.1.tgz#38bba5d403c41ab150bff64a95c85013cf73bca1"
   integrity sha512-IV3Ou0jSMzZrd3pZ48nLkT9DA7Ag1pnPzaiQhpW7c3RbcqqzvzzVu+L8gfqMp/8IM2MQtSiqaCxrrcfu8I8rMA==
 
-cocstorage-ui@^0.1.37:
-  version "0.1.37"
-  resolved "https://registry.yarnpkg.com/cocstorage-ui/-/cocstorage-ui-0.1.37.tgz#ab84655364787f112f8de28ef3e9e26086c72ee6"
-  integrity sha512-Dd8cYyK7spTqGWm234t5ydwOTfH3ZwucN/vpZlTQxZFqL6uUsVJb/tp95874nsdWNI9XupEK6SnguQyoUtS2zw==
+cocstorage-ui@^0.1.39:
+  version "0.1.39"
+  resolved "https://registry.yarnpkg.com/cocstorage-ui/-/cocstorage-ui-0.1.39.tgz#3a029e001bd514a59c9b824e198cc60eda97a743"
+  integrity sha512-+bbL4cSdt63BMK49tqtbbzJOrkunMGzN2dBfbulNSymMZWX/opo1hTT+Yg1Dz7+KdVghXVe5X9GYwRu4GrUfZA==
 
 color-convert@^1.9.0:
   version "1.9.3"
