@@ -117,7 +117,14 @@ function BottomNavigation({ disableFixed, disableOnBoarding }: BottomNavigationP
                 : text[mode].text2
             }
           />
-          <Typography variant="s2" color={forwardPath === '/' ? 'primary' : text[mode].text2}>
+          <Typography
+            variant="s2"
+            color={
+              forwardPath === '/' || forwardPath === '/best' || forwardPath === '/worst'
+                ? 'primary'
+                : text[mode].text2
+            }
+          >
             홈
           </Typography>
         </NavigationItem>
