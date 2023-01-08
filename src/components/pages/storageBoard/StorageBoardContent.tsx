@@ -4,10 +4,11 @@ import { useRouter } from 'next/router';
 
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
+import { convertToReactElement } from 'cocstorage-ui-editor';
 import dayjs from 'dayjs';
 import { useSetRecoilState } from 'recoil';
 
-import styled from '@emotion/styled';
+import styled, { CSSObject } from '@emotion/styled';
 
 import { commonFeedbackDialogState } from '@recoil/common/atoms';
 import { storageBoardHideHeaderSubjectState } from '@recoil/pages/storageBoard/atoms';
@@ -61,6 +62,7 @@ function StorageBoardContent({ footerRef }: StorageBoardContentProps) {
       user,
       nickname,
       content,
+      contentJson,
       createdIp,
       thumbUp,
       thumbDown,
@@ -181,11 +183,21 @@ function StorageBoardContent({ footerRef }: StorageBoardContentProps) {
           <Tag startIcon={<Icon name="EmailOutlined" />}>cocstoragehelps@gmail.com</Tag>
         </Flexbox>
       )}
-      <Content
-        component="article"
-        lineHeight="main"
-        dangerouslySetInnerHTML={{ __html: content }}
-      />
+      {sourceCode && (
+        <Content
+          component="article"
+          lineHeight="main"
+          sourceCode={sourceCode}
+          dangerouslySetInnerHTML={{
+            __html: content
+          }}
+        />
+      )}
+      {!sourceCode && (
+        <Content component="article" lineHeight="main" sourceCode={sourceCode}>
+          {convertToReactElement(contentJson)}
+        </Content>
+      )}
       <Flexbox ref={footerRef} component="section" customStyle={{ marginTop: 9 }}>
         <Flexbox>
           <Button
@@ -231,14 +243,21 @@ function StorageBoardContent({ footerRef }: StorageBoardContentProps) {
   );
 }
 
-export const Content = styled(Typography)`
+export const Content = styled(Typography)<{
+  sourceCode?: string;
+}>`
   margin-top: 20px;
   overflow: hidden;
 
-  * {
-    max-width: 100%;
-    border-radius: 8px;
-  }
+  ${({ sourceCode }): CSSObject =>
+    sourceCode
+      ? {
+          '*': {
+            maxWidth: '100%',
+            borderRadius: 8
+          }
+        }
+      : {}}
 `;
 
 const Info = styled.div`

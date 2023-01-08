@@ -1,19 +1,15 @@
 import { GetServerSidePropsContext } from 'next';
 
-import Link from 'next/link';
-
 import { QueryClient, dehydrate } from '@tanstack/react-query';
 
 import { storageBoardsParamsDefault } from '@recoil/pages/storageBoards/atoms';
-
-import { Alert, Icon } from 'cocstorage-ui';
 
 import {
   StorageBoardsHead,
   StorageBoardsHeader,
   StorageBoardsInfoBottomSheet,
   StorageBoardsList,
-  StorageBoardsNoticeDialog,
+  StorageBoardsNoticeAlert,
   StorageBoardsTabs
 } from '@components/pages/storageBoards';
 import GeneralTemplate from '@components/templeates/GeneralTemplate';
@@ -30,19 +26,10 @@ function StorageBoards() {
       <StorageBoardsHead />
       <GeneralTemplate header={<StorageBoardsHeader />} footer={<BottomNavigation />}>
         <StorageBoardsTabs />
-        <Link href="/notices/181">
-          <Alert
-            severity="info"
-            icon={<Icon name="PinOutlined" />}
-            customStyle={{ marginTop: 12, cursor: 'pointer' }}
-          >
-            여러분들께 드리는 마지막 소식
-          </Alert>
-        </Link>
+        <StorageBoardsNoticeAlert />
         <StorageBoardsList />
       </GeneralTemplate>
       <StorageBoardsInfoBottomSheet />
-      <StorageBoardsNoticeDialog />
     </>
   );
 }

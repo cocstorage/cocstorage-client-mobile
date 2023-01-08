@@ -1,4 +1,4 @@
-import { Alert, Box, Flexbox, Icon, IconButton, Skeleton, Tab, Tabs } from 'cocstorage-ui';
+import { Box, Flexbox, Icon, IconButton, Skeleton, Tab, Tabs } from 'cocstorage-ui';
 
 import { StyledStorageBoardsHeader } from '@components/pages/storageBoards/StorageBoardsHeader';
 import { StyledStorageBoardsTabs } from '@components/pages/storageBoards/StorageBoardsTabs';
@@ -23,9 +23,15 @@ function StorageBoard() {
       disableFlexible={false}
     >
       <StorageBoardTabs />
-      <Alert severity="info" icon={<Icon name="PinOutlined" />} customStyle={{ marginTop: 12 }}>
-        여러분들께 드리는 마지막 소식
-      </Alert>
+      <Skeleton
+        width="100%"
+        height={56}
+        round={12}
+        disableAspectRatio
+        customStyle={{
+          marginTop: 12
+        }}
+      />
       <StorageBoardCards />
     </GeneralTemplate>
   );

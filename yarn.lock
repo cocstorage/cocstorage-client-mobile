@@ -869,10 +869,15 @@ client-only@0.0.1:
   resolved "https://registry.yarnpkg.com/client-only/-/client-only-0.0.1.tgz#38bba5d403c41ab150bff64a95c85013cf73bca1"
   integrity sha512-IV3Ou0jSMzZrd3pZ48nLkT9DA7Ag1pnPzaiQhpW7c3RbcqqzvzzVu+L8gfqMp/8IM2MQtSiqaCxrrcfu8I8rMA==
 
-cocstorage-ui@^0.1.39:
-  version "0.1.39"
-  resolved "https://registry.yarnpkg.com/cocstorage-ui/-/cocstorage-ui-0.1.39.tgz#3a029e001bd514a59c9b824e198cc60eda97a743"
-  integrity sha512-+bbL4cSdt63BMK49tqtbbzJOrkunMGzN2dBfbulNSymMZWX/opo1hTT+Yg1Dz7+KdVghXVe5X9GYwRu4GrUfZA==
+cocstorage-ui-editor@^0.1.4:
+  version "0.1.4"
+  resolved "https://registry.yarnpkg.com/cocstorage-ui-editor/-/cocstorage-ui-editor-0.1.4.tgz#78f85e2ddd97e7fa2dd73b8b89982dea07cc54be"
+  integrity sha512-tjLA0Xiu7GQQBnVOf3z6DxfG5QP41eB5k6DVjuhznWj3pvy+lzXDFoI8wxan7XCiKP7f6w+ubRN/otUa4RfndA==
+
+cocstorage-ui@^0.1.43:
+  version "0.1.43"
+  resolved "https://registry.yarnpkg.com/cocstorage-ui/-/cocstorage-ui-0.1.43.tgz#1618c32292f0bb9cd744722874c479bd3e14ef78"
+  integrity sha512-vNQuCGAjSv/M9Rs3k0AunW8ailT5mgMl4/l5NoW2qU5fIheCl3JqExnKySZ2YFpIzyhhdDVPObeErw3J/8Au9Q==
 
 color-convert@^1.9.0:
   version "1.9.3"

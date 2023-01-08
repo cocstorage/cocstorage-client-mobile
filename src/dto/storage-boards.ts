@@ -1,3 +1,5 @@
+import { EditorContent } from 'cocstorage-ui-editor';
+
 import { Storage } from '@dto/storages';
 import { User } from '@dto/uesrs';
 
@@ -11,6 +13,7 @@ export interface StorageBoard {
   nickname: string;
   subject: string;
   content: string;
+  contentJson: EditorContent[];
   description: string;
   viewCount: number;
   thumbUp: number;
