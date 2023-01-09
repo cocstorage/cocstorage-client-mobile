@@ -37,12 +37,11 @@ function MyInfo() {
         >
           <Image
             width={40}
+            height={30}
             src={`https://${process.env.IMAGE_DOMAIN}/assets/logo.png`}
             alt="Logo Img"
             disableAspectRatio
-            customStyle={{
-              backgroundColor: 'transparent'
-            }}
+            disableBackgroundColor
           />
           <Typography variant="h3" fontWeight="bold" customStyle={{ marginTop: 8 }}>
             개념글 저장소
