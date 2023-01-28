@@ -874,10 +874,10 @@ cocstorage-ui-editor@^0.1.4:
   resolved "https://registry.yarnpkg.com/cocstorage-ui-editor/-/cocstorage-ui-editor-0.1.4.tgz#78f85e2ddd97e7fa2dd73b8b89982dea07cc54be"
   integrity sha512-tjLA0Xiu7GQQBnVOf3z6DxfG5QP41eB5k6DVjuhznWj3pvy+lzXDFoI8wxan7XCiKP7f6w+ubRN/otUa4RfndA==
 
-cocstorage-ui@^0.1.43:
-  version "0.1.43"
-  resolved "https://registry.yarnpkg.com/cocstorage-ui/-/cocstorage-ui-0.1.43.tgz#1618c32292f0bb9cd744722874c479bd3e14ef78"
-  integrity sha512-vNQuCGAjSv/M9Rs3k0AunW8ailT5mgMl4/l5NoW2qU5fIheCl3JqExnKySZ2YFpIzyhhdDVPObeErw3J/8Au9Q==
+cocstorage-ui@^0.1.44:
+  version "0.1.44"
+  resolved "https://registry.yarnpkg.com/cocstorage-ui/-/cocstorage-ui-0.1.44.tgz#fcffb31c1a46afc73c7b837b0d36b864ec9f6b4b"
+  integrity sha512-b5HCH9jYF6KlvNmqu2vyiGET262yNmL2zlp5xZ3XuWm7nyenZGX/he6G5XerFiQGOqK68GgJS2u90Jl6LNm6LA==
 
 color-convert@^1.9.0:
   version "1.9.3"
