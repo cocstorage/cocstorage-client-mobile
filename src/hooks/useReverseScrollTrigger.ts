@@ -21,9 +21,10 @@ export default function useReverseScrollTrigger(trigger = true): {
       } else if (prevScrollYRef.current < scrollY) {
         setTriggered(false);
       }
-      prevScrollYRef.current = scrollY;
-      setPrevScrollY(scrollY);
     }
+
+    prevScrollYRef.current = scrollY;
+    setPrevScrollY(scrollY);
   }, []);
 
   useEffect(() => {

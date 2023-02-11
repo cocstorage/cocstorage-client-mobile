@@ -179,7 +179,7 @@ function StorageBoardsPostBottomSheet() {
           textAlign: 'center'
         }}
       >
-        등록에 사용할 닉네임과
+        게시글 등록에 사용할 닉네임과
         <br />
         비밀번호를 입력해 주세요.
       </Typography>
