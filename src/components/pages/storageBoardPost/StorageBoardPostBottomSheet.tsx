@@ -15,16 +15,7 @@ import {
   storageBoardPostSubjectState
 } from '@recoil/pages/storageBoardPost/atoms';
 
-import {
-  Button,
-  Dialog,
-  Flexbox,
-  Icon,
-  TextBar,
-  Tooltip,
-  Typography,
-  useTheme
-} from 'cocstorage-ui';
+import { BottomSheet, Button, Icon, TextBar, Tooltip, Typography, useTheme } from 'cocstorage-ui';
 
 import validators from '@utils/validators';
 
@@ -33,7 +24,7 @@ import { fetchStorage } from '@api/v1/storages';
 
 import queryKeys from '@constants/queryKeys';
 
-function StorageBoardPostDialog() {
+function StorageBoardPostBottomSheet() {
   const router = useRouter();
   const { path } = router.query;
 
@@ -173,86 +164,84 @@ function StorageBoardPostDialog() {
     }));
 
   return (
-    <Dialog
+    <BottomSheet
       open={open}
       onClose={handleClose}
-      fullWidth
       customStyle={{
-        maxWidth: 475,
-        padding: '40px 30px'
+        padding: '0 20px 20px'
       }}
     >
-      <Flexbox direction="vertical" gap={8}>
-        <Typography variant="h3" fontWeight="bold">
-          닉네임
-        </Typography>
-        <TextBar onChange={handleChange} value={myNickname} fullWidth placeholder="닉네임" />
-        {errorMessage.nickname.error && (
-          <Typography
-            dangerouslySetInnerHTML={{
-              __html: errorMessage.nickname.message
-            }}
-            color={secondary.red.main}
-            customStyle={{ marginTio: 10 }}
-          />
-        )}
-      </Flexbox>
-      <Flexbox
-        direction="vertical"
-        gap={8}
+      <Typography
+        variant="h3"
+        fontWeight="bold"
         customStyle={{
+          marginTop: 30,
+          textAlign: 'center'
+        }}
+      >
+        등록에 사용할 닉네임과
+        <br />
+        비밀번호를 입력해 주세요.
+      </Typography>
+      <TextBar
+        onChange={handleChange}
+        value={myNickname}
+        fullWidth
+        label="닉네임"
+        customStyle={{
+          marginTop: 27
+        }}
+      />
+      {errorMessage.nickname.error && (
+        <Typography
+          dangerouslySetInnerHTML={{
+            __html: errorMessage.nickname.message
+          }}
+          color={secondary.red.main}
+          customStyle={{ marginTop: 10 }}
+        />
+      )}
+      <Tooltip
+        open={!done}
+        onClose={handleClosePasswordTooltip}
+        placement="top"
+        content="비밀번호를 랜덤하게 생성했어요!"
+        fillWrapper
+        wrapperCustomStyle={{
           marginTop: 16
         }}
       >
-        <Typography variant="h3" fontWeight="bold">
-          비밀번호
-        </Typography>
-        <Tooltip
-          open={!done}
-          onClose={handleClosePasswordTooltip}
-          placement="top"
-          content="비밀번호를 랜덤하게 생성했어요!"
-          fillWrapper
-        >
-          <TextBar
-            type="password"
-            onChange={handleChange}
-            value={myPassword}
-            fullWidth
-            placeholder="비밀번호"
-          />
-        </Tooltip>
-        {errorMessage.password.error && (
-          <Typography
-            dangerouslySetInnerHTML={{
-              __html: errorMessage.password.message
-            }}
-            color={secondary.red.main}
-            customStyle={{ marginTio: 10 }}
-          />
-        )}
-      </Flexbox>
-      <Flexbox
-        gap={8}
-        justifyContent="flex-end"
+        <TextBar
+          type="password"
+          onChange={handleChange}
+          value={myPassword}
+          fullWidth
+          label="비밀번호"
+        />
+      </Tooltip>
+      {errorMessage.password.error && (
+        <Typography
+          dangerouslySetInnerHTML={{
+            __html: errorMessage.password.message
+          }}
+          color={secondary.red.main}
+          customStyle={{ marginTop: 10 }}
+        />
+      )}
+      <Button
+        fullWidth
+        variant="accent"
+        startIcon={<Icon name="SendFilled" width={18} height={18} />}
+        onClick={handleClick}
+        disabled={isLoading}
         customStyle={{
           marginTop: 20
         }}
       >
-        <Button onClick={handleClose} disabled={isLoading}>
-          취소
-        </Button>
-        <Button
-          variant="accent"
-          startIcon={<Icon name="SendFilled" width={18} height={18} />}
-          onClick={handleClick}
-          disabled={isLoading}
-        >
-          완료
-        </Button>
-      </Flexbox>
-    </Dialog>
+        완료
+      </Button>
+    </BottomSheet>
   );
 }
 
-export default StorageBoardPostDialog;
+export default StorageBoardPostBottomSheet;
