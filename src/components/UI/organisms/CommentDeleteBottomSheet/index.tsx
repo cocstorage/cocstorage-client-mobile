@@ -1,6 +1,10 @@
 import { ChangeEvent } from 'react';
 
-import { BottomSheet, Box, Button, TextBar, Typography, useTheme } from 'cocstorage-ui';
+import { useRecoilState } from 'recoil';
+
+import { commonOnBoardingDefault, commonOnBoardingState } from '@recoil/common/atoms';
+
+import { BottomSheet, Box, Button, TextBar, Tooltip, Typography, useTheme } from 'cocstorage-ui';
 
 interface CommentDeleteBottomSheetProps {
   open: boolean;
@@ -30,6 +34,19 @@ function CommentDeleteBottomSheet({
     }
   } = useTheme();
 
+  const [{ loadPassword: { done = false } = {} }, setCommonOnBoardingState] =
+    useRecoilState(commonOnBoardingState);
+
+  const handleClose = () =>
+    setCommonOnBoardingState((prevState) => ({
+      ...prevState,
+      loadPassword: {
+        ...commonOnBoardingDefault.loadPassword,
+        step: 1,
+        done: commonOnBoardingDefault.loadPassword.lastStep === 1
+      }
+    }));
+
   return (
     <BottomSheet open={open} onClose={onClose}>
       <Box customStyle={{ padding: '30px 20px' }}>
@@ -37,16 +54,26 @@ function CommentDeleteBottomSheet({
           댓글을 삭제하려면
           <br /> 비밀번호를 입력해 주세요.
         </Typography>
-        <TextBar
-          type="password"
-          onChange={onChange}
-          value={password}
-          fullWidth
-          size="big"
-          label="비밀번호"
-          autoComplete="current-password"
-          customStyle={{ marginTop: 30 }}
-        />
+        <Tooltip
+          open={!done}
+          onClose={handleClose}
+          content="저장된 비밀번호를 불러왔어요!"
+          placement="top"
+          fillWrapper
+          wrapperCustomStyle={{
+            marginTop: 30
+          }}
+        >
+          <TextBar
+            type="password"
+            label="비밀번호"
+            fullWidth
+            size="big"
+            value={password}
+            onChange={onChange}
+            autoFocus
+          />
+        </Tooltip>
         {errorMessage.error && (
           <Typography customStyle={{ marginTop: 10, color: secondary.red.main }}>
             {errorMessage.message}

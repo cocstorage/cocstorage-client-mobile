@@ -104,7 +104,14 @@ function StorageBoardEditAuthDialog() {
   };
 
   const handleClick = () => {
-    handleCloseLoadPasswordTooltip();
+    setCommonOnBoardingState((prevState) => ({
+      ...prevState,
+      loadPassword: {
+        ...commonOnBoardingDefault.loadPassword,
+        step: 1,
+        done: commonOnBoardingDefault.loadPassword.lastStep === 1
+      }
+    }));
 
     mutate({
       storageId,

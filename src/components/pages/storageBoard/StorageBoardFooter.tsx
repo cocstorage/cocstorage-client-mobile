@@ -13,13 +13,12 @@ import {
   commonOnBoardingDefault,
   commonOnBoardingState
 } from '@recoil/common/atoms';
-import { myHasSavedPasswordState, myNicknameState, myPasswordState } from '@recoil/pages/my/atoms';
+import { myNicknameState, myPasswordState } from '@recoil/pages/my/atoms';
 import { storageBoardCommentsParamsState } from '@recoil/pages/storageBoard/atoms';
 
 import {
   Box,
   Button,
-  Dialog,
   Flexbox,
   Grid,
   Icon,
@@ -27,7 +26,6 @@ import {
   Spotlight,
   TextBar,
   Tooltip,
-  Typography,
   useTheme
 } from 'cocstorage-ui';
 
@@ -69,7 +67,6 @@ function StorageBoardFooter({ footerRef }: StorageBoardFooterProps) {
     useRecoilState(commonOnBoardingState);
   const [myNickname, setMyNicknameState] = useRecoilState(myNicknameState);
   const [myPassword, setMyPasswordState] = useRecoilState(myPasswordState);
-  const [myHasSavedPassword, setMyHasSavedPasswordState] = useRecoilState(myHasSavedPasswordState);
   const setCommonFeedbackDialogState = useSetRecoilState(commonFeedbackDialogState);
 
   const [rows, setRows] = useState(1);
@@ -78,7 +75,6 @@ function StorageBoardFooter({ footerRef }: StorageBoardFooterProps) {
   const [content, setContent] = useState('');
   const [observerTriggered, setObserverTriggered] = useState(false);
   const [open, setOpen] = useState(false);
-  const [openPasswordSaveDialog, setOpenPasswordSaveDialog] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
   const [focused, setFocused] = useState(false);
 
@@ -146,11 +142,6 @@ function StorageBoardFooter({ footerRef }: StorageBoardFooterProps) {
     (data: PostStorageBoardCommentData) =>
       postNonMemberStorageBoardComment(storage.id, Number(id), data),
     {
-      onSettled: () => {
-        if (!myHasSavedPassword && !myPassword) {
-          setOpenPasswordSaveDialog(true);
-        }
-      },
       onSuccess: () => {
         setContent('');
 
@@ -266,17 +257,6 @@ function StorageBoardFooter({ footerRef }: StorageBoardFooterProps) {
   const handleFocus = () => setFocused(true);
   const handleBlur = () => setFocused(false);
 
-  const handleClosePasswordSaveDialog = () => {
-    setMyHasSavedPasswordState(true);
-    setOpenPasswordSaveDialog(false);
-  };
-
-  const handleClickPasswordSaveConfirm = () => {
-    setMyHasSavedPasswordState(true);
-    setMyPasswordState(password);
-    setOpenPasswordSaveDialog(false);
-  };
-
   useEffect(() => {
     let observer;
     try {
@@ -384,39 +364,6 @@ function StorageBoardFooter({ footerRef }: StorageBoardFooterProps) {
             </Flexbox>
           </StyledStorageBoardFooter>
         </Box>
-        <Dialog
-          fullWidth
-          open={openPasswordSaveDialog}
-          onClose={handleClosePasswordSaveDialog}
-          customStyle={{ maxWidth: 475 }}
-        >
-          <Box customStyle={{ padding: 16 }}>
-            <Typography
-              variant="h3"
-              fontWeight="bold"
-              customStyle={{ padding: '30px 0', textAlign: 'center' }}
-            >
-              비밀번호를 저장하시겠어요?
-            </Typography>
-            <Flexbox gap={8} customStyle={{ marginTop: 20 }}>
-              <Button
-                fullWidth
-                onClick={handleClosePasswordSaveDialog}
-                customStyle={{ flex: 1, justifyContent: 'center' }}
-              >
-                안할래요
-              </Button>
-              <Button
-                fullWidth
-                variant="accent"
-                onClick={handleClickPasswordSaveConfirm}
-                customStyle={{ flex: 1, justifyContent: 'center' }}
-              >
-                저장할게요
-              </Button>
-            </Flexbox>
-          </Box>
-        </Dialog>
         <Spotlight open={open} onClose={handleCloseOnBoarding} targetRef={targetRef}>
           <Tooltip
             open={open}

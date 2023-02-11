@@ -4,6 +4,8 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
 
+import { commonOnBoardingDefault, commonOnBoardingState } from '@recoil/common/atoms';
+import { myPasswordState } from '@recoil/pages/my/atoms';
 import {
   storageBoardCommentsParamsState,
   storageBoardReplyDeleteBottomSheetState,
@@ -25,11 +27,13 @@ function StorageBoardReplyDeleteBottomSheet() {
   const { open, storageId, id, commentId, replyId } = useRecoilValue(
     storageBoardReplyDeleteBottomSheetState
   );
+  const myPassword = useRecoilValue(myPasswordState);
   const setReplyMenuBottomSheetState = useSetRecoilState(storageBoardReplyMenuBottomSheetState);
   const setReplyListBottomSheetState = useSetRecoilState(storageBoardReplyListBottomSheetState);
+  const setCommonOnBoardingState = useSetRecoilState(commonOnBoardingState);
   const resetReplyDeleteBottomState = useResetRecoilState(storageBoardReplyDeleteBottomSheetState);
 
-  const [password, setPassword] = useState('');
+  const [password, setPassword] = useState(myPassword);
   const [errorMessage, setErrorMessage] = useState<{
     error: boolean;
     message: string;
@@ -93,7 +97,16 @@ function StorageBoardReplyDeleteBottomSheet() {
     }, 500);
   };
 
-  const handleClick = () =>
+  const handleClick = () => {
+    setCommonOnBoardingState((prevState) => ({
+      ...prevState,
+      loadPassword: {
+        ...commonOnBoardingDefault.loadPassword,
+        step: 1,
+        done: commonOnBoardingDefault.loadPassword.lastStep === 1
+      }
+    }));
+
     mutate({
       storageId,
       id,
@@ -101,16 +114,17 @@ function StorageBoardReplyDeleteBottomSheet() {
       replyId,
       password
     });
+  };
 
   useEffect(() => {
     if (!open) {
-      setPassword('');
       setErrorMessage({
         error: false,
         message: ''
       });
+      if (myPassword) setPassword(myPassword);
     }
-  }, [open]);
+  }, [open, myPassword]);
 
   useEffect(() => {
     return () => {

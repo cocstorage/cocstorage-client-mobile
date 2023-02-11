@@ -38,8 +38,14 @@ function StorageBoardsHeader() {
   const router = useRouter();
   const { path } = router.query;
 
-  const [{ search: { step = 0, lastStep = 0 } = {} }, setCommonOnBoardingState] =
-    useRecoilState(commonOnBoardingState);
+  const [
+    {
+      theme: { done: themeDone = false } = {},
+      post: { done: postDone = false } = {},
+      search: { step = 0, lastStep = 0 } = {}
+    },
+    setCommonOnBoardingState
+  ] = useRecoilState(commonOnBoardingState);
   const resetParamsState = useResetRecoilState(storageBoardsSearchParamsState);
   const setOpenState = useSetRecoilState(openStorageBoardsInfoBottomSheetState);
   const setCommonFeedbackDialogState = useSetRecoilState(commonFeedbackDialogState);
@@ -48,6 +54,7 @@ function StorageBoardsHeader() {
 
   const headerRef = useRef<HTMLDivElement>(null);
   const targetRef = useRef<HTMLButtonElement>(null);
+  const spotlightOpenTimerRef = useRef<ReturnType<typeof setTimeout>>();
 
   const { triggered } = useScrollTrigger({ ref: headerRef });
 
@@ -99,13 +106,25 @@ function StorageBoardsHeader() {
     }));
 
   useEffect(() => {
-    // TODO 온보딩 겹치는 경우 Backdrop 컴포넌트 동시성 개선 필요
-    if ((!step && !lastStep) || step < lastStep) {
-      setOpenOnBoarding(true);
-    } else {
-      setOpenOnBoarding(false);
-    }
-  }, [step, lastStep]);
+    if (!themeDone || !postDone) return;
+
+    spotlightOpenTimerRef.current = setTimeout(() => {
+      // TODO 온보딩 겹치는 경우 Backdrop 컴포넌트 동시성 개선 필요
+      if ((!step && !lastStep) || step < lastStep) {
+        setOpenOnBoarding(true);
+      } else {
+        setOpenOnBoarding(false);
+      }
+    }, 700);
+  }, [themeDone, postDone, step, lastStep]);
+
+  useEffect(() => {
+    return () => {
+      if (spotlightOpenTimerRef.current) {
+        clearTimeout(spotlightOpenTimerRef.current);
+      }
+    };
+  }, []);
 
   return (
     <Box ref={headerRef} component="header" customStyle={{ height: 50 }}>

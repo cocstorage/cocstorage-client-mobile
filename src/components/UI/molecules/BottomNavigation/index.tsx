@@ -90,11 +90,7 @@ function BottomNavigation({ disableFixed, disableOnBoarding }: BottomNavigationP
 
   useEffect(() => {
     // TODO 온보딩 겹치는 경우 Backdrop 컴포넌트 동시성 개선 필요
-    if (
-      !disableOnBoarding &&
-      router.pathname !== '/storages/[path]' &&
-      ((!step && !lastStep) || step < lastStep)
-    ) {
+    if (!disableOnBoarding && ((!step && !lastStep) || step < lastStep)) {
       setOpen(true);
     } else {
       setOpen(false);

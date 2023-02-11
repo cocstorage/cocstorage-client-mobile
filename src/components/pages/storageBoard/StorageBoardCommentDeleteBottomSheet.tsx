@@ -4,6 +4,8 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import { useRecoilState, useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
 
+import { commonOnBoardingDefault, commonOnBoardingState } from '@recoil/common/atoms';
+import { myPasswordState } from '@recoil/pages/my/atoms';
 import {
   storageBoardCommentDeleteBottomSheetState,
   storageBoardCommentMenuBottomSheetState,
@@ -26,12 +28,14 @@ function StorageBoardCommentDeleteBottomSheet() {
     storageBoardCommentDeleteBottomSheetState
   );
   const [params, setParams] = useRecoilState(storageBoardCommentsParamsState);
+  const myPassword = useRecoilValue(myPasswordState);
   const setCommentMenuBottomSheetState = useSetRecoilState(storageBoardCommentMenuBottomSheetState);
+  const setCommonOnBoardingState = useSetRecoilState(commonOnBoardingState);
   const resetCommentDeleteBottomState = useResetRecoilState(
     storageBoardCommentDeleteBottomSheetState
   );
 
-  const [password, setPassword] = useState('');
+  const [password, setPassword] = useState(myPassword);
   const [errorMessage, setErrorMessage] = useState<{
     error: boolean;
     message: string;
@@ -111,23 +115,33 @@ function StorageBoardCommentDeleteBottomSheet() {
     }, 500);
   };
 
-  const handleClick = () =>
+  const handleClick = () => {
+    setCommonOnBoardingState((prevState) => ({
+      ...prevState,
+      loadPassword: {
+        ...commonOnBoardingDefault.loadPassword,
+        step: 1,
+        done: commonOnBoardingDefault.loadPassword.lastStep === 1
+      }
+    }));
+
     mutate({
       storageId,
       id,
       commentId,
       password
     });
+  };
 
   useEffect(() => {
     if (!open) {
-      setPassword('');
       setErrorMessage({
         error: false,
         message: ''
       });
+      if (myPassword) setPassword(myPassword);
     }
-  }, [open]);
+  }, [open, myPassword]);
 
   useEffect(() => {
     return () => {

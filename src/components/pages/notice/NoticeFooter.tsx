@@ -9,21 +9,10 @@ import { useRecoilState, useSetRecoilState } from 'recoil';
 import styled, { CSSObject } from '@emotion/styled';
 
 import { commonFeedbackDialogState } from '@recoil/common/atoms';
-import { myHasSavedPasswordState, myNicknameState, myPasswordState } from '@recoil/pages/my/atoms';
+import { myNicknameState, myPasswordState } from '@recoil/pages/my/atoms';
 import { noticeCommentsParamsState } from '@recoil/pages/notice/atoms';
 
-import {
-  Box,
-  Button,
-  Dialog,
-  Flexbox,
-  Grid,
-  Icon,
-  IconButton,
-  TextBar,
-  Typography,
-  useTheme
-} from 'cocstorage-ui';
+import { Box, Button, Flexbox, Grid, Icon, IconButton, TextBar, useTheme } from 'cocstorage-ui';
 
 import { Notice } from '@dto/notices';
 import useScrollTrigger from '@hooks/useScrollTrigger';
@@ -56,7 +45,6 @@ function NoticeFooter({ footerRef }: NoticeFooterProps) {
   const [params, setParams] = useRecoilState(noticeCommentsParamsState);
   const [myNickname, setMyNicknameState] = useRecoilState(myNicknameState);
   const [myPassword, setMyPasswordState] = useRecoilState(myPasswordState);
-  const [myHasSavedPassword, setMyHasSavedPasswordState] = useRecoilState(myHasSavedPasswordState);
   const setCommonFeedbackDialogState = useSetRecoilState(commonFeedbackDialogState);
 
   const [rows, setRows] = useState(1);
@@ -64,7 +52,6 @@ function NoticeFooter({ footerRef }: NoticeFooterProps) {
   const [password, setPassword] = useState(myPassword);
   const [content, setContent] = useState('');
   const [observerTriggered, setObserverTriggered] = useState(false);
-  const [open, setOpen] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
   const [focused, setFocused] = useState(false);
 
@@ -105,11 +92,6 @@ function NoticeFooter({ footerRef }: NoticeFooterProps) {
   const { mutate, isLoading } = useMutation(
     (data: PostNoticeCommentData) => postNonMemberNoticeComment(Number(id), data),
     {
-      onSettled: () => {
-        if (!myHasSavedPassword && !myPassword) {
-          setOpen(true);
-        }
-      },
       onSuccess: () => {
         setContent('');
 
@@ -187,17 +169,6 @@ function NoticeFooter({ footerRef }: NoticeFooterProps) {
   const handleFocus = () => setFocused(true);
   const handleBlur = () => setFocused(false);
 
-  const handleClosePasswordSaveDialog = () => {
-    setMyHasSavedPasswordState(true);
-    setOpen(false);
-  };
-
-  const handleClickPasswordSaveConfirm = () => {
-    setMyHasSavedPasswordState(true);
-    setMyPasswordState(password);
-    setOpen(false);
-  };
-
   useEffect(() => {
     let observer;
     try {
@@ -229,97 +200,62 @@ function NoticeFooter({ footerRef }: NoticeFooterProps) {
 
   if (isMounted && (observerTriggered || triggered || focused)) {
     return (
-      <>
-        <Box component="footer" customStyle={{ minHeight: 65 }}>
-          <StyledNoticeFooter ref={targetRef} css={{ minHeight: 65, justifyContent: 'center' }}>
-            <Flexbox direction="vertical" gap={10} customStyle={{ width: '100%' }}>
-              {content && (
-                <Grid container columnGap={16}>
-                  <Grid item xs={2}>
-                    <TextBar
-                      fullWidth
-                      size="small"
-                      onChange={handleChangeTextBar}
-                      onBlur={handleBlurNicknameTextBar}
-                      value={nickname}
-                      placeholder="닉네임"
-                      disabled={isLoading}
-                      customStyle={{ borderColor: box.stroked.normal }}
-                    />
-                  </Grid>
-                  <Grid item xs={2}>
-                    <TextBar
-                      fullWidth
-                      type="password"
-                      size="small"
-                      onChange={handleChangeTextBar}
-                      onBlur={handleBlurPasswordTextBar}
-                      value={password}
-                      placeholder="비밀번호"
-                      disabled={isLoading}
-                      customStyle={{ borderColor: box.stroked.normal }}
-                    />
-                  </Grid>
-                </Grid>
-              )}
-              <CommentBar>
-                <CommentTextArea
-                  placeholder="내용을 입력해 주세요."
-                  rows={rows}
-                  onChange={handleChange}
-                  onFocus={handleFocus}
-                  onBlur={handleBlur}
-                  value={content}
-                  disabled={isLoading}
-                />
-                <IconButton onClick={handleClickSend} customStyle={{ marginRight: 10 }}>
-                  <Icon
-                    name={
-                      !isLoading && nickname && password && content ? 'SendFilled' : 'SendOutlined'
-                    }
-                    color={
-                      !isLoading && nickname && password && content ? 'primary' : text[mode].text3
-                    }
+      <Box component="footer" customStyle={{ minHeight: 65 }}>
+        <StyledNoticeFooter ref={targetRef} css={{ minHeight: 65, justifyContent: 'center' }}>
+          <Flexbox direction="vertical" gap={10} customStyle={{ width: '100%' }}>
+            {content && (
+              <Grid container columnGap={16}>
+                <Grid item xs={2}>
+                  <TextBar
+                    fullWidth
+                    size="small"
+                    onChange={handleChangeTextBar}
+                    onBlur={handleBlurNicknameTextBar}
+                    value={nickname}
+                    placeholder="닉네임"
+                    disabled={isLoading}
+                    customStyle={{ borderColor: box.stroked.normal }}
                   />
-                </IconButton>
-              </CommentBar>
-            </Flexbox>
-          </StyledNoticeFooter>
-        </Box>
-        <Dialog
-          fullWidth
-          open={open}
-          onClose={handleClosePasswordSaveDialog}
-          customStyle={{ maxWidth: 475 }}
-        >
-          <Box customStyle={{ padding: 16 }}>
-            <Typography
-              variant="h3"
-              fontWeight="bold"
-              customStyle={{ padding: '30px 0', textAlign: 'center' }}
-            >
-              비밀번호를 저장하시겠어요?
-            </Typography>
-            <Flexbox gap={8} customStyle={{ marginTop: 20 }}>
-              <Button
-                fullWidth
-                onClick={handleClosePasswordSaveDialog}
-                customStyle={{ flex: 1, justifyContent: 'center' }}
-              >
-                안할래요
-              </Button>
-              <Button
-                fullWidth
-                variant="accent"
-                onClick={handleClickPasswordSaveConfirm}
-                customStyle={{ flex: 1, justifyContent: 'center' }}
-              >
-                저장할게요
-              </Button>
-            </Flexbox>
-          </Box>
-        </Dialog>
-      </>
+                </Grid>
+                <Grid item xs={2}>
+                  <TextBar
+                    fullWidth
+                    type="password"
+                    size="small"
+                    onChange={handleChangeTextBar}
+                    onBlur={handleBlurPasswordTextBar}
+                    value={password}
+                    placeholder="비밀번호"
+                    disabled={isLoading}
+                    customStyle={{ borderColor: box.stroked.normal }}
+                  />
+                </Grid>
+              </Grid>
+            )}
+            <CommentBar>
+              <CommentTextArea
+                placeholder="내용을 입력해 주세요."
+                rows={rows}
+                onChange={handleChange}
+                onFocus={handleFocus}
+                onBlur={handleBlur}
+                value={content}
+                disabled={isLoading}
+              />
+              <IconButton onClick={handleClickSend} customStyle={{ marginRight: 10 }}>
+                <Icon
+                  name={
+                    !isLoading && nickname && password && content ? 'SendFilled' : 'SendOutlined'
+                  }
+                  color={
+                    !isLoading && nickname && password && content ? 'primary' : text[mode].text3
+                  }
+                />
+              </IconButton>
+            </CommentBar>
+          </Flexbox>
+        </StyledNoticeFooter>
+      </Box>
     );
   }
 

@@ -7,14 +7,12 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useRecoilState, useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
 
 import { commonFeedbackDialogState } from '@recoil/common/atoms';
-import { myHasSavedPasswordState, myNicknameState, myPasswordState } from '@recoil/pages/my/atoms';
+import { myNicknameState, myPasswordState } from '@recoil/pages/my/atoms';
 import {
   storageBoardCommentsParamsState,
   storageBoardReplyListBottomSheetState,
   storageBoardReplyMenuBottomSheetState
 } from '@recoil/pages/storageBoard/atoms';
-
-import { Box, Button, Dialog, Flexbox, Typography } from 'cocstorage-ui';
 
 import ReplyListBottomSheet from '@components/UI/organisms/ReplyListBottomSheet';
 
@@ -35,7 +33,6 @@ function StorageBoardReplyListBottomSheet() {
 
   const [myNickname, setMyNicknameState] = useRecoilState(myNicknameState);
   const [myPassword, setMyPasswordState] = useRecoilState(myPasswordState);
-  const [myHasSavedPassword, setMyHasSavedPasswordState] = useRecoilState(myHasSavedPasswordState);
   const params = useRecoilValue(storageBoardCommentsParamsState);
   const [{ open, storageId, commentId }, setReplyListBottomSheetState] = useRecoilState(
     storageBoardReplyListBottomSheetState
@@ -49,7 +46,6 @@ function StorageBoardReplyListBottomSheet() {
   const [password, setPassword] = useState(myPassword);
   const [content, setContent] = useState('');
   const [comment, setComment] = useState<Partial<StorageBoardComment>>({});
-  const [openPasswordSaveDialog, setOpenPasswordSaveDialog] = useState(false);
 
   const openReplyMenuBottomSheetTimerRef = useRef<ReturnType<typeof setTimeout>>();
 
@@ -72,11 +68,6 @@ function StorageBoardReplyListBottomSheet() {
     (data: PostStorageBoardCommentReplyData) =>
       postNonMemberStorageBoardCommentReply(storageId, Number(id), commentId, data),
     {
-      onSettled: () => {
-        if (!myHasSavedPassword && !myPassword) {
-          setOpenPasswordSaveDialog(true);
-        }
-      },
       onSuccess: () => {
         setContent('');
 
@@ -132,17 +123,6 @@ function StorageBoardReplyListBottomSheet() {
     mutate({ nickname, password, content });
   };
 
-  const handleClosePasswordSaveDialog = () => {
-    setMyHasSavedPasswordState(true);
-    setOpenPasswordSaveDialog(false);
-  };
-
-  const handleClickPasswordSaveConfirm = () => {
-    setMyHasSavedPasswordState(true);
-    setMyPasswordState(password);
-    setOpenPasswordSaveDialog(false);
-  };
-
   const handleClickReplyMenu = (currentCommentId: number, replyId: number) => () => {
     setReplyListBottomSheetState((prevState) => ({
       ...prevState,
@@ -190,57 +170,22 @@ function StorageBoardReplyListBottomSheet() {
   }, []);
 
   return (
-    <>
-      <ReplyListBottomSheet
-        open={open}
-        onClose={handleClose}
-        comment={comment}
-        nickname={nickname}
-        password={password}
-        content={content}
-        rows={rows}
-        isLoading={isLoading}
-        onChange={handleChange}
-        onChangeContent={handleChangeContent}
-        onClickReplyMenu={handleClickReplyMenu}
-        onBlurNicknameTextBar={handleBlurNicknameTextBar}
-        onBlurPasswordTextBar={handleBlurPasswordTextBar}
-        onClickPost={handleClick}
-      />
-      <Dialog
-        fullWidth
-        open={openPasswordSaveDialog}
-        onClose={handleClosePasswordSaveDialog}
-        customStyle={{ maxWidth: 475 }}
-      >
-        <Box customStyle={{ padding: 16 }}>
-          <Typography
-            variant="h3"
-            fontWeight="bold"
-            customStyle={{ padding: '30px 0', textAlign: 'center' }}
-          >
-            비밀번호를 저장하시겠어요?
-          </Typography>
-          <Flexbox gap={8} customStyle={{ marginTop: 20 }}>
-            <Button
-              fullWidth
-              onClick={handleClosePasswordSaveDialog}
-              customStyle={{ flex: 1, justifyContent: 'center' }}
-            >
-              안할래요
-            </Button>
-            <Button
-              fullWidth
-              variant="accent"
-              onClick={handleClickPasswordSaveConfirm}
-              customStyle={{ flex: 1, justifyContent: 'center' }}
-            >
-              저장할게요
-            </Button>
-          </Flexbox>
-        </Box>
-      </Dialog>
-    </>
+    <ReplyListBottomSheet
+      open={open}
+      onClose={handleClose}
+      comment={comment}
+      nickname={nickname}
+      password={password}
+      content={content}
+      rows={rows}
+      isLoading={isLoading}
+      onChange={handleChange}
+      onChangeContent={handleChangeContent}
+      onClickReplyMenu={handleClickReplyMenu}
+      onBlurNicknameTextBar={handleBlurNicknameTextBar}
+      onBlurPasswordTextBar={handleBlurPasswordTextBar}
+      onClickPost={handleClick}
+    />
   );
 }
 
