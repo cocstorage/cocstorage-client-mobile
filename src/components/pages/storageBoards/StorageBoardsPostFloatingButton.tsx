@@ -1,5 +1,13 @@
 import { useRouter } from 'next/router';
 
+import { useResetRecoilState } from 'recoil';
+
+import {
+  storageBoardPostDraftIdState,
+  storageBoardPostEditorContentsState,
+  storageBoardPostSubjectState
+} from '@recoil/pages/storageBoardPost/atoms';
+
 import { Box, Button, Icon } from 'cocstorage-ui';
 
 import useReverseScrollTrigger from '@hooks/useReverseScrollTrigger';
@@ -8,9 +16,17 @@ function StorageBoardsPostFloatingButton() {
   const router = useRouter();
   const { path } = router.query;
 
+  const resetDraftIdState = useResetRecoilState(storageBoardPostDraftIdState);
+  const resetSubjectState = useResetRecoilState(storageBoardPostSubjectState);
+  const resetEditorContentsState = useResetRecoilState(storageBoardPostEditorContentsState);
+
   const { triggered, prevScrollY } = useReverseScrollTrigger();
 
   const handleClick = () => {
+    resetDraftIdState();
+    resetSubjectState();
+    resetEditorContentsState();
+
     router.push(`/storages/${path}/post`);
   };
 

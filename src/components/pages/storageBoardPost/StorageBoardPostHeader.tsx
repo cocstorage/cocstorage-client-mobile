@@ -58,6 +58,7 @@ function StorageBoardPostHeader() {
       <Flexbox gap={10}>
         <Avatar width={24} height={24} src={avatarUrl} alt="Storage Logo Img" round={6} />
         <Button
+          variant="accent"
           size="pico"
           startIcon={<Icon name="SendOutlined" width={15} height={15} />}
           onClick={handleClick}
