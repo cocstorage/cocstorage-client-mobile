@@ -105,7 +105,7 @@ function StorageBoardsPostFloatingButton() {
             boxShadow: '0px 10px 20px rgba(52, 133, 255, 0.2);'
           }}
         >
-          게시글 등록
+          글쓰기
         </Button>
       </Box>
       <Spotlight
@@ -128,7 +128,7 @@ function StorageBoardsPostFloatingButton() {
             startIcon={<Icon name="WriteOutlined" width={18} height={18} />}
             onClick={handleClick}
           >
-            게시글 등록
+            글쓰기
           </Button>
         </Tooltip>
       </Spotlight>
