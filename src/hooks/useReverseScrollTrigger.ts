@@ -9,17 +9,21 @@ export default function useReverseScrollTrigger(trigger = true): {
   const prevScrollYRef = useRef(0);
 
   const handleScroll = useCallback(() => {
-    const { scrollY } = window;
+    const { innerHeight, scrollY } = window;
 
-    if (scrollY <= 0) {
-      setTriggered(true);
-    } else if (prevScrollYRef.current > scrollY) {
-      setTriggered(true);
-    } else if (prevScrollYRef.current < scrollY) {
-      setTriggered(false);
+    const isNoneBounce = document.body.scrollHeight - innerHeight > scrollY;
+
+    if (isNoneBounce) {
+      if (scrollY <= 0) {
+        setTriggered(true);
+      } else if (prevScrollYRef.current > scrollY) {
+        setTriggered(true);
+      } else if (prevScrollYRef.current < scrollY) {
+        setTriggered(false);
+      }
+      prevScrollYRef.current = scrollY;
+      setPrevScrollY(scrollY);
     }
-    prevScrollYRef.current = scrollY;
-    setPrevScrollY(scrollY);
   }, []);
 
   useEffect(() => {
