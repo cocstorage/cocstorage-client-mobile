@@ -11,7 +11,7 @@ import {
   storageBoardsPostSubjectState
 } from '@recoil/pages/storageBoardsPost/atoms';
 
-import { Avatar, Button, Flexbox, Icon, IconButton, useTheme } from 'cocstorage-ui';
+import { Avatar, Button, Flexbox, Icon, IconButton, Tag, useTheme } from 'cocstorage-ui';
 
 import { fetchStorage } from '@api/v1/storages';
 
@@ -52,9 +52,12 @@ function StorageBoardsPostHeader() {
         borderBottom: `1px solid ${box.stroked.normal}`
       }}
     >
-      <IconButton onClick={handleClickBack}>
-        <Icon name="CaretSemiLeftOutlined" />
-      </IconButton>
+      <Flexbox gap={10}>
+        <IconButton onClick={handleClickBack}>
+          <Icon name="CaretSemiLeftOutlined" />
+        </IconButton>
+        <Tag variant="semiAccent">글쓰기 BETA</Tag>
+      </Flexbox>
       <Flexbox gap={10}>
         <Avatar width={24} height={24} src={avatarUrl} alt="Storage Logo Img" round={6} />
         <Button

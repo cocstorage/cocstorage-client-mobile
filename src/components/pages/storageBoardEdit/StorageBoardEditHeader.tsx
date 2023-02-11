@@ -11,7 +11,7 @@ import {
   storageBoardEditSubjectState
 } from '@recoil/pages/storageBoardEdit/atoms';
 
-import { Avatar, Button, Flexbox, Icon, IconButton, useTheme } from 'cocstorage-ui';
+import { Avatar, Button, Flexbox, Icon, IconButton, Tag, useTheme } from 'cocstorage-ui';
 
 import { PutStorageBoardData, putNonMemberStorageBoard } from '@api/v1/storage-boards';
 import { fetchStorage } from '@api/v1/storages';
@@ -97,9 +97,12 @@ function StorageBoardEditHeader() {
         borderBottom: `1px solid ${box.stroked.normal}`
       }}
     >
-      <IconButton onClick={handleClickBack}>
-        <Icon name="CaretSemiLeftOutlined" />
-      </IconButton>
+      <Flexbox gap={10}>
+        <IconButton onClick={handleClickBack}>
+          <Icon name="CaretSemiLeftOutlined" />
+        </IconButton>
+        <Tag variant="semiAccent">글수정 BETA</Tag>
+      </Flexbox>
       <Flexbox gap={10}>
         <Avatar width={24} height={24} src={avatarUrl} alt="Storage Logo Img" round={6} />
         <Button
