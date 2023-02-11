@@ -77,7 +77,7 @@ function StorageBoardsPostBottomSheet() {
       },
       onSuccess: ({ id: storageBoardId }) => {
         setOpenState(false);
-        router.push(`/storages/${path}/${storageBoardId}`).then(() => {
+        router.replace(`/storages/${path}/${storageBoardId}`).then(() => {
           resetDraftIdState();
           resetSubjectState();
           resetEditorContentsState();

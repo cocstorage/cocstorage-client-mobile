@@ -6,32 +6,18 @@ import styled, { CSSObject } from '@emotion/styled';
 
 import { storageBoardEditSubjectState } from '@recoil/pages/storageBoardEdit/atoms';
 
-import { Box, useTheme } from 'cocstorage-ui';
-
 function StorageBoardEditSubjectInput() {
-  const {
-    theme: {
-      palette: { box }
-    }
-  } = useTheme();
-
   const [subject, setSubjectState] = useRecoilState(storageBoardEditSubjectState);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => setSubjectState(e.currentTarget.value);
 
   return (
-    <Box
-      customStyle={{
-        borderBottom: `1px solid ${box.stroked.normal}`
-      }}
-    >
-      <Input
-        onChange={handleChange}
-        value={subject}
-        maxLength={150}
-        placeholder="제목을 입력해 주세요."
-      />
-    </Box>
+    <Input
+      onChange={handleChange}
+      value={subject}
+      maxLength={150}
+      placeholder="제목을 입력해 주세요."
+    />
   );
 }
 
@@ -40,6 +26,12 @@ const Input = styled.input`
   padding: 16px 20px;
   border: none;
   outline: 0;
+  border-bottom: 1px solid
+    ${({
+      theme: {
+        palette: { box }
+      }
+    }) => box.stroked.normal};
   ${({
     theme: {
       typography: { h4 }
