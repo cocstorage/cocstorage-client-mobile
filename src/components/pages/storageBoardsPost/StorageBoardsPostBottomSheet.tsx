@@ -9,11 +9,11 @@ import { useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
 import { commonOnBoardingDefault, commonOnBoardingState } from '@recoil/common/atoms';
 import { myNicknameState, myPasswordState } from '@recoil/pages/my/atoms';
 import {
-  storageBoardPostDialogOpenState,
-  storageBoardPostDraftIdState,
-  storageBoardPostEditorContentsState,
-  storageBoardPostSubjectState
-} from '@recoil/pages/storageBoardPost/atoms';
+  storageBoardsPostDialogOpenState,
+  storageBoardsPostDraftIdState,
+  storageBoardsPostEditorContentsState,
+  storageBoardsPostSubjectState
+} from '@recoil/pages/storageBoardsPost/atoms';
 
 import { BottomSheet, Button, Icon, TextBar, Tooltip, Typography, useTheme } from 'cocstorage-ui';
 
@@ -24,7 +24,7 @@ import { fetchStorage } from '@api/v1/storages';
 
 import queryKeys from '@constants/queryKeys';
 
-function StorageBoardPostBottomSheet() {
+function StorageBoardsPostBottomSheet() {
   const router = useRouter();
   const { path } = router.query;
 
@@ -34,17 +34,17 @@ function StorageBoardPostBottomSheet() {
     }
   } = useTheme();
 
-  const [open, setOpenState] = useRecoilState(storageBoardPostDialogOpenState);
+  const [open, setOpenState] = useRecoilState(storageBoardsPostDialogOpenState);
   const [myNickname, setMyNicknameState] = useRecoilState(myNicknameState);
   const [myPassword, setMyPasswordState] = useRecoilState(myPasswordState);
   const [{ password: { done = false } = {} }, setCommonOnBoardingState] =
     useRecoilState(commonOnBoardingState);
-  const subject = useRecoilValue(storageBoardPostSubjectState);
-  const draftId = useRecoilValue(storageBoardPostDraftIdState);
-  const editorContents = useRecoilValue(storageBoardPostEditorContentsState);
-  const resetDraftIdState = useResetRecoilState(storageBoardPostDraftIdState);
-  const resetSubjectState = useResetRecoilState(storageBoardPostSubjectState);
-  const resetEditorContentsState = useResetRecoilState(storageBoardPostEditorContentsState);
+  const subject = useRecoilValue(storageBoardsPostSubjectState);
+  const draftId = useRecoilValue(storageBoardsPostDraftIdState);
+  const editorContents = useRecoilValue(storageBoardsPostEditorContentsState);
+  const resetDraftIdState = useResetRecoilState(storageBoardsPostDraftIdState);
+  const resetSubjectState = useResetRecoilState(storageBoardsPostSubjectState);
+  const resetEditorContentsState = useResetRecoilState(storageBoardsPostEditorContentsState);
 
   const [errorMessage, setErrorMessage] = useState({
     nickname: {
@@ -246,4 +246,4 @@ function StorageBoardPostBottomSheet() {
   );
 }
 
-export default StorageBoardPostBottomSheet;
+export default StorageBoardsPostBottomSheet;

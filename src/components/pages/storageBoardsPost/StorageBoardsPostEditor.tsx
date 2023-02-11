@@ -8,9 +8,9 @@ import { Editor, EditorContent } from 'cocstorage-ui-editor';
 import { useRecoilState } from 'recoil';
 
 import {
-  storageBoardPostDraftIdState,
-  storageBoardPostEditorContentsState
-} from '@recoil/pages/storageBoardPost/atoms';
+  storageBoardsPostDraftIdState,
+  storageBoardsPostEditorContentsState
+} from '@recoil/pages/storageBoardsPost/atoms';
 
 import {
   postNonMemberStorageBoardDraft,
@@ -20,13 +20,13 @@ import { fetchStorage } from '@api/v1/storages';
 
 import queryKeys from '@constants/queryKeys';
 
-function StorageBoardPostEditor() {
+function StorageBoardsPostEditor() {
   const router = useRouter();
   const { path } = router.query;
 
-  const [draftId, setDraftIdState] = useRecoilState(storageBoardPostDraftIdState);
+  const [draftId, setDraftIdState] = useRecoilState(storageBoardsPostDraftIdState);
   const [editorContents, setEditorContentsState] = useRecoilState(
-    storageBoardPostEditorContentsState
+    storageBoardsPostEditorContentsState
   );
 
   const { data: { id } = {}, isLoading } = useQuery(
@@ -79,4 +79,4 @@ function StorageBoardPostEditor() {
   );
 }
 
-export default StorageBoardPostEditor;
+export default StorageBoardsPostEditor;

@@ -5,11 +5,11 @@ import { useQuery } from '@tanstack/react-query';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 
 import {
-  storageBoardPostDialogOpenState,
-  storageBoardPostDraftIdState,
-  storageBoardPostEditorContentsState,
-  storageBoardPostSubjectState
-} from '@recoil/pages/storageBoardPost/atoms';
+  storageBoardsPostDialogOpenState,
+  storageBoardsPostDraftIdState,
+  storageBoardsPostEditorContentsState,
+  storageBoardsPostSubjectState
+} from '@recoil/pages/storageBoardsPost/atoms';
 
 import { Avatar, Button, Flexbox, Icon, IconButton, useTheme } from 'cocstorage-ui';
 
@@ -17,7 +17,7 @@ import { fetchStorage } from '@api/v1/storages';
 
 import queryKeys from '@constants/queryKeys';
 
-function StorageBoardPostHeader() {
+function StorageBoardsPostHeader() {
   const router = useRouter();
   const { path } = router.query;
 
@@ -27,10 +27,10 @@ function StorageBoardPostHeader() {
     }
   } = useTheme();
 
-  const draftId = useRecoilValue(storageBoardPostDraftIdState);
-  const subject = useRecoilValue(storageBoardPostSubjectState);
-  const editorContents = useRecoilValue(storageBoardPostEditorContentsState);
-  const setOpenState = useSetRecoilState(storageBoardPostDialogOpenState);
+  const draftId = useRecoilValue(storageBoardsPostDraftIdState);
+  const subject = useRecoilValue(storageBoardsPostSubjectState);
+  const editorContents = useRecoilValue(storageBoardsPostEditorContentsState);
+  const setOpenState = useSetRecoilState(storageBoardsPostDialogOpenState);
 
   const { data: { avatarUrl } = {} } = useQuery(queryKeys.storages.storageById(String(path)), () =>
     fetchStorage(String(path))
@@ -71,4 +71,4 @@ function StorageBoardPostHeader() {
   );
 }
 
-export default StorageBoardPostHeader;
+export default StorageBoardsPostHeader;

@@ -5,6 +5,7 @@ import { QueryClient, dehydrate } from '@tanstack/react-query';
 import {
   StorageBoardEditAuthBottomSheet,
   StorageBoardEditEditor,
+  StorageBoardEditHead,
   StorageBoardEditHeader,
   StorageBoardEditSubjectInput
 } from '@components/pages/storageBoardEdit';
@@ -17,6 +18,7 @@ import queryKeys from '@constants/queryKeys';
 function StorageBoardEdit() {
   return (
     <>
+      <StorageBoardEditHead />
       <WideFlexibleTemplate header={<StorageBoardEditHeader />} enableMainOverflowHidden>
         <StorageBoardEditSubjectInput />
         <StorageBoardEditEditor />

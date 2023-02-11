@@ -6,10 +6,10 @@ import { useRecoilState, useResetRecoilState } from 'recoil';
 
 import { commonOnBoardingDefault, commonOnBoardingState } from '@recoil/common/atoms';
 import {
-  storageBoardPostDraftIdState,
-  storageBoardPostEditorContentsState,
-  storageBoardPostSubjectState
-} from '@recoil/pages/storageBoardPost/atoms';
+  storageBoardsPostDraftIdState,
+  storageBoardsPostEditorContentsState,
+  storageBoardsPostSubjectState
+} from '@recoil/pages/storageBoardsPost/atoms';
 
 import { Box, Button, Icon, Spotlight, Tooltip } from 'cocstorage-ui';
 
@@ -26,9 +26,9 @@ function StorageBoardsPostFloatingButton() {
     },
     setCommonOnBoardingState
   ] = useRecoilState(commonOnBoardingState);
-  const resetDraftIdState = useResetRecoilState(storageBoardPostDraftIdState);
-  const resetSubjectState = useResetRecoilState(storageBoardPostSubjectState);
-  const resetEditorContentsState = useResetRecoilState(storageBoardPostEditorContentsState);
+  const resetDraftIdState = useResetRecoilState(storageBoardsPostDraftIdState);
+  const resetSubjectState = useResetRecoilState(storageBoardsPostSubjectState);
+  const resetEditorContentsState = useResetRecoilState(storageBoardsPostEditorContentsState);
 
   const { triggered, prevScrollY } = useReverseScrollTrigger();
 

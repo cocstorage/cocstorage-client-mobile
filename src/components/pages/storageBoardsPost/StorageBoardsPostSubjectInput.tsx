@@ -4,18 +4,18 @@ import { useRecoilState } from 'recoil';
 
 import styled, { CSSObject } from '@emotion/styled';
 
-import { storageBoardPostSubjectState } from '@recoil/pages/storageBoardPost/atoms';
+import { storageBoardsPostSubjectState } from '@recoil/pages/storageBoardsPost/atoms';
 
 import { Box, useTheme } from 'cocstorage-ui';
 
-function StorageBoardPostSubjectInput() {
+function StorageBoardsPostSubjectInput() {
   const {
     theme: {
       palette: { box }
     }
   } = useTheme();
 
-  const [subject, setSubjectState] = useRecoilState(storageBoardPostSubjectState);
+  const [subject, setSubjectState] = useRecoilState(storageBoardsPostSubjectState);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => setSubjectState(e.currentTarget.value);
 
@@ -49,6 +49,11 @@ const Input = styled.input`
     fontWeight: h4.weight.bold,
     letterSpacing: h4.letterSpacing
   })};
+  background-color: ${({
+    theme: {
+      palette: { background }
+    }
+  }) => background.bg};
   color: ${({
     theme: {
       mode,
@@ -66,4 +71,4 @@ const Input = styled.input`
   }
 `;
 
-export default StorageBoardPostSubjectInput;
+export default StorageBoardsPostSubjectInput;

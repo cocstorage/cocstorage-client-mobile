@@ -49,6 +49,11 @@ const Input = styled.input`
     fontWeight: h4.weight.bold,
     letterSpacing: h4.letterSpacing
   })};
+  background-color: ${({
+    theme: {
+      palette: { background }
+    }
+  }) => background.bg};
   color: ${({
     theme: {
       mode,
