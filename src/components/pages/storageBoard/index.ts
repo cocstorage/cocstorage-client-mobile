@@ -8,3 +8,4 @@ export { default as StorageBoardCommentMenuBottomSheet } from './StorageBoardCom
 export { default as StorageBoardCommentDeleteBottomSheet } from './StorageBoardCommentDeleteBottomSheet';
 export { default as StorageBoardReplyMenuBottomSheet } from './StorageBoardReplyMenuBottomSheet';
 export { default as StorageBoardReplyDeleteBottomSheet } from './StorageBoardReplyDeleteBottomSheet';
+export { default as StorageBoardMenuBottomSheet } from './StorageBoardMenuBottomSheet';

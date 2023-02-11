@@ -35,9 +35,6 @@ function StorageBoardHeader() {
         </IconButton>
         <Flexbox gap={10} alignment="center">
           <Skeleton width={24} height={24} round={6} disableAspectRatio />
-          <IconButton>
-            <Icon name="MoreMenuOutlined" />
-          </IconButton>
         </Flexbox>
       </StyledStorageBoardHeader>
     </Box>

@@ -92,3 +92,8 @@ export const storageBoardReplyDeleteBottomSheetState = atom<
     replyId: 0
   }
 });
+
+export const storageBoardMenuBottomSheetOpenState = atom({
+  key: 'storageBoard/menuBottomSheetOpenState',
+  default: false
+});

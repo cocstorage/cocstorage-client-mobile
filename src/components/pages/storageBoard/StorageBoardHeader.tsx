@@ -8,8 +8,10 @@ import { useRecoilValue, useSetRecoilState } from 'recoil';
 
 import styled, { CSSObject } from '@emotion/styled';
 
-import { commonFeedbackDialogState } from '@recoil/common/atoms';
-import { storageBoardHideHeaderSubjectState } from '@recoil/pages/storageBoard/atoms';
+import {
+  storageBoardHideHeaderSubjectState,
+  storageBoardMenuBottomSheetOpenState
+} from '@recoil/pages/storageBoard/atoms';
 
 import { Avatar, Box, Flexbox, Icon, IconButton, Typography } from 'cocstorage-ui';
 
@@ -24,7 +26,7 @@ function StorageBoardHeader() {
   const router = useRouter();
   const { path, id } = router.query;
 
-  const setCommonFeedbackDialogState = useSetRecoilState(commonFeedbackDialogState);
+  const setMenuBottomSheetOpenState = useSetRecoilState(storageBoardMenuBottomSheetOpenState);
   const hideHeaderSubject = useRecoilValue(storageBoardHideHeaderSubjectState);
 
   const headerRef = useRef<HTMLDivElement>(null);
@@ -35,7 +37,7 @@ function StorageBoardHeader() {
     queryKeys.storages.storageById(String(path)),
     () => fetchStorage(String(path))
   );
-  const { data: { subject } = {} } = useQuery(
+  const { data: { subject, sourceCode } = {} } = useQuery(
     queryKeys.storageBoards.storageBoardById(Number(id)),
     () => fetchStorageBoard(Number(storageId), Number(id))
   );
@@ -44,12 +46,7 @@ function StorageBoardHeader() {
 
   const handleClickImage = () => router.push(`/storages/${path}`);
 
-  const handleClickMenu = () =>
-    setCommonFeedbackDialogState({
-      open: true,
-      title: '준비 중인 기능이에요!',
-      message: '조금만 기다려주세요!'
-    });
+  const handleClickMenu = () => setMenuBottomSheetOpenState(true);
 
   return (
     <Box ref={headerRef} component="header" customStyle={{ height: 50 }}>
@@ -74,9 +71,11 @@ function StorageBoardHeader() {
             round={6}
             onClick={handleClickImage}
           />
-          <IconButton onClick={handleClickMenu}>
-            <Icon name="MoreMenuOutlined" />
-          </IconButton>
+          {!sourceCode && (
+            <IconButton onClick={handleClickMenu}>
+              <Icon name="MoreMenuOutlined" />
+            </IconButton>
+          )}
         </Flexbox>
       </StyledStorageBoardHeader>
     </Box>
