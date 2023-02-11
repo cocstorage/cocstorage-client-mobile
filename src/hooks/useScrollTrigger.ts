@@ -49,9 +49,7 @@ export default function useScrollTrigger<T extends HTMLElement>({
     }
 
     return () => {
-      if (trigger) {
-        window.removeEventListener('load', handleScroll);
-      }
+      window.removeEventListener('load', handleScroll);
     };
   }, [trigger, handleScroll]);
 

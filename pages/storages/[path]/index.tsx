@@ -10,6 +10,7 @@ import {
   StorageBoardsInfoBottomSheet,
   StorageBoardsList,
   StorageBoardsNoticeAlert,
+  StorageBoardsPostFloatingButton,
   StorageBoardsTabs
 } from '@components/pages/storageBoards';
 import GeneralTemplate from '@components/templeates/GeneralTemplate';
@@ -28,6 +29,7 @@ function StorageBoards() {
         <StorageBoardsTabs />
         <StorageBoardsNoticeAlert />
         <StorageBoardsList />
+        <StorageBoardsPostFloatingButton />
       </GeneralTemplate>
       <StorageBoardsInfoBottomSheet />
     </>

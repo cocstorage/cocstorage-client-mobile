@@ -39,7 +39,27 @@ export const commonOnBoardingDefault = {
     lastStep: 1,
     done: false
   },
+  password: {
+    step: 0,
+    lastStep: 1,
+    done: false
+  },
   comment: {
+    step: 0,
+    lastStep: 1,
+    done: false
+  },
+  loadPassword: {
+    step: 0,
+    lastStep: 1,
+    done: false
+  },
+  post: {
+    step: 0,
+    lastStep: 1,
+    done: false
+  },
+  editAndDelete: {
     step: 0,
     lastStep: 1,
     done: false

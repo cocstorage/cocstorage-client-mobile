@@ -19,6 +19,7 @@ const serverSidePages = [
   '/storages',
   '/storages/[path]',
   '/storages/[path]/[id]',
+  '/storages/[path]/post',
   '/best',
   '/worst'
 ];

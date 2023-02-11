@@ -2,6 +2,15 @@ import { useRouter } from 'next/router';
 
 import { useQuery } from '@tanstack/react-query';
 
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+
+import {
+  storageBoardPostDialogOpenState,
+  storageBoardPostDraftIdState,
+  storageBoardPostEditorContentsState,
+  storageBoardPostSubjectState
+} from '@recoil/pages/storageBoardPost/atoms';
+
 import { Avatar, Button, Flexbox, Icon, IconButton, useTheme } from 'cocstorage-ui';
 
 import { fetchStorage } from '@api/v1/storages';
@@ -18,9 +27,18 @@ function StorageBoardPostHeader() {
     }
   } = useTheme();
 
+  const draftId = useRecoilValue(storageBoardPostDraftIdState);
+  const subject = useRecoilValue(storageBoardPostSubjectState);
+  const editorContents = useRecoilValue(storageBoardPostEditorContentsState);
+  const setOpenState = useSetRecoilState(storageBoardPostDialogOpenState);
+
   const { data: { avatarUrl } = {} } = useQuery(queryKeys.storages.storageById(String(path)), () =>
     fetchStorage(String(path))
   );
+
+  const handleClick = () => setOpenState(true);
+
+  const handleClickBack = () => router.back();
 
   return (
     <Flexbox
@@ -34,16 +52,16 @@ function StorageBoardPostHeader() {
         borderBottom: `1px solid ${box.stroked.normal}`
       }}
     >
-      <IconButton>
+      <IconButton onClick={handleClickBack}>
         <Icon name="CaretSemiLeftOutlined" />
       </IconButton>
       <Flexbox gap={10}>
         <Avatar width={24} height={24} src={avatarUrl} alt="Storage Logo Img" round={6} />
         <Button
           size="pico"
-          color="primary"
           startIcon={<Icon name="SendOutlined" width={15} height={15} />}
-          disabled
+          onClick={handleClick}
+          disabled={!draftId || !subject || !editorContents.length}
         >
           등록
         </Button>

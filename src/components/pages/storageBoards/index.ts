@@ -4,3 +4,4 @@ export { default as StorageBoardsList } from './StorageBoardsList';
 export { default as StorageBoardsInfoBottomSheet } from './StorageBoardsInfoBottomSheet';
 export { default as StorageBoardsHead } from './StorageBoardsHead';
 export { default as StorageBoardsNoticeAlert } from './StorageBoardsNoticeAlert';
+export { default as StorageBoardsPostFloatingButton } from './StorageBoardsPostFloatingButton';

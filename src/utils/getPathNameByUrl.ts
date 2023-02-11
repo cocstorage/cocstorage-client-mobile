@@ -1,11 +1,20 @@
 /* eslint-disable no-nested-ternary */
 
+// TODO 추후 로직 개선
 export default function getPathNameByUrl(url: string) {
   const splittedUrl = url.split('/');
 
   // regex
   const hasNumber = /\d/;
   const hasAlphabet = /[a-zA-Z0-9]/;
+
+  if (splittedUrl.length === 5 && splittedUrl[4] === 'edit') {
+    return '/storages/[path]/[id]/edit';
+  }
+
+  if (splittedUrl.length === 4 && splittedUrl[3] === 'post') {
+    return '/storages/[path]/post';
+  }
 
   return (
     // 4
