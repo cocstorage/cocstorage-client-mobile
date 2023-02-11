@@ -188,6 +188,7 @@ function StorageBoardPostBottomSheet() {
         value={myNickname}
         fullWidth
         label="닉네임"
+        size="big"
         customStyle={{
           marginTop: 27
         }}
@@ -216,6 +217,7 @@ function StorageBoardPostBottomSheet() {
           onChange={handleChange}
           value={myPassword}
           fullWidth
+          size="big"
           label="비밀번호"
         />
       </Tooltip>

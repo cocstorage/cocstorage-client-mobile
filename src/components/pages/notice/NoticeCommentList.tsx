@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 
 import { useRouter } from 'next/router';
 
@@ -29,6 +29,8 @@ function NoticeCommentList() {
   const setCommentMenuBottomSheetState = useSetRecoilState(noticeCommentMenuBottomSheetState);
   const setReplyMenuBottomSheetState = useSetRecoilState(noticeReplyMenuBottomSheetState);
   const resetParams = useResetRecoilState(noticeCommentsParamsState);
+
+  const openReplyMenuBottomSheetTimerRef = useRef<ReturnType<typeof setTimeout>>();
 
   const { data: { commentTotalCount = 0, commentLatestPage = 0 } = {} } = useQuery(
     queryKeys.notices.noticeById(Number(id)),
@@ -70,7 +72,7 @@ function NoticeCommentList() {
       open: false
     }));
 
-    setTimeout(() => {
+    openReplyMenuBottomSheetTimerRef.current = setTimeout(() => {
       setReplyMenuBottomSheetState({
         open: true,
         id: Number(id),
@@ -92,6 +94,14 @@ function NoticeCommentList() {
       resetParams();
     };
   }, [resetParams]);
+
+  useEffect(() => {
+    return () => {
+      if (openReplyMenuBottomSheetTimerRef.current) {
+        clearTimeout(openReplyMenuBottomSheetTimerRef.current);
+      }
+    };
+  }, []);
 
   return (
     <CommentList

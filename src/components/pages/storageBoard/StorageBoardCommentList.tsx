@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 
 import { useRouter } from 'next/router';
 
@@ -50,6 +50,8 @@ function StorageBoardCommentList() {
     }
   );
 
+  const openReplyMenuBottomSheetTimerRef = useRef<ReturnType<typeof setTimeout>>();
+
   const handleChange = (value: number) =>
     setParams((prevParams) => ({
       ...prevParams,
@@ -78,7 +80,7 @@ function StorageBoardCommentList() {
       open: false
     }));
 
-    setTimeout(() => {
+    openReplyMenuBottomSheetTimerRef.current = setTimeout(() => {
       setReplyMenuBottomSheetState({
         open: true,
         storageId,
@@ -101,6 +103,14 @@ function StorageBoardCommentList() {
       resetParams();
     };
   }, [resetParams]);
+
+  useEffect(() => {
+    return () => {
+      if (openReplyMenuBottomSheetTimerRef.current) {
+        clearTimeout(openReplyMenuBottomSheetTimerRef.current);
+      }
+    };
+  }, []);
 
   return (
     <CommentList

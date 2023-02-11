@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useRef, useState } from 'react';
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
@@ -36,6 +36,8 @@ function NoticeReplyDeleteBottomSheet() {
     message: ''
   });
 
+  const openReplyListBottomSheetTimerRef = useRef<ReturnType<typeof setTimeout>>();
+
   const queryClient = useQueryClient();
 
   const { mutate, isLoading } = useMutation(
@@ -52,7 +54,7 @@ function NoticeReplyDeleteBottomSheet() {
         setPassword('');
         resetReplyDeleteBottomState();
 
-        setTimeout(() => {
+        openReplyListBottomSheetTimerRef.current = setTimeout(() => {
           setReplyListBottomSheetState((prevState) => ({
             ...prevState,
             open: true
@@ -80,7 +82,7 @@ function NoticeReplyDeleteBottomSheet() {
   const handleClose = () => {
     resetReplyDeleteBottomState();
 
-    setTimeout(() => {
+    openReplyListBottomSheetTimerRef.current = setTimeout(() => {
       setReplyMenuBottomSheetState((prevState) => ({
         ...prevState,
         open: true
@@ -111,6 +113,14 @@ function NoticeReplyDeleteBottomSheet() {
       resetReplyDeleteBottomState();
     };
   }, [resetReplyDeleteBottomState]);
+
+  useEffect(() => {
+    return () => {
+      if (openReplyListBottomSheetTimerRef.current) {
+        clearTimeout(openReplyListBottomSheetTimerRef.current);
+      }
+    };
+  }, []);
 
   return (
     <ReplyDeleteBottomSheet

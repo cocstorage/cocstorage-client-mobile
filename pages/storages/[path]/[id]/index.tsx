@@ -9,6 +9,7 @@ import {
   StorageBoardCommentList,
   StorageBoardCommentMenuBottomSheet,
   StorageBoardContent,
+  StorageBoardDeleteBottomSheet,
   StorageBoardFooter,
   StorageBoardHead,
   StorageBoardHeader,
@@ -64,6 +65,7 @@ function StorageBoard() {
       <StorageBoardReplyMenuBottomSheet />
       <StorageBoardReplyDeleteBottomSheet />
       <StorageBoardMenuBottomSheet />
+      <StorageBoardDeleteBottomSheet />
     </>
   );
 }

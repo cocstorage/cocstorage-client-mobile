@@ -203,7 +203,7 @@ function ReplyListBottomSheet({
         )}
         <CommentBar>
           <CommentTextArea
-            placeholder="내용을 입력해주세요."
+            placeholder="내용을 입력해 주세요."
             rows={rows}
             onChange={onChangeContent}
             value={content}

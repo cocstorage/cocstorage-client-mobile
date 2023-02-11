@@ -1,8 +1,13 @@
+import { useEffect, useRef } from 'react';
+
 import { useRouter } from 'next/router';
 
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 
-import { storageBoardMenuBottomSheetOpenState } from '@recoil/pages/storageBoard/atoms';
+import {
+  storageBoardDeleteBottomSheetOpenState,
+  storageBoardMenuBottomSheetOpenState
+} from '@recoil/pages/storageBoard/atoms';
 
 import { BottomSheet, Flexbox, Icon, Typography } from 'cocstorage-ui';
 
@@ -11,13 +16,32 @@ function StorageBoardMenuBottomSheet() {
   const { path, id } = router.query;
 
   const [open, setOpenState] = useRecoilState(storageBoardMenuBottomSheetOpenState);
+  const setDeleteBottomSheetOpenState = useSetRecoilState(storageBoardDeleteBottomSheetOpenState);
 
   const handleClose = () => setOpenState(false);
+
+  const openDeleteBottomSheetTimerRef = useRef<ReturnType<typeof setTimeout>>();
 
   const handleClick = () =>
     router.push(`/storages/${path}/${id}/edit`).then(() => {
       setOpenState(false);
     });
+
+  const handleClickDelete = () => {
+    setOpenState(false);
+
+    openDeleteBottomSheetTimerRef.current = setTimeout(() => {
+      setDeleteBottomSheetOpenState(true);
+    }, 500);
+  };
+
+  useEffect(() => {
+    return () => {
+      if (openDeleteBottomSheetTimerRef.current) {
+        clearTimeout(openDeleteBottomSheetTimerRef.current);
+      }
+    };
+  }, []);
 
   return (
     <BottomSheet
@@ -42,6 +66,7 @@ function StorageBoardMenuBottomSheet() {
       <Flexbox
         alignment="center"
         gap={8}
+        onClick={handleClickDelete}
         customStyle={{
           marginTop: 4,
           padding: '10px 0'

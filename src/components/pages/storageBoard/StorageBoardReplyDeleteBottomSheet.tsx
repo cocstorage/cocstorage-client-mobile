@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useRef, useState } from 'react';
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
@@ -38,6 +38,9 @@ function StorageBoardReplyDeleteBottomSheet() {
     message: ''
   });
 
+  const openReplyMenuBottomSheetTimerRef = useRef<ReturnType<typeof setTimeout>>();
+  const openReplyListBottomSheetTimerRef = useRef<ReturnType<typeof setTimeout>>();
+
   const queryClient = useQueryClient();
 
   const { mutate, isLoading } = useMutation(
@@ -54,7 +57,7 @@ function StorageBoardReplyDeleteBottomSheet() {
         setPassword('');
         resetReplyDeleteBottomState();
 
-        setTimeout(() => {
+        openReplyListBottomSheetTimerRef.current = setTimeout(() => {
           setReplyListBottomSheetState((prevState) => ({
             ...prevState,
             open: true
@@ -82,7 +85,7 @@ function StorageBoardReplyDeleteBottomSheet() {
   const handleClose = () => {
     resetReplyDeleteBottomState();
 
-    setTimeout(() => {
+    openReplyMenuBottomSheetTimerRef.current = setTimeout(() => {
       setReplyMenuBottomSheetState((prevState) => ({
         ...prevState,
         open: true
@@ -114,6 +117,17 @@ function StorageBoardReplyDeleteBottomSheet() {
       resetReplyDeleteBottomState();
     };
   }, [resetReplyDeleteBottomState]);
+
+  useEffect(() => {
+    return () => {
+      if (openReplyMenuBottomSheetTimerRef.current) {
+        clearTimeout(openReplyMenuBottomSheetTimerRef.current);
+      }
+      if (openReplyListBottomSheetTimerRef.current) {
+        clearTimeout(openReplyListBottomSheetTimerRef.current);
+      }
+    };
+  }, []);
 
   return (
     <ReplyDeleteBottomSheet

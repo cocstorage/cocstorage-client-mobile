@@ -97,3 +97,8 @@ export const storageBoardMenuBottomSheetOpenState = atom({
   key: 'storageBoard/menuBottomSheetOpenState',
   default: false
 });
+
+export const storageBoardDeleteBottomSheetOpenState = atom({
+  key: 'storageBoard/deleteBottomSheetOpenState',
+  default: false
+});

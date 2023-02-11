@@ -354,7 +354,7 @@ function StorageBoardFooter({ footerRef }: StorageBoardFooterProps) {
               )}
               <CommentBar>
                 <CommentTextArea
-                  placeholder="내용을 입력해주세요."
+                  placeholder="내용을 입력해 주세요."
                   rows={rows}
                   onChange={handleChange}
                   onFocus={handleFocus}
@@ -433,7 +433,7 @@ function StorageBoardFooter({ footerRef }: StorageBoardFooterProps) {
                 <Flexbox direction="vertical" gap={10} customStyle={{ width: '100%' }}>
                   <CommentBar>
                     <CommentTextArea
-                      placeholder="내용을 입력해주세요."
+                      placeholder="내용을 입력해 주세요."
                       rows={rows}
                       onChange={handleChange}
                       value={content}

@@ -150,6 +150,7 @@ function StorageBoardEditAuthDialog() {
           type="password"
           label="비밀번호"
           fullWidth
+          size="big"
           value={password}
           onChange={handleChange}
           autoFocus

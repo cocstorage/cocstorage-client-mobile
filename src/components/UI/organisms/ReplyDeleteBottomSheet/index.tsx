@@ -35,7 +35,7 @@ function ReplyDeleteBottomSheet({
       <Box customStyle={{ padding: '30px 20px' }}>
         <Typography variant="h3" fontWeight="bold" customStyle={{ textAlign: 'center' }}>
           답글을 삭제하려면
-          <br /> 비밀번호를 입력해주세요.
+          <br /> 비밀번호를 입력해 주세요.
         </Typography>
         <TextBar
           type="password"
