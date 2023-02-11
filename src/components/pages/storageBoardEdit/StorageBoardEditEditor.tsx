@@ -7,6 +7,8 @@ import { useRecoilState } from 'recoil';
 
 import { storageBoardEditEditorContentsState } from '@recoil/pages/storageBoardEdit/atoms';
 
+import { useTheme } from 'cocstorage-ui';
+
 import { postNonMemberStorageBoardImage } from '@api/v1/storage-boards';
 import { fetchStorage } from '@api/v1/storages';
 
@@ -15,6 +17,12 @@ import queryKeys from '@constants/queryKeys';
 function StorageBoardEditEditor() {
   const router = useRouter();
   const { path, id } = router.query;
+
+  const {
+    theme: {
+      palette: { box }
+    }
+  } = useTheme();
 
   const [editorContents, setEditorContentsState] = useRecoilState(
     storageBoardEditEditorContentsState
@@ -49,7 +57,8 @@ function StorageBoardEditEditor() {
         overflow: 'hidden'
       }}
       toolbarCustomStyle={{
-        padding: '0 20px'
+        padding: '0 20px',
+        borderTop: `1px solid ${box.stroked.normal}`
       }}
       contentCustomStyle={{
         padding: '8px 20px',

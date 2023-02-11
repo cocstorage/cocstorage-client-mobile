@@ -26,6 +26,7 @@ const Input = styled.input`
   padding: 16px 20px;
   border: none;
   outline: 0;
+  border-radius: 0;
   border-bottom: 1px solid
     ${({
       theme: {

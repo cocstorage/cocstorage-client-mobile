@@ -60,7 +60,7 @@ function StorageBoardsPostHeader() {
         <Button
           variant="accent"
           size="pico"
-          startIcon={<Icon name="SendOutlined" width={15} height={15} />}
+          startIcon={<Icon name="SendFilled" width={15} height={15} />}
           onClick={handleClick}
           disabled={!draftId || !subject || !editorContents.length}
         >
