@@ -57,7 +57,11 @@ function ReplyDeleteBottomSheet({
           fullWidth
           onClick={onClickDelete}
           disabled={!password || isLoading}
-          customStyle={{ marginTop: 20, justifyContent: 'center' }}
+          customStyle={{
+            marginTop: 20,
+            justifyContent: 'center',
+            backgroundColor: secondary.red.main
+          }}
         >
           확인
         </Button>
