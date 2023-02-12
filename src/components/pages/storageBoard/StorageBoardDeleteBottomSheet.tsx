@@ -161,7 +161,7 @@ function StorageBoardDeleteBottomSheet() {
         }}
       >
         <Typography variant="h3" fontWeight="bold">
-          게시글 삭제를 계속하려면
+          게시글을 삭제하려면
           <br /> 비밀번호를 입력해 주세요.
         </Typography>
         <Typography variant="s1">삭제된 게시글은 복원이 되지 않아요.</Typography>
