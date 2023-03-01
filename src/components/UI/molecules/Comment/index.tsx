@@ -1,5 +1,3 @@
-import { memo } from 'react';
-
 import dayjs from 'dayjs';
 
 import { Avatar, Box, Button, Flexbox, Icon, Typography, useTheme } from 'cocstorage-ui';
@@ -126,4 +124,4 @@ function Comment({
   );
 }
 
-export default memo(Comment);
+export default Comment;
