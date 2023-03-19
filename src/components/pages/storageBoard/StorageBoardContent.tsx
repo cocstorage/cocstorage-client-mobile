@@ -168,7 +168,7 @@ function StorageBoardContent({ footerRef }: StorageBoardContentProps) {
           </Flexbox>
         </Info>
       </Box>
-      {sourceCode && (
+      {sourceCode && sourceCode !== 'fahumor' && (
         <Flexbox
           gap={8}
           customStyle={{ marginTop: 20, flexWrap: 'wrap', justifyContent: 'flex-end' }}
@@ -182,6 +182,9 @@ function StorageBoardContent({ footerRef }: StorageBoardContentProps) {
           </Tag>
           <Tag startIcon={<Icon name="EmailOutlined" />}>cocstoragehelps@gmail.com</Tag>
         </Flexbox>
+      )}
+      {sourceCode === 'fahumor' && (
+        <Tag startIcon={<Icon name="EmailOutlined" />}>cocstoragehelps@gmail.com</Tag>
       )}
       {sourceCode && (
         <Content
