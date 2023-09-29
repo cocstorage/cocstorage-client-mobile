@@ -60,23 +60,23 @@ function App({ Component, pageProps }: AppProps<{ dehydratedState: DehydratedSta
         <link rel="manifest" href="/manifest.json" />
         <meta name="msapplication-TileImage" content="/icons/ms-icon-144x144.png" />
       </Head>
-      <ErrorBoundary>
-        <GoogleScript />
-        <QueryClientProvider client={queryClient}>
-          <RecoilRoot>
-            <ThemeRoot>
-              <Hydrate state={pageProps.dehydratedState}>
+      <GoogleScript />
+      <QueryClientProvider client={queryClient}>
+        <RecoilRoot>
+          <ThemeRoot>
+            <Hydrate state={pageProps.dehydratedState}>
+              <ErrorBoundary>
                 <HistoryProvider>
                   <PageSkeleton />
                   <Component {...pageProps} />
                   <FeedbackDialog />
                 </HistoryProvider>
-              </Hydrate>
-            </ThemeRoot>
-          </RecoilRoot>
-          <ReactQueryDevtools initialIsOpen={false} />
-        </QueryClientProvider>
-      </ErrorBoundary>
+              </ErrorBoundary>
+            </Hydrate>
+          </ThemeRoot>
+        </RecoilRoot>
+        <ReactQueryDevtools initialIsOpen={false} />
+      </QueryClientProvider>
     </>
   );
 }
