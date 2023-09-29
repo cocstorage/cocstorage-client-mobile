@@ -33,11 +33,6 @@ function NoticeHeader() {
         <IconButton>
           <Icon name="CaretSemiLeftOutlined" />
         </IconButton>
-        <Flexbox gap={10} alignment="center">
-          <IconButton>
-            <Icon name="MoreMenuOutlined" />
-          </IconButton>
-        </Flexbox>
       </StyledNoticeHeader>
     </Box>
   );

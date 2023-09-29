@@ -36,13 +36,6 @@ function NoticeHeader() {
 
   const handleClick = () => router.back();
 
-  const handleClickMenu = () =>
-    setCommonFeedbackDialogState({
-      open: true,
-      title: '준비 중인 기능이에요!',
-      message: '조금만 기다려주세요!'
-    });
-
   return (
     <Box ref={headerRef} component="header" customStyle={{ height: 50 }}>
       <StyledNoticeHeader triggered={triggered}>
@@ -57,9 +50,6 @@ function NoticeHeader() {
         >
           {subject}
         </Typography>
-        <IconButton onClick={handleClickMenu}>
-          <Icon name="MoreMenuOutlined" />
-        </IconButton>
       </StyledNoticeHeader>
     </Box>
   );
