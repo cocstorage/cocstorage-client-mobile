@@ -48,7 +48,11 @@ function Message({
           )}
         </Flexbox>
       </Flexbox>
-      {!hideButton && <Button onClick={onClose}>{buttonText}</Button>}
+      {!hideButton && (
+        <Button size="big" onClick={onClose}>
+          {buttonText}
+        </Button>
+      )}
     </Flexbox>
   );
 }

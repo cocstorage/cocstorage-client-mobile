@@ -1,4 +1,4 @@
-import { MouseEvent, RefObject, useEffect, useRef } from 'react';
+import { MouseEvent, useEffect, useRef } from 'react';
 
 import { useRouter } from 'next/router';
 
@@ -23,11 +23,7 @@ import { commonFeedbackDialogState } from '@recoil/common/atoms';
 import { storageBoardHideHeaderSubjectState } from '@recoil/pages/storageBoard/atoms';
 import getErrorMessageByCode from '@utils/getErrorMessageByCode';
 
-interface StorageBoardContentProps {
-  footerRef: RefObject<HTMLDivElement>;
-}
-
-function StorageBoardContent({ footerRef }: StorageBoardContentProps) {
+function StorageBoardContent() {
   const router = useRouter();
   const { path, id } = router.query;
   const {
@@ -254,12 +250,7 @@ function StorageBoardContent({ footerRef }: StorageBoardContentProps) {
           {convertToReactElement(contentJson)}
         </Content>
       )}
-      <Flexbox
-        ref={footerRef}
-        component="section"
-        justifyContent="center"
-        customStyle={{ marginTop: 40 }}
-      >
+      <Flexbox component="section" justifyContent="center" customStyle={{ marginTop: 40 }}>
         <Flexbox>
           <Button
             startIcon={<Icon name="ThumbsUpFilled" width={15} height={15} color="primary" />}

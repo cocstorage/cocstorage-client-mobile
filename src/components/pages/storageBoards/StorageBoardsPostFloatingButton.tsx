@@ -99,6 +99,7 @@ function StorageBoardsPostFloatingButton() {
         <Button
           variant="accent"
           startIcon={<Icon name="WriteOutlined" width={18} height={18} />}
+          size="big"
           onClick={handleClick}
           customStyle={{
             boxShadow: '0px 10px 20px rgba(52, 133, 255, 0.2);'
@@ -124,6 +125,7 @@ function StorageBoardsPostFloatingButton() {
         >
           <Button
             variant="accent"
+            size="big"
             startIcon={<Icon name="WriteOutlined" width={18} height={18} />}
             onClick={handleClick}
           >

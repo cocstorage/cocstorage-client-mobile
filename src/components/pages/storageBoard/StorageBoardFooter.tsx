@@ -1,10 +1,9 @@
-import { ChangeEvent, MouseEvent, RefObject, useEffect, useRef, useState } from 'react';
+import { ChangeEvent, useEffect, useRef, useState } from 'react';
 
 import { useRouter } from 'next/router';
 
 import {
   Box,
-  Button,
   Flexbox,
   Grid,
   IconButton,
@@ -16,7 +15,6 @@ import {
 import Icon from '@cocstorage/ui-icons';
 import styled, { CSSObject } from '@emotion/styled';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import type { AxiosError } from 'axios';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 
 import {
@@ -24,11 +22,10 @@ import {
   fetchStorageBoardComments,
   postNonMemberStorageBoardComment
 } from '@api/v1/storage-board-comments';
-import { fetchStorageBoard, putNonMemberStorageBoardRecommend } from '@api/v1/storage-boards';
+import { fetchStorageBoard } from '@api/v1/storage-boards';
 import { fetchStorage } from '@api/v1/storages';
 import queryKeys from '@constants/queryKeys';
 import { StorageBoard } from '@dto/storage-boards';
-import useScrollTrigger from '@hooks/useScrollTrigger';
 import {
   commonFeedbackDialogState,
   commonOnBoardingDefault,
@@ -36,15 +33,9 @@ import {
 } from '@recoil/common/atoms';
 import { myNicknameState, myPasswordState } from '@recoil/pages/my/atoms';
 import { storageBoardCommentsParamsState } from '@recoil/pages/storageBoard/atoms';
-import getErrorMessageByCode from '@utils/getErrorMessageByCode';
 import validators from '@utils/validators';
 
-interface StorageBoardFooterProps {
-  footerRef: RefObject<HTMLDivElement>;
-}
-
-// TODO 추후 공용 컴포넌트화 필요
-function StorageBoardFooter({ footerRef }: StorageBoardFooterProps) {
+function StorageBoardFooter() {
   const router = useRouter();
   const { path, id } = router.query;
 
@@ -66,28 +57,10 @@ function StorageBoardFooter({ footerRef }: StorageBoardFooterProps) {
   const [nickname, setNickname] = useState(myNickname);
   const [password, setPassword] = useState(myPassword);
   const [content, setContent] = useState('');
-  const [observerTriggered, setObserverTriggered] = useState(false);
   const [open, setOpen] = useState(false);
-  const [isMounted, setIsMounted] = useState(false);
-  const [focused, setFocused] = useState(false);
 
-  const { triggered } = useScrollTrigger({ ref: footerRef });
-
-  const onIntersectRef = useRef(async ([entry], observer) => {
-    try {
-      if (entry.isIntersecting) {
-        observer.unobserve(entry.target);
-        setObserverTriggered(true);
-        observer.observe(entry.target);
-      } else {
-        setObserverTriggered(false);
-      }
-    } catch {
-      setObserverTriggered(true);
-    }
-  }).current;
+  const textBarRef = useRef<HTMLTextAreaElement>(null);
   const targetRef = useRef<HTMLDivElement>(null);
-  const mountedDelayTimerRef = useRef<ReturnType<typeof setTimeout>>();
 
   const queryClient = useQueryClient();
 
@@ -95,39 +68,16 @@ function StorageBoardFooter({ footerRef }: StorageBoardFooterProps) {
     queryKeys.storages.storageById(String(path)),
     () => fetchStorage(String(path))
   );
-  const { data: { storage, thumbUp, thumbDown, commentTotalCount, commentLatestPage } = {} } =
-    useQuery(queryKeys.storageBoards.storageBoardById(Number(id)), () =>
-      fetchStorageBoard(Number(storageId), Number(id))
-    );
+  const { data: { storage, commentLatestPage } = {} } = useQuery(
+    queryKeys.storageBoards.storageBoardById(Number(id)),
+    () => fetchStorageBoard(Number(storageId), Number(id))
+  );
   const { data: { comments = [], pagination: { perPage = 10 } = {} } = {} } = useQuery(
     queryKeys.storageBoardComments.storageBoardCommentsByIdWithPage(Number(id), params.page),
     () => fetchStorageBoardComments(storageId, Number(id), params),
     {
       enabled: !!params.page,
       keepPreviousData: true
-    }
-  );
-
-  const { mutate, isLoading } = useMutation(
-    (data: { storageId: number; storageBoardId: number; type: 0 | 1 }) =>
-      putNonMemberStorageBoardRecommend(data.storageId, data.storageBoardId, data.type),
-    {
-      onSuccess: (data) => {
-        if (id && data) {
-          queryClient.setQueryData(queryKeys.storageBoards.storageBoardById(Number(id)), data);
-        }
-      },
-      onError: (error: AxiosError) => {
-        if (error && error.response) {
-          const { data: { code = '' } = {} } = error.response as { data: { code: string } };
-
-          setCommonFeedbackDialogState({
-            open: true,
-            title: getErrorMessageByCode(code),
-            message: '다른 글도 한번 살펴보시는 건 어때요?'
-          });
-        }
-      }
     }
   );
 
@@ -189,20 +139,6 @@ function StorageBoardFooter({ footerRef }: StorageBoardFooterProps) {
     if (myPassword) setMyPasswordState(password);
   };
 
-  const handleClick = () => footerRef.current.scrollIntoView({ behavior: 'smooth' });
-
-  const handleClickRecommend = (event: MouseEvent<HTMLButtonElement>) => {
-    const dataType = Number(event.currentTarget.getAttribute('data-type') || 0);
-
-    if (Number(id) && (dataType === 0 || dataType === 1)) {
-      mutate({
-        storageId,
-        storageBoardId: Number(id),
-        type: dataType
-      });
-    }
-  };
-
   const handleClickSend = () => {
     if (!validators.nickname(nickname)) {
       setCommonFeedbackDialogState({
@@ -236,7 +172,7 @@ function StorageBoardFooter({ footerRef }: StorageBoardFooterProps) {
     }));
 
   const handleCloseOnBoardingWithWrapCommentsArea = () => {
-    footerRef.current.scrollIntoView({ behavior: 'smooth' });
+    textBarRef.current?.focus();
     setCommonOnBoardingState((prevState) => ({
       ...prevState,
       comment: {
@@ -247,20 +183,6 @@ function StorageBoardFooter({ footerRef }: StorageBoardFooterProps) {
     }));
   };
 
-  const handleFocus = () => setFocused(true);
-  const handleBlur = () => setFocused(false);
-
-  useEffect(() => {
-    let observer;
-    try {
-      observer = new IntersectionObserver(onIntersectRef, { threshold: 0.5 });
-      observer.observe(footerRef.current);
-      return () => observer.disconnect();
-    } catch {
-      return null;
-    }
-  }, [onIntersectRef, footerRef]);
-
   useEffect(() => {
     if (content.split('\n').length >= 2) {
       setRows(2);
@@ -270,16 +192,6 @@ function StorageBoardFooter({ footerRef }: StorageBoardFooterProps) {
   }, [content]);
 
   useEffect(() => {
-    mountedDelayTimerRef.current = setTimeout(() => setIsMounted(true), 200);
-
-    return () => {
-      if (mountedDelayTimerRef.current) {
-        clearTimeout(mountedDelayTimerRef.current);
-      }
-    };
-  }, []);
-
-  useEffect(() => {
     if ((!step && !lastStep) || step < lastStep) {
       setOpen(true);
     } else {
@@ -287,166 +199,115 @@ function StorageBoardFooter({ footerRef }: StorageBoardFooterProps) {
     }
   }, [step, lastStep]);
 
-  if (isMounted && (observerTriggered || triggered || focused)) {
-    return (
-      <>
-        <Box component="footer" customStyle={{ minHeight: 65 }}>
-          <StyledStorageBoardFooter
-            ref={targetRef}
-            css={{ minHeight: 65, justifyContent: 'center' }}
-          >
-            <Flexbox direction="vertical" gap={10} customStyle={{ width: '100%' }}>
-              {content && (
-                <Grid container columnGap={16}>
-                  <Grid item xs={2}>
-                    <TextBar
-                      fullWidth
-                      onChange={handleChangeTextBar}
-                      onBlur={handleBlurNicknameTextBar}
-                      value={nickname}
-                      placeholder="닉네임"
-                      disabled={isLoadingPostComment}
-                      customStyle={{ borderColor: box.stroked.normal }}
-                    />
-                  </Grid>
-                  <Grid item xs={2}>
-                    <TextBar
-                      fullWidth
-                      type="password"
-                      onChange={handleChangeTextBar}
-                      onBlur={handleBlurPasswordTextBar}
-                      value={password}
-                      placeholder="비밀번호"
-                      disabled={isLoadingPostComment}
-                      customStyle={{ borderColor: box.stroked.normal }}
-                    />
-                  </Grid>
-                </Grid>
-              )}
-              <CommentBar>
-                <CommentTextArea
-                  placeholder="내용을 입력해 주세요."
-                  rows={rows}
-                  onChange={handleChange}
-                  onFocus={handleFocus}
-                  onBlur={handleBlur}
-                  value={content}
-                  disabled={isLoadingPostComment}
-                />
-                <IconButton
-                  onClick={handleClickSend}
-                  disabled={isLoadingPostComment}
-                  customStyle={{ marginRight: 10 }}
-                >
-                  <Icon
-                    name={
-                      !isLoadingPostComment && nickname && password && content
-                        ? 'SendFilled'
-                        : 'SendOutlined'
-                    }
-                    color={
-                      !isLoadingPostComment && nickname && password && content
-                        ? 'primary'
-                        : text[mode].text3
-                    }
-                  />
-                </IconButton>
-              </CommentBar>
-            </Flexbox>
-          </StyledStorageBoardFooter>
-        </Box>
-        <Spotlight open={open} onClose={handleCloseOnBoarding} targetRef={targetRef}>
-          <Tooltip
-            open={open}
-            onClose={handleCloseOnBoarding}
-            content="로그인하지 않아도 댓글을 남길 수 있어요!"
-            placement="top"
-            disableOnClose
-          >
-            <Box
-              onClick={handleCloseOnBoardingWithWrapCommentsArea}
-              customStyle={{ width: (targetRef.current || {}).clientWidth, height: 65 }}
-            >
-              <StyledStorageBoardFooter css={{ minHeight: 65, justifyContent: 'center' }}>
-                <Flexbox direction="vertical" gap={10} customStyle={{ width: '100%' }}>
-                  <CommentBar>
-                    <CommentTextArea
-                      placeholder="내용을 입력해 주세요."
-                      rows={rows}
-                      onChange={handleChange}
-                      value={content}
-                      disabled
-                    />
-                    <IconButton
-                      onClick={handleClickSend}
-                      disabled={isLoadingPostComment}
-                      customStyle={{ marginRight: 10 }}
-                    >
-                      <Icon
-                        name={
-                          !isLoadingPostComment && nickname && password && content
-                            ? 'SendFilled'
-                            : 'SendOutlined'
-                        }
-                        color={
-                          !isLoadingPostComment && nickname && password && content
-                            ? 'primary'
-                            : text[mode].text3
-                        }
-                      />
-                    </IconButton>
-                  </CommentBar>
-                </Flexbox>
-              </StyledStorageBoardFooter>
-            </Box>
-          </Tooltip>
-        </Spotlight>
-      </>
-    );
-  }
-
   return (
-    <Box component="footer" customStyle={{ height: 44 }}>
-      <StyledStorageBoardFooter ref={targetRef}>
-        <Button
-          variant="transparent"
-          startIcon={
-            <Icon name="ThumbsUpOutlined" width={18} height={18} color={text[mode].text1} />
-          }
-          size="pico"
-          data-type={0}
-          onClick={handleClickRecommend}
-          disabled={isLoading}
-          customStyle={{ color: text[mode].text1 }}
+    <>
+      <Box component="footer" customStyle={{ minHeight: 65 }}>
+        <StyledStorageBoardFooter ref={targetRef} css={{ minHeight: 65, justifyContent: 'center' }}>
+          <Flexbox direction="vertical" gap={10} customStyle={{ width: '100%' }}>
+            {content && (
+              <Grid container columnGap={16}>
+                <Grid item xs={2}>
+                  <TextBar
+                    fullWidth
+                    onChange={handleChangeTextBar}
+                    onBlur={handleBlurNicknameTextBar}
+                    value={nickname}
+                    placeholder="닉네임"
+                    disabled={isLoadingPostComment}
+                    customStyle={{ borderColor: box.stroked.normal }}
+                  />
+                </Grid>
+                <Grid item xs={2}>
+                  <TextBar
+                    fullWidth
+                    type="password"
+                    onChange={handleChangeTextBar}
+                    onBlur={handleBlurPasswordTextBar}
+                    value={password}
+                    placeholder="비밀번호"
+                    disabled={isLoadingPostComment}
+                    customStyle={{ borderColor: box.stroked.normal }}
+                  />
+                </Grid>
+              </Grid>
+            )}
+            <CommentBar>
+              <CommentTextArea
+                ref={textBarRef}
+                placeholder="내용을 입력해 주세요."
+                rows={rows}
+                onChange={handleChange}
+                value={content}
+                disabled={isLoadingPostComment}
+              />
+              <IconButton
+                onClick={handleClickSend}
+                disabled={isLoadingPostComment}
+                customStyle={{ marginRight: 10 }}
+              >
+                <Icon
+                  name={
+                    !isLoadingPostComment && nickname && password && content
+                      ? 'SendFilled'
+                      : 'SendOutlined'
+                  }
+                  color={
+                    !isLoadingPostComment && nickname && password && content
+                      ? 'primary'
+                      : text[mode].text3
+                  }
+                />
+              </IconButton>
+            </CommentBar>
+          </Flexbox>
+        </StyledStorageBoardFooter>
+      </Box>
+      <Spotlight open={open} onClose={handleCloseOnBoarding} targetRef={targetRef}>
+        <Tooltip
+          open={open}
+          onClose={handleCloseOnBoarding}
+          content="로그인하지 않아도 댓글을 남길 수 있어요!"
+          placement="top"
+          disableOnClose
         >
-          {thumbUp.toLocaleString()}
-        </Button>
-        <Button
-          variant="transparent"
-          startIcon={
-            <Icon name="ThumbsDownOutlined" width={18} height={18} color={text[mode].text1} />
-          }
-          size="pico"
-          data-type={1}
-          onClick={handleClickRecommend}
-          disabled={isLoading}
-          customStyle={{ color: text[mode].text1 }}
-        >
-          {thumbDown.toLocaleString()}
-        </Button>
-        <Button
-          variant="transparent"
-          startIcon={
-            <Icon name="CommentOutlined" width={18} height={18} color={text[mode].text1} />
-          }
-          size="pico"
-          onClick={handleClick}
-          customStyle={{ color: text[mode].text1 }}
-        >
-          {commentTotalCount.toLocaleString()}
-        </Button>
-      </StyledStorageBoardFooter>
-    </Box>
+          <Box
+            onClick={handleCloseOnBoardingWithWrapCommentsArea}
+            customStyle={{ width: (targetRef.current || {}).clientWidth, height: 65 }}
+          >
+            <StyledStorageBoardFooter css={{ minHeight: 65, justifyContent: 'center' }}>
+              <Flexbox direction="vertical" gap={10} customStyle={{ width: '100%' }}>
+                <CommentBar>
+                  <CommentTextArea
+                    placeholder="내용을 입력해 주세요."
+                    rows={rows}
+                    onChange={handleChange}
+                    value={content}
+                  />
+                  <IconButton
+                    onClick={handleClickSend}
+                    disabled={isLoadingPostComment}
+                    customStyle={{ marginRight: 10 }}
+                  >
+                    <Icon
+                      name={
+                        !isLoadingPostComment && nickname && password && content
+                          ? 'SendFilled'
+                          : 'SendOutlined'
+                      }
+                      color={
+                        !isLoadingPostComment && nickname && password && content
+                          ? 'primary'
+                          : text[mode].text3
+                      }
+                    />
+                  </IconButton>
+                </CommentBar>
+              </Flexbox>
+            </StyledStorageBoardFooter>
+          </Box>
+        </Tooltip>
+      </Spotlight>
+    </>
   );
 }
 

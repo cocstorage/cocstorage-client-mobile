@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect } from 'react';
 
 import { GetServerSidePropsContext } from 'next';
 
@@ -25,8 +25,6 @@ import GoogleAdSense from '@components/UI/molecules/GoogleAdSense';
 import queryKeys from '@constants/queryKeys';
 
 function StorageBoard() {
-  const footerRef = useRef<HTMLDivElement>(null);
-
   useEffect(() => {
     return () => {
       document.getElementById('__next').removeAttribute('style');
@@ -36,11 +34,8 @@ function StorageBoard() {
   return (
     <>
       <StorageBoardHead />
-      <GeneralTemplate
-        header={<StorageBoardHeader />}
-        footer={<StorageBoardFooter footerRef={footerRef} />}
-      >
-        <StorageBoardContent footerRef={footerRef} />
+      <GeneralTemplate header={<StorageBoardHeader />} footer={<StorageBoardFooter />}>
+        <StorageBoardContent />
         <GoogleAdSense
           html={
             '<ins class="adsbygoogle"\n' +

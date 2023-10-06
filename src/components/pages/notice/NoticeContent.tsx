@@ -1,4 +1,4 @@
-import { RefObject, useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 
 import { useRouter } from 'next/router';
 
@@ -14,11 +14,7 @@ import queryKeys from '@constants/queryKeys';
 import useScrollTrigger from '@hooks/useScrollTrigger';
 import { noticeHideHeaderSubjectState } from '@recoil/pages/notice/atoms';
 
-interface NoticeContentProps {
-  footerRef: RefObject<HTMLDivElement>;
-}
-
-function NoticeContent({ footerRef }: NoticeContentProps) {
+function NoticeContent() {
   const router = useRouter();
   const { id } = router.query;
 
@@ -88,7 +84,7 @@ function NoticeContent({ footerRef }: NoticeContentProps) {
         lineHeight="main"
         dangerouslySetInnerHTML={{ __html: content }}
       />
-      <Flexbox ref={footerRef} component="section" customStyle={{ marginTop: 40 }} />
+      <Flexbox component="section" customStyle={{ marginTop: 40 }} />
     </>
   );
 }

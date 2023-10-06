@@ -1,5 +1,3 @@
-import { useRef } from 'react';
-
 import { GetServerSidePropsContext } from 'next';
 
 import { QueryClient, dehydrate } from '@tanstack/react-query';
@@ -21,13 +19,11 @@ import GeneralTemplate from '@components/templeates/GeneralTemplate';
 import queryKeys from '@constants/queryKeys';
 
 function Notice() {
-  const footerRef = useRef<HTMLDivElement>(null);
-
   return (
     <>
       <NoticeHead />
-      <GeneralTemplate header={<NoticeHeader />} footer={<NoticeFooter footerRef={footerRef} />}>
-        <NoticeContent footerRef={footerRef} />
+      <GeneralTemplate header={<NoticeHeader />} footer={<NoticeFooter />}>
+        <NoticeContent />
         <NoticeCommentList />
       </GeneralTemplate>
       <NoticeReplyListBottomSheet />

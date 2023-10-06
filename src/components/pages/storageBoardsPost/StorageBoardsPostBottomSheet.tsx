@@ -161,7 +161,7 @@ function StorageBoardsPostBottomSheet() {
 
   return (
     <BottomSheet
-      open={!open}
+      open={open}
       onClose={handleClose}
       customStyle={{
         padding: '0 20px 20px'

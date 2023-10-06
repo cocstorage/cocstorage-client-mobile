@@ -1,8 +1,8 @@
-import { ChangeEvent, RefObject, useEffect, useRef, useState } from 'react';
+import { ChangeEvent, useEffect, useRef, useState } from 'react';
 
 import { useRouter } from 'next/router';
 
-import { Box, Button, Flexbox, Grid, IconButton, TextBar, useTheme } from '@cocstorage/ui';
+import { Box, Flexbox, Grid, IconButton, TextBar, useTheme } from '@cocstorage/ui';
 import Icon from '@cocstorage/ui-icons';
 import styled, { CSSObject } from '@emotion/styled';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
@@ -16,17 +16,12 @@ import {
 import { fetchNotice } from '@api/v1/notices';
 import queryKeys from '@constants/queryKeys';
 import { Notice } from '@dto/notices';
-import useScrollTrigger from '@hooks/useScrollTrigger';
 import { commonFeedbackDialogState } from '@recoil/common/atoms';
 import { myNicknameState, myPasswordState } from '@recoil/pages/my/atoms';
 import { noticeCommentsParamsState } from '@recoil/pages/notice/atoms';
 import validators from '@utils/validators';
 
-interface NoticeFooterProps {
-  footerRef: RefObject<HTMLDivElement>;
-}
-
-function NoticeFooter({ footerRef }: NoticeFooterProps) {
+function NoticeFooter() {
   const router = useRouter();
   const { id } = router.query;
 
@@ -46,31 +41,12 @@ function NoticeFooter({ footerRef }: NoticeFooterProps) {
   const [nickname, setNickname] = useState(myNickname);
   const [password, setPassword] = useState(myPassword);
   const [content, setContent] = useState('');
-  const [observerTriggered, setObserverTriggered] = useState(false);
-  const [isMounted, setIsMounted] = useState(false);
-  const [focused, setFocused] = useState(false);
 
-  const { triggered } = useScrollTrigger({ ref: footerRef });
-
-  const onIntersectRef = useRef(async ([entry], observer) => {
-    try {
-      if (entry.isIntersecting) {
-        observer.unobserve(entry.target);
-        setObserverTriggered(true);
-        observer.observe(entry.target);
-      } else {
-        setObserverTriggered(false);
-      }
-    } catch {
-      setObserverTriggered(true);
-    }
-  }).current;
   const targetRef = useRef<HTMLDivElement>(null);
-  const mountedDelayTimerRef = useRef<ReturnType<typeof setTimeout>>();
 
   const queryClient = useQueryClient();
 
-  const { data: { commentLatestPage = 0, commentTotalCount } = {} } = useQuery(
+  const { data: { commentLatestPage = 0 } = {} } = useQuery(
     queryKeys.notices.noticeById(Number(id)),
     () => fetchNotice(Number(id))
   );
@@ -138,8 +114,6 @@ function NoticeFooter({ footerRef }: NoticeFooterProps) {
     if (myPassword) setMyPasswordState(password);
   };
 
-  const handleClick = () => footerRef.current.scrollIntoView({ behavior: 'smooth' });
-
   const handleClickSend = () => {
     if (!validators.nickname(nickname)) {
       setCommonFeedbackDialogState({
@@ -161,20 +135,6 @@ function NoticeFooter({ footerRef }: NoticeFooterProps) {
     mutate({ nickname, password, content });
   };
 
-  const handleFocus = () => setFocused(true);
-  const handleBlur = () => setFocused(false);
-
-  useEffect(() => {
-    let observer;
-    try {
-      observer = new IntersectionObserver(onIntersectRef, { threshold: 0.5 });
-      observer.observe(footerRef.current);
-      return () => observer.disconnect();
-    } catch {
-      return null;
-    }
-  }, [onIntersectRef, footerRef]);
-
   useEffect(() => {
     if (content.split('\n').length >= 2) {
       setRows(2);
@@ -183,89 +143,53 @@ function NoticeFooter({ footerRef }: NoticeFooterProps) {
     }
   }, [content]);
 
-  useEffect(() => {
-    mountedDelayTimerRef.current = setTimeout(() => setIsMounted(true), 200);
-
-    return () => {
-      if (mountedDelayTimerRef.current) {
-        clearTimeout(mountedDelayTimerRef.current);
-      }
-    };
-  }, []);
-
-  if (isMounted && (observerTriggered || triggered || focused)) {
-    return (
-      <Box component="footer" customStyle={{ minHeight: 65 }}>
-        <StyledNoticeFooter ref={targetRef} css={{ minHeight: 65, justifyContent: 'center' }}>
-          <Flexbox direction="vertical" gap={10} customStyle={{ width: '100%' }}>
-            {content && (
-              <Grid container columnGap={16}>
-                <Grid item xs={2}>
-                  <TextBar
-                    fullWidth
-                    onChange={handleChangeTextBar}
-                    onBlur={handleBlurNicknameTextBar}
-                    value={nickname}
-                    placeholder="닉네임"
-                    disabled={isLoading}
-                    customStyle={{ borderColor: box.stroked.normal }}
-                  />
-                </Grid>
-                <Grid item xs={2}>
-                  <TextBar
-                    fullWidth
-                    type="password"
-                    onChange={handleChangeTextBar}
-                    onBlur={handleBlurPasswordTextBar}
-                    value={password}
-                    placeholder="비밀번호"
-                    disabled={isLoading}
-                    customStyle={{ borderColor: box.stroked.normal }}
-                  />
-                </Grid>
-              </Grid>
-            )}
-            <CommentBar>
-              <CommentTextArea
-                placeholder="내용을 입력해 주세요."
-                rows={rows}
-                onChange={handleChange}
-                onFocus={handleFocus}
-                onBlur={handleBlur}
-                value={content}
-                disabled={isLoading}
-              />
-              <IconButton onClick={handleClickSend} customStyle={{ marginRight: 10 }}>
-                <Icon
-                  name={
-                    !isLoading && nickname && password && content ? 'SendFilled' : 'SendOutlined'
-                  }
-                  color={
-                    !isLoading && nickname && password && content ? 'primary' : text[mode].text3
-                  }
-                />
-              </IconButton>
-            </CommentBar>
-          </Flexbox>
-        </StyledNoticeFooter>
-      </Box>
-    );
-  }
-
   return (
-    <Box component="footer" customStyle={{ height: 44 }}>
-      <StyledNoticeFooter>
-        <Button
-          variant="transparent"
-          startIcon={
-            <Icon name="CommentOutlined" width={18} height={18} color={text[mode].text1} />
-          }
-          size="pico"
-          onClick={handleClick}
-          customStyle={{ color: text[mode].text1 }}
-        >
-          {commentTotalCount.toLocaleString()}
-        </Button>
+    <Box component="footer" customStyle={{ minHeight: 65 }}>
+      <StyledNoticeFooter ref={targetRef} css={{ minHeight: 65, justifyContent: 'center' }}>
+        <Flexbox direction="vertical" gap={10} customStyle={{ width: '100%' }}>
+          {content && (
+            <Grid container columnGap={16}>
+              <Grid item xs={2}>
+                <TextBar
+                  fullWidth
+                  onChange={handleChangeTextBar}
+                  onBlur={handleBlurNicknameTextBar}
+                  value={nickname}
+                  placeholder="닉네임"
+                  disabled={isLoading}
+                  customStyle={{ borderColor: box.stroked.normal }}
+                />
+              </Grid>
+              <Grid item xs={2}>
+                <TextBar
+                  fullWidth
+                  type="password"
+                  onChange={handleChangeTextBar}
+                  onBlur={handleBlurPasswordTextBar}
+                  value={password}
+                  placeholder="비밀번호"
+                  disabled={isLoading}
+                  customStyle={{ borderColor: box.stroked.normal }}
+                />
+              </Grid>
+            </Grid>
+          )}
+          <CommentBar>
+            <CommentTextArea
+              placeholder="내용을 입력해 주세요."
+              rows={rows}
+              onChange={handleChange}
+              value={content}
+              disabled={isLoading}
+            />
+            <IconButton onClick={handleClickSend} customStyle={{ marginRight: 10 }}>
+              <Icon
+                name={!isLoading && nickname && password && content ? 'SendFilled' : 'SendOutlined'}
+                color={!isLoading && nickname && password && content ? 'primary' : text[mode].text3}
+              />
+            </IconButton>
+          </CommentBar>
+        </Flexbox>
       </StyledNoticeFooter>
     </Box>
   );
