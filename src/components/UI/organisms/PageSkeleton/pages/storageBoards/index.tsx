@@ -1,51 +1,24 @@
-import { Box, Flexbox, IconButton, Skeleton, Tab, Tabs } from '@cocstorage/ui';
+import { Flexbox, IconButton, Skeleton, Tab, Tabs } from '@cocstorage/ui';
 import Icon from '@cocstorage/ui-icons';
 
-import { StyledStorageBoardsHeader } from '@components/pages/storageBoards/StorageBoardsHeader';
 import GeneralTemplate from '@components/templeates/GeneralTemplate';
 import BottomNavigation from '@components/UI/molecules/BottomNavigation';
-
-import { StorageBoardCards } from '../../components';
+import StorageBoardCardSkeleton from '@components/UI/molecules/StorageBoardCard/StorageBoardCardSkeleton';
 
 function StorageBoard() {
   return (
     <GeneralTemplate
       header={
-        <Box style={{ position: 'relative', zIndex: 10 }}>
-          <StorageBoardsHeader />
-        </Box>
-      }
-      footer={
-        <Box style={{ position: 'relative', zIndex: 10 }}>
-          <BottomNavigation disableOnBoarding />
-        </Box>
-      }
-      disableFlexible={false}
-    >
-      <StorageBoardTabs />
-      <Skeleton
-        width="100%"
-        height={56}
-        round={12}
-        disableAspectRatio
-        customStyle={{
-          marginTop: 12
-        }}
-      />
-      <StorageBoardCards />
-    </GeneralTemplate>
-  );
-}
-
-function StorageBoardsHeader() {
-  return (
-    <Box component="header" customStyle={{ height: 50 }}>
-      <StyledStorageBoardsHeader triggered={false}>
-        <Flexbox alignment="center" customStyle={{ flex: 1, minWidth: 0 }}>
+        <Flexbox
+          component="header"
+          alignment="center"
+          justifyContent="space-between"
+          customStyle={{ height: 50, padding: '0 20px', borderBottom: '1px solid transparent' }}
+        >
           <IconButton>
             <Icon name="CaretSemiLeftOutlined" />
           </IconButton>
-          <Flexbox alignment="center" gap={10} customStyle={{ flex: 1 }}>
+          <Flexbox alignment="center" gap={10} customStyle={{ flexGrow: 1 }}>
             <Skeleton
               disableAspectRatio
               width={24}
@@ -53,7 +26,7 @@ function StorageBoardsHeader() {
               round={6}
               customStyle={{ marginLeft: 10 }}
             />
-            <Skeleton disableAspectRatio width={60} height={20} round={6} />
+            <Skeleton width={60} height={20} round={6} disableAspectRatio />
           </Flexbox>
           <Flexbox gap={10} alignment="center">
             <IconButton>
@@ -64,31 +37,51 @@ function StorageBoardsHeader() {
             </IconButton>
           </Flexbox>
         </Flexbox>
-      </StyledStorageBoardsHeader>
-    </Box>
-  );
-}
-
-function StorageBoardTabs() {
-  return (
-    <Tabs
-      onChange={() => {
-        //
-      }}
-      value="latest"
-      fullWidth
-      customStyle={{
-        width: 'calc(100% + 40px)',
-        margin: '0 -20px',
-        '& > div': {
-          justifyContent: 'center'
-        }
-      }}
+      }
+      footer={<BottomNavigation disableOnBoarding />}
+      disableFlexible={false}
     >
-      <Tab text="최신" value="latest" />
-      <Tab text="베스트" value="popular" />
-      <Tab text="워스트" value="worst" />
-    </Tabs>
+      <Tabs
+        onChange={() => {
+          //
+        }}
+        value="latest"
+        fullWidth
+        customStyle={{
+          width: 'calc(100% + 40px)',
+          margin: '0 -20px',
+          '& > div': {
+            justifyContent: 'center'
+          }
+        }}
+      >
+        <Tab text="최신" value="latest" />
+        <Tab text="베스트" value="popular" />
+        <Tab text="워스트" value="worst" />
+      </Tabs>
+      <Skeleton
+        width="100%"
+        height={56}
+        round={12}
+        disableAspectRatio
+        customStyle={{
+          marginTop: 12
+        }}
+      />
+      <Flexbox
+        component="section"
+        direction="vertical"
+        gap={18}
+        customStyle={{
+          margin: '20px 0'
+        }}
+      >
+        {Array.from({ length: 20 }).map((_, index) => (
+          // eslint-disable-next-line react/no-array-index-key
+          <StorageBoardCardSkeleton key={`storage-board-skeleton-${index}`} />
+        ))}
+      </Flexbox>
+    </GeneralTemplate>
   );
 }
 

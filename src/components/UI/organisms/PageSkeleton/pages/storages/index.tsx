@@ -1,7 +1,15 @@
-import { Alert, Box, Flexbox, Grid, Skeleton, useTheme } from '@cocstorage/ui';
+import {
+  Alert,
+  Box,
+  Flexbox,
+  Grid,
+  IconButton,
+  Skeleton,
+  Typography,
+  useTheme
+} from '@cocstorage/ui';
 import Icon from '@cocstorage/ui-icons';
 
-import StoragesHeader from '@components/pages/storages/StoragesHeader';
 import GeneralTemplate from '@components/templeates/GeneralTemplate';
 import BottomNavigation from '@components/UI/molecules/BottomNavigation';
 
@@ -11,18 +19,34 @@ function StorageBoard() {
       palette: { background }
     }
   } = useTheme();
+
   return (
     <GeneralTemplate
       header={
-        <Box style={{ position: 'relative', zIndex: 10 }}>
-          <StoragesHeader />
-        </Box>
+        <Flexbox
+          component="header"
+          alignment="center"
+          justifyContent="space-between"
+          gap={10}
+          customStyle={{ height: 50, padding: '0 20px' }}
+        >
+          <Typography
+            component="h1"
+            variant="h3"
+            fontWeight="bold"
+            noWrap
+            customStyle={{
+              flexGrow: 1
+            }}
+          >
+            게시판
+          </Typography>
+          <IconButton>
+            <Icon name="SearchOutlined" />
+          </IconButton>
+        </Flexbox>
       }
-      footer={
-        <Box style={{ position: 'relative', zIndex: 10 }}>
-          <BottomNavigation disableOnBoarding />
-        </Box>
-      }
+      footer={<BottomNavigation disableOnBoarding />}
       disableFlexible={false}
     >
       <Alert icon={<Icon name="BulbOutlined" />} customStyle={{ marginTop: 14 }}>

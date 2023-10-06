@@ -1,16 +1,36 @@
-import { Box, Flexbox } from '@cocstorage/ui';
+import { Flexbox, IconButton, Typography, useTheme } from '@cocstorage/ui';
+import Icon from '@cocstorage/ui-icons';
 
-import { NoticesHeader } from '@components/pages/notices';
 import GeneralTemplate from '@components/templeates/GeneralTemplate';
 import NoticeCardSkeleton from '@components/UI/molecules/NoticeCard/NoticeCardSkeleton';
 
 function Notices() {
+  const {
+    theme: {
+      palette: { box }
+    }
+  } = useTheme();
+
   return (
     <GeneralTemplate
       header={
-        <Box style={{ position: 'relative', zIndex: 10 }}>
-          <NoticesHeader />
-        </Box>
+        <Flexbox
+          component="header"
+          alignment="center"
+          gap={10}
+          customStyle={{
+            height: 50,
+            padding: '0 20px',
+            borderBottom: `1px solid ${box.stroked.normal}`
+          }}
+        >
+          <IconButton>
+            <Icon name="CaretSemiLeftOutlined" />
+          </IconButton>
+          <Typography component="h1" variant="h4" fontWeight="bold">
+            새로운 소식
+          </Typography>
+        </Flexbox>
       }
       disableFlexible={false}
     >

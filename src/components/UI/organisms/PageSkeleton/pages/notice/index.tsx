@@ -1,55 +1,82 @@
-import { Box, Flexbox, IconButton, Skeleton } from '@cocstorage/ui';
+import { Box, Flexbox, IconButton, Skeleton, Typography } from '@cocstorage/ui';
 import Icon from '@cocstorage/ui-icons';
 
-import { StyledNoticeFooter } from '@components/pages/notice/NoticeFooter';
-import { StyledNoticeHeader } from '@components/pages/notice/NoticeHeader';
 import GeneralTemplate from '@components/templeates/GeneralTemplate';
-
-import { StorageBoardContent } from '../../components';
 
 function Notice() {
   return (
     <GeneralTemplate
       header={
-        <Box style={{ position: 'relative', zIndex: 10 }}>
-          <NoticeHeader />
-        </Box>
+        <Flexbox
+          component="header"
+          alignment="center"
+          justifyContent="space-between"
+          gap={10}
+          customStyle={{
+            height: 50,
+            padding: '0 20px',
+            borderBottom: '1px solid transparent',
+            pointerEvents: 'none'
+          }}
+        >
+          <IconButton>
+            <Icon name="CaretSemiLeftOutlined" />
+          </IconButton>
+        </Flexbox>
       }
-      footer={
-        <Box style={{ position: 'relative', zIndex: 10 }}>
-          <NoticeFooter />
-        </Box>
-      }
+      footer={<Skeleton width="100%" height={66} disableAspectRatio />}
       disableFlexible={false}
     >
-      <StorageBoardContent />
+      <Box customStyle={{ marginTop: 10 }}>
+        <Skeleton width="60%" height={22} round={6} disableAspectRatio />
+        <Box customStyle={{ display: 'flex', alignItems: 'center', marginTop: 10 }}>
+          <Skeleton width={24} height={24} round="50%" disableAspectRatio />
+          <Skeleton
+            width="30%"
+            height={16}
+            round={6}
+            customStyle={{ marginLeft: 4 }}
+            disableAspectRatio
+          />
+        </Box>
+        <Typography
+          lineHeight="main"
+          customStyle={{
+            marginTop: 40,
+            overflow: 'hidden'
+          }}
+        >
+          <Skeleton
+            width="100%"
+            height="24vh"
+            round={6}
+            customStyle={{ marginBottom: 20 }}
+            disableAspectRatio
+          />
+          <Skeleton
+            width="80%"
+            height={16}
+            round={6}
+            customStyle={{ marginBottom: 10 }}
+            disableAspectRatio
+          />
+          <Skeleton
+            width="40%"
+            height={16}
+            round={6}
+            customStyle={{ marginBottom: 10 }}
+            disableAspectRatio
+          />
+          <Skeleton
+            width="60%"
+            height={16}
+            round={6}
+            customStyle={{ marginBottom: 10 }}
+            disableAspectRatio
+          />
+        </Typography>
+      </Box>
     </GeneralTemplate>
-  );
-}
-
-function NoticeHeader() {
-  return (
-    <Box component="header" customStyle={{ height: 50, pointerEvents: 'none' }}>
-      <StyledNoticeHeader triggered={false}>
-        <IconButton>
-          <Icon name="CaretSemiLeftOutlined" />
-        </IconButton>
-      </StyledNoticeHeader>
-    </Box>
-  );
-}
-
-function NoticeFooter() {
-  return (
-    <Box component="footer" customStyle={{ height: 44 }}>
-      <StyledNoticeFooter>
-        <Flexbox gap={10}>
-          <Skeleton width={40} height={22} round={6} disableAspectRatio />
-          <Skeleton width={40} height={22} round={6} disableAspectRatio />
-          <Skeleton width={40} height={22} round={6} disableAspectRatio />
-        </Flexbox>
-      </StyledNoticeFooter>
-    </Box>
   );
 }
 
