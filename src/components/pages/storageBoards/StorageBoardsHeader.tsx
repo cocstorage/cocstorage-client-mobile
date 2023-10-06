@@ -133,6 +133,11 @@ function StorageBoardsHeader() {
             src={avatarUrl}
             round={6}
             alt="Storage Logo Img"
+            fallback={{
+              name: 'ImageOutlined',
+              width: 20,
+              height: 20
+            }}
             customStyle={{ marginLeft: 10 }}
           />
           <Typography
