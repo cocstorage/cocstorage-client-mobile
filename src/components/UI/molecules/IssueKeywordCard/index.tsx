@@ -26,7 +26,8 @@ function IssueKeywordCard({
           justifyContent: 'center',
           width: 24,
           height: 24,
-          lineHeight: '24px'
+          lineHeight: '24px',
+          borderRadius: 4
         }}
       >
         {number}

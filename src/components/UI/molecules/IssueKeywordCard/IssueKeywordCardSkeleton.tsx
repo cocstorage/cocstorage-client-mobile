@@ -3,7 +3,7 @@ import { Box, Flexbox, Skeleton } from '@cocstorage/ui';
 function IssueKeywordCardSkeleton() {
   return (
     <Flexbox gap={8} alignment="center" justifyContent="space-between">
-      <Skeleton width={24} height={24} disableAspectRatio round={8} />
+      <Skeleton width={24} height={24} disableAspectRatio round={4} />
       <Box customStyle={{ flexGrow: 1, textAlign: 'left' }}>
         <Skeleton
           width="100%"

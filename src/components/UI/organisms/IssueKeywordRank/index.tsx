@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 
 import { Button, CustomStyle, Flexbox, Typography, useTheme } from '@cocstorage/ui';
 import Icon from '@cocstorage/ui-icons';
@@ -33,7 +33,7 @@ function IssueKeywordRank({
 
   const [toggle, setToggle] = useState(false);
 
-  const newRanks = useMemo(() => {
+  const newRanks = () => {
     if (toggle) {
       return ranks
         .map((rank) => {
@@ -43,7 +43,7 @@ function IssueKeywordRank({
         .flat();
     }
     return ranks;
-  }, [ranks, toggle]);
+  };
 
   const handleClick = () => setToggle((prevState) => !prevState);
 
@@ -83,7 +83,7 @@ function IssueKeywordRank({
             <IssueKeywordCardSkeleton key={`issue-keyword-skeleton-${index}`} />
           ))}
         {!isLoading &&
-          newRanks.map((issueKeyword) => (
+          newRanks().map((issueKeyword) => (
             <IssueKeywordCard
               key={`issue-keyword-${issueKeyword.keywordId}`}
               issueKeyword={issueKeyword}

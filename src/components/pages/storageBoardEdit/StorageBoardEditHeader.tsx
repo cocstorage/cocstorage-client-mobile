@@ -100,7 +100,7 @@ function StorageBoardEditHeader() {
         </IconButton>
         <Tag variant="semiAccent">글수정 BETA</Tag>
       </Flexbox>
-      <Flexbox gap={10}>
+      <Flexbox gap={10} alignment="center">
         <Avatar
           width={24}
           height={24}

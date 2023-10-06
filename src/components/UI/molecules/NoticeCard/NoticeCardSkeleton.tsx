@@ -13,12 +13,12 @@ function NoticeCardSkeleton() {
           gap={6}
           customStyle={{ height: '100%' }}
         >
-          <Skeleton width="100%" maxWidth={200} height={17.5} disableAspectRatio />
+          <Skeleton width="100%" maxWidth={200} height={17.5} round={6} disableAspectRatio />
           <Flexbox gap={12}>
-            <Skeleton width={30} height={16} disableAspectRatio />
-            <Skeleton width={30} height={16} disableAspectRatio />
-            <Skeleton width={30} height={16} disableAspectRatio />
-            <Skeleton width={50} height={16} disableAspectRatio />
+            <Skeleton width={30} height={16} round={6} disableAspectRatio />
+            <Skeleton width={30} height={16} round={6} disableAspectRatio />
+            <Skeleton width={30} height={16} round={6} disableAspectRatio />
+            <Skeleton width={50} height={16} round={6} disableAspectRatio />
           </Flexbox>
         </Flexbox>
       </Wrapper>
