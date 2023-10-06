@@ -33,7 +33,7 @@ function Error404() {
           </Flexbox>
           <Button
             fullWidth
-            size="big"
+            size="xBig"
             onClick={handleClick}
             customStyle={{ justifyContent: 'center' }}
           >

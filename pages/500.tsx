@@ -33,7 +33,7 @@ function Error500() {
           </Flexbox>
           <Button
             fullWidth
-            size="big"
+            size="xBig"
             onClick={handleClick}
             customStyle={{ justifyContent: 'center' }}
           >

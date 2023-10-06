@@ -121,6 +121,11 @@ function StorageBoardHeader() {
             src={avatarUrl}
             alt="Storage Logo Img"
             round={6}
+            fallback={{
+              name: 'ImageOutlined',
+              width: 20,
+              height: 20
+            }}
             onClick={handleClickImage}
           />
           {!sourceCode && (

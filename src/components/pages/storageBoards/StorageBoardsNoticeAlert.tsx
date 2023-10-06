@@ -20,8 +20,9 @@ function StorageBoardNoticeAlert() {
       <Skeleton
         width="100%"
         height={56}
+        round={12}
         disableAspectRatio
-        customStyle={{ marginTop: 12, borderRadius: 12 }}
+        customStyle={{ marginTop: 12 }}
       />
     );
   }
