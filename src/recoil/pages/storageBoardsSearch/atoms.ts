@@ -16,6 +16,7 @@ export const storageBoardsSearchParamsState = atom<FetchStorageBoardsParams>({
   default: storageBoardsSearchParamsDefault
 });
 
+// TODO 추후 사용
 export const storageBoardsSearchPendingState = atom({
   key: 'storageBoardsSearch/pendingState',
   default: false

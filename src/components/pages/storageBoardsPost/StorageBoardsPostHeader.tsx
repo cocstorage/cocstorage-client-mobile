@@ -56,7 +56,18 @@ function StorageBoardsPostHeader() {
         <Tag variant="semiAccent">글쓰기 BETA</Tag>
       </Flexbox>
       <Flexbox gap={10}>
-        <Avatar width={24} height={24} src={avatarUrl} alt="Storage Logo Img" round={6} />
+        <Avatar
+          width={24}
+          height={24}
+          src={avatarUrl}
+          alt="Storage Logo Img"
+          round={6}
+          fallback={{
+            name: 'ImageOutlined',
+            width: 20,
+            height: 20
+          }}
+        />
         <Button
           variant="accent"
           size="pico"
