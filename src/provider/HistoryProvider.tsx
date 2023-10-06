@@ -1,4 +1,4 @@
-import { PropsWithChildren, ReactElement, useCallback, useEffect } from 'react';
+import { PropsWithChildren, ReactElement, useEffect } from 'react';
 
 import { useRouter } from 'next/router';
 
@@ -30,32 +30,6 @@ function HistoryProvider({ children }: PropsWithChildren) {
   const [isGoBack, setIsGoBack] = useRecoilState(commonIsGoBackState);
   const setForwardPathState = useSetRecoilState(commonForwardPathState);
 
-  const handleRouteChangeStart = useCallback(
-    (url: string) => {
-      const pathname = getPathNameByUrl(url);
-      setForwardPathState(pathname);
-
-      if (isGoBack) {
-        setHistoryState({
-          index: history.index - 1,
-          object: history.object.filter((arr, index) => index < history.object.length - 1)
-        });
-      } else {
-        setHistoryState({
-          index: history.index + 1,
-          object: [...history.object, pathname]
-        });
-      }
-    },
-    [setForwardPathState, setHistoryState, isGoBack, history]
-  );
-
-  const handleRouteChangeComplete = useCallback(() => {
-    if (isGoBack) {
-      setIsGoBack(false);
-    }
-  }, [setIsGoBack, isGoBack]);
-
   useEffect(() => {
     setForwardPathState(router.pathname);
   }, [setForwardPathState, router.pathname]);
@@ -71,14 +45,50 @@ function HistoryProvider({ children }: PropsWithChildren) {
   }, [setIsGoBack, router, history]);
 
   useEffect(() => {
+    const handleRouteChangeStart = (url: string) => {
+      const pathname = getPathNameByUrl(url);
+      setForwardPathState(pathname);
+
+      if (isGoBack) {
+        setHistoryState({
+          index: history.index - 1,
+          object: history.object.filter((arr, index) => index < history.object.length - 1)
+        });
+      } else {
+        setHistoryState({
+          index: history.index + 1,
+          object: [...history.object, pathname]
+        });
+      }
+    };
+
     router.events.on('routeChangeStart', handleRouteChangeStart);
-    router.events.on('routeChangeComplete', handleRouteChangeComplete);
 
     return () => {
       router.events.off('routeChangeStart', handleRouteChangeStart);
+    };
+  }, [
+    history.index,
+    history.object,
+    isGoBack,
+    router.events,
+    setForwardPathState,
+    setHistoryState
+  ]);
+
+  useEffect(() => {
+    const handleRouteChangeComplete = () => {
+      if (isGoBack) {
+        setIsGoBack(false);
+      }
+    };
+
+    router.events.on('routeChangeComplete', handleRouteChangeComplete);
+
+    return () => {
       router.events.off('routeChangeComplete', handleRouteChangeComplete);
     };
-  }, [handleRouteChangeComplete, handleRouteChangeStart, router]);
+  }, [isGoBack, router.events, setIsGoBack]);
 
   return children as ReactElement;
 }

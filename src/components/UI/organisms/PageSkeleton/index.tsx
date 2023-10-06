@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { useRouter } from 'next/router';
 
@@ -34,8 +34,8 @@ function PageSkeleton() {
   const isVisibleTimerRef = useRef<ReturnType<typeof setTimeout>>();
   const scrollTopTimerRef = useRef<ReturnType<typeof setTimeout>>();
 
-  const handleRouteChangeStart = useCallback(
-    (url: string) => {
+  useEffect(() => {
+    const handleRouteChangeStart = (url: string) => {
       setIsVisible(true);
 
       const pathname = getPathNameByUrl(url);
@@ -47,31 +47,34 @@ function PageSkeleton() {
           isLoadingTimerRef.current = setTimeout(() => setIsLoading(true), 0);
         }
       }
-    },
-    [isGoBack]
-  );
+    };
 
-  const handleRouteChangeComplete = useCallback(() => {
-    setIsLoading(false);
-
-    if (!isGoBack) {
-      scrollTopTimerRef.current = setTimeout(() => window.scrollTo({ top: 0 }), 120);
-    }
-
-    isVisibleTimerRef.current = setTimeout(() => {
-      setIsVisible(false);
-    }, 200);
-  }, [isGoBack]);
-
-  useEffect(() => {
     router.events.on('routeChangeStart', handleRouteChangeStart);
-    router.events.on('routeChangeComplete', handleRouteChangeComplete);
 
     return () => {
       router.events.off('routeChangeStart', handleRouteChangeStart);
+    };
+  }, [router.events, isGoBack]);
+
+  useEffect(() => {
+    const handleRouteChangeComplete = () => {
+      setIsLoading(false);
+
+      if (!isGoBack) {
+        scrollTopTimerRef.current = setTimeout(() => window.scrollTo({ top: 0 }), 120);
+      }
+
+      isVisibleTimerRef.current = setTimeout(() => {
+        setIsVisible(false);
+      }, 200);
+    };
+
+    router.events.on('routeChangeComplete', handleRouteChangeComplete);
+
+    return () => {
       router.events.off('routeChangeComplete', handleRouteChangeComplete);
     };
-  }, [router, handleRouteChangeComplete, handleRouteChangeStart]);
+  }, [router.events, isGoBack]);
 
   useEffect(() => {
     return () => {

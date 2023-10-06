@@ -1,4 +1,4 @@
-import { MouseEvent, useCallback, useEffect, useRef, useState } from 'react';
+import { MouseEvent, useEffect, useRef, useState } from 'react';
 
 import { useRouter } from 'next/router';
 
@@ -64,14 +64,6 @@ function BottomNavigation({ disableFixed, disableOnBoarding }: BottomNavigationP
       }
     }));
 
-  const handleResize = useCallback(() => {
-    if (targetRef.current) {
-      const { offsetTop, offsetLeft, clientWidth } = targetRef.current;
-      setLeft(Math.floor(offsetLeft + clientWidth / 2) - 25);
-      setBottom(offsetTop);
-    }
-  }, []);
-
   useEffect(() => {
     if (targetRef.current) {
       const { offsetTop, offsetLeft, clientWidth } = targetRef.current;
@@ -81,12 +73,20 @@ function BottomNavigation({ disableFixed, disableOnBoarding }: BottomNavigationP
   }, []);
 
   useEffect(() => {
+    const handleResize = () => {
+      if (targetRef.current) {
+        const { offsetTop, offsetLeft, clientWidth } = targetRef.current;
+        setLeft(Math.floor(offsetLeft + clientWidth / 2) - 25);
+        setBottom(offsetTop);
+      }
+    };
+
     window.addEventListener('resize', handleResize);
 
     return () => {
       window.removeEventListener('resize', handleResize);
     };
-  }, [handleResize]);
+  }, []);
 
   useEffect(() => {
     // TODO 온보딩 겹치는 경우 Backdrop 컴포넌트 동시성 개선 필요
