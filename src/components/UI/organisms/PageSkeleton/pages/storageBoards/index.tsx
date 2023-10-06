@@ -1,7 +1,7 @@
-import { Box, Flexbox, Icon, IconButton, Skeleton, Tab, Tabs } from 'cocstorage-ui';
+import { Box, Flexbox, IconButton, Skeleton, Tab, Tabs } from '@cocstorage/ui';
+import Icon from '@cocstorage/ui-icons';
 
 import { StyledStorageBoardsHeader } from '@components/pages/storageBoards/StorageBoardsHeader';
-import { StyledStorageBoardsTabs } from '@components/pages/storageBoards/StorageBoardsTabs';
 import GeneralTemplate from '@components/templeates/GeneralTemplate';
 import BottomNavigation from '@components/UI/molecules/BottomNavigation';
 
@@ -71,14 +71,24 @@ function StorageBoardsHeader() {
 
 function StorageBoardTabs() {
   return (
-    <StyledStorageBoardsTabs>
-      {/* eslint-disable-next-line */}
-      <Tabs onChange={() => {}} value="latest">
-        <Tab text="최신" value="latest" />
-        <Tab text="베스트" value="popular" />
-        <Tab text="워스트" value="worst" />
-      </Tabs>
-    </StyledStorageBoardsTabs>
+    <Tabs
+      onChange={() => {
+        //
+      }}
+      value="latest"
+      fullWidth
+      customStyle={{
+        width: 'calc(100% + 40px)',
+        margin: '0 -20px',
+        '& > div': {
+          justifyContent: 'center'
+        }
+      }}
+    >
+      <Tab text="최신" value="latest" />
+      <Tab text="베스트" value="popular" />
+      <Tab text="워스트" value="worst" />
+    </Tabs>
   );
 }
 

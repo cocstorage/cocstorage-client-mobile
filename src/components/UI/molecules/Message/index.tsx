@@ -1,6 +1,7 @@
 import { HTMLAttributes } from 'react';
 
-import { Button, CustomStyle, Flexbox, Icon, Tag, Typography } from 'cocstorage-ui';
+import { Button, CustomStyle, Flexbox, Tag, Typography } from '@cocstorage/ui';
+import Icon from '@cocstorage/ui-icons';
 
 export interface MessageProps extends HTMLAttributes<HTMLDivElement> {
   code?: string;

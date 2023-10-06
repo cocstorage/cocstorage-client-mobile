@@ -2,28 +2,21 @@ import { useRef } from 'react';
 
 import { useRouter } from 'next/router';
 
-import { useQuery } from '@tanstack/react-query';
-
-import { useRecoilValue, useSetRecoilState } from 'recoil';
-
+import { Box, IconButton, Typography } from '@cocstorage/ui';
+import Icon from '@cocstorage/ui-icons';
 import styled, { CSSObject } from '@emotion/styled';
-
-import { commonFeedbackDialogState } from '@recoil/common/atoms';
-import { noticeHideHeaderSubjectState } from '@recoil/pages/notice/atoms';
-
-import { Box, Icon, IconButton, Typography } from 'cocstorage-ui';
-
-import useScrollTrigger from '@hooks/useScrollTrigger';
+import { useQuery } from '@tanstack/react-query';
+import { useRecoilValue } from 'recoil';
 
 import { fetchNotice } from '@api/v1/notices';
-
 import queryKeys from '@constants/queryKeys';
+import useScrollTrigger from '@hooks/useScrollTrigger';
+import { noticeHideHeaderSubjectState } from '@recoil/pages/notice/atoms';
 
 function NoticeHeader() {
   const router = useRouter();
   const { id } = router.query;
 
-  const setCommonFeedbackDialogState = useSetRecoilState(commonFeedbackDialogState);
   const hideHeaderSubject = useRecoilValue(noticeHideHeaderSubjectState);
 
   const headerRef = useRef<HTMLDivElement>(null);

@@ -1,6 +1,7 @@
 import Link from 'next/link';
 
-import { Flexbox, Icon, Typography, useTheme } from 'cocstorage-ui';
+import { Flexbox, Typography, useTheme } from '@cocstorage/ui';
+import Icon from '@cocstorage/ui-icons';
 
 import { MyHead, MyHeader } from '@components/pages/my';
 import GeneralTemplate from '@components/templeates/GeneralTemplate';
@@ -29,7 +30,7 @@ function My() {
           </Link>
           <Link href="/my/theme">
             <Flexbox gap={12} alignment="center">
-              <Icon name="StarOutlined" />
+              <Icon name="ThemeOutlined" />
               <Flexbox direction="vertical" gap={2}>
                 <Typography fontWeight="bold">테마</Typography>
                 <Typography color={text[mode].text1}>라이트 모드, 다크 모드</Typography>

@@ -2,11 +2,11 @@ import { MouseEvent } from 'react';
 
 import { useRouter } from 'next/router';
 
+import { Box, Flexbox, IconButton, Image, Typography } from '@cocstorage/ui';
+import Icon from '@cocstorage/ui-icons';
 import { useSetRecoilState } from 'recoil';
 
 import { commonFeedbackDialogState } from '@recoil/common/atoms';
-
-import { Box, Flexbox, Icon, IconButton, Image, Typography } from 'cocstorage-ui';
 
 import { StyledHeader } from './Header.styles';
 

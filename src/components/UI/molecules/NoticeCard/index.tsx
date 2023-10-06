@@ -2,9 +2,9 @@ import { HTMLAttributes } from 'react';
 
 import Link from 'next/link';
 
+import { Avatar, Badge, Flexbox, Image, Typography, useTheme } from '@cocstorage/ui';
+import Icon from '@cocstorage/ui-icons';
 import dayjs from 'dayjs';
-
-import { Avatar, Badge, Flexbox, Icon, Image, Typography, useTheme } from 'cocstorage-ui';
 
 import { Notice } from '@dto/notices';
 

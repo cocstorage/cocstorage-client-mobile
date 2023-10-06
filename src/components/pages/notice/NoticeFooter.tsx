@@ -2,21 +2,11 @@ import { ChangeEvent, RefObject, useEffect, useRef, useState } from 'react';
 
 import { useRouter } from 'next/router';
 
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-
-import { useRecoilState, useSetRecoilState } from 'recoil';
-
+import { Box, Button, Flexbox, Grid, IconButton, TextBar, useTheme } from '@cocstorage/ui';
+import Icon from '@cocstorage/ui-icons';
 import styled, { CSSObject } from '@emotion/styled';
-
-import { commonFeedbackDialogState } from '@recoil/common/atoms';
-import { myNicknameState, myPasswordState } from '@recoil/pages/my/atoms';
-import { noticeCommentsParamsState } from '@recoil/pages/notice/atoms';
-
-import { Box, Button, Flexbox, Grid, Icon, IconButton, TextBar, useTheme } from 'cocstorage-ui';
-
-import { Notice } from '@dto/notices';
-import useScrollTrigger from '@hooks/useScrollTrigger';
-import validators from '@utils/validators';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 
 import {
   PostNoticeCommentData,
@@ -24,8 +14,13 @@ import {
   postNonMemberNoticeComment
 } from '@api/v1/notice-comments';
 import { fetchNotice } from '@api/v1/notices';
-
 import queryKeys from '@constants/queryKeys';
+import { Notice } from '@dto/notices';
+import useScrollTrigger from '@hooks/useScrollTrigger';
+import { commonFeedbackDialogState } from '@recoil/common/atoms';
+import { myNicknameState, myPasswordState } from '@recoil/pages/my/atoms';
+import { noticeCommentsParamsState } from '@recoil/pages/notice/atoms';
+import validators from '@utils/validators';
 
 interface NoticeFooterProps {
   footerRef: RefObject<HTMLDivElement>;
@@ -208,7 +203,6 @@ function NoticeFooter({ footerRef }: NoticeFooterProps) {
                 <Grid item xs={2}>
                   <TextBar
                     fullWidth
-                    size="small"
                     onChange={handleChangeTextBar}
                     onBlur={handleBlurNicknameTextBar}
                     value={nickname}
@@ -221,7 +215,6 @@ function NoticeFooter({ footerRef }: NoticeFooterProps) {
                   <TextBar
                     fullWidth
                     type="password"
-                    size="small"
                     onChange={handleChangeTextBar}
                     onBlur={handleBlurPasswordTextBar}
                     value={password}

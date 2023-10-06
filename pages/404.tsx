@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 
-import { Button, Flexbox, useTheme } from 'cocstorage-ui';
+import { Button, Flexbox, useTheme } from '@cocstorage/ui';
 
 import GeneralTemplate from '@components/templeates/GeneralTemplate';
 import Message from '@components/UI/molecules/Message';

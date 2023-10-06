@@ -1,20 +1,15 @@
 import { useRouter } from 'next/router';
 
+import { Flexbox, Pagination } from '@cocstorage/ui';
 import { useQuery } from '@tanstack/react-query';
-
 import { useRecoilState } from 'recoil';
 
-import { storageBoardsParamsStateFamily } from '@recoil/pages/storageBoards/atoms';
-
-import { Flexbox, Pagination } from 'cocstorage-ui';
-
+import { fetchStorageBoards } from '@api/v1/storage-boards';
 import { GoogleAdSense, StorageBoardCard } from '@components/UI/molecules';
 import Message from '@components/UI/molecules/Message';
 import StorageBoardCardSkeleton from '@components/UI/molecules/StorageBoardCard/StorageBoardCardSkeleton';
-
-import { fetchStorageBoards } from '@api/v1/storage-boards';
-
 import queryKeys from '@constants/queryKeys';
+import { storageBoardsParamsStateFamily } from '@recoil/pages/storageBoards/atoms';
 
 function StorageBoardsList() {
   const router = useRouter();

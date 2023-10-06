@@ -2,12 +2,24 @@ import { useEffect, useRef, useState } from 'react';
 
 import { useRouter } from 'next/router';
 
+import {
+  Avatar,
+  Box,
+  Flexbox,
+  IconButton,
+  Spotlight,
+  Tooltip,
+  Typography,
+  useTheme
+} from '@cocstorage/ui';
+import Icon from '@cocstorage/ui-icons';
+import styled, { CSSObject } from '@emotion/styled';
 import { useQuery } from '@tanstack/react-query';
-
 import { useRecoilState, useResetRecoilState, useSetRecoilState } from 'recoil';
 
-import styled, { CSSObject } from '@emotion/styled';
-
+import { fetchStorage } from '@api/v1/storages';
+import queryKeys from '@constants/queryKeys';
+import useScrollTrigger from '@hooks/useScrollTrigger';
 import {
   commonFeedbackDialogState,
   commonOnBoardingDefault,
@@ -15,24 +27,6 @@ import {
 } from '@recoil/common/atoms';
 import { openStorageBoardsInfoBottomSheetState } from '@recoil/pages/storageBoards/atoms';
 import { storageBoardsSearchParamsState } from '@recoil/pages/storageBoardsSearch/atoms';
-
-import {
-  Avatar,
-  Box,
-  Flexbox,
-  Icon,
-  IconButton,
-  Spotlight,
-  Tooltip,
-  Typography,
-  useTheme
-} from 'cocstorage-ui';
-
-import useScrollTrigger from '@hooks/useScrollTrigger';
-
-import { fetchStorage } from '@api/v1/storages';
-
-import queryKeys from '@constants/queryKeys';
 
 function StorageBoardsHeader() {
   const router = useRouter();

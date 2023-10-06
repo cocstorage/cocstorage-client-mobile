@@ -1,18 +1,14 @@
 import { useRouter } from 'next/router';
 
+import { useTheme } from '@cocstorage/ui';
+import Editor, { EditorContent } from '@cocstorage/ui-editor';
 import { useQuery } from '@tanstack/react-query';
-
-import { Editor, EditorContent } from 'cocstorage-ui-editor';
 import { useRecoilState } from 'recoil';
-
-import { storageBoardEditEditorContentsState } from '@recoil/pages/storageBoardEdit/atoms';
-
-import { useTheme } from 'cocstorage-ui';
 
 import { postNonMemberStorageBoardImage } from '@api/v1/storage-boards';
 import { fetchStorage } from '@api/v1/storages';
-
 import queryKeys from '@constants/queryKeys';
+import { storageBoardEditEditorContentsState } from '@recoil/pages/storageBoardEdit/atoms';
 
 function StorageBoardEditEditor() {
   const router = useRouter();

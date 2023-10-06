@@ -2,18 +2,14 @@ import { useEffect } from 'react';
 
 import { useRouter } from 'next/router';
 
+import { Avatar, BottomSheet, Box, Flexbox, Typography, useTheme } from '@cocstorage/ui';
 import { useQuery } from '@tanstack/react-query';
-
 import dayjs from 'dayjs';
 import { useRecoilState } from 'recoil';
 
-import { openStorageBoardsInfoBottomSheetState } from '@recoil/pages/storageBoards/atoms';
-
-import { Avatar, BottomSheet, Box, Flexbox, Typography, useTheme } from 'cocstorage-ui';
-
 import { fetchStorage } from '@api/v1/storages';
-
 import queryKeys from '@constants/queryKeys';
+import { openStorageBoardsInfoBottomSheetState } from '@recoil/pages/storageBoards/atoms';
 
 function StorageBoardsInfoBottomSheet() {
   const router = useRouter();
@@ -31,6 +27,8 @@ function StorageBoardsInfoBottomSheet() {
   const { data: { user: { nickname } = {}, name, description, avatarUrl, createdAt } = {} } =
     useQuery(queryKeys.storages.storageById(String(path)), () => fetchStorage(String(path)));
 
+  const handleClose = () => setOpen(false);
+
   useEffect(() => {
     return () => {
       setOpen(false);
@@ -38,7 +36,7 @@ function StorageBoardsInfoBottomSheet() {
   }, [setOpen]);
 
   return (
-    <BottomSheet open={open} onClose={() => setOpen(false)}>
+    <BottomSheet open={open} onClose={handleClose}>
       <Box customStyle={{ padding: 20 }}>
         <Flexbox alignment="center" customStyle={{ width: '100%' }}>
           <Avatar width={60} height={60} src={avatarUrl} round={6} alt="Storage Logo Img" />

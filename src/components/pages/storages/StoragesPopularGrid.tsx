@@ -1,10 +1,8 @@
+import { Box, Grid, Typography } from '@cocstorage/ui';
 import { useRecoilValue } from 'recoil';
 
-import { storagesSelectedCategoryIdState } from '@recoil/pages/storages/atoms';
-
-import { Box, Grid, Typography } from 'cocstorage-ui';
-
 import StorageCard from '@components/UI/molecules/StorageCard';
+import { storagesSelectedCategoryIdState } from '@recoil/pages/storages/atoms';
 
 function StoragesPopularGrid() {
   const selectedCategoryId = useRecoilValue(storagesSelectedCategoryIdState);

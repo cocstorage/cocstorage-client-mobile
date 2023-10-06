@@ -1,16 +1,13 @@
+import { Alert } from '@cocstorage/ui';
+import Icon from '@cocstorage/ui-icons';
 import { QueryClient, dehydrate } from '@tanstack/react-query';
 
-import { worstParamsDefault } from '@recoil/pages/worst/atoms';
-
-import { Alert, Icon } from 'cocstorage-ui';
-
+import { fetchWorstStorageBoards } from '@api/v1/storage-boards';
 import { WorstHead, WorstHeader, WorstStorageBoardList } from '@components/pages/worst';
 import GeneralTemplate from '@components/templeates/GeneralTemplate';
 import BottomNavigation from '@components/UI/molecules/BottomNavigation';
-
-import { fetchWorstStorageBoards } from '@api/v1/storage-boards';
-
 import queryKeys from '@constants/queryKeys';
+import { worstParamsDefault } from '@recoil/pages/worst/atoms';
 
 function Worst() {
   return (

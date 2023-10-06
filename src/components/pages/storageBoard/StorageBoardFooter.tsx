@@ -2,39 +2,22 @@ import { ChangeEvent, MouseEvent, RefObject, useEffect, useRef, useState } from 
 
 import { useRouter } from 'next/router';
 
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-
-import { useRecoilState, useSetRecoilState } from 'recoil';
-
-import styled, { CSSObject } from '@emotion/styled';
-
-import {
-  commonFeedbackDialogState,
-  commonOnBoardingDefault,
-  commonOnBoardingState
-} from '@recoil/common/atoms';
-import { myNicknameState, myPasswordState } from '@recoil/pages/my/atoms';
-import { storageBoardCommentsParamsState } from '@recoil/pages/storageBoard/atoms';
-
 import {
   Box,
   Button,
   Flexbox,
   Grid,
-  Icon,
   IconButton,
   Spotlight,
   TextBar,
   Tooltip,
   useTheme
-} from 'cocstorage-ui';
-
+} from '@cocstorage/ui';
+import Icon from '@cocstorage/ui-icons';
+import styled, { CSSObject } from '@emotion/styled';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import type { AxiosError } from 'axios';
-
-import { StorageBoard } from '@dto/storage-boards';
-import useScrollTrigger from '@hooks/useScrollTrigger';
-import getErrorMessageByCode from '@utils/getErrorMessageByCode';
-import validators from '@utils/validators';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 
 import {
   PostStorageBoardCommentData,
@@ -43,8 +26,18 @@ import {
 } from '@api/v1/storage-board-comments';
 import { fetchStorageBoard, putNonMemberStorageBoardRecommend } from '@api/v1/storage-boards';
 import { fetchStorage } from '@api/v1/storages';
-
 import queryKeys from '@constants/queryKeys';
+import { StorageBoard } from '@dto/storage-boards';
+import useScrollTrigger from '@hooks/useScrollTrigger';
+import {
+  commonFeedbackDialogState,
+  commonOnBoardingDefault,
+  commonOnBoardingState
+} from '@recoil/common/atoms';
+import { myNicknameState, myPasswordState } from '@recoil/pages/my/atoms';
+import { storageBoardCommentsParamsState } from '@recoil/pages/storageBoard/atoms';
+import getErrorMessageByCode from '@utils/getErrorMessageByCode';
+import validators from '@utils/validators';
 
 interface StorageBoardFooterProps {
   footerRef: RefObject<HTMLDivElement>;
@@ -308,7 +301,6 @@ function StorageBoardFooter({ footerRef }: StorageBoardFooterProps) {
                   <Grid item xs={2}>
                     <TextBar
                       fullWidth
-                      size="small"
                       onChange={handleChangeTextBar}
                       onBlur={handleBlurNicknameTextBar}
                       value={nickname}
@@ -321,7 +313,6 @@ function StorageBoardFooter({ footerRef }: StorageBoardFooterProps) {
                     <TextBar
                       fullWidth
                       type="password"
-                      size="small"
                       onChange={handleChangeTextBar}
                       onBlur={handleBlurPasswordTextBar}
                       value={password}

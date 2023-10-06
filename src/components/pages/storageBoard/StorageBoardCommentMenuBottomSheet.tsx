@@ -2,12 +2,11 @@ import { useEffect, useRef } from 'react';
 
 import { useRecoilState, useResetRecoilState, useSetRecoilState } from 'recoil';
 
+import CommentMenuBottomSheet from '@components/UI/organisms/CommentMenuBottomSheet';
 import {
   storageBoardCommentDeleteBottomSheetState,
   storageBoardCommentMenuBottomSheetState
 } from '@recoil/pages/storageBoard/atoms';
-
-import CommentMenuBottomSheet from '@components/UI/organisms/CommentMenuBottomSheet';
 
 function StorageBoardCommentMenuBottomSheet() {
   const [{ open, storageId, id, commentId }, setCommentMenuBottomState] = useRecoilState(

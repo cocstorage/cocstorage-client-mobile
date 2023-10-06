@@ -1,21 +1,18 @@
 import { useRouter } from 'next/router';
 
+import { Avatar, Button, Flexbox, IconButton, Tag, useTheme } from '@cocstorage/ui';
+import Icon from '@cocstorage/ui-icons';
 import { useQuery } from '@tanstack/react-query';
-
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 
+import { fetchStorage } from '@api/v1/storages';
+import queryKeys from '@constants/queryKeys';
 import {
   storageBoardsPostDialogOpenState,
   storageBoardsPostDraftIdState,
   storageBoardsPostEditorContentsState,
   storageBoardsPostSubjectState
 } from '@recoil/pages/storageBoardsPost/atoms';
-
-import { Avatar, Button, Flexbox, Icon, IconButton, Tag, useTheme } from 'cocstorage-ui';
-
-import { fetchStorage } from '@api/v1/storages';
-
-import queryKeys from '@constants/queryKeys';
 
 function StorageBoardsPostHeader() {
   const router = useRouter();

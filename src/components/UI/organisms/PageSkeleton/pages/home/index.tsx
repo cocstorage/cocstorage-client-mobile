@@ -1,16 +1,15 @@
-import styled from '@emotion/styled';
-
 import {
   Box,
   Button,
   Flexbox,
-  Icon,
   IconButton,
   Skeleton,
   Tag,
   Typography,
   useTheme
-} from 'cocstorage-ui';
+} from '@cocstorage/ui';
+import Icon from '@cocstorage/ui-icons';
+import styled from '@emotion/styled';
 
 import GeneralTemplate from '@components/templeates/GeneralTemplate';
 import { BottomNavigation, Header } from '@components/UI/molecules';

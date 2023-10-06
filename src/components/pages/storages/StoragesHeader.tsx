@@ -1,10 +1,9 @@
+import { Box, IconButton, Typography } from '@cocstorage/ui';
+import Icon from '@cocstorage/ui-icons';
+import styled from '@emotion/styled';
 import { useSetRecoilState } from 'recoil';
 
-import styled from '@emotion/styled';
-
 import { commonFeedbackDialogState } from '@recoil/common/atoms';
-
-import { Box, Icon, IconButton, Typography } from 'cocstorage-ui';
 
 function StoragesHeader() {
   const setCommonFeedbackDialogState = useSetRecoilState(commonFeedbackDialogState);

@@ -1,4 +1,5 @@
-import { Box, Flexbox, Icon, IconButton, Skeleton } from 'cocstorage-ui';
+import { Box, Flexbox, IconButton, Skeleton } from '@cocstorage/ui';
+import Icon from '@cocstorage/ui-icons';
 
 import { StyledNoticeFooter } from '@components/pages/notice/NoticeFooter';
 import { StyledNoticeHeader } from '@components/pages/notice/NoticeHeader';

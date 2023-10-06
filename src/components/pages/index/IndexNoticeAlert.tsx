@@ -1,11 +1,10 @@
 import Link from 'next/link';
 
+import { Alert, Skeleton } from '@cocstorage/ui';
+import Icon from '@cocstorage/ui-icons';
 import { useQuery } from '@tanstack/react-query';
 
-import { Alert, Icon, Skeleton } from 'cocstorage-ui';
-
 import { fetchIndexNotice } from '@api/v1/notices';
-
 import queryKeys from '@constants/queryKeys';
 
 function IndexNoticeAlert() {

@@ -1,17 +1,12 @@
+import { Flexbox, Pagination } from '@cocstorage/ui';
 import { useQuery } from '@tanstack/react-query';
-
 import { useRecoilState } from 'recoil';
 
-import { noticesParamsState } from '@recoil/pages/notices/atoms';
-
-import { Flexbox, Pagination } from 'cocstorage-ui';
-
+import { fetchNotices } from '@api/v1/notices';
 import NoticeCard from '@components/UI/molecules/NoticeCard';
 import NoticeCardSkeleton from '@components/UI/molecules/NoticeCard/NoticeCardSkeleton';
-
-import { fetchNotices } from '@api/v1/notices';
-
 import queryKeys from '@constants/queryKeys';
+import { noticesParamsState } from '@recoil/pages/notices/atoms';
 
 import Message from '../../UI/molecules/Message';
 

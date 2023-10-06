@@ -1,4 +1,4 @@
-import { Flexbox, Skeleton } from 'cocstorage-ui';
+import { Flexbox, Skeleton } from '@cocstorage/ui';
 
 import { StyledNoticeCard, Wrapper } from './NoticeCard.styles';
 

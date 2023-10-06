@@ -2,10 +2,13 @@ import { ChangeEvent, useState } from 'react';
 
 import { useRouter } from 'next/router';
 
+import { BottomSheet, Button, TextBar, Tooltip, Typography, useTheme } from '@cocstorage/ui';
 import { useMutation, useQuery } from '@tanstack/react-query';
-
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 
+import { patchNonMemberStorageBoard } from '@api/v1/storage-boards';
+import { fetchStorage } from '@api/v1/storages';
+import queryKeys from '@constants/queryKeys';
 import { commonOnBoardingDefault, commonOnBoardingState } from '@recoil/common/atoms';
 import { myPasswordState } from '@recoil/pages/my/atoms';
 import {
@@ -14,13 +17,6 @@ import {
   storageBoardEditPasswordState,
   storageBoardEditSubjectState
 } from '@recoil/pages/storageBoardEdit/atoms';
-
-import { BottomSheet, Button, TextBar, Tooltip, Typography, useTheme } from 'cocstorage-ui';
-
-import { patchNonMemberStorageBoard } from '@api/v1/storage-boards';
-import { fetchStorage } from '@api/v1/storages';
-
-import queryKeys from '@constants/queryKeys';
 
 function StorageBoardEditAuthDialog() {
   const router = useRouter();
@@ -157,7 +153,7 @@ function StorageBoardEditAuthDialog() {
           type="password"
           label="비밀번호"
           fullWidth
-          size="big"
+          size="xBig"
           value={password}
           onChange={handleChange}
           autoFocus
@@ -171,6 +167,7 @@ function StorageBoardEditAuthDialog() {
       <Button
         fullWidth
         variant="accent"
+        size="big"
         onClick={handleClick}
         disabled={!password || isLoading}
         customStyle={{

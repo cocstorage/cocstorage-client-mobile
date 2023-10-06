@@ -1,12 +1,9 @@
 import { useRouter } from 'next/router';
 
+import { Tab, Tabs } from '@cocstorage/ui';
 import { useRecoilState } from 'recoil';
 
-import styled from '@emotion/styled';
-
 import { storageBoardsParamsStateFamily } from '@recoil/pages/storageBoards/atoms';
-
-import { Tab, Tabs } from 'cocstorage-ui';
 
 function StorageBoardsTabs() {
   const router = useRouter();
@@ -25,27 +22,25 @@ function StorageBoardsTabs() {
   };
 
   return (
-    <StyledStorageBoardsTabs>
-      <Tabs onChange={handleChange} value={params.orderBy || 'latest'}>
-        <Tab text="최신" value="latest" />
-        <Tab text="베스트" value="popular" />
-        <Tab text="워스트" value="worst" />
-      </Tabs>
-    </StyledStorageBoardsTabs>
+    <Tabs
+      onChange={handleChange}
+      value={params.orderBy || 'latest'}
+      fullWidth
+      // TODO 동작하지 않는 문제 수정
+      centered
+      customStyle={{
+        width: 'calc(100% + 40px)',
+        margin: '0 -20px',
+        '& > div': {
+          justifyContent: 'center'
+        }
+      }}
+    >
+      <Tab text="최신" value="latest" />
+      <Tab text="베스트" value="popular" />
+      <Tab text="워스트" value="worst" />
+    </Tabs>
   );
 }
-
-export const StyledStorageBoardsTabs = styled.section`
-  display: flex;
-  justify-content: center;
-  margin: 0 -20px;
-  padding: 0 20px;
-  border-bottom: 1px solid
-    ${({
-      theme: {
-        palette: { box }
-      }
-    }) => box.stroked.normal};
-`;
 
 export default StorageBoardsTabs;

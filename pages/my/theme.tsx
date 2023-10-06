@@ -1,13 +1,11 @@
 import { ChangeEvent, MouseEvent } from 'react';
 
+import { Flexbox, Radio, ThemeMode, Typography } from '@cocstorage/ui';
 import { useRecoilState } from 'recoil';
-
-import { commonThemeState } from '@recoil/common/atoms';
-
-import { Flexbox, Radio, ThemeMode, Typography } from 'cocstorage-ui';
 
 import { MyThemeHead, MyThemeHeader } from '@components/pages/myTheme';
 import GeneralTemplate from '@components/templeates/GeneralTemplate';
+import { commonThemeState } from '@recoil/common/atoms';
 
 function MyTheme() {
   const [theme, setTheme] = useRecoilState(commonThemeState);

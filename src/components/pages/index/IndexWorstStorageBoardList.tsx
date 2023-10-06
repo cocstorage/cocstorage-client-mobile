@@ -1,16 +1,13 @@
 import { useRouter } from 'next/router';
 
+import { Box, Flexbox, IconButton, Tag, Typography, useTheme } from '@cocstorage/ui';
+import Icon from '@cocstorage/ui-icons';
+import styled from '@emotion/styled';
 import { useQuery } from '@tanstack/react-query';
 
-import styled from '@emotion/styled';
-
-import { Box, Flexbox, Icon, IconButton, Tag, Typography, useTheme } from 'cocstorage-ui';
-
+import { fetchIndexWorstStorageBoards } from '@api/v1/storage-boards';
 import StorageBoardCard from '@components/UI/molecules/StorageBoardCard';
 import StorageBoardCardSkeleton from '@components/UI/molecules/StorageBoardCard/StorageBoardCardSkeleton';
-
-import { fetchIndexWorstStorageBoards } from '@api/v1/storage-boards';
-
 import queryKeys from '@constants/queryKeys';
 
 function IndexWorstStorageBoardList() {

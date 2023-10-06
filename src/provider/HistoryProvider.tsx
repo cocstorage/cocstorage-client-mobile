@@ -9,7 +9,6 @@ import {
   commonHistoryState,
   commonIsGoBackState
 } from '@recoil/common/atoms';
-
 import getPathNameByUrl from '@utils/getPathNameByUrl';
 
 const serverSidePages = [

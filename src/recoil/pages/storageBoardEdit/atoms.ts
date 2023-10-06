@@ -1,4 +1,4 @@
-import { EditorContent } from 'cocstorage-ui-editor';
+import { EditorContent } from '@cocstorage/ui-editor';
 import { atom } from 'recoil';
 
 export const storageBoardEditSubjectState = atom({

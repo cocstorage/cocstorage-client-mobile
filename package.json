@@ -10,22 +10,23 @@
     "build": "next build",
     "start": "next build && next start -p $PORT",
     "lint": "next lint",
-    "prettier": "prettier --write --config ./.prettierrc \"**/*.{js,ts,tsx}\"",
-    "conventions": "yarn prettier && eslint --fix \"**/*.{js,ts,tsx}\""
+    "prettier": "prettier --write --config ./.prettierrc \"**/*.{js,ts,tsx,json}\"",
+    "convention": "yarn prettier && eslint --fix \"**/*.{js,ts,tsx}\""
   },
   "dependencies": {
-    "@emotion/react": "^11.10.5",
-    "@emotion/styled": "^11.10.5",
-    "@tanstack/react-query": "^4.24.4",
-    "@tanstack/react-query-devtools": "^4.24.4",
-    "axios": "^1.3.2",
-    "cocstorage-ui": "^0.1.46",
-    "cocstorage-ui-editor": "^0.1.7",
-    "dayjs": "^1.11.7",
-    "next": "^13.1.6",
+    "@cocstorage/ui": "^0.1.59",
+    "@cocstorage/ui-editor": "^0.1.15",
+    "@cocstorage/ui-icons": "^0.0.3",
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
+    "@tanstack/react-query": "^4.35.7",
+    "@tanstack/react-query-devtools": "^4.35.7",
+    "axios": "^1.5.1",
+    "dayjs": "^1.11.10",
+    "next": "^13.5.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "recoil": "^0.7.6"
+    "recoil": "^0.7.7"
   },
   "devDependencies": {
     "@babel/core": "^7.18.10",

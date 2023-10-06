@@ -1,4 +1,5 @@
-import { BottomSheet, Box, Flexbox, Icon, IconButton, Typography } from 'cocstorage-ui';
+import { BottomSheet, Box, Flexbox, IconButton, Typography } from '@cocstorage/ui';
+import Icon from '@cocstorage/ui-icons';
 
 interface ReplyMenuBottomSheetProps {
   open: boolean;

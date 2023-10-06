@@ -2,22 +2,17 @@ import { RefObject, useEffect, useRef } from 'react';
 
 import { useRouter } from 'next/router';
 
+import { Avatar, Box, Flexbox, Typography, useTheme } from '@cocstorage/ui';
+import Icon from '@cocstorage/ui-icons';
+import styled from '@emotion/styled';
 import { useMutation, useQuery } from '@tanstack/react-query';
-
 import dayjs from 'dayjs';
 import { useSetRecoilState } from 'recoil';
 
-import styled from '@emotion/styled';
-
-import { noticeHideHeaderSubjectState } from '@recoil/pages/notice/atoms';
-
-import { Avatar, Box, Button, Flexbox, Icon, Typography, useTheme } from 'cocstorage-ui';
-
-import useScrollTrigger from '@hooks/useScrollTrigger';
-
 import { fetchNotice, putNoticeViewCount } from '@api/v1/notices';
-
 import queryKeys from '@constants/queryKeys';
+import useScrollTrigger from '@hooks/useScrollTrigger';
+import { noticeHideHeaderSubjectState } from '@recoil/pages/notice/atoms';
 
 interface NoticeContentProps {
   footerRef: RefObject<HTMLDivElement>;
@@ -36,8 +31,10 @@ function NoticeContent({ footerRef }: NoticeContentProps) {
 
   const setHideHeaderSubject = useSetRecoilState(noticeHideHeaderSubjectState);
 
-  const { data: { subject, user, content, viewCount, commentTotalCount, createdAt } = {} } =
-    useQuery(queryKeys.notices.noticeById(Number(id)), () => fetchNotice(Number(id)));
+  const { data: { subject, user, content, viewCount, createdAt } = {} } = useQuery(
+    queryKeys.notices.noticeById(Number(id)),
+    () => fetchNotice(Number(id))
+  );
 
   const { mutate } = useMutation((data: { id: number }) => putNoticeViewCount(data.id));
 
@@ -67,7 +64,6 @@ function NoticeContent({ footerRef }: NoticeContentProps) {
               src={(user || {}).avatarUrl || ''}
               alt="User Avatar Img"
               fallback={{
-                iconName: 'UserFilled',
                 width: 12,
                 height: 12
               }}
@@ -92,23 +88,13 @@ function NoticeContent({ footerRef }: NoticeContentProps) {
         lineHeight="main"
         dangerouslySetInnerHTML={{ __html: content }}
       />
-      <Flexbox ref={footerRef} component="section" customStyle={{ marginTop: 9 }}>
-        <Button
-          size="small"
-          startIcon={<Icon name="CommentOutlined" width={15} height={15} />}
-          customStyle={{
-            color: text[mode].text1
-          }}
-        >
-          {commentTotalCount.toLocaleString()}
-        </Button>
-      </Flexbox>
+      <Flexbox ref={footerRef} component="section" customStyle={{ marginTop: 40 }} />
     </>
   );
 }
 
 const Content = styled(Typography)`
-  margin-top: 30px;
+  margin-top: 40px;
 
   * {
     max-width: 100%;

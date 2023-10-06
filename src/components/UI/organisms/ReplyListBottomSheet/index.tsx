@@ -1,21 +1,19 @@
 import { ChangeEvent, useRef, useState } from 'react';
 
-import dayjs from 'dayjs';
-
 import {
   Avatar,
   BottomSheet,
   Flexbox,
   Grid,
-  Icon,
   IconButton,
   TextBar,
   Typography,
   useTheme
-} from 'cocstorage-ui';
+} from '@cocstorage/ui';
+import Icon from '@cocstorage/ui-icons';
+import dayjs from 'dayjs';
 
 import { Message, Reply } from '@components/UI/molecules';
-
 import { NoticeComment } from '@dto/notice-comments';
 import { StorageBoardComment } from '@dto/storage-board-comments';
 
@@ -109,7 +107,6 @@ function ReplyListBottomSheet({
           src={(user || {}).avatarUrl || ''}
           alt="User Avatar Img"
           fallback={{
-            iconName: 'UserFilled',
             width: 15,
             height: 15
           }}
@@ -177,7 +174,6 @@ function ReplyListBottomSheet({
             <Grid item xs={2}>
               <TextBar
                 fullWidth
-                size="small"
                 onChange={onChange}
                 onBlur={onBlurNicknameTextBar}
                 value={nickname}
@@ -190,7 +186,6 @@ function ReplyListBottomSheet({
               <TextBar
                 fullWidth
                 type="password"
-                size="small"
                 onChange={onChange}
                 onBlur={onBlurPasswordTextBar}
                 value={password}

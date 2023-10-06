@@ -1,4 +1,4 @@
-import { Flexbox } from 'cocstorage-ui';
+import { Flexbox } from '@cocstorage/ui';
 
 import StorageBoardCardSkeleton from '@components/UI/molecules/StorageBoardCard/StorageBoardCardSkeleton';
 

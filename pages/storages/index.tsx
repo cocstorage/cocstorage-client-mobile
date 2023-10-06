@@ -1,7 +1,9 @@
+import { Alert } from '@cocstorage/ui';
+import Icon from '@cocstorage/ui-icons';
 import { QueryClient, dehydrate } from '@tanstack/react-query';
 
-import { Alert, Icon } from 'cocstorage-ui';
-
+import { fetchStorageCategories } from '@api/v1/storage-categories';
+import { fetchStorages } from '@api/v1/storages';
 import {
   StorageHeader,
   StoragesCategoryTagList,
@@ -11,10 +13,6 @@ import {
 } from '@components/pages/storages';
 import GeneralTemplate from '@components/templeates/GeneralTemplate';
 import BottomNavigation from '@components/UI/molecules/BottomNavigation';
-
-import { fetchStorageCategories } from '@api/v1/storage-categories';
-import { fetchStorages } from '@api/v1/storages';
-
 import queryKeys from '@constants/queryKeys';
 
 function Storages() {

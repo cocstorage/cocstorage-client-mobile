@@ -1,4 +1,5 @@
-import { Box, Flexbox, Icon, IconButton, Skeleton } from 'cocstorage-ui';
+import { Box, Flexbox, IconButton, Skeleton } from '@cocstorage/ui';
+import Icon from '@cocstorage/ui-icons';
 
 import { StyledStorageBoardFooter } from '@components/pages/storageBoard/StorageBoardFooter';
 import { StyledStorageBoardHeader } from '@components/pages/storageBoard/StorageBoardHeader';

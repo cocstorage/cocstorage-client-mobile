@@ -1,13 +1,11 @@
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 
+import { useTheme } from '@cocstorage/ui';
 import { useQuery } from '@tanstack/react-query';
-
-import { useTheme } from 'cocstorage-ui';
 
 import { fetchStorageBoard } from '@api/v1/storage-boards';
 import { fetchStorage } from '@api/v1/storages';
-
 import queryKeys from '@constants/queryKeys';
 
 function StorageBoardHead() {

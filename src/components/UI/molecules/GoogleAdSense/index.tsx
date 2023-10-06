@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 
-import { CustomStyle } from 'cocstorage-ui';
+import { CustomStyle } from '@cocstorage/ui';
 
 import { StyledGoogleAdSense } from './GoogleAdSense.styles';
 

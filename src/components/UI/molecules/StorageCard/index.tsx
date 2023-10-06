@@ -2,7 +2,7 @@ import { HTMLAttributes } from 'react';
 
 import Link from 'next/link';
 
-import { Image, Typography } from 'cocstorage-ui';
+import { Image, Typography } from '@cocstorage/ui';
 
 import { StyledStorageCard } from './StorageCard.styles';
 

@@ -1,6 +1,7 @@
 import { HTMLAttributes } from 'react';
 
-import { Badge, CustomStyle, Icon, Tag, Typography } from 'cocstorage-ui';
+import { Badge, CustomStyle, Tag, Typography } from '@cocstorage/ui';
+import Icon from '@cocstorage/ui-icons';
 
 import { IssueKeyword } from '@dto/issue-keywords';
 
@@ -40,8 +41,8 @@ function IssueKeywordCard({
         {keyword}
       </Typography>
       {isNew && <Badge severity="warning">NEW</Badge>}
-      {isUp && <Badge severity="success" startIcon={<Icon name="ArrowDropUpSpecify_12_12" />} />}
-      {isDown && <Badge severity="error" startIcon={<Icon name="ArrowDropDownSpecify_12_12" />} />}
+      {isUp && <Badge severity="success" icon={<Icon name="ArrowDropUpSpecify_12_12" />} />}
+      {isDown && <Badge severity="error" icon={<Icon name="ArrowDropDownSpecify_12_12" />} />}
     </StyledIssueKeywordCard>
   );
 }

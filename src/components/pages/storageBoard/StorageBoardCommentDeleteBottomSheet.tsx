@@ -1,18 +1,7 @@
 import { ChangeEvent, useEffect, useRef, useState } from 'react';
 
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-
 import { useRecoilState, useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
-
-import { commonOnBoardingDefault, commonOnBoardingState } from '@recoil/common/atoms';
-import { myPasswordState } from '@recoil/pages/my/atoms';
-import {
-  storageBoardCommentDeleteBottomSheetState,
-  storageBoardCommentMenuBottomSheetState,
-  storageBoardCommentsParamsState
-} from '@recoil/pages/storageBoard/atoms';
-
-import CommentDeleteBottomSheet from '@components/UI/organisms/CommentDeleteBottomSheet';
 
 import {
   DeleteStorageBoardCommentData,
@@ -20,8 +9,15 @@ import {
   fetchStorageBoardComments
 } from '@api/v1/storage-board-comments';
 import { fetchStorageBoard } from '@api/v1/storage-boards';
-
+import CommentDeleteBottomSheet from '@components/UI/organisms/CommentDeleteBottomSheet';
 import queryKeys from '@constants/queryKeys';
+import { commonOnBoardingDefault, commonOnBoardingState } from '@recoil/common/atoms';
+import { myPasswordState } from '@recoil/pages/my/atoms';
+import {
+  storageBoardCommentDeleteBottomSheetState,
+  storageBoardCommentMenuBottomSheetState,
+  storageBoardCommentsParamsState
+} from '@recoil/pages/storageBoard/atoms';
 
 function StorageBoardCommentDeleteBottomSheet() {
   const { open, storageId, id, commentId } = useRecoilValue(

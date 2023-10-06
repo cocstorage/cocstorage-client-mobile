@@ -2,14 +2,14 @@ import { useEffect, useRef } from 'react';
 
 import { useRouter } from 'next/router';
 
+import { BottomSheet, Flexbox, Typography } from '@cocstorage/ui';
+import Icon from '@cocstorage/ui-icons';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 
 import {
   storageBoardDeleteBottomSheetOpenState,
   storageBoardMenuBottomSheetOpenState
 } from '@recoil/pages/storageBoard/atoms';
-
-import { BottomSheet, Flexbox, Icon, Typography } from 'cocstorage-ui';
 
 function StorageBoardMenuBottomSheet() {
   const router = useRouter();

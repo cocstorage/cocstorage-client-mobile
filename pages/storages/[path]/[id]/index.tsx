@@ -4,6 +4,8 @@ import { GetServerSidePropsContext } from 'next';
 
 import { QueryClient, dehydrate } from '@tanstack/react-query';
 
+import { fetchStorageBoard } from '@api/v1/storage-boards';
+import { fetchStorage } from '@api/v1/storages';
 import {
   StorageBoardCommentDeleteBottomSheet,
   StorageBoardCommentList,
@@ -20,10 +22,6 @@ import {
 } from '@components/pages/storageBoard';
 import GeneralTemplate from '@components/templeates/GeneralTemplate';
 import GoogleAdSense from '@components/UI/molecules/GoogleAdSense';
-
-import { fetchStorageBoard } from '@api/v1/storage-boards';
-import { fetchStorage } from '@api/v1/storages';
-
 import queryKeys from '@constants/queryKeys';
 
 function StorageBoard() {

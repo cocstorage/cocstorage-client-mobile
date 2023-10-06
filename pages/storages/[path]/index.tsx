@@ -2,8 +2,8 @@ import { GetServerSidePropsContext } from 'next';
 
 import { QueryClient, dehydrate } from '@tanstack/react-query';
 
-import { storageBoardsParamsDefault } from '@recoil/pages/storageBoards/atoms';
-
+import { fetchStorageBoards } from '@api/v1/storage-boards';
+import { fetchStorage } from '@api/v1/storages';
 import {
   StorageBoardsHead,
   StorageBoardsHeader,
@@ -15,11 +15,8 @@ import {
 } from '@components/pages/storageBoards';
 import GeneralTemplate from '@components/templeates/GeneralTemplate';
 import BottomNavigation from '@components/UI/molecules/BottomNavigation';
-
-import { fetchStorageBoards } from '@api/v1/storage-boards';
-import { fetchStorage } from '@api/v1/storages';
-
 import queryKeys from '@constants/queryKeys';
+import { storageBoardsParamsDefault } from '@recoil/pages/storageBoards/atoms';
 
 function StorageBoards() {
   return (
@@ -29,8 +26,8 @@ function StorageBoards() {
         <StorageBoardsTabs />
         <StorageBoardsNoticeAlert />
         <StorageBoardsList />
-        <StorageBoardsPostFloatingButton />
       </GeneralTemplate>
+      <StorageBoardsPostFloatingButton />
       <StorageBoardsInfoBottomSheet />
     </>
   );

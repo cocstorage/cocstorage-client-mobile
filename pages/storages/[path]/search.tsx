@@ -2,6 +2,7 @@ import { GetServerSidePropsContext } from 'next';
 
 import { QueryClient, dehydrate } from '@tanstack/react-query';
 
+import { fetchStorage } from '@api/v1/storages';
 import {
   StorageBoardSearchBar,
   StorageBoardSearchList,
@@ -9,9 +10,6 @@ import {
   StorageBoardsSearchHead
 } from '@components/pages/storageBoardSearch';
 import GeneralTemplate from '@components/templeates/GeneralTemplate';
-
-import { fetchStorage } from '@api/v1/storages';
-
 import queryKeys from '@constants/queryKeys';
 
 function StorageBoardsSearch() {
@@ -40,9 +38,7 @@ export async function getServerSideProps({ req, res, query }: GetServerSideProps
     const queryClient = new QueryClient();
     const path = String(query.path);
 
-    const storage = await fetchStorage(path);
-
-    await queryClient.setQueryData(queryKeys.storages.storageById(path), storage);
+    await queryClient.fetchQuery(queryKeys.storages.storageById(path), () => fetchStorage(path));
 
     return {
       props: {

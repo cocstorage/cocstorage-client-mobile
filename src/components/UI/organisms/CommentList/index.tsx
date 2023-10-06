@@ -1,8 +1,8 @@
-import { CustomStyle, Flexbox, Icon, Pagination, Typography, useTheme } from 'cocstorage-ui';
+import { CustomStyle, Flexbox, Pagination, Skeleton, Typography, useTheme } from '@cocstorage/ui';
+import Icon from '@cocstorage/ui-icons';
 
 import { Comment, Message } from '@components/UI/molecules';
 import CommentSkeleton from '@components/UI/molecules/Comment/CommentSkeleton';
-
 import { Pagination as IPagination } from '@dto/common';
 import { NoticeComment } from '@dto/notice-comments';
 import { StorageBoardComment } from '@dto/storage-board-comments';
@@ -57,20 +57,23 @@ function CommentList({
     <Flexbox component="section" direction="vertical" gap={24} customStyle={customStyle}>
       <Flexbox gap={4} alignment="center">
         <Icon name="CommentOutlined" width={20} height={20} />
-        <Flexbox gap={6}>
-          <Typography variant="h4" fontWeight="bold">
-            댓글
-          </Typography>
-          <Typography
-            variant="h4"
-            fontWeight="bold"
-            customStyle={{
-              color: primary.main
-            }}
-          >
-            {totalCount.toLocaleString()}
-          </Typography>
-        </Flexbox>
+        {isLoading && <Skeleton width={40} height={20} round={6} disableAspectRatio />}
+        {!isLoading && (
+          <Flexbox gap={6}>
+            <Typography variant="h4" fontWeight="bold">
+              댓글
+            </Typography>
+            <Typography
+              variant="h4"
+              fontWeight="bold"
+              customStyle={{
+                color: primary.main
+              }}
+            >
+              {totalCount.toLocaleString()}
+            </Typography>
+          </Flexbox>
+        )}
       </Flexbox>
       <Flexbox gap={18} direction="vertical">
         {isLoading &&

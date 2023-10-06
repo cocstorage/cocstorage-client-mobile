@@ -1,6 +1,6 @@
 import { PropsWithChildren, ReactElement } from 'react';
 
-import { Flexbox } from 'cocstorage-ui';
+import { Flexbox } from '@cocstorage/ui';
 
 interface WideFlexibleTemplateProps {
   header?: ReactElement;

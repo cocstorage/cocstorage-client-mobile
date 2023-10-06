@@ -1,4 +1,4 @@
-import { Box, Flexbox } from 'cocstorage-ui';
+import { Box, Flexbox } from '@cocstorage/ui';
 
 import { NoticesHeader } from '@components/pages/notices';
 import GeneralTemplate from '@components/templeates/GeneralTemplate';

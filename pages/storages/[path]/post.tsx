@@ -2,6 +2,7 @@ import { GetServerSidePropsContext } from 'next';
 
 import { QueryClient, dehydrate } from '@tanstack/react-query';
 
+import { fetchStorage } from '@api/v1/storages';
 import {
   StorageBoardsPostBottomSheet,
   StorageBoardsPostEditor,
@@ -10,9 +11,6 @@ import {
   StorageBoardsPostSubjectInput
 } from '@components/pages/storageBoardsPost';
 import WideFlexibleTemplate from '@components/templeates/WideFlexibleTemplate';
-
-import { fetchStorage } from '@api/v1/storages';
-
 import queryKeys from '@constants/queryKeys';
 
 function StorageBoardsPost() {

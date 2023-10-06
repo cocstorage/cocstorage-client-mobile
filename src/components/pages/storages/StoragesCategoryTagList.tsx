@@ -1,18 +1,13 @@
 import { MouseEvent } from 'react';
 
+import { Tag } from '@cocstorage/ui';
+import styled from '@emotion/styled';
 import { useQuery } from '@tanstack/react-query';
-
 import { useRecoilState } from 'recoil';
 
-import styled from '@emotion/styled';
-
-import { storagesSelectedCategoryIdState } from '@recoil/pages/storages/atoms';
-
-import { Tag } from 'cocstorage-ui';
-
 import { fetchStorageCategories } from '@api/v1/storage-categories';
-
 import queryKeys from '@constants/queryKeys';
+import { storagesSelectedCategoryIdState } from '@recoil/pages/storages/atoms';
 
 function StoragesCategoryTagList() {
   const [selectedCategoryId, setSelectedCategoryId] = useRecoilState(

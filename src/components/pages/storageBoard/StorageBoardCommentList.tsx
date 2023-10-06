@@ -3,23 +3,19 @@ import { useEffect, useRef } from 'react';
 import { useRouter } from 'next/router';
 
 import { useQuery } from '@tanstack/react-query';
-
 import { useRecoilState, useResetRecoilState, useSetRecoilState } from 'recoil';
 
+import { fetchStorageBoardComments } from '@api/v1/storage-board-comments';
+import { fetchStorageBoard } from '@api/v1/storage-boards';
+import { fetchStorage } from '@api/v1/storages';
+import CommentList from '@components/UI/organisms/CommentList';
+import queryKeys from '@constants/queryKeys';
 import {
   storageBoardCommentMenuBottomSheetState,
   storageBoardCommentsParamsState,
   storageBoardReplyListBottomSheetState,
   storageBoardReplyMenuBottomSheetState
 } from '@recoil/pages/storageBoard/atoms';
-
-import CommentList from '@components/UI/organisms/CommentList';
-
-import { fetchStorageBoardComments } from '@api/v1/storage-board-comments';
-import { fetchStorageBoard } from '@api/v1/storage-boards';
-import { fetchStorage } from '@api/v1/storages';
-
-import queryKeys from '@constants/queryKeys';
 
 function StorageBoardCommentList() {
   const router = useRouter();

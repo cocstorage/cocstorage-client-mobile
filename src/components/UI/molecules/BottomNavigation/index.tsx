@@ -2,6 +2,8 @@ import { MouseEvent, useCallback, useEffect, useRef, useState } from 'react';
 
 import { useRouter } from 'next/router';
 
+import { Box, Spotlight, Tooltip, Typography, useTheme } from '@cocstorage/ui';
+import Icon from '@cocstorage/ui-icons';
 import { useRecoilState, useRecoilValue } from 'recoil';
 
 import {
@@ -9,8 +11,6 @@ import {
   commonOnBoardingDefault,
   commonOnBoardingState
 } from '@recoil/common/atoms';
-
-import { Box, Icon, Spotlight, Tooltip, Typography, useTheme } from 'cocstorage-ui';
 
 import { NavigationItem, StyledBottomNavigation } from './BottomNavigation.styles';
 

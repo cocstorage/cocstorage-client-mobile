@@ -1,12 +1,9 @@
+import { Box, Typography } from '@cocstorage/ui';
 import { useQuery } from '@tanstack/react-query';
 
-import { Box, Typography } from 'cocstorage-ui';
-
+import { fetchLatestStorageBoards } from '@api/v1/storage-boards';
 import StorageBoardCard from '@components/UI/molecules/StorageBoardCard';
 import StorageBoardCardSkeleton from '@components/UI/molecules/StorageBoardCard/StorageBoardCardSkeleton';
-
-import { fetchLatestStorageBoards } from '@api/v1/storage-boards';
-
 import queryKeys from '@constants/queryKeys';
 
 function IndexLatestStorageBoardList() {

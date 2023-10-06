@@ -1,6 +1,6 @@
 import Head from 'next/head';
 
-import { useTheme } from 'cocstorage-ui';
+import { useTheme } from '@cocstorage/ui';
 
 function NoticesHead() {
   const {

@@ -2,25 +2,21 @@ import { useEffect } from 'react';
 
 import { useRouter } from 'next/router';
 
+import { useTheme } from '@cocstorage/ui';
+import Editor, { EditorContent } from '@cocstorage/ui-editor';
 import { useMutation, useQuery } from '@tanstack/react-query';
-
-import { Editor, EditorContent } from 'cocstorage-ui-editor';
 import { useRecoilState } from 'recoil';
-
-import {
-  storageBoardsPostDraftIdState,
-  storageBoardsPostEditorContentsState
-} from '@recoil/pages/storageBoardsPost/atoms';
-
-import { useTheme } from 'cocstorage-ui';
 
 import {
   postNonMemberStorageBoardDraft,
   postNonMemberStorageBoardImage
 } from '@api/v1/storage-boards';
 import { fetchStorage } from '@api/v1/storages';
-
 import queryKeys from '@constants/queryKeys';
+import {
+  storageBoardsPostDraftIdState,
+  storageBoardsPostEditorContentsState
+} from '@recoil/pages/storageBoardsPost/atoms';
 
 function StorageBoardsPostEditor() {
   const router = useRouter();

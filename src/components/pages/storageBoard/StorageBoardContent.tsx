@@ -2,33 +2,14 @@ import { MouseEvent, RefObject, useEffect, useRef } from 'react';
 
 import { useRouter } from 'next/router';
 
+import { Avatar, Box, Button, Flexbox, Image, Tag, Typography, useTheme } from '@cocstorage/ui';
+import { convertToReactElement } from '@cocstorage/ui-editor';
+import Icon from '@cocstorage/ui-icons';
+import styled, { CSSObject } from '@emotion/styled';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-
-import { convertToReactElement } from 'cocstorage-ui-editor';
+import { AxiosError } from 'axios';
 import dayjs from 'dayjs';
 import { useSetRecoilState } from 'recoil';
-
-import styled, { CSSObject } from '@emotion/styled';
-
-import { commonFeedbackDialogState } from '@recoil/common/atoms';
-import { storageBoardHideHeaderSubjectState } from '@recoil/pages/storageBoard/atoms';
-
-import {
-  Avatar,
-  Box,
-  Button,
-  Flexbox,
-  Icon,
-  Image,
-  Tag,
-  Typography,
-  useTheme
-} from 'cocstorage-ui';
-
-import { AxiosError } from 'axios';
-
-import useScrollTrigger from '@hooks/useScrollTrigger';
-import getErrorMessageByCode from '@utils/getErrorMessageByCode';
 
 import {
   fetchStorageBoard,
@@ -36,8 +17,11 @@ import {
   putStorageBoardViewCount
 } from '@api/v1/storage-boards';
 import { fetchStorage } from '@api/v1/storages';
-
 import queryKeys from '@constants/queryKeys';
+import useScrollTrigger from '@hooks/useScrollTrigger';
+import { commonFeedbackDialogState } from '@recoil/common/atoms';
+import { storageBoardHideHeaderSubjectState } from '@recoil/pages/storageBoard/atoms';
+import getErrorMessageByCode from '@utils/getErrorMessageByCode';
 
 interface StorageBoardContentProps {
   footerRef: RefObject<HTMLDivElement>;
@@ -79,7 +63,6 @@ function StorageBoardContent({ footerRef }: StorageBoardContentProps) {
       viewCount,
       scrapCode,
       sourceCode,
-      commentTotalCount,
       createdAt
     } = {}
   } = useQuery(queryKeys.storageBoards.storageBoardById(Number(id)), () =>
@@ -155,7 +138,6 @@ function StorageBoardContent({ footerRef }: StorageBoardContentProps) {
               src={(user || {}).avatarUrl || ''}
               alt="User Avatar Img"
               fallback={{
-                iconName: 'UserFilled',
                 width: 12,
                 height: 12
               }}
@@ -252,20 +234,34 @@ function StorageBoardContent({ footerRef }: StorageBoardContentProps) {
           component="article"
           lineHeight="main"
           sourceCode={sourceCode}
+          css={{
+            marginTop: 40
+          }}
           dangerouslySetInnerHTML={{
             __html: content
           }}
         />
       )}
       {!sourceCode && (
-        <Content component="article" lineHeight="main" sourceCode={sourceCode}>
+        <Content
+          component="article"
+          lineHeight="main"
+          sourceCode={sourceCode}
+          css={{
+            marginTop: 40
+          }}
+        >
           {convertToReactElement(contentJson)}
         </Content>
       )}
-      <Flexbox ref={footerRef} component="section" customStyle={{ marginTop: 9 }}>
+      <Flexbox
+        ref={footerRef}
+        component="section"
+        justifyContent="center"
+        customStyle={{ marginTop: 40 }}
+      >
         <Flexbox>
           <Button
-            size="small"
             startIcon={<Icon name="ThumbsUpFilled" width={15} height={15} color="primary" />}
             data-type={0}
             onClick={handleClickRecommend}
@@ -279,7 +275,6 @@ function StorageBoardContent({ footerRef }: StorageBoardContentProps) {
             {thumbUp.toLocaleString()}
           </Button>
           <Button
-            size="small"
             startIcon={<Icon name="ThumbsDownOutlined" width={15} height={15} />}
             data-type={1}
             onClick={handleClickRecommend}
@@ -290,16 +285,6 @@ function StorageBoardContent({ footerRef }: StorageBoardContentProps) {
             }}
           >
             {thumbDown.toLocaleString()}
-          </Button>
-          <Button
-            size="small"
-            startIcon={<Icon name="CommentOutlined" width={15} height={15} />}
-            customStyle={{
-              marginLeft: 10,
-              color: text[mode].text1
-            }}
-          >
-            {commentTotalCount.toLocaleString()}
           </Button>
         </Flexbox>
       </Flexbox>

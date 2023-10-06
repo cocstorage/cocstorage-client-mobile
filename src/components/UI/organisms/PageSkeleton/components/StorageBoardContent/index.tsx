@@ -1,4 +1,4 @@
-import { Box, Skeleton } from 'cocstorage-ui';
+import { Box, Skeleton } from '@cocstorage/ui';
 
 import { Content } from '@components/pages/storageBoard/StorageBoardContent';
 

@@ -1,8 +1,8 @@
 import { useRouter } from 'next/router';
 
+import { Box, IconButton, Typography } from '@cocstorage/ui';
+import Icon from '@cocstorage/ui-icons';
 import styled from '@emotion/styled';
-
-import { Box, Icon, IconButton, Typography } from 'cocstorage-ui';
 
 function MyHeader() {
   const router = useRouter();

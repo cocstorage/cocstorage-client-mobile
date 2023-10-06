@@ -1,4 +1,4 @@
-import { Flexbox, Typography } from 'cocstorage-ui';
+import { Flexbox, Typography } from '@cocstorage/ui';
 
 import { PolicyHead, PolicyHeader } from '@components/pages/policy';
 import GeneralTemplate from '@components/templeates/GeneralTemplate';

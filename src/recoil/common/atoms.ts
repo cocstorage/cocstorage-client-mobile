@@ -1,10 +1,8 @@
+import { ThemeMode } from '@cocstorage/ui';
 import { atom } from 'recoil';
 
-import { ThemeMode } from 'cocstorage-ui';
-
-import LocalStorage from '@library/localStorage';
-
 import localStorageKeys from '@constants/localStorageKeys';
+import LocalStorage from '@library/localStorage';
 
 export const commonThemeDefault: ThemeMode | 'system' = 'system';
 

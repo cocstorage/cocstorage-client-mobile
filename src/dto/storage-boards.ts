@@ -1,4 +1,4 @@
-import { EditorContent } from 'cocstorage-ui-editor';
+import { EditorContent } from '@cocstorage/ui-editor';
 
 import { Storage } from '@dto/storages';
 import { User } from '@dto/uesrs';

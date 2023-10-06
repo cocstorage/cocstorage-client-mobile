@@ -2,11 +2,10 @@ import { MouseEvent } from 'react';
 
 import { useRouter } from 'next/router';
 
-import { Button, Flexbox, Image, Typography, useTheme } from 'cocstorage-ui';
+import { Button, Flexbox, Image, Typography, useTheme } from '@cocstorage/ui';
 
 import { MyInfoHead, MyInfoHeader } from '@components/pages/myInfo';
 import GeneralTemplate from '@components/templeates/GeneralTemplate';
-
 import packageJson from 'package.json';
 
 function MyInfo() {

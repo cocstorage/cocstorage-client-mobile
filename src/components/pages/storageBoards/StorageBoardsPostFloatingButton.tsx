@@ -2,18 +2,17 @@ import { useEffect, useRef, useState } from 'react';
 
 import { useRouter } from 'next/router';
 
+import { Box, Button, Spotlight, Tooltip } from '@cocstorage/ui';
+import Icon from '@cocstorage/ui-icons';
 import { useRecoilState, useResetRecoilState } from 'recoil';
 
+import useReverseScrollTrigger from '@hooks/useReverseScrollTrigger';
 import { commonOnBoardingDefault, commonOnBoardingState } from '@recoil/common/atoms';
 import {
   storageBoardsPostDraftIdState,
   storageBoardsPostEditorContentsState,
   storageBoardsPostSubjectState
 } from '@recoil/pages/storageBoardsPost/atoms';
-
-import { Box, Button, Icon, Spotlight, Tooltip } from 'cocstorage-ui';
-
-import useReverseScrollTrigger from '@hooks/useReverseScrollTrigger';
 
 function StorageBoardsPostFloatingButton() {
   const router = useRouter();

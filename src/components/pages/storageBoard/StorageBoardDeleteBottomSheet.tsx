@@ -2,17 +2,6 @@ import { ChangeEvent, useEffect, useRef, useState } from 'react';
 
 import { useRouter } from 'next/router';
 
-import { useMutation, useQuery } from '@tanstack/react-query';
-
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
-
-import { commonOnBoardingDefault, commonOnBoardingState } from '@recoil/common/atoms';
-import { myPasswordState } from '@recoil/pages/my/atoms';
-import {
-  storageBoardDeleteBottomSheetOpenState,
-  storageBoardMenuBottomSheetOpenState
-} from '@recoil/pages/storageBoard/atoms';
-
 import {
   BottomSheet,
   Button,
@@ -21,11 +10,18 @@ import {
   Tooltip,
   Typography,
   useTheme
-} from 'cocstorage-ui';
+} from '@cocstorage/ui';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 
 import { deleteNonMemberStorageBoard, fetchStorageBoard } from '@api/v1/storage-boards';
-
 import queryKeys from '@constants/queryKeys';
+import { commonOnBoardingDefault, commonOnBoardingState } from '@recoil/common/atoms';
+import { myPasswordState } from '@recoil/pages/my/atoms';
+import {
+  storageBoardDeleteBottomSheetOpenState,
+  storageBoardMenuBottomSheetOpenState
+} from '@recoil/pages/storageBoard/atoms';
 
 function StorageBoardDeleteBottomSheet() {
   const router = useRouter();
@@ -157,7 +153,8 @@ function StorageBoardDeleteBottomSheet() {
         alignment="center"
         gap={4}
         customStyle={{
-          marginTop: 30
+          marginTop: 30,
+          textAlign: 'center'
         }}
       >
         <Typography variant="h3" fontWeight="bold">
@@ -179,7 +176,7 @@ function StorageBoardDeleteBottomSheet() {
         <TextBar
           type="password"
           fullWidth
-          size="big"
+          size="xBig"
           label="비밀번호"
           value={password}
           onChange={handleChange}
@@ -194,6 +191,7 @@ function StorageBoardDeleteBottomSheet() {
       <Button
         fullWidth
         variant="accent"
+        size="big"
         onClick={handleClick}
         disabled={!password || isLoading}
         customStyle={{

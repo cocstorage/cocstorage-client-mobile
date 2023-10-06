@@ -1,10 +1,9 @@
 import { ChangeEvent } from 'react';
 
+import { BottomSheet, Box, Button, TextBar, Tooltip, Typography, useTheme } from '@cocstorage/ui';
 import { useRecoilState } from 'recoil';
 
 import { commonOnBoardingDefault, commonOnBoardingState } from '@recoil/common/atoms';
-
-import { BottomSheet, Box, Button, TextBar, Tooltip, Typography, useTheme } from 'cocstorage-ui';
 
 interface CommentDeleteBottomSheetProps {
   open: boolean;
@@ -68,7 +67,7 @@ function CommentDeleteBottomSheet({
             type="password"
             label="비밀번호"
             fullWidth
-            size="big"
+            size="xBig"
             value={password}
             onChange={onChange}
             autoFocus
@@ -81,6 +80,7 @@ function CommentDeleteBottomSheet({
         )}
         <Button
           variant="accent"
+          size="big"
           fullWidth
           onClick={onClickDelete}
           disabled={!password || isLoading}

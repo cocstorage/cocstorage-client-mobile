@@ -2,12 +2,11 @@ import { useEffect, useRef } from 'react';
 
 import { useRecoilState, useResetRecoilState, useSetRecoilState } from 'recoil';
 
+import CommentMenuBottomSheet from '@components/UI/organisms/CommentMenuBottomSheet';
 import {
   noticeCommentDeleteBottomSheetState,
   noticeCommentMenuBottomSheetState
 } from '@recoil/pages/notice/atoms';
-
-import CommentMenuBottomSheet from '@components/UI/organisms/CommentMenuBottomSheet';
 
 function NoticeCommentMenuBottomSheet() {
   const [{ open, id, commentId }, setCommentMenuBottomState] = useRecoilState(

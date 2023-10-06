@@ -44,53 +44,8 @@ module.exports = {
             position: 'after'
           },
           {
-            pattern: 'next/**',
+            pattern: 'next/*',
             group: 'builtin',
-            position: 'after'
-          },
-          {
-            pattern: '@tanstack/react-query',
-            group: 'external',
-            position: 'before'
-          },
-          {
-            pattern: '@tanstack/react-query/**',
-            group: 'external',
-            position: 'before'
-          },
-          {
-            pattern: '@emotion/**',
-            group: 'external',
-            position: 'after'
-          },
-          {
-            pattern: '@recoil/**',
-            group: 'external',
-            position: 'after'
-          },
-          {
-            pattern: 'cocstorage-ui',
-            group: 'external',
-            position: 'after'
-          },
-          {
-            pattern: 'axios',
-            group: 'external',
-            position: 'after'
-          },
-          {
-            pattern: '@components/**',
-            group: 'internal',
-            position: 'before'
-          },
-          {
-            pattern: '@api/**',
-            group: 'internal',
-            position: 'after'
-          },
-          {
-            pattern: '@constants/**',
-            group: 'internal',
             position: 'after'
           }
         ],

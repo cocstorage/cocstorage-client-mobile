@@ -1,10 +1,9 @@
 import { atom } from 'recoil';
 
+import localStorageKeys from '@constants/localStorageKeys';
 import LocalStorage from '@library/localStorage';
 import getRandomNickname from '@utils/getRandomNickname';
 import getRandomPassword from '@utils/getRandomPassword';
-
-import localStorageKeys from '@constants/localStorageKeys';
 
 export const myNicknameState = atom({
   key: 'my/nicknameState',

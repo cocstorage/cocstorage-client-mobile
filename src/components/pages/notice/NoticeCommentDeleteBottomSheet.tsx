@@ -1,16 +1,7 @@
 import { ChangeEvent, useEffect, useRef, useState } from 'react';
 
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-
 import { useRecoilState, useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
-
-import {
-  noticeCommentDeleteBottomSheetState,
-  noticeCommentMenuBottomSheetState,
-  noticeCommentsParamsState
-} from '@recoil/pages/notice/atoms';
-
-import CommentDeleteBottomSheet from '@components/UI/organisms/CommentDeleteBottomSheet';
 
 import {
   DeleteNoticeCommentData,
@@ -18,8 +9,13 @@ import {
   fetchNoticeComments
 } from '@api/v1/notice-comments';
 import { fetchNotice } from '@api/v1/notices';
-
+import CommentDeleteBottomSheet from '@components/UI/organisms/CommentDeleteBottomSheet';
 import queryKeys from '@constants/queryKeys';
+import {
+  noticeCommentDeleteBottomSheetState,
+  noticeCommentMenuBottomSheetState,
+  noticeCommentsParamsState
+} from '@recoil/pages/notice/atoms';
 
 function NoticeCommentDeleteBottomSheet() {
   const { open, id, commentId } = useRecoilValue(noticeCommentDeleteBottomSheetState);

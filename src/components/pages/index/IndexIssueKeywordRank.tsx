@@ -1,14 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
-
 import { useSetRecoilState } from 'recoil';
 
-import { commonFeedbackDialogState } from '@recoil/common/atoms';
-
-import IssueKeywordRank from '@components/UI/organisms/IssueKeywordRank';
-
 import { fetchIssueKeywordRank } from '@api/v1/issue-keywords';
-
+import IssueKeywordRank from '@components/UI/organisms/IssueKeywordRank';
 import queryKeys from '@constants/queryKeys';
+import { commonFeedbackDialogState } from '@recoil/common/atoms';
 
 function IndexIssueKeywordRank() {
   const setCommonFeedbackDialogState = useSetRecoilState(commonFeedbackDialogState);

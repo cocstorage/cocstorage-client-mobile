@@ -1,10 +1,10 @@
 import { useMemo, useState } from 'react';
 
-import { Button, CustomStyle, Flexbox, Icon, Typography, useTheme } from 'cocstorage-ui';
+import { Button, CustomStyle, Flexbox, Typography, useTheme } from '@cocstorage/ui';
+import Icon from '@cocstorage/ui-icons';
 
 import { IssueKeywordCard, Message } from '@components/UI/molecules';
 import IssueKeywordCardSkeleton from '@components/UI/molecules/IssueKeywordCard/IssueKeywordCardSkeleton';
-
 import { IssueKeywordRank as IIssueKeywordRank } from '@dto/issue-keywords';
 
 import { List, StyledIssueKeywordRank } from './IssueKeywordRank.styles';

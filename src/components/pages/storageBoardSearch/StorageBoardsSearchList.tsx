@@ -1,23 +1,19 @@
 import { useRouter } from 'next/router';
 
+import { Box, Flexbox, Pagination, Typography, useTheme } from '@cocstorage/ui';
+import Icon from '@cocstorage/ui-icons';
 import { useQuery } from '@tanstack/react-query';
-
 import { useRecoilState, useRecoilValue } from 'recoil';
 
+import { fetchStorageBoards } from '@api/v1/storage-boards';
+import { fetchStorage } from '@api/v1/storages';
+import StorageBoardCard from '@components/UI/molecules/StorageBoardCard';
+import StorageBoardCardSkeleton from '@components/UI/molecules/StorageBoardCard/StorageBoardCardSkeleton';
+import queryKeys from '@constants/queryKeys';
 import {
   storageBoardsSearchParamsState,
   storageBoardsSearchPendingState
 } from '@recoil/pages/storageBoardsSearch/atoms';
-
-import { Box, Flexbox, Icon, Pagination, Typography, useTheme } from 'cocstorage-ui';
-
-import StorageBoardCard from '@components/UI/molecules/StorageBoardCard';
-import StorageBoardCardSkeleton from '@components/UI/molecules/StorageBoardCard/StorageBoardCardSkeleton';
-
-import { fetchStorageBoards } from '@api/v1/storage-boards';
-import { fetchStorage } from '@api/v1/storages';
-
-import queryKeys from '@constants/queryKeys';
 
 function StorageBoardsSearchList() {
   const router = useRouter();

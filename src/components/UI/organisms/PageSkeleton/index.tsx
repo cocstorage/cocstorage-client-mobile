@@ -5,7 +5,6 @@ import { useRouter } from 'next/router';
 import { useRecoilValue } from 'recoil';
 
 import { commonIsGoBackState } from '@recoil/common/atoms';
-
 import getPathNameByUrl from '@utils/getPathNameByUrl';
 
 import { Best, Home, Notice, Notices, StorageBoard, StorageBoards, Storages, Worst } from './pages';

@@ -2,10 +2,14 @@ import { ChangeEvent, useState } from 'react';
 
 import { useRouter } from 'next/router';
 
+import { BottomSheet, Button, TextBar, Tooltip, Typography, useTheme } from '@cocstorage/ui';
+import Icon from '@cocstorage/ui-icons';
 import { useMutation, useQuery } from '@tanstack/react-query';
-
 import { useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
 
+import { PutStorageBoardData, putNonMemberStorageBoard } from '@api/v1/storage-boards';
+import { fetchStorage } from '@api/v1/storages';
+import queryKeys from '@constants/queryKeys';
 import { commonOnBoardingDefault, commonOnBoardingState } from '@recoil/common/atoms';
 import { myNicknameState, myPasswordState } from '@recoil/pages/my/atoms';
 import {
@@ -14,15 +18,7 @@ import {
   storageBoardsPostEditorContentsState,
   storageBoardsPostSubjectState
 } from '@recoil/pages/storageBoardsPost/atoms';
-
-import { BottomSheet, Button, Icon, TextBar, Tooltip, Typography, useTheme } from 'cocstorage-ui';
-
 import validators from '@utils/validators';
-
-import { PutStorageBoardData, putNonMemberStorageBoard } from '@api/v1/storage-boards';
-import { fetchStorage } from '@api/v1/storages';
-
-import queryKeys from '@constants/queryKeys';
 
 function StorageBoardsPostBottomSheet() {
   const router = useRouter();
@@ -165,7 +161,7 @@ function StorageBoardsPostBottomSheet() {
 
   return (
     <BottomSheet
-      open={open}
+      open={!open}
       onClose={handleClose}
       customStyle={{
         padding: '0 20px 20px'
@@ -188,7 +184,7 @@ function StorageBoardsPostBottomSheet() {
         value={myNickname}
         fullWidth
         label="닉네임"
-        size="big"
+        size="xBig"
         customStyle={{
           marginTop: 27
         }}
@@ -217,7 +213,7 @@ function StorageBoardsPostBottomSheet() {
           onChange={handleChange}
           value={myPassword}
           fullWidth
-          size="big"
+          size="xBig"
           label="비밀번호"
         />
       </Tooltip>
@@ -233,6 +229,7 @@ function StorageBoardsPostBottomSheet() {
       <Button
         fullWidth
         variant="accent"
+        size="big"
         startIcon={<Icon name="SendFilled" width={18} height={18} />}
         onClick={handleClick}
         disabled={isLoading}

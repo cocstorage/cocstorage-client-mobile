@@ -2,19 +2,18 @@ import { HTMLAttributes, useMemo } from 'react';
 
 import Link from 'next/link';
 
-import dayjs from 'dayjs';
-
 import {
   Avatar,
   Badge,
   Box,
   CustomStyle,
   Flexbox,
-  Icon,
   Image,
   Typography,
   useTheme
-} from 'cocstorage-ui';
+} from '@cocstorage/ui';
+import Icon from '@cocstorage/ui-icons';
+import dayjs from 'dayjs';
 
 import { StorageBoard } from '@dto/storage-boards';
 
@@ -108,7 +107,7 @@ function StorageBoardCard({
                 {!hideSymbolismBadge && isPopular && (
                   <Badge
                     severity="info"
-                    startIcon={<Icon name="ThumbsUpFilled" width={12} height={12} />}
+                    icon={<Icon name="ThumbsUpFilled" width={12} height={12} />}
                     iconOnly
                     customStyle={{
                       marginRight: 4,
@@ -119,7 +118,7 @@ function StorageBoardCard({
                 {!hideSymbolismBadge && isWorst && (
                   <Badge
                     severity="error"
-                    startIcon={<Icon name="ThumbsDownFilled" width={12} height={12} />}
+                    icon={<Icon name="ThumbsDownFilled" width={12} height={12} />}
                     iconOnly
                     customStyle={{
                       marginRight: 4,
@@ -187,14 +186,14 @@ function StorageBoardCard({
               {!hideSymbolismBadge && isPopular && (
                 <Badge
                   severity="info"
-                  startIcon={<Icon name="ThumbsUpFilled" width={12} height={12} />}
+                  icon={<Icon name="ThumbsUpFilled" width={12} height={12} />}
                   iconOnly
                 />
               )}
               {!hideSymbolismBadge && isWorst && (
                 <Badge
                   severity="error"
-                  startIcon={<Icon name="ThumbsDownFilled" width={12} height={12} />}
+                  icon={<Icon name="ThumbsDownFilled" width={12} height={12} />}
                   iconOnly
                 />
               )}

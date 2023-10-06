@@ -2,6 +2,7 @@ import { GetServerSidePropsContext } from 'next';
 
 import { QueryClient, dehydrate } from '@tanstack/react-query';
 
+import { fetchIndexNotice } from '@api/v1/notices';
 import {
   IndexBestStorageBoardList,
   IndexHead,
@@ -12,9 +13,6 @@ import {
 } from '@components/pages/index';
 import GeneralTemplate from '@components/templeates/GeneralTemplate';
 import { BottomNavigation, Header } from '@components/UI/molecules';
-
-import { fetchIndexNotice } from '@api/v1/notices';
-
 import queryKeys from '@constants/queryKeys';
 
 function Index() {

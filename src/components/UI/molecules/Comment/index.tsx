@@ -1,9 +1,8 @@
+import { Avatar, Box, Button, Flexbox, Typography, useTheme } from '@cocstorage/ui';
+import Icon from '@cocstorage/ui-icons';
 import dayjs from 'dayjs';
 
-import { Avatar, Box, Button, Flexbox, Icon, Typography, useTheme } from 'cocstorage-ui';
-
 import Reply from '@components/UI/molecules/Reply';
-
 import { NoticeComment } from '@dto/notice-comments';
 import { StorageBoardComment } from '@dto/storage-board-comments';
 
@@ -36,7 +35,6 @@ function Comment({
           src={(user || {}).avatarUrl || ''}
           alt="User Avatar Img"
           fallback={{
-            iconName: 'UserFilled',
             width: 15,
             height: 15
           }}

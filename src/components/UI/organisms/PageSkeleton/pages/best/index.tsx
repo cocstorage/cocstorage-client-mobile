@@ -1,4 +1,5 @@
-import { Alert, Box, Icon } from 'cocstorage-ui';
+import { Alert, Box } from '@cocstorage/ui';
+import Icon from '@cocstorage/ui-icons';
 
 import { BestHeader } from '@components/pages/best';
 import GeneralTemplate from '@components/templeates/GeneralTemplate';

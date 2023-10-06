@@ -1,4 +1,5 @@
-import { Alert, Box, Flexbox, Grid, Icon, Skeleton, useTheme } from 'cocstorage-ui';
+import { Alert, Box, Flexbox, Grid, Skeleton, useTheme } from '@cocstorage/ui';
+import Icon from '@cocstorage/ui-icons';
 
 import StoragesHeader from '@components/pages/storages/StoragesHeader';
 import GeneralTemplate from '@components/templeates/GeneralTemplate';

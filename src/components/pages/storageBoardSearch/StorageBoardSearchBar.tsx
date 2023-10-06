@@ -2,24 +2,19 @@ import { ChangeEvent, useEffect, useRef, useState, useTransition } from 'react';
 
 import { useRouter } from 'next/router';
 
+import { Box, TextBar } from '@cocstorage/ui';
+import Icon from '@cocstorage/ui-icons';
+import styled, { CSSObject } from '@emotion/styled';
 import { useQuery } from '@tanstack/react-query';
-
 import { useRecoilState, useSetRecoilState } from 'recoil';
 
-import styled, { CSSObject } from '@emotion/styled';
-
+import { fetchStorageBoards } from '@api/v1/storage-boards';
+import queryKeys from '@constants/queryKeys';
+import useScrollTrigger from '@hooks/useScrollTrigger';
 import {
   storageBoardsSearchParamsState,
   storageBoardsSearchPendingState
 } from '@recoil/pages/storageBoardsSearch/atoms';
-
-import { Box, Icon, TextBar } from 'cocstorage-ui';
-
-import useScrollTrigger from '@hooks/useScrollTrigger';
-
-import { fetchStorageBoards } from '@api/v1/storage-boards';
-
-import queryKeys from '@constants/queryKeys';
 
 function StorageBoardSearchBar() {
   const router = useRouter();
@@ -75,11 +70,17 @@ function StorageBoardSearchBar() {
   }, [setParams, setPending, startTransitionPending, value]);
 
   return (
-    <Box ref={headerRef} component="header" customStyle={{ height: 50 }}>
+    <Box
+      ref={headerRef}
+      component="header"
+      customStyle={{
+        minHeight: 73
+      }}
+    >
       <StyledStorageBoardSearchBar triggered={triggered}>
         <TextBar
           fullWidth
-          size="small"
+          size="xBig"
           startIcon={<Icon name="SearchOutlined" width={20} height={20} />}
           onChange={handleChange}
           value={value || ''}
@@ -91,15 +92,14 @@ function StorageBoardSearchBar() {
   );
 }
 
-const StyledStorageBoardSearchBar = styled.header<{ triggered: boolean }>`
+const StyledStorageBoardSearchBar = styled.div<{ triggered: boolean }>`
   position: fixed;
   top: 0;
   left: 0;
   display: flex;
   align-items: center;
   width: 100%;
-  height: 50px;
-  padding: 0 20px;
+  padding: 10px 20px;
   border-bottom: 1px solid transparent;
   z-index: 2;
 
