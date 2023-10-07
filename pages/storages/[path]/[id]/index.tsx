@@ -79,10 +79,11 @@ export async function getServerSideProps({ query, req, res }: GetServerSideProps
     const id = Number(query.id);
 
     const storage = await fetchStorage(path);
-    const storageBoard = await fetchStorageBoard(storage.id, id);
 
     await queryClient.setQueryData(queryKeys.storages.storageById(path), storage);
-    await queryClient.setQueryData(queryKeys.storageBoards.storageBoardById(id), storageBoard);
+    await queryClient.fetchQuery(queryKeys.storageBoards.storageBoardById(id), () =>
+      fetchStorageBoard(storage.id, id)
+    );
 
     return {
       props: {

@@ -126,15 +126,15 @@ function App({ Component, pageProps }: AppProps<{ dehydratedState: DehydratedSta
       <QueryClientProvider client={queryClient}>
         <RecoilRoot>
           <ThemeRoot>
-            <Hydrate state={pageProps.dehydratedState}>
-              <ErrorBoundary>
-                <HistoryProvider>
-                  <PageSkeleton />
+            <ErrorBoundary>
+              <HistoryProvider>
+                <PageSkeleton />
+                <Hydrate state={pageProps.dehydratedState}>
                   <Component {...pageProps} />
-                  <FeedbackDialog />
-                </HistoryProvider>
-              </ErrorBoundary>
-            </Hydrate>
+                </Hydrate>
+                <FeedbackDialog />
+              </HistoryProvider>
+            </ErrorBoundary>
           </ThemeRoot>
         </RecoilRoot>
         <ReactQueryDevtools initialIsOpen={false} />

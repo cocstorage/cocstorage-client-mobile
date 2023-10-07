@@ -27,7 +27,7 @@ function IssueKeywordCard({
           width: 24,
           height: 24,
           lineHeight: '24px',
-          borderRadius: 4
+          borderRadius: 6
         }}
       >
         {number}
@@ -42,8 +42,8 @@ function IssueKeywordCard({
         {keyword}
       </Typography>
       {isNew && <Badge severity="warning">NEW</Badge>}
-      {isUp && <Badge severity="success" icon={<Icon name="ArrowDropUpSpecify_12_12" />} />}
-      {isDown && <Badge severity="error" icon={<Icon name="ArrowDropDownSpecify_12_12" />} />}
+      {isUp && <Badge severity="success" icon={<Icon name="ArrowDropUpFilled" />} iconOnly />}
+      {isDown && <Badge severity="error" icon={<Icon name="ArrowDropDownFilled" />} iconOnly />}
     </StyledIssueKeywordCard>
   );
 }

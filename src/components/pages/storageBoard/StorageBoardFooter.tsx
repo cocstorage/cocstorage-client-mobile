@@ -272,7 +272,7 @@ function StorageBoardFooter() {
         >
           <Box
             onClick={handleCloseOnBoardingWithWrapCommentsArea}
-            customStyle={{ width: (targetRef.current || {}).clientWidth, height: 65 }}
+            customStyle={{ width: (targetRef.current || {}).clientWidth, minHeight: 65 }}
           >
             <StyledStorageBoardFooter css={{ minHeight: 65, justifyContent: 'center' }}>
               <Flexbox direction="vertical" gap={10} customStyle={{ width: '100%' }}>
