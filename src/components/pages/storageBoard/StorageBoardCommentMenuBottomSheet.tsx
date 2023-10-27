@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect } from 'react';
 
 import { useRecoilState, useResetRecoilState, useSetRecoilState } from 'recoil';
 
@@ -17,8 +17,6 @@ function StorageBoardCommentMenuBottomSheet() {
   );
   const resetCommentMenuBottomState = useResetRecoilState(storageBoardCommentMenuBottomSheetState);
 
-  const openCommentDeleteBottomSheetTimerRef = useRef<ReturnType<typeof setTimeout>>();
-
   const handleClose = () => resetCommentMenuBottomState();
 
   const handleClickDeleteMenu = () => {
@@ -27,14 +25,12 @@ function StorageBoardCommentMenuBottomSheet() {
       open: false
     }));
 
-    openCommentDeleteBottomSheetTimerRef.current = setTimeout(() => {
-      setCommentDeleteBottomSheetState({
-        open: true,
-        storageId,
-        id,
-        commentId
-      });
-    }, 500);
+    setCommentDeleteBottomSheetState({
+      open: true,
+      storageId,
+      id,
+      commentId
+    });
   };
 
   useEffect(() => {
@@ -42,14 +38,6 @@ function StorageBoardCommentMenuBottomSheet() {
       resetCommentMenuBottomState();
     };
   }, [resetCommentMenuBottomState]);
-
-  useEffect(() => {
-    return () => {
-      if (openCommentDeleteBottomSheetTimerRef.current) {
-        clearTimeout(openCommentDeleteBottomSheetTimerRef.current);
-      }
-    };
-  }, []);
 
   return (
     <CommentMenuBottomSheet

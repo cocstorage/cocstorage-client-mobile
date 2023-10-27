@@ -123,7 +123,7 @@ function StorageBoardEditAuthDialog() {
       customStyle={{
         padding: '0 20px 20px'
       }}
-      wrapperCustomStyle={{
+      overlayCustomStyle={{
         backdropFilter: 'blur(5px)'
       }}
     >
@@ -144,7 +144,6 @@ function StorageBoardEditAuthDialog() {
         onClose={handleCloseLoadPasswordTooltip}
         content="저장된 비밀번호를 불러왔어요!"
         placement="top"
-        fillWrapper
         wrapperCustomStyle={{
           marginTop: 34
         }}

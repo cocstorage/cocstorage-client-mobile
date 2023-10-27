@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 
 import { useRouter } from 'next/router';
 
-import { Box, Button, Spotlight, Tooltip } from '@cocstorage/ui';
+import { Box, Button, Spotlight } from '@cocstorage/ui';
 import Icon from '@cocstorage/ui-icons';
 import { useRecoilState, useResetRecoilState } from 'recoil';
 
@@ -34,7 +34,6 @@ function StorageBoardsPostFloatingButton() {
   const [open, setOpen] = useState(false);
 
   const boxRef = useRef<HTMLDivElement>(null);
-  const spotlightOpenTimerRef = useRef<ReturnType<typeof setTimeout>>();
 
   const handleClick = () => {
     setCommonOnBoardingState((prevState) => ({
@@ -66,23 +65,12 @@ function StorageBoardsPostFloatingButton() {
   useEffect(() => {
     if (!themeDone) return;
 
-    spotlightOpenTimerRef.current = setTimeout(() => {
-      // TODO 온보딩 겹치는 경우 Backdrop 컴포넌트 동시성 개선 필요
-      if ((!step && !lastStep) || step < lastStep) {
-        setOpen(true);
-      } else {
-        setOpen(false);
-      }
-    }, 350);
+    if ((!step && !lastStep) || step < lastStep) {
+      setOpen(true);
+    } else {
+      setOpen(false);
+    }
   }, [themeDone, step, lastStep]);
-
-  useEffect(() => {
-    return () => {
-      if (spotlightOpenTimerRef.current) {
-        clearTimeout(spotlightOpenTimerRef.current);
-      }
-    };
-  }, []);
 
   return (
     <>
@@ -113,26 +101,12 @@ function StorageBoardsPostFloatingButton() {
         onClose={handleClose}
         targetRef={boxRef}
         round={10}
-        customStyle={{
-          transform: 'translateX(-50%)'
+        tooltip={{
+          content: '로그인하지 않아도 게시글을 등록할 수 있어요!',
+          placement: 'top',
+          onClick: handleClick
         }}
-      >
-        <Tooltip
-          open
-          onClose={handleClose}
-          content="로그인하지 않아도 게시글을 등록할 수 있어요!"
-          placement="top"
-        >
-          <Button
-            variant="accent"
-            size="big"
-            startIcon={<Icon name="WriteOutlined" width={18} height={18} />}
-            onClick={handleClick}
-          >
-            글쓰기
-          </Button>
-        </Tooltip>
-      </Spotlight>
+      />
     </>
   );
 }

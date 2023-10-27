@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect } from 'react';
 
 import { useRecoilState, useResetRecoilState, useSetRecoilState } from 'recoil';
 
@@ -15,8 +15,6 @@ function NoticeCommentMenuBottomSheet() {
   const setCommentDeleteBottomSheetState = useSetRecoilState(noticeCommentDeleteBottomSheetState);
   const resetCommentMenuBottomState = useResetRecoilState(noticeCommentMenuBottomSheetState);
 
-  const openCommentDeleteBottomSheetTimerRef = useRef<ReturnType<typeof setTimeout>>();
-
   const handleClose = () => resetCommentMenuBottomState();
 
   const handleClickDeleteMenu = () => {
@@ -25,13 +23,11 @@ function NoticeCommentMenuBottomSheet() {
       open: false
     }));
 
-    openCommentDeleteBottomSheetTimerRef.current = setTimeout(() => {
-      setCommentDeleteBottomSheetState({
-        open: true,
-        id,
-        commentId
-      });
-    }, 500);
+    setCommentDeleteBottomSheetState({
+      open: true,
+      id,
+      commentId
+    });
   };
 
   useEffect(() => {
@@ -39,14 +35,6 @@ function NoticeCommentMenuBottomSheet() {
       resetCommentMenuBottomState();
     };
   }, [resetCommentMenuBottomState]);
-
-  useEffect(() => {
-    return () => {
-      if (openCommentDeleteBottomSheetTimerRef.current) {
-        clearTimeout(openCommentDeleteBottomSheetTimerRef.current);
-      }
-    };
-  }, []);
 
   return (
     <CommentMenuBottomSheet

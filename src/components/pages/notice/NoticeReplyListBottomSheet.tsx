@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useRef, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 
 import { useRouter } from 'next/router';
 
@@ -41,8 +41,6 @@ function NoticeReplyListBottomSheet() {
   const [password, setPassword] = useState(myPassword);
   const [content, setContent] = useState('');
   const [comment, setComment] = useState<Partial<NoticeComment>>({});
-
-  const openReplyListBottomSheetTimerRef = useRef<ReturnType<typeof setTimeout>>();
 
   const queryClient = useQueryClient();
 
@@ -122,14 +120,12 @@ function NoticeReplyListBottomSheet() {
       open: false
     }));
 
-    openReplyListBottomSheetTimerRef.current = setTimeout(() => {
-      setReplyMenuBottomSheetState({
-        open: true,
-        id: Number(id),
-        commentId,
-        replyId
-      });
-    }, 500);
+    setReplyMenuBottomSheetState({
+      open: true,
+      id: Number(id),
+      commentId,
+      replyId
+    });
   };
 
   useEffect(() => {
@@ -151,14 +147,6 @@ function NoticeReplyListBottomSheet() {
       restReplyListBottomSheetState();
     };
   }, [restReplyListBottomSheetState]);
-
-  useEffect(() => {
-    return () => {
-      if (openReplyListBottomSheetTimerRef.current) {
-        clearTimeout(openReplyListBottomSheetTimerRef.current);
-      }
-    };
-  }, []);
 
   return (
     <ReplyListBottomSheet

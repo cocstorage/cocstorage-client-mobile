@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect } from 'react';
 
 import { useRecoilState, useResetRecoilState, useSetRecoilState } from 'recoil';
 
@@ -17,21 +17,16 @@ function NoticeReplyMenuBottomSheet() {
   const setReplyDeleteBottomState = useSetRecoilState(noticeReplyDeleteBottomSheetState);
   const resetReplyMenuBottomState = useResetRecoilState(noticeReplyMenuBottomSheetState);
 
-  const openReplyListBottomSheetTimerRef = useRef<ReturnType<typeof setTimeout>>();
-  const openReplyDeleteBottomSheetTimerRef = useRef<ReturnType<typeof setTimeout>>();
-
   const handleClose = () => {
     setReplyMenuBottomState((prevState) => ({
       ...prevState,
       open: false
     }));
 
-    openReplyListBottomSheetTimerRef.current = setTimeout(() => {
-      setReplyListBottomState((prevState) => ({
-        ...prevState,
-        open: true
-      }));
-    }, 500);
+    setReplyListBottomState((prevState) => ({
+      ...prevState,
+      open: true
+    }));
   };
 
   const handleClickDeleteMenu = () => {
@@ -40,14 +35,12 @@ function NoticeReplyMenuBottomSheet() {
       open: false
     }));
 
-    openReplyDeleteBottomSheetTimerRef.current = setTimeout(() => {
-      setReplyDeleteBottomState({
-        open: true,
-        id,
-        commentId,
-        replyId
-      });
-    }, 500);
+    setReplyDeleteBottomState({
+      open: true,
+      id,
+      commentId,
+      replyId
+    });
   };
 
   useEffect(() => {
@@ -55,17 +48,6 @@ function NoticeReplyMenuBottomSheet() {
       resetReplyMenuBottomState();
     };
   }, [resetReplyMenuBottomState]);
-
-  useEffect(() => {
-    return () => {
-      if (openReplyListBottomSheetTimerRef.current) {
-        clearTimeout(openReplyListBottomSheetTimerRef.current);
-      }
-      if (openReplyDeleteBottomSheetTimerRef.current) {
-        clearTimeout(openReplyDeleteBottomSheetTimerRef.current);
-      }
-    };
-  }, []);
 
   return (
     <ReplyMenuBottomSheet

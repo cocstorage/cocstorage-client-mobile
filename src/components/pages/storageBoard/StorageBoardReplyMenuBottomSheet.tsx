@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect } from 'react';
 
 import { useRecoilState, useResetRecoilState, useSetRecoilState } from 'recoil';
 
@@ -17,21 +17,16 @@ function StorageBoardReplyMenuBottomSheet() {
   const setReplyDeleteBottomState = useSetRecoilState(storageBoardReplyDeleteBottomSheetState);
   const resetReplyMenuBottomState = useResetRecoilState(storageBoardReplyMenuBottomSheetState);
 
-  const openReplyBottomSheetTimerRef = useRef<ReturnType<typeof setTimeout>>();
-  const openReplyListBottomSheetTimerRef = useRef<ReturnType<typeof setTimeout>>();
-
   const handleClose = () => {
     setReplyMenuBottomState((prevState) => ({
       ...prevState,
       open: false
     }));
 
-    openReplyListBottomSheetTimerRef.current = setTimeout(() => {
-      setReplyListBottomState((prevState) => ({
-        ...prevState,
-        open: true
-      }));
-    }, 500);
+    setReplyListBottomState((prevState) => ({
+      ...prevState,
+      open: true
+    }));
   };
 
   const handleClickDeleteMenu = () => {
@@ -40,15 +35,13 @@ function StorageBoardReplyMenuBottomSheet() {
       open: false
     }));
 
-    openReplyBottomSheetTimerRef.current = setTimeout(() => {
-      setReplyDeleteBottomState({
-        open: true,
-        storageId,
-        id,
-        commentId,
-        replyId
-      });
-    }, 500);
+    setReplyDeleteBottomState({
+      open: true,
+      storageId,
+      id,
+      commentId,
+      replyId
+    });
   };
 
   useEffect(() => {
@@ -56,15 +49,6 @@ function StorageBoardReplyMenuBottomSheet() {
       resetReplyMenuBottomState();
     };
   }, [resetReplyMenuBottomState]);
-
-  useEffect(() => {
-    if (openReplyBottomSheetTimerRef.current) {
-      clearTimeout(openReplyBottomSheetTimerRef.current);
-    }
-    if (openReplyListBottomSheetTimerRef.current) {
-      clearTimeout(openReplyListBottomSheetTimerRef.current);
-    }
-  }, []);
 
   return (
     <ReplyMenuBottomSheet

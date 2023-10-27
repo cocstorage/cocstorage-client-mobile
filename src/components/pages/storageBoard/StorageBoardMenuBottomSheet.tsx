@@ -1,5 +1,3 @@
-import { useEffect, useRef } from 'react';
-
 import { useRouter } from 'next/router';
 
 import { BottomSheet, Flexbox, Typography } from '@cocstorage/ui';
@@ -20,8 +18,6 @@ function StorageBoardMenuBottomSheet() {
 
   const handleClose = () => setOpenState(false);
 
-  const openDeleteBottomSheetTimerRef = useRef<ReturnType<typeof setTimeout>>();
-
   const handleClick = () =>
     router.push(`/storages/${path}/${id}/edit`).then(() => {
       setOpenState(false);
@@ -30,18 +26,8 @@ function StorageBoardMenuBottomSheet() {
   const handleClickDelete = () => {
     setOpenState(false);
 
-    openDeleteBottomSheetTimerRef.current = setTimeout(() => {
-      setDeleteBottomSheetOpenState(true);
-    }, 500);
+    setDeleteBottomSheetOpenState(true);
   };
-
-  useEffect(() => {
-    return () => {
-      if (openDeleteBottomSheetTimerRef.current) {
-        clearTimeout(openDeleteBottomSheetTimerRef.current);
-      }
-    };
-  }, []);
 
   return (
     <BottomSheet

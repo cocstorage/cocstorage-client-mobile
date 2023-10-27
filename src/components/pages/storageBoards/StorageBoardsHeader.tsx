@@ -2,16 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 
 import { useRouter } from 'next/router';
 
-import {
-  Avatar,
-  Box,
-  Flexbox,
-  IconButton,
-  Spotlight,
-  Tooltip,
-  Typography,
-  useTheme
-} from '@cocstorage/ui';
+import { Avatar, Box, Flexbox, IconButton, Spotlight, Typography, useTheme } from '@cocstorage/ui';
 import Icon from '@cocstorage/ui-icons';
 import styled, { CSSObject } from '@emotion/styled';
 import { useQuery } from '@tanstack/react-query';
@@ -48,7 +39,6 @@ function StorageBoardsHeader() {
 
   const headerRef = useRef<HTMLDivElement>(null);
   const targetRef = useRef<HTMLButtonElement>(null);
-  const spotlightOpenTimerRef = useRef<ReturnType<typeof setTimeout>>();
 
   const { triggered } = useScrollTrigger({ ref: headerRef });
 
@@ -102,89 +92,72 @@ function StorageBoardsHeader() {
   useEffect(() => {
     if (!themeDone || !postDone) return;
 
-    spotlightOpenTimerRef.current = setTimeout(() => {
-      // TODO 온보딩 겹치는 경우 Backdrop 컴포넌트 동시성 개선 필요
-      if ((!step && !lastStep) || step < lastStep) {
-        setOpenOnBoarding(true);
-      } else {
-        setOpenOnBoarding(false);
-      }
-    }, 700);
+    if ((!step && !lastStep) || step < lastStep) {
+      setOpenOnBoarding(true);
+    } else {
+      setOpenOnBoarding(false);
+    }
   }, [themeDone, postDone, step, lastStep]);
 
-  useEffect(() => {
-    return () => {
-      if (spotlightOpenTimerRef.current) {
-        clearTimeout(spotlightOpenTimerRef.current);
-      }
-    };
-  }, []);
-
   return (
-    <Box ref={headerRef} component="header" customStyle={{ height: 50 }}>
-      <StyledStorageBoardsHeader triggered={triggered}>
-        <Flexbox alignment="center" customStyle={{ flex: 1, minWidth: 0 }}>
-          <IconButton onClick={handleClickBack}>
-            <Icon name="CaretSemiLeftOutlined" />
-          </IconButton>
-          <Avatar
-            width={24}
-            height={24}
-            src={avatarUrl}
-            round={6}
-            alt="Storage Logo Img"
-            fallback={{
-              name: 'ImageOutlined',
-              width: 20,
-              height: 20
-            }}
-            customStyle={{ marginLeft: 10 }}
-          />
-          <Typography
-            component="h1"
-            variant="h4"
-            fontWeight="bold"
-            noWrap
-            customStyle={{ marginLeft: 10, flex: '0 auto' }}
-          >
-            {name}
-          </Typography>
-          <IconButton onClick={handleClick} customStyle={{ marginLeft: 4 }}>
-            <Icon name="InfoOutlined" width={16} height={16} color={text[mode].text1} />
-          </IconButton>
-        </Flexbox>
-        <Flexbox gap={10} alignment="center">
-          <IconButton ref={targetRef} onClick={handleClickSearch}>
-            <Icon name="SearchOutlined" />
-          </IconButton>
-          <Spotlight
-            open={openOnBoarding}
-            onClose={handleCloseOnBoarding}
-            targetRef={targetRef}
-            customStyle={{
-              borderRadius: 8
-            }}
-          >
-            <Tooltip
-              open={openOnBoarding}
-              onClose={handleCloseOnBoarding}
-              left={-82.5}
-              triangleLeft={86}
-              centered={false}
-              content="게시글을 검색할 수 있어요!"
-              disableOnClose
+    <>
+      <Box ref={headerRef} component="header" customStyle={{ minHeight: 50 }}>
+        <StyledStorageBoardsHeader triggered={triggered}>
+          <Flexbox alignment="center" customStyle={{ flex: 1, minWidth: 0 }}>
+            <IconButton onClick={handleClickBack}>
+              <Icon name="CaretSemiLeftOutlined" />
+            </IconButton>
+            <Avatar
+              width={24}
+              height={24}
+              src={avatarUrl}
+              round={6}
+              alt="Storage Logo Img"
+              fallback={{
+                name: 'ImageOutlined',
+                width: 20,
+                height: 20
+              }}
+              customStyle={{ marginLeft: 10 }}
+            />
+            <Typography
+              component="h1"
+              variant="h4"
+              fontWeight="bold"
+              noWrap
+              customStyle={{ marginLeft: 10, flex: '0 auto' }}
             >
-              <IconButton onClick={handleClickSearch}>
-                <Icon name="SearchOutlined" />
-              </IconButton>
-            </Tooltip>
-          </Spotlight>
-          <IconButton onClick={handleClickIcon}>
-            <Icon name="StarOutlined" />
-          </IconButton>
-        </Flexbox>
-      </StyledStorageBoardsHeader>
-    </Box>
+              {name}
+            </Typography>
+            <IconButton onClick={handleClick} customStyle={{ marginLeft: 4 }}>
+              <Icon name="InfoOutlined" width={16} height={16} color={text[mode].text1} />
+            </IconButton>
+          </Flexbox>
+          <Flexbox gap={10} alignment="center">
+            <IconButton ref={targetRef} onClick={handleClickSearch}>
+              <Icon name="SearchOutlined" />
+            </IconButton>
+            <IconButton onClick={handleClickIcon}>
+              <Icon name="StarOutlined" />
+            </IconButton>
+          </Flexbox>
+        </StyledStorageBoardsHeader>
+      </Box>
+      <Spotlight
+        open={openOnBoarding}
+        onClose={handleCloseOnBoarding}
+        targetRef={targetRef}
+        round={8}
+        tooltip={{
+          content: '게시글을 검색할 수 있어요!',
+          centered: false,
+          left: -82.5,
+          triangleLeft: 86,
+          onClick: handleClickSearch,
+          disableOnClose: true
+        }}
+      />
+    </>
   );
 }
 

@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useRef, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 
 import { useRouter } from 'next/router';
 
@@ -47,8 +47,6 @@ function StorageBoardDeleteBottomSheet() {
     message: ''
   });
 
-  const openMenuBottomSheetOpenTimerRef = useRef<ReturnType<typeof setTimeout>>();
-
   const { data: { id: storageBoardId, storage: { id: storageId = 0 } } = {} } = useQuery(
     queryKeys.storageBoards.storageBoardById(Number(id)),
     () => fetchStorageBoard(Number(storageId), Number(id))
@@ -80,9 +78,7 @@ function StorageBoardDeleteBottomSheet() {
   const handleClose = () => {
     setOpenState(false);
 
-    openMenuBottomSheetOpenTimerRef.current = setTimeout(() => {
-      setMenuBottomSheetOpenState(true);
-    }, 500);
+    setMenuBottomSheetOpenState(true);
   };
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -132,14 +128,6 @@ function StorageBoardDeleteBottomSheet() {
     }
   }, [open, myPassword]);
 
-  useEffect(() => {
-    return () => {
-      if (openMenuBottomSheetOpenTimerRef.current) {
-        clearTimeout(openMenuBottomSheetOpenTimerRef.current);
-      }
-    };
-  }, []);
-
   return (
     <BottomSheet
       open={open}
@@ -168,7 +156,6 @@ function StorageBoardDeleteBottomSheet() {
         onClose={handleClosePasswordTooltip}
         content="저장된 비밀번호를 불러왔어요!"
         placement="top"
-        fillWrapper
         wrapperCustomStyle={{
           marginTop: 30
         }}

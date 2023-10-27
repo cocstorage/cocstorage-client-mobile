@@ -58,7 +58,6 @@ function ReplyDeleteBottomSheet({
           onClose={handleClose}
           content="저장된 비밀번호를 불러왔어요!"
           placement="top"
-          fillWrapper
           wrapperCustomStyle={{
             marginTop: 30
           }}

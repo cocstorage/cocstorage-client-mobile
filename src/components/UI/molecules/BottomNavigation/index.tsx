@@ -2,7 +2,7 @@ import { MouseEvent, useEffect, useRef, useState } from 'react';
 
 import { useRouter } from 'next/router';
 
-import { Box, Spotlight, Tooltip, Typography, useTheme } from '@cocstorage/ui';
+import { Box, Spotlight, Typography, useTheme } from '@cocstorage/ui';
 import Icon from '@cocstorage/ui-icons';
 import { useRecoilState, useRecoilValue } from 'recoil';
 
@@ -34,8 +34,6 @@ function BottomNavigation({ disableFixed, disableOnBoarding }: BottomNavigationP
     useRecoilState(commonOnBoardingState);
   const forwardPath = useRecoilValue(commonForwardPathState);
 
-  const [left, setLeft] = useState(0);
-  const [bottom, setBottom] = useState(0);
   const [open, setOpen] = useState(false);
 
   const handleClick = (event: MouseEvent<HTMLLIElement>) => {
@@ -54,6 +52,19 @@ function BottomNavigation({ disableFixed, disableOnBoarding }: BottomNavigationP
     });
   };
 
+  const handleClickMy = () => {
+    router.push('/my').then(() =>
+      setCommonOnBoardingState((prevState) => ({
+        ...prevState,
+        theme: {
+          ...commonOnBoardingDefault.theme,
+          step: 1,
+          done: commonOnBoardingDefault.theme.lastStep === 1
+        }
+      }))
+    );
+  };
+
   const handleClose = () =>
     setCommonOnBoardingState((prevState) => ({
       ...prevState,
@@ -65,31 +76,6 @@ function BottomNavigation({ disableFixed, disableOnBoarding }: BottomNavigationP
     }));
 
   useEffect(() => {
-    if (targetRef.current) {
-      const { offsetTop, offsetLeft, clientWidth } = targetRef.current;
-      setLeft(Math.floor(offsetLeft + clientWidth / 2) - 25);
-      setBottom(offsetTop);
-    }
-  }, []);
-
-  useEffect(() => {
-    const handleResize = () => {
-      if (targetRef.current) {
-        const { offsetTop, offsetLeft, clientWidth } = targetRef.current;
-        setLeft(Math.floor(offsetLeft + clientWidth / 2) - 25);
-        setBottom(offsetTop);
-      }
-    };
-
-    window.addEventListener('resize', handleResize);
-
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, []);
-
-  useEffect(() => {
-    // TODO 온보딩 겹치는 경우 Backdrop 컴포넌트 동시성 개선 필요
     if (!disableOnBoarding && ((!step && !lastStep) || step < lastStep)) {
       setOpen(true);
     } else {
@@ -146,34 +132,17 @@ function BottomNavigation({ disableFixed, disableOnBoarding }: BottomNavigationP
           open={open}
           onClose={handleClose}
           targetRef={targetRef}
-          customStyle={{
-            top: 'auto',
-            left,
-            bottom,
-            borderRadius: 8
+          round={8}
+          tooltip={{
+            content: '여기서 다크 모드를 설정하실 수 있어요!',
+            centered: false,
+            placement: 'top',
+            left: -80,
+            triangleLeft: 135,
+            onClick: handleClickMy,
+            disableOnClose: true
           }}
-        >
-          <Tooltip
-            open={open}
-            onClose={handleClose}
-            content="여기서 다크 모드를 설정하실 수 있어요!"
-            placement="top"
-            left={-150}
-            triangleLeft={165}
-            centered={false}
-            disableOnClose
-          >
-            <NavigationItem data-pathname="/my" onClick={handleClick} css={{ width: 50 }}>
-              <Icon
-                name="UserOutlined"
-                color={forwardPath === '/my' ? 'primary' : text[mode].text2}
-              />
-              <Typography variant="s2" color={forwardPath === '/my' ? 'primary' : text[mode].text2}>
-                마이
-              </Typography>
-            </NavigationItem>
-          </Tooltip>
-        </Spotlight>
+        />
       </StyledBottomNavigation>
     </Box>
   );

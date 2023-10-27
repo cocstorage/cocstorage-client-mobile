@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useRef, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
@@ -38,9 +38,6 @@ function StorageBoardReplyDeleteBottomSheet() {
     message: ''
   });
 
-  const openReplyMenuBottomSheetTimerRef = useRef<ReturnType<typeof setTimeout>>();
-  const openReplyListBottomSheetTimerRef = useRef<ReturnType<typeof setTimeout>>();
-
   const queryClient = useQueryClient();
 
   const { mutate, isLoading } = useMutation(
@@ -57,12 +54,10 @@ function StorageBoardReplyDeleteBottomSheet() {
         setPassword('');
         resetReplyDeleteBottomState();
 
-        openReplyListBottomSheetTimerRef.current = setTimeout(() => {
-          setReplyListBottomSheetState((prevState) => ({
-            ...prevState,
-            open: true
-          }));
-        }, 500);
+        setReplyListBottomSheetState((prevState) => ({
+          ...prevState,
+          open: true
+        }));
       },
       onError: () =>
         setErrorMessage({
@@ -85,12 +80,10 @@ function StorageBoardReplyDeleteBottomSheet() {
   const handleClose = () => {
     resetReplyDeleteBottomState();
 
-    openReplyMenuBottomSheetTimerRef.current = setTimeout(() => {
-      setReplyMenuBottomSheetState((prevState) => ({
-        ...prevState,
-        open: true
-      }));
-    }, 500);
+    setReplyMenuBottomSheetState((prevState) => ({
+      ...prevState,
+      open: true
+    }));
   };
 
   const handleClick = () => {
@@ -127,17 +120,6 @@ function StorageBoardReplyDeleteBottomSheet() {
       resetReplyDeleteBottomState();
     };
   }, [resetReplyDeleteBottomState]);
-
-  useEffect(() => {
-    return () => {
-      if (openReplyMenuBottomSheetTimerRef.current) {
-        clearTimeout(openReplyMenuBottomSheetTimerRef.current);
-      }
-      if (openReplyListBottomSheetTimerRef.current) {
-        clearTimeout(openReplyListBottomSheetTimerRef.current);
-      }
-    };
-  }, []);
 
   return (
     <ReplyDeleteBottomSheet

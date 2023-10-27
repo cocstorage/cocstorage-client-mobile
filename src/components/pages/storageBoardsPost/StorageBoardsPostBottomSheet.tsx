@@ -203,7 +203,6 @@ function StorageBoardsPostBottomSheet() {
         onClose={handleClosePasswordTooltip}
         placement="top"
         content="비밀번호를 랜덤하게 생성했어요!"
-        fillWrapper
         wrapperCustomStyle={{
           marginTop: 16
         }}

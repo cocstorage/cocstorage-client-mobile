@@ -2,14 +2,14 @@ lockfileVersion: '6.0'
 
 dependencies:
   '@cocstorage/ui':
-    specifier: ^0.1.60
-    version: 0.1.60(@emotion/react@11.11.1)(@emotion/styled@11.11.0)(react-dom@18.2.0)(react@18.2.0)
+    specifier: ^0.2.1
+    version: 0.2.1(@emotion/react@11.11.1)(@emotion/styled@11.11.0)(react-dom@18.2.0)(react@18.2.0)
   '@cocstorage/ui-editor':
     specifier: ^0.1.16
-    version: 0.1.16(@cocstorage/ui-icons@0.0.3)(@cocstorage/ui@0.1.60)(@emotion/react@11.11.1)(@emotion/styled@11.11.0)(react-dom@18.2.0)(react@18.2.0)
+    version: 0.1.16(@cocstorage/ui-icons@0.0.4)(@cocstorage/ui@0.2.1)(@emotion/react@11.11.1)(@emotion/styled@11.11.0)(react-dom@18.2.0)(react@18.2.0)
   '@cocstorage/ui-icons':
-    specifier: ^0.0.3
-    version: 0.0.3(@cocstorage/ui@0.1.60)(@emotion/react@11.11.1)(@emotion/styled@11.11.0)(react-dom@18.2.0)(react@18.2.0)
+    specifier: ^0.0.4
+    version: 0.0.4(@cocstorage/ui@0.2.1)(@emotion/react@11.11.1)(@emotion/styled@11.11.0)(react-dom@18.2.0)(react@18.2.0)
   '@emotion/react':
     specifier: ^11.11.1
     version: 11.11.1(@types/react@18.2.25)(react@18.2.0)
@@ -147,7 +147,7 @@ packages:
       to-fast-properties: 2.0.0
     dev: false
 
-  /@cocstorage/ui-editor@0.1.16(@cocstorage/ui-icons@0.0.3)(@cocstorage/ui@0.1.60)(@emotion/react@11.11.1)(@emotion/styled@11.11.0)(react-dom@18.2.0)(react@18.2.0):
+  /@cocstorage/ui-editor@0.1.16(@cocstorage/ui-icons@0.0.4)(@cocstorage/ui@0.2.1)(@emotion/react@11.11.1)(@emotion/styled@11.11.0)(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-KA7tk6Hkuw8SpqL8rDiJoEmXcDHbxNg7hYj44S6RrWJVOJ3Moa/nuXNssDs6o7TCxBjAXt1EFft4AiGv6MdnEQ==}
     peerDependencies:
       '@cocstorage/ui': ^0
@@ -157,32 +157,32 @@ packages:
       react: ^16.8.0 || ^17.0.0 || ^18.0.0
       react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
     dependencies:
-      '@cocstorage/ui': 0.1.60(@emotion/react@11.11.1)(@emotion/styled@11.11.0)(react-dom@18.2.0)(react@18.2.0)
-      '@cocstorage/ui-icons': 0.0.3(@cocstorage/ui@0.1.60)(@emotion/react@11.11.1)(@emotion/styled@11.11.0)(react-dom@18.2.0)(react@18.2.0)
+      '@cocstorage/ui': 0.2.1(@emotion/react@11.11.1)(@emotion/styled@11.11.0)(react-dom@18.2.0)(react@18.2.0)
+      '@cocstorage/ui-icons': 0.0.4(@cocstorage/ui@0.2.1)(@emotion/react@11.11.1)(@emotion/styled@11.11.0)(react-dom@18.2.0)(react@18.2.0)
       '@emotion/react': 11.11.1(@types/react@18.2.25)(react@18.2.0)
       '@emotion/styled': 11.11.0(@emotion/react@11.11.1)(@types/react@18.2.25)(react@18.2.0)
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
     dev: false
 
-  /@cocstorage/ui-icons@0.0.3(@cocstorage/ui@0.1.60)(@emotion/react@11.11.1)(@emotion/styled@11.11.0)(react-dom@18.2.0)(react@18.2.0):
-    resolution: {integrity: sha512-ptY5NMY4RLw80QgCWk7v9/ZyS+pLnEEecsX5KmDJ9rp6cBRUJeC7eZKjof9fRFf5h4vySbnjjhZWB6hMteXjiQ==}
+  /@cocstorage/ui-icons@0.0.4(@cocstorage/ui@0.2.1)(@emotion/react@11.11.1)(@emotion/styled@11.11.0)(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-qXEofb7xIaY6peat7uOHpfEZT6+CxWjQUzkQrNV1hrZLxmpThSQ+GyQTp+dYSmCXRnkZ5cnMCczf/7BOzY0oCA==}
     peerDependencies:
-      '@cocstorage/ui': ^0.1.56
-      '@emotion/react': ^11.10.6
-      '@emotion/styled': ^11.10.6
+      '@cocstorage/ui': ^0
+      '@emotion/react': ^11.0.0
+      '@emotion/styled': ^11.0.0
       react: ^16.8.0 || ^17.0.0 || ^18.0.0
       react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
     dependencies:
-      '@cocstorage/ui': 0.1.60(@emotion/react@11.11.1)(@emotion/styled@11.11.0)(react-dom@18.2.0)(react@18.2.0)
+      '@cocstorage/ui': 0.2.1(@emotion/react@11.11.1)(@emotion/styled@11.11.0)(react-dom@18.2.0)(react@18.2.0)
       '@emotion/react': 11.11.1(@types/react@18.2.25)(react@18.2.0)
       '@emotion/styled': 11.11.0(@emotion/react@11.11.1)(@types/react@18.2.25)(react@18.2.0)
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
     dev: false
 
-  /@cocstorage/ui@0.1.60(@emotion/react@11.11.1)(@emotion/styled@11.11.0)(react-dom@18.2.0)(react@18.2.0):
-    resolution: {integrity: sha512-PJp2EZXx0fTlKwwayjBIJN6BN0T9EynRVZ+SVnKINomsxmVDSZOSgo8qc4MAzRE0k6x7Erv6caKRbJ8c8v6JDA==}
+  /@cocstorage/ui@0.2.1(@emotion/react@11.11.1)(@emotion/styled@11.11.0)(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-/OAgqu6H4VLXxCykcBopeemLw3D1mpVUBGrQwFBL82GM4imjtZrSOO1zvREmlu4GAx5CAGrVNwseuE1g3NnHvg==}
     peerDependencies:
       '@emotion/react': ^11.0.0
       '@emotion/styled': ^11.0.0

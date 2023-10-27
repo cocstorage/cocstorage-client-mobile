@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useRef, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useRecoilState, useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
@@ -31,8 +31,6 @@ function NoticeCommentDeleteBottomSheet() {
     error: false,
     message: ''
   });
-
-  const openCommentMenuBottomSheetRef = useRef<ReturnType<typeof setTimeout>>();
 
   const queryClient = useQueryClient();
 
@@ -95,12 +93,10 @@ function NoticeCommentDeleteBottomSheet() {
   const handleClose = () => {
     resetCommentDeleteBottomState();
 
-    openCommentMenuBottomSheetRef.current = setTimeout(() => {
-      setCommentMenuBottomSheetState((prevState) => ({
-        ...prevState,
-        open: true
-      }));
-    }, 500);
+    setCommentMenuBottomSheetState((prevState) => ({
+      ...prevState,
+      open: true
+    }));
   };
 
   const handleClick = () =>
@@ -125,14 +121,6 @@ function NoticeCommentDeleteBottomSheet() {
       resetCommentDeleteBottomState();
     };
   }, [resetCommentDeleteBottomState]);
-
-  useEffect(() => {
-    return () => {
-      if (openCommentMenuBottomSheetRef.current) {
-        clearTimeout(openCommentMenuBottomSheetRef.current);
-      }
-    };
-  }, []);
 
   return (
     <CommentDeleteBottomSheet

@@ -2,16 +2,7 @@ import { ChangeEvent, useEffect, useRef, useState } from 'react';
 
 import { useRouter } from 'next/router';
 
-import {
-  Box,
-  Flexbox,
-  Grid,
-  IconButton,
-  Spotlight,
-  TextBar,
-  Tooltip,
-  useTheme
-} from '@cocstorage/ui';
+import { Box, Flexbox, Grid, IconButton, Spotlight, TextBar, useTheme } from '@cocstorage/ui';
 import Icon from '@cocstorage/ui-icons';
 import styled, { CSSObject } from '@emotion/styled';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
@@ -262,51 +253,17 @@ function StorageBoardFooter() {
           </Flexbox>
         </StyledStorageBoardFooter>
       </Box>
-      <Spotlight open={open} onClose={handleCloseOnBoarding} targetRef={targetRef}>
-        <Tooltip
-          open={open}
-          onClose={handleCloseOnBoarding}
-          content="로그인하지 않아도 댓글을 남길 수 있어요!"
-          placement="top"
-          disableOnClose
-        >
-          <Box
-            onClick={handleCloseOnBoardingWithWrapCommentsArea}
-            customStyle={{ width: (targetRef.current || {}).clientWidth, minHeight: 65 }}
-          >
-            <StyledStorageBoardFooter css={{ minHeight: 65, justifyContent: 'center' }}>
-              <Flexbox direction="vertical" gap={10} customStyle={{ width: '100%' }}>
-                <CommentBar>
-                  <CommentTextArea
-                    placeholder="내용을 입력해 주세요."
-                    rows={rows}
-                    onChange={handleChange}
-                    value={content}
-                  />
-                  <IconButton
-                    onClick={handleClickSend}
-                    disabled={isLoadingPostComment}
-                    customStyle={{ marginRight: 10 }}
-                  >
-                    <Icon
-                      name={
-                        !isLoadingPostComment && nickname && password && content
-                          ? 'SendFilled'
-                          : 'SendOutlined'
-                      }
-                      color={
-                        !isLoadingPostComment && nickname && password && content
-                          ? 'primary'
-                          : text[mode].text3
-                      }
-                    />
-                  </IconButton>
-                </CommentBar>
-              </Flexbox>
-            </StyledStorageBoardFooter>
-          </Box>
-        </Tooltip>
-      </Spotlight>
+      <Spotlight
+        open={open}
+        onClose={handleCloseOnBoarding}
+        targetRef={targetRef}
+        tooltip={{
+          content: '로그인하지 않아도 댓글을 남길 수 있어요!',
+          placement: 'top',
+          onClick: handleCloseOnBoardingWithWrapCommentsArea,
+          disableOnClose: true
+        }}
+      />
     </>
   );
 }
