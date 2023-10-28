@@ -260,8 +260,7 @@ function StorageBoardFooter() {
         tooltip={{
           content: '로그인하지 않아도 댓글을 남길 수 있어요!',
           placement: 'top',
-          onClick: handleCloseOnBoardingWithWrapCommentsArea,
-          disableOnClose: true
+          onClick: handleCloseOnBoardingWithWrapCommentsArea
         }}
       />
     </>

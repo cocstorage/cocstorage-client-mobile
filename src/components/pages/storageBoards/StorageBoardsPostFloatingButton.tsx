@@ -33,7 +33,7 @@ function StorageBoardsPostFloatingButton() {
 
   const [open, setOpen] = useState(false);
 
-  const boxRef = useRef<HTMLDivElement>(null);
+  const buttonRef = useRef<HTMLButtonElement>(null);
 
   const handleClick = () => {
     setCommonOnBoardingState((prevState) => ({
@@ -75,16 +75,16 @@ function StorageBoardsPostFloatingButton() {
   return (
     <>
       <Box
-        ref={boxRef}
         customStyle={{
           position: 'fixed',
           left: '50%',
           bottom: 80,
-          transform: `translate(-50%, ${!triggered && prevScrollY ? '200%' : 0})`,
+          transform: `translate3d(-50%, ${!triggered && prevScrollY ? '200%' : 0}, 0)`,
           transition: 'transform .2s'
         }}
       >
         <Button
+          ref={buttonRef}
           variant="accent"
           startIcon={<Icon name="WriteOutlined" width={18} height={18} />}
           size="big"
@@ -99,12 +99,15 @@ function StorageBoardsPostFloatingButton() {
       <Spotlight
         open={open}
         onClose={handleClose}
-        targetRef={boxRef}
-        round={10}
+        targetRef={buttonRef}
+        round={8}
         tooltip={{
           content: '로그인하지 않아도 게시글을 등록할 수 있어요!',
           placement: 'top',
           onClick: handleClick
+        }}
+        customStyle={{
+          backgroundColor: 'transparent'
         }}
       />
     </>

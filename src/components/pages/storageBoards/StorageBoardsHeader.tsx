@@ -153,8 +153,7 @@ function StorageBoardsHeader() {
           centered: false,
           left: -82.5,
           triangleLeft: 86,
-          onClick: handleClickSearch,
-          disableOnClose: true
+          onClick: handleClickSearch
         }}
       />
     </>

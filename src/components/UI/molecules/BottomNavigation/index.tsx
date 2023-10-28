@@ -84,67 +84,68 @@ function BottomNavigation({ disableFixed, disableOnBoarding }: BottomNavigationP
   }, [router.pathname, step, lastStep, disableOnBoarding]);
 
   return (
-    <Box component="nav" customStyle={{ minHeight: 60 }}>
-      <StyledBottomNavigation disableFixed={disableFixed}>
-        <NavigationItem data-pathname="/" onClick={handleClick}>
-          <Icon
-            name={
-              forwardPath === '/' || forwardPath === '/best' || forwardPath === '/worst'
-                ? 'HomeFilled'
-                : 'HomeOutlined'
-            }
-            color={
-              forwardPath === '/' || forwardPath === '/best' || forwardPath === '/worst'
-                ? 'primary'
-                : text[mode].text2
-            }
-          />
-          <Typography
-            variant="s2"
-            color={
-              forwardPath === '/' || forwardPath === '/best' || forwardPath === '/worst'
-                ? 'primary'
-                : text[mode].text2
-            }
-          >
-            홈
-          </Typography>
-        </NavigationItem>
-        <NavigationItem data-pathname="/storages" onClick={handleClick}>
-          <Icon
-            name={forwardPath.includes('/storages') ? 'CommunityFilled' : 'CommunityOutlined'}
-            color={forwardPath.includes('/storages') ? 'primary' : text[mode].text2}
-          />
-          <Typography
-            variant="s2"
-            color={forwardPath.includes('/storages') ? 'primary' : text[mode].text2}
-          >
-            게시판
-          </Typography>
-        </NavigationItem>
-        <NavigationItem ref={targetRef} data-pathname="/my" onClick={handleClick}>
-          <Icon name="UserOutlined" color={text[mode].text2} />
-          <Typography variant="s2" color={text[mode].text2}>
-            마이
-          </Typography>
-        </NavigationItem>
-        <Spotlight
-          open={open}
-          onClose={handleClose}
-          targetRef={targetRef}
-          round={8}
-          tooltip={{
-            content: '여기서 다크 모드를 설정하실 수 있어요!',
-            centered: false,
-            placement: 'top',
-            left: -80,
-            triangleLeft: 135,
-            onClick: handleClickMy,
-            disableOnClose: true
-          }}
-        />
-      </StyledBottomNavigation>
-    </Box>
+    <>
+      <Box component="nav" customStyle={{ minHeight: 60 }}>
+        <StyledBottomNavigation disableFixed={disableFixed}>
+          <NavigationItem data-pathname="/" onClick={handleClick}>
+            <Icon
+              name={
+                forwardPath === '/' || forwardPath === '/best' || forwardPath === '/worst'
+                  ? 'HomeFilled'
+                  : 'HomeOutlined'
+              }
+              color={
+                forwardPath === '/' || forwardPath === '/best' || forwardPath === '/worst'
+                  ? 'primary'
+                  : text[mode].text2
+              }
+            />
+            <Typography
+              variant="s2"
+              color={
+                forwardPath === '/' || forwardPath === '/best' || forwardPath === '/worst'
+                  ? 'primary'
+                  : text[mode].text2
+              }
+            >
+              홈
+            </Typography>
+          </NavigationItem>
+          <NavigationItem data-pathname="/storages" onClick={handleClick}>
+            <Icon
+              name={forwardPath.includes('/storages') ? 'CommunityFilled' : 'CommunityOutlined'}
+              color={forwardPath.includes('/storages') ? 'primary' : text[mode].text2}
+            />
+            <Typography
+              variant="s2"
+              color={forwardPath.includes('/storages') ? 'primary' : text[mode].text2}
+            >
+              게시판
+            </Typography>
+          </NavigationItem>
+          <NavigationItem ref={targetRef} data-pathname="/my" onClick={handleClick}>
+            <Icon name="UserOutlined" color={text[mode].text2} />
+            <Typography variant="s2" color={text[mode].text2}>
+              마이
+            </Typography>
+          </NavigationItem>
+        </StyledBottomNavigation>
+      </Box>
+      <Spotlight
+        open={open}
+        onClose={handleClose}
+        targetRef={targetRef}
+        round={8}
+        tooltip={{
+          content: '여기서 다크 모드를 설정하실 수 있어요!',
+          centered: false,
+          placement: 'top',
+          left: -80,
+          triangleLeft: 135,
+          onClick: handleClickMy
+        }}
+      />
+    </>
   );
 }
 

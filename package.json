@@ -15,7 +15,7 @@
     "prepare": "husky install"
   },
   "dependencies": {
-    "@cocstorage/ui": "^0.2.1",
+    "@cocstorage/ui": "^0.2.2",
     "@cocstorage/ui-editor": "^0.1.16",
     "@cocstorage/ui-icons": "^0.0.4",
     "@emotion/react": "^11.11.1",
