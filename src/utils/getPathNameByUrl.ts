@@ -1,4 +1,4 @@
-/* eslint-disable no-nested-ternary */
+/* eslint-disable  */
 
 // TODO 추후 로직 개선
 export default function getPathNameByUrl(url: string) {
